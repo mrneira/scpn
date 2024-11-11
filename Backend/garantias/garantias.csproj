@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3434BF85-ED06-4EFA-9565-E0C0FA2A9B20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>garantias</RootNamespace>
+    <AssemblyName>garantias</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="comp\consulta\param\CamposDinamicos.cs" />
+    <Compile Include="comp\consulta\reverso\Movimientos.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\ContabilizaDesembolsoPrestamo.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\Baja.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\Reavaluo.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTgarOperacionTransaccion.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTgarOperacion.cs" />
+    <Compile Include="comp\mantenimiento\util\Transaccion.cs" />
+    <Compile Include="comp\mantenimiento\validacion\ValidaCambiosGarantia.cs" />
+    <Compile Include="datos\OperacionFachada.cs" />
+    <Compile Include="datos\Operacion.cs" />
+    <Compile Include="datos\DatosGarantia.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\Aceptacion.cs" />
+    <Compile Include="comp\mantenimiento\creacion\Garantia.cs" />
+    <Compile Include="comp\mantenimiento\creacion\CompletarInscripcion.cs" />
+    <Compile Include="comp\mantenimiento\creacion\CompletarGarantiaInfAdicional.cs" />
+    <Compile Include="comp\mantenimiento\creacion\CompletarAvaluo.cs" />
+    <Compile Include="lote\LoteOperacionHilo.cs" />
+    <Compile Include="lote\previo\ContabilizacionGarantias.cs" />
+    <Compile Include="lote\TareasGarantia.cs" />
+    <Compile Include="lote\TareasOperacionGarantia.cs" />
+    <Compile Include="monetario\RubroHelper.cs" />
+    <Compile Include="movimiento\MovimientoGarantias.cs" />
+    <Compile Include="movimiento\ReversoGarantia.cs" />
+    <Compile Include="contabilidad\Perfiles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cartera\cartera.csproj">
+      <Project>{A082141A-2421-4D6F-B6F3-4D246733E3E6}</Project>
+      <Name>cartera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lote\lote.csproj">
+      <Project>{287023A2-2334-4B71-9193-8E65FE536A56}</Project>
+      <Name>lote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monetario\monetario.csproj">
+      <Project>{61968883-483D-46F8-B41E-8977F4BCC931}</Project>
+      <Name>monetario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

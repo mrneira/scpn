@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A6DE6DB9-BB15-4AB5-97A7-2D414BB99E6E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>contabilidad</RootNamespace>
+    <AssemblyName>contabilidad</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Json">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="comp\consulta\comprobante\DatosAnularComprobante.cs" />
+    <Compile Include="comp\consulta\comprobante\FechaContable.cs" />
+    <Compile Include="comp\consulta\comprobante\DatosMayorizarComprobante.cs" />
+    <Compile Include="comp\consulta\comprobante\DatosComprobante.cs" />
+    <Compile Include="comp\consulta\conciliacionbancaria\ConciliacionBancaria.cs" />
+    <Compile Include="comp\consulta\conciliacionbancaria\ConciliacionBancariaCP.cs" />
+    <Compile Include="comp\consulta\cuentasporcobrar\facturasparqueadero\ContabilizarFP.cs" />
+    <Compile Include="comp\consulta\cuentasporpagar\DatosAutorizarCxp.cs" />
+    <Compile Include="comp\consulta\cuentasporpagar\DatosRetencionAir.cs" />
+    <Compile Include="comp\consulta\cuentasporpagar\DatosCuentaPorPagar.cs" />
+    <Compile Include="comp\consulta\reportes\LibroMayor.cs" />
+    <Compile Include="comp\consulta\reportes\ResumenConciliacion.cs" />
+    <Compile Include="comp\consulta\reportes\SaldosContablesFecha.cs" />
+    <Compile Include="comp\mantenimiento\cliente\Cliente.cs" />
+    <Compile Include="comp\mantenimiento\cliente\Direccion.cs" />
+    <Compile Include="comp\mantenimiento\cliente\ReferenciaBancaria.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\ajustesfindemes\DatosCabecera.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\ajustesfindemes\DatosDetalle.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\ajustesfindemes\SaldoEnLinea.cs" />
+    <Compile Include="comp\consulta\comprobante\CargarAjustes.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\DatosCabecera.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\DatosDetalle.cs" />
+    <Compile Include="comp\mantenimiento\comprobante\Anular.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\conciliacionbancaria\Ajuste.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\conciliacionbancaria\CargaActualizaDocumento.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\conciliacionbancaria\ConciliacionMantenimiento.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\conciliacionbancaria\ConciliacionPichincha.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\conciliacionbancaria\Conciliacion.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\extractobancario\CargarExtractoBce.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\extractobancario\CargarArchivo.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\mayor\GrabarEnLinea.cs" />
+    <Compile Include="comp\mantenimiento\conciliacionbancaria\mayor\Grabar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueaderocontrato\CargaMasivaFacturasParqueaderoContrato.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueaderocontrato\DevolverGarantiaFPC.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueaderocontrato\RegistrarGarantiaFPC.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueaderocontrato\ContabilizarDepositoFPC.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueaderocontrato\ContabilizarFPC.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueadero\CargaMasivaFacturasParqueadero.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueadero\ContabilizarDeposito.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\facturasparqueadero\ContabilizarFP.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\notacreditoparqueaderocontrato\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\CobrarMigradas.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagaractivosfijos\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagaractivosfijos\DatosCabecera.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagaractivosfijos\DatosDetalle.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\AnulaRetencion.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\Anular.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\liquidacionviaticos\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\liquidacionviaticos\DatosCabecera.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\liquidacionviaticos\DatosDetalle.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\liquidacionviaticos\Pagar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\PagarMigradasJudiciales.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\PagarMigradas.cs" />
+    <Compile Include="comp\mantenimiento\flujocaja\CrearFlujoCaja.cs" />
+    <Compile Include="comp\mantenimiento\flujoejectivo\AjustesFlujoEfectivo.cs" />
+    <Compile Include="comp\mantenimiento\flujoejectivo\CrearFlujoEfectivo.cs" />
+    <Compile Include="comp\mantenimiento\notascreditocompras\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\notascreditocompras\CruceNotasCredito.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\Pagar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\Comprobante.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporcobrar\Ingreso.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\DatosCabecera.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\cuentasporpagar\DatosDetalle.cs" />
+    <Compile Include="comp\mantenimiento\parametros\Catalogo.cs" />
+    <Compile Include="comp\mantenimiento\prestaciones\ContabilizarAportes.cs" />
+    <Compile Include="comp\mantenimiento\proveedor\Direccion.cs" />
+    <Compile Include="comp\mantenimiento\proveedor\Proveedor.cs" />
+    <Compile Include="comp\mantenimiento\proveedor\ReferenciaBancaria.cs" />
+    <Compile Include="comp\mantenimiento\proveedor\ValidaIdentificacion.cs" />
+    <Compile Include="comp\mantenimiento\reportes\RollupSaldos.cs" />
+    <Compile Include="comp\mantenimiento\ReversarSaldo.cs" />
+    <Compile Include="comp\mantenimiento\SaldoEnLineaLote.cs" />
+    <Compile Include="comp\mantenimiento\SaldoPresupuesto.cs" />
+    <Compile Include="comp\mantenimiento\SaldoEnLinea.cs" />
+    <Compile Include="comp\mantenimiento\SaldosCierre.cs" />
+    <Compile Include="comp\mantenimiento\Saldo.cs" />
+    <Compile Include="datos\DetalleLB.cs" />
+    <Compile Include="datos\RecaudacionDetalle.cs" />
+    <Compile Include="datos\MayorActualizarUnico.cs" />
+    <Compile Include="datos\ConciliacionBancariaFinal.cs" />
+    <Compile Include="datos\ConciliacionBancariaPichinchaResultado.cs" />
+    <Compile Include="datos\ConciliacionBancariaPichincha.cs" />
+    <Compile Include="datos\ConciliacionBancariaResultado.cs" />
+    <Compile Include="datos\ExtractoBancario.cs" />
+    <Compile Include="datos\DatosContabilidad.cs" />
+    <Compile Include="datos\DetalleCargaEB.cs" />
+    <Compile Include="datos\ConciliacionMayor.cs" />
+    <Compile Include="datos\SaldoDto.cs" />
+    <Compile Include="enums\EnumContabilidad.cs" />
+    <Compile Include="helper\Util.cs" />
+    <Compile Include="lote\fin\InactivarPeriodo.cs" />
+    <Compile Include="lote\fin\ContabilizacionModulos.cs" />
+    <Compile Include="comp\mantenimiento\periodocontable\CierrePeriodo.cs" />
+    <Compile Include="lote\fin\SaldosContablesDiarios.cs" />
+    <Compile Include="lote\LoteRegistroHilo.cs" />
+    <Compile Include="lote\fin\ReportesContables.cs" />
+    <Compile Include="comp\mantenimiento\periodocontable\SaldosContablesMensuales.cs" />
+    <Compile Include="lote\previo\ValidacionContabilizacionModulos.cs" />
+    <Compile Include="lote\previo\ContabilizacionModulos.cs" />
+    <Compile Include="lote\registro\ContabilizacionModulos.cs" />
+    <Compile Include="lote\TareasContabilidad.cs" />
+    <Compile Include="lote\TareasRegistroContabilidad.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="saldo\SaldoCierreHelper.cs" />
+    <Compile Include="saldo\SaldoHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cartera\cartera.csproj">
+      <Project>{A082141A-2421-4D6F-B6F3-4D246733E3E6}</Project>
+      <Name>cartera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\facturacionelectronica\facturacionelectronica.csproj">
+      <Project>{313f5834-dd75-45b6-ae40-d5006c0adc0e}</Project>
+      <Name>facturacionelectronica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\general\general.csproj">
+      <Project>{4c870d16-3204-4cbf-a5c1-484594145282}</Project>
+      <Name>general</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lote\lote.csproj">
+      <Project>{287023a2-2334-4b71-9193-8e65fe536a56}</Project>
+      <Name>lote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tesoreria\tesoreria.csproj">
+      <Project>{a8c61cd6-e4bc-458d-bc99-2482387521a8}</Project>
+      <Name>tesoreria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

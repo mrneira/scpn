@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E8B05E9-3C2C-4A36-8DD8-3C3068421CCF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>inversiones</RootNamespace>
+    <AssemblyName>inversiones</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="archivo\generacion\EstructuraG.cs" />
+    <Compile Include="comp\consulta\agendapagos\agendapagos.cs" />
+    <Compile Include="comp\consulta\inversiones\Cronograma.cs" />
+    <Compile Include="comp\consulta\inversiones\Inversion.cs" />
+    <Compile Include="comp\consulta\inversiones\RentaFijaPagos.cs" />
+    <Compile Include="comp\consulta\valoracionportafolio\rendimientorv.cs" />
+    <Compile Include="comp\consulta\valoracionportafolio\Var.cs" />
+    <Compile Include="comp\consulta\valoracionportafolio\VarRentaFija.cs" />
+    <Compile Include="comp\consulta\valoracionportafolio\VarRentaVariable.cs" />
+    <Compile Include="comp\mantenimiento\cargaacciones\internacionales\CargarInternacionales.cs" />
+    <Compile Include="comp\mantenimiento\cargaacciones\precioscierre\CargarPreciosCierre.cs" />
+    <Compile Include="comp\mantenimiento\cargaacciones\vectorprecios\CargarVectorPrecios.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\Contabilizacion.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\GeneraPlantilla.cs" />
+    <Compile Include="comp\mantenimiento\contabilizacion\PrecancelacionRentaFija.cs" />
+    <Compile Include="comp\mantenimiento\estructurasg\EstructurasGenerar.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\AjusteXprecioCierre.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\AjusteXprecioCierreInternacional.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\contabilizar\Contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\contabilizar\Contablepreciocierre.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\Inversion.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\pagos\contabilizar\Comprobante.cs" />
+    <Compile Include="comp\mantenimiento\inversiones\pagos\recuperaciondefault.cs" />
+    <Compile Include="comp\mantenimiento\migracion\Historico.cs" />
+    <Compile Include="comp\mantenimiento\migracion\Inactivacion.cs" />
+    <Compile Include="comp\mantenimiento\migracion\RentaFija.cs" />
+    <Compile Include="comp\mantenimiento\reversar\ReversoContable.cs" />
+    <Compile Include="comp\mantenimiento\riesgos\plananual\Generar.cs" />
+    <Compile Include="comp\mantenimiento\tablaamortizacion\ActualizaEstado.cs" />
+    <Compile Include="comp\mantenimiento\tesoreria\Envio.cs" />
+    <Compile Include="datos\Datos.cs" />
+    <Compile Include="datos\Estadistica.cs" />
+    <Compile Include="datos\EstadisticaResultados.cs" />
+    <Compile Include="datos\Saldo.cs" />
+    <Compile Include="datos\Var.cs" />
+    <Compile Include="lote\LoteInversionHilo.cs" />
+    <Compile Include="lote\previo\ActualizacionAccrual.cs" />
+    <Compile Include="lote\previo\ContabilizacionAccrual.cs" />
+    <Compile Include="lote\previo\GeneracionRentabilidad.cs" />
+    <Compile Include="lote\previo\PrecioCierreContabiliza.cs" />
+    <Compile Include="lote\previo\PrecioCierreVariacion.cs" />
+    <Compile Include="lote\TareasInversion.cs" />
+    <Compile Include="lote\TareasOperacionInversion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\amortizacion\amortizacion.csproj">
+      <Project>{27039ce7-ee2b-425e-b22e-f5258edd070e}</Project>
+      <Name>amortizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cartera\cartera.csproj">
+      <Project>{a082141a-2421-4d6f-b6f3-4d246733e3e6}</Project>
+      <Name>cartera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\contabilidad\contabilidad.csproj">
+      <Project>{a6de6db9-bb15-4ab5-97a7-2d414bb99e6e}</Project>
+      <Name>contabilidad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\general\general.csproj">
+      <Project>{4c870d16-3204-4cbf-a5c1-484594145282}</Project>
+      <Name>general</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lote\lote.csproj">
+      <Project>{287023a2-2334-4b71-9193-8e65fe536a56}</Project>
+      <Name>lote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monetario\monetario.csproj">
+      <Project>{61968883-483d-46f8-b41e-8977f4bcc931}</Project>
+      <Name>monetario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\persona\persona.csproj">
+      <Project>{2f3b3d94-d1c9-4827-acd6-7a09a46c7a9c}</Project>
+      <Name>persona</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\prestaciones\prestaciones.csproj">
+      <Project>{4cc14c68-2d08-45bf-b166-fe8a2fced7b8}</Project>
+      <Name>prestaciones</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\seguridad\seguridad.csproj">
+      <Project>{47ab1036-d721-48be-9f55-c434fa3575e1}</Project>
+      <Name>seguridad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\socio\socio.csproj">
+      <Project>{c2cad90e-c40d-4eae-8f82-8be3853010e6}</Project>
+      <Name>socio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tesoreria\tesoreria.csproj">
+      <Project>{a8c61cd6-e4bc-458d-bc99-2482387521a8}</Project>
+      <Name>tesoreria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

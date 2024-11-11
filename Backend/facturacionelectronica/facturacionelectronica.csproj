@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{313F5834-DD75-45B6-AE40-D5006C0ADC0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>facturacionelectronica</RootNamespace>
+    <AssemblyName>facturacionelectronica</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="bcprov-jdk15-1.43">
+      <HintPath>dependencias\varios\bcprov-jdk15-1.43.dll</HintPath>
+    </Reference>
+    <Reference Include="Common">
+      <HintPath>dependencias\common\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="commons-lang-2.4">
+      <HintPath>dependencias\common\commons-lang-2.4.dll</HintPath>
+    </Reference>
+    <Reference Include="commons-logging-1.1">
+      <HintPath>dependencias\common\commons-logging-1.1.dll</HintPath>
+    </Reference>
+    <Reference Include="facturaE_additional">
+      <HintPath>dependencias\factura\facturaE_additional.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>dependencias\java\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security">
+      <HintPath>dependencias\java\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text">
+      <HintPath>dependencias\java\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>dependencias\java\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API">
+      <HintPath>dependencias\java\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Parse">
+      <HintPath>dependencias\java\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>dependencias\java\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
+      <HintPath>dependencias\Microsoft\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <HintPath>dependencias\Microsoft\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder2">
+      <HintPath>dependencias\Microsoft\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>dependencias\Microsoft\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibAPI-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibAPI-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibCert-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibCert-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibOCSP-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibOCSP-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibPolicy-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibPolicy-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibTrust-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibTrust-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibTSA-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibTSA-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="MITyCLibXADES-1.0.4">
+      <HintPath>dependencias\javaSign\MITyCLibXADES-1.0.4.dll</HintPath>
+    </Reference>
+    <Reference Include="SevenZipSharp">
+      <HintPath>dependencias\7Z\SevenZipSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>dependencias\varios\stdole.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xmlsec-1.4.2-ADSI-1.0">
+      <HintPath>dependencias\varios\xmlsec-1.4.2-ADSI-1.0.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="comp\catalogo\catalogohelper.cs" />
+    <Compile Include="comp\consulta\certificado\ValidarCertificado.cs" />
+    <Compile Include="comp\consulta\componentegeneracion\ConsultarComprobante.cs" />
+    <Compile Include="comp\consulta\componentegeneracion\CorreccionComprobante.cs" />
+    <Compile Include="comp\consulta\componentegeneracion\GeneraComprobante.cs" />
+    <Compile Include="comp\consulta\Documento\DescargarDocumentos.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadRecepcion.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadAutorizacion.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadRecepcionMensaje.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadAutorizacionMensaje.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadComprobante.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadDetalle.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadImpuesto.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadImpuestoDetalle.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadImpuestoRetencion.cs" />
+    <Compile Include="comp\consulta\entidades\EntidadPago.cs" />
+    <Compile Include="comp\consulta\esquemasri\documentos\comprobanteRetencion\ComprobanteRetencion.cs" />
+    <Compile Include="comp\consulta\esquemasri\documentos\factura\Factura.cs" />
+    <Compile Include="comp\consulta\generaXml\ComprobanteRetencionModel.cs" />
+    <Compile Include="comp\consulta\generaXml\FacturaModel.cs" />
+    <Compile Include="comp\consulta\helper\EncodingPassword.cs" />
+    <Compile Include="comp\mantenimiento\certificado\InsertarCertificado.cs" />
+    <Compile Include="comp\mantenimiento\logdocumento\Autorizacion.cs" />
+    <Compile Include="comp\mantenimiento\logdocumento\Correccion.cs" />
+    <Compile Include="comp\mantenimiento\logdocumento\Reenvio.cs" />
+    <Compile Include="comp\mantenimiento\GenerarDocumentoElectronico.cs" />
+    <Compile Include="comp\mantenimiento\logdocumento\GrabarLogDocumento.cs" />
+    <Compile Include="Connected Services\AutorizacionComprobantesOffline\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\RecepcionComprobantesOffline\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\general\general.csproj">
+      <Project>{4c870d16-3204-4cbf-a5c1-484594145282}</Project>
+      <Name>general</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dependencias\7Z\SevenZipSharp.dll" />
+    <Content Include="dependencias\common\Common.dll" />
+    <Content Include="dependencias\common\Common.xml" />
+    <Content Include="dependencias\common\commons-lang-2.4.dll" />
+    <Content Include="dependencias\common\commons-logging-1.1.dll" />
+    <Content Include="dependencias\factura\facturaE_additional.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibAPI-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibCert-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibOCSP-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibPolicy-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibTrust-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibTSA-1.0.4.dll" />
+    <Content Include="dependencias\javaSign\MITyCLibXADES-1.0.4.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.Core.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.Security.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.Text.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.Util.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.XML.API.dll" />
+    <Content Include="dependencias\java\IKVM.OpenJDK.XML.Parse.dll" />
+    <Content Include="dependencias\java\IKVM.Runtime.dll" />
+    <Content Include="dependencias\Microsoft\Microsoft.Practices.EnterpriseLibrary.Caching.dll" />
+    <Content Include="dependencias\Microsoft\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="dependencias\Microsoft\Microsoft.Practices.ObjectBuilder2.dll" />
+    <Content Include="dependencias\Microsoft\Microsoft.Practices.Unity.dll" />
+    <Content Include="dependencias\varios\bcprov-jdk15-1.43.dll" />
+    <Content Include="dependencias\varios\stdole.dll" />
+    <Content Include="dependencias\varios\xmlsec-1.4.2-ADSI-1.0.dll" />
+    <Content Include="dependencias\zip\Ionic.Zip.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Connected Services\AutorizacionComprobantesOffline\AutorizacionComprobantesOfflineService.wsdl" />
+    <None Include="Connected Services\AutorizacionComprobantesOffline\facturacionelectronica.AutorizacionComprobantesOffline.autorizacionComprobanteLoteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\facturacionelectronica.AutorizacionComprobantesOffline.autorizacionComprobanteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\facturacionelectronica.AutorizacionComprobantesOffline.respuestaComprobante.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\facturacionelectronica.AutorizacionComprobantesOffline.respuestaLote.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\RecepcionComprobantesOffline\facturacionelectronica.RecepcionComprobantesOffline.respuestaSolicitud.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\RecepcionComprobantesOffline\facturacionelectronica.RecepcionComprobantesOffline.validarComprobanteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\RecepcionComprobantesOffline\RecepcionComprobantesOfflineService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\AutorizacionComprobantesOffline\" />
+    <WCFMetadataStorage Include="Connected Services\RecepcionComprobantesOffline\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AutorizacionComprobantesOffline\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\RecepcionComprobantesOffline\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\RecepcionComprobantesOffline\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\RecepcionComprobantesOffline\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

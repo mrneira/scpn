@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CC14C68-2D08-45BF-B166-FE8A2FCED7B8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>prestaciones</RootNamespace>
+    <AssemblyName>prestaciones</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="comp\consulta\aportes\Aportes.cs" />
+    <Compile Include="comp\consulta\aportes\AportesPatronales.cs" />
+    <Compile Include="comp\consulta\aportes\CargaAportes.cs" />
+    <Compile Include="comp\consulta\bonificacion\Bonificacion.cs" />
+    <Compile Include="comp\consulta\bonificacion\BonificacionFallecimiento.cs" />
+    <Compile Include="comp\consulta\expediente\ActosServicios.cs" />
+    <Compile Include="comp\consulta\expediente\DatosExpedientesAsignados.cs" />
+    <Compile Include="comp\consulta\expediente\DatosGenerales.cs" />
+    <Compile Include="comp\consulta\expediente\Expediente.cs" />
+    <Compile Include="comp\consulta\expediente\Requisitos.cs" />
+    <Compile Include="comp\consulta\expediente\SecuenciaExpediente.cs" />
+    <Compile Include="comp\consulta\expediente\Simulacion.cs" />
+    <Compile Include="comp\consulta\expediente\Validaciones.cs" />
+    <Compile Include="comp\consulta\expediente\ValidacionLiquidacion.cs" />
+    <Compile Include="comp\consulta\prestamos\Prestamos.cs" />
+    <Compile Include="comp\consulta\retenciones\DatosRetenciones.cs" />
+    <Compile Include="comp\consulta\retenciones\DatosSupa.cs" />
+    <Compile Include="comp\consulta\socio\DatosSocio.cs" />
+    <Compile Include="comp\consulta\socio\Novedades.cs" />
+    <Compile Include="comp\consulta\socio\Reincorporados.cs" />
+    <Compile Include="comp\mantenimiento\aportes\AportesConsolidado.cs" />
+    <Compile Include="comp\mantenimiento\aportes\DevAportes.cs" />
+    <Compile Include="comp\mantenimiento\aportes\Aportes.cs" />
+    <Compile Include="comp\mantenimiento\aportes\AportesAdicionales.cs" />
+    <Compile Include="comp\mantenimiento\aportes\CargaAportes.cs" />
+    <Compile Include="comp\mantenimiento\contabilidad\Anular.cs" />
+    <Compile Include="comp\mantenimiento\contabilidad\contabilizar.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Aprobar.cs" />
+    <Compile Include="comp\mantenimiento\expediente\AsignarExpediente.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Beneficiario.cs" />
+    <Compile Include="comp\mantenimiento\expediente\CalcularLiquidacion.cs" />
+    <Compile Include="comp\mantenimiento\expediente\EstadoSocioLiq.cs" />
+    <Compile Include="comp\mantenimiento\expediente\GenerarComprobantesMovimiento.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Expediente.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Flujo.cs" />
+    <Compile Include="comp\mantenimiento\expediente\GenerarComprobantes.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Liquidacion.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Novedades.cs" />
+    <Compile Include="comp\mantenimiento\expediente\PagoInstituciones.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Rechazar.cs" />
+    <Compile Include="comp\mantenimiento\expediente\RegistroNovedadAnticipo.cs" />
+    <Compile Include="comp\mantenimiento\expediente\Requisitos.cs" />
+    <Compile Include="comp\mantenimiento\expediente\ValidarBaja.cs" />
+    <Compile Include="comp\mantenimiento\herederos\PagoHerederos.cs" />
+    <Compile Include="comp\mantenimiento\nocobradas\NoCobradas.cs" />
+    <Compile Include="comp\mantenimiento\novedades\ActualizarLiquidacion.cs" />
+    <Compile Include="comp\mantenimiento\novedades\ContabilizarRetencion.cs" />
+    <Compile Include="comp\mantenimiento\novedades\PagoNovedades.cs" />
+    <Compile Include="comp\mantenimiento\novedades\PagoRetenciones.cs" />
+    <Compile Include="comp\mantenimiento\prestamos\PagoPrestamos.cs" />
+    <Compile Include="dto\Saldo.cs" />
+    <Compile Include="liquidacion\Calbonificacacionfallecimiento.cs" />
+    <Compile Include="liquidacion\Calbonificacion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cartera\cartera.csproj">
+      <Project>{a082141a-2421-4d6f-b6f3-4d246733e3e6}</Project>
+      <Name>cartera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\contabilidad\contabilidad.csproj">
+      <Project>{A6DE6DB9-BB15-4AB5-97A7-2D414BB99E6E}</Project>
+      <Name>contabilidad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\general\general.csproj">
+      <Project>{4c870d16-3204-4cbf-a5c1-484594145282}</Project>
+      <Name>general</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monetario\monetario.csproj">
+      <Project>{61968883-483D-46F8-B41E-8977F4BCC931}</Project>
+      <Name>monetario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\socio\socio.csproj">
+      <Project>{C2CAD90E-C40D-4EAE-8F82-8BE3853010E6}</Project>
+      <Name>socio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tesoreria\tesoreria.csproj">
+      <Project>{a8c61cd6-e4bc-458d-bc99-2482387521a8}</Project>
+      <Name>tesoreria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,1773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{35D81711-039F-4913-A9EE-EBAE3CBDD010}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>modelo</RootNamespace>
+    <AssemblyName>modelo</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="helper\AbstractDto.cs" />
+    <Compile Include="helper\cartera\CuentaPorCobrar.cs" />
+    <Compile Include="helper\cartera\Cuota.cs" />
+    <Compile Include="helper\cartera\Movimiento.cs" />
+    <Compile Include="helper\cartera\Rubro.cs" />
+    <Compile Include="helper\ContextoHelper.cs" />
+    <Compile Include="helper\EntityHelper.cs" />
+    <Compile Include="helper\garantias\Movimiento.cs" />
+    <Compile Include="helper\prestaciones\Movimiento.cs" />
+    <Compile Include="interfaces\IBean.cs" />
+    <Compile Include="interfaces\IBeanId.cs" />
+    <Compile Include="ModeloEF.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloEF.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloEF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloEF.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloEF.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="servicios\ConsultaHelper.cs" />
+    <Compile Include="servicios\EntityKeyHelper.cs" />
+    <Compile Include="servicios\ScrollableResults.cs" />
+    <Compile Include="tacfajuste.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfajustedetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfdepreciacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfegreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfegresodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfhistorialdepreciacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfhistorialrevalorizacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfingreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfingresodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfinventariocongelado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfkardex.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfkardexprodcodi.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfproductocodificado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfsecuenciadocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacftipoproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tacfunidad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbansuscripcion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbansuscripcionmovil.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanusuariootp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanusuariootpmovil.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanusuarios.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanusuariosession.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbanusuariosessionhistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanactivacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanagendamiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanequipo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanhorarioatencion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanparametro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcansolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcansolicitudburo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcansolicituddetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcansolicitudisspol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanusuario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanusuarioclave.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanusuariootp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanusuariosesion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanusuariosesionhistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcanversion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaraccrual.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarbalance.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcalificacionarreglopago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcalificacionrangos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcambioestado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcondicionoperativa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcondicionsocio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarconvenio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarconveniousuario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarcuentaporcobrar.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentosarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentoscalendario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentoscarga.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentosdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentoshomologacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardescuentosrubros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcardevolucion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarestadooperacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarestatus.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarestatussolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarevento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarmovimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionarreglopago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionarrepagorubro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncalificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncalificahistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncargostabla.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncuota.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncuotahistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncuotareverso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncxc.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncxchistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncxcreverso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacioncxp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciondescuentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciondesembolso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciondocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciongarantias.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciongastosliquida.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionhistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionlote.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionpersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionrubro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionrubrohistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionrubromora.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperacionrubroreverso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciontasa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciontransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciontransaccioncxc.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciontransaccioncxp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcaroperaciontransaccionrubro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarperfilebanda.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarperfilsegtipocresaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarperfiltipoproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarprelacioncobro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarprelacionproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductocargostabla.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductodocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductopermitidos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductorangos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductorequisitos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductotasas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarproductotasastabla.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarrelacionpersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarrequisitos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarrubrosarreglopago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsaldoscierre.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsaldoscontables.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsegmento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsegmentotasas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsegmentotasasfrec.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudabsorcion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudcapacidadpago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudcapacidadpagoie.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudcargostabla.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudconsolidado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudcuota.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicituddescuentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicituddesembolso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicituddocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudetapa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudgarantias.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudgastosliquida.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudpersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudreincorporado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudrequisitos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudrubro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudseguros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcarsolicitudtasa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartasamora.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartasamorarangos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartipoarreglopago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartipotablaamortizacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartransferencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartransferenciadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcartransferenciapersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcelcertificado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcelinfoempresa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcellogdocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcelsecuenciasri.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcobaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcobcobranza.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcobcobranzaaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcobcobranzalegal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcobestatus.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconbanco.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcatalagopatrimonio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcatalogo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcomprobante.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcomprobantedetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcomprobanteprevio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconcepto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionbancaria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionbancariaeb.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionbancariamayor.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionbancariasaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionbancos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconconciliacionestado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcontrol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcuentapatrimonio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcuentaporcobrar.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcuentaporcobrarmigrada.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcuentaporpagar.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcuentaporpagarmigrada.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconcxpmigjudicdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconestadopatrominio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconextractobancario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconfacturaparqueadero.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconflujocaja.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconflujocajahistorial.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconflujoefectivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconflujoefectivoeliminasiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcongarantiaparqueadero.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconlibrobancos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconlibrobancosaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconliqgastosdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconliquidaciongastos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconnivel.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconnotacreditocompras.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconperiodocontable.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconplantilla.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconplantilladetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconregistrolote.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconretencionair.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconretencionfuente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconsaldos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconsaldoscierre.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconsaldoshistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconsaldosusuario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tconsecuenciacomprobante.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tcontipocomprobantetransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfaccategoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfaccliente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacfactura.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacfacturadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacfacturaformapago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacformapago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacimpuesto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tfacproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgarclasificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgarestatus.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgarmovimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionavaluo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionhistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacioninfadicional.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacioninscripcion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionlote.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionsaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionsaldohistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperacionsaldoreverso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgaroperaciontransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgarsaldoscontables.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgartipobien.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgartipobiencampo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgartipogarantia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenagencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenarea.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenbasecalculo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencalificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencanales.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencanton.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargaarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargaarchivolog.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargabitacora.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargacampos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargacontrol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencargacontrolerrores.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencatalogo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencatalogodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenciudad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompania.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompcodigo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompcodigoconsulta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompconsulta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompconsultacompania.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompmantenimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencompmantenimientocompania.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgencomponente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgendistrito.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgendocumentos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgendocumentosbi.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenentidad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenfechacontable.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenfechas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenferiados.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenfrecuencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenidioma.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenlogo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenmodulo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenmoduloarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenmoneda.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgennacionalidad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgennotificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenoperacionnumero.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenpais.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenparametrosseguridad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenparroquia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenprovincia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenresultados.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgensecuencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgensolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgensucursal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentasareferencial.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentipocredito.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentipoproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentipounidadmedida.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgentransaccionlog.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgenunidadmedida.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tgesarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvagentebolsa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvbancodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvcontabilizacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvcontrolaccrualfechas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvdefault.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvdefaultdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvemisordetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvemisorvalornominal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvinversion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvinversionhis.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvinversionrentavariable.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvjuntaaccionistas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvoperadorinstitucional.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvplananual.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvplananualdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvplanproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvplantillacontable.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvplantillacontableagente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvportafoliohistorico.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvportafoliorentafijahistorico.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvportafoliorentavariablehistorico.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvprecancelacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvprecioscierre.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvprecioscierrehistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvregistrodividendo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvrentabilidad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvtablaamortizacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvtablaamortizacionhis.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvtablaamortizaciontmp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvtasaactuarial.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvvectorprecios.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tinvventaacciones.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotecodigo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotecontrolejecucion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotemodulo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotemodulotareas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotepredecesora.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tloteresultado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tloteresultadofin.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tloteresultadoindividual.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tloteresultadoprevio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotetareas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tlotetransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmoncargos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonclase.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmoncomponentetransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonconcepto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonmovimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonrubro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonrubromapeoconcepto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmonsaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmontiposaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomanticipo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomanticiposolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnombeneficio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnombeneficioley.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnombeneficiopatrono.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnombeneficiopersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdecimocuarto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdecimos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdecimotercero.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdescuento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdescuentopersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomdiatrabajado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomegreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomfalta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomferiados.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomfondoreserva.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomfuncionarionovedad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomgastodeducible.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomhoraextra.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomhoraextranomina.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomhoras.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomimpuestorenta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomingreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomjubilacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomjubilaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomjubilaciontotal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomliquidaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnommatrizvacacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnommovimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomnomina.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomotroegreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomotroingreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnompagoimpuestorenta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnompagoliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnompagoregionesdecimo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnompagosaldo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomparametro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomparametrodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomparametroliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomperiodo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnompermiso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomrol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomrolprovicion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomsaldovacaciones.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomsolicitud.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomtablaimrenta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomvacacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tnomvacaciones.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="todcauditoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="todccatalogocuentas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="todcestructura.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="todcparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperactividadeconomica.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpercausalvinculacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperinformacionadicional.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpernatural.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperpersona.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperpersonadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperpersonadireccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperpersonalote.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperproveedor.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperreferenciabancaria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperreferenciacomercial.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tperreferenciapersonales.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpersectoreconomico.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpertipocausalvinculacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpertipovinculacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpertrabajo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpervinculacioneslegales.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpervinculacionfamiliar.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcedulaingreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcertificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcertificaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptclasificador.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcompromiso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcompromisodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptcuentaclasificador.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tppthistorialpartidagasto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptpartidagasto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptpartidagastohistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptpartidaingreso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptpartidaingresohistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptreforma.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptreformadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptsaldoscierrepg.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpptsaldoscierrepi.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreactosservicio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreaporte.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprebcetasaaporte.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprebeneficiario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreconstantes.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprecuantiabasica.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprecuposliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpredebitosliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpredevaporte.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreexpediente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreexpedienteasignacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreexpedientedetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreexpedienterequisitos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreflujoexpediente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreliquidacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreliquidacionbaja.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpremovimiento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprenocobradas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprepago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpreparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tprerequisitos.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpresecuencialexpediente.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tpretipoexpedienterequisito.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegauditoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegauditoriainsdel.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tseghorariousuario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegpolitica.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegrol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegrolopciones.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegterminal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuariodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuariootp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuariorol.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuariosession.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsegusuariosessionhistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgsaseguradora.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgspago.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgspoliza.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgsseguro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgstiposeguro.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgstiposegurodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgstiposeguroproducto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsgstiposegurorubros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoccertificado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoccesantia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoccesantiahistorico.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsocestadosocio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsocnovedadades.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsocnovedadadeshistoria.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsocobservacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoctipobaja.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoctipogrado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsoctipopolicia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tsocubicacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttescatalogoestado.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesempresa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesenvioarchivo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesestadocash.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesestadorespuesta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesrecaudacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesrecaudaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesreferencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttesretroalimentacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ttestransaccion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthacciondepersonal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthaprobacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionconductuales.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionctecnicas.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionnjs.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionperfil.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionpintermedio.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionrel.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionresp.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionrespnjs.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionrespnjsdetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthasignacionsancion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthatributo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcalificacioncualitativa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcargo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcompetencia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcompetenciadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcontacto.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcontrato.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcontratodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthcronogramavacacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthdepartamento.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthdocvinccontrato.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthenfermedad.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthestudioformal.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthevaluacionexterna.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthevaluacionperiodo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthevaluacionversion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthexperiencialaboral.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthfamiliar.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthfuncionario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthfuncionariocapacitacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthfuncionariodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthgrupoocupacional.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthhorario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthhorariodetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthidioma.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthinstitucioneducativa.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthinstruccioncesantia.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthinstruccionfuncionario.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthinterna.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthinternadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthmatrizcorrelacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthmatrizcorrelaciondetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthmeta.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthmetadetalle.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthparametros.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthparametroscalificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthparamfuncionarioanual.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthpermiso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthplantilladocvinculacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthporcentajecalificacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthproceso.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthreferencialaboral.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthrequisitohabilitante.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthrequisitorelacionlaboral.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthsancion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthsancionponderacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthtiporelacionlaboral.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthtipovinculacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tthtitulo.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="ModeloEF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModeloEF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ModeloEF.edmx.diagram">
+      <DependentUpon>ModeloEF.edmx</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModeloEF.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloEF.edmx</DependentUpon>
+      <LastGenOutput>ModeloEF.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModeloEF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloEF.edmx</DependentUpon>
+      <LastGenOutput>ModeloEF.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

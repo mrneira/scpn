@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:sch1="http://credito.webservices.services.web.isspol.org.ec" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ec/org/isspol/web/services/webservices/credito/servicioCredito" xmlns:sch0="http://ec/org/isspol/web/services/webservices/credito/servicioCredito" targetNamespace="http://ec/org/isspol/web/services/webservices/credito/servicioCredito" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://ec/org/isspol/web/services/webservices/credito/servicioCredito" xmlns:isspol="http://credito.webservices.services.web.isspol.org.ec" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ec/org/isspol/web/services/webservices/credito/servicioCredito" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://credito.webservices.services.web.isspol.org.ec" />
+      <xsd:element name="BuscarCreditoPorCedulaRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NumeroCedula" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="BuscarCreditoPorCedulaResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="CreditoDTO" type="isspol:CreditoDTO" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xs:schema xmlns="http://credito.webservices.services.web.isspol.org.ec" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://credito.webservices.services.web.isspol.org.ec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="CreditoDTO" type="sch1:CreditoDTO" />
+      <xs:complexType name="CreditoDTO">
+        <xs:sequence>
+          <xs:element name="Cedula" type="xs:string" />
+          <xs:element name="Credito" type="xs:string" />
+          <xs:element name="TipoCredito" type="xs:string" />
+          <xs:element name="CuotaTotal" type="xs:decimal" />
+          <xs:element name="Mora" type="xs:int" />
+          <xs:element name="Mensaje" type="sch1:MensajeCredito" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MensajeCredito">
+        <xs:sequence>
+          <xs:element name="CodigoError" type="xs:string" />
+          <xs:element name="DescripcionError" type="xs:string" />
+          <xs:element name="MensajeError" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="BuscarCreditoPorCedulaRequest">
+    <wsdl:part name="BuscarCreditoPorCedulaRequest" element="sch0:BuscarCreditoPorCedulaRequest" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCreditoPorCedulaResponse">
+    <wsdl:part name="BuscarCreditoPorCedulaResponse" element="sch0:BuscarCreditoPorCedulaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServicioCreditoISSPOL">
+    <wsdl:operation name="BuscarCreditoPorCedula">
+      <wsdl:input name="BuscarCreditoPorCedulaRequest" message="sch0:BuscarCreditoPorCedulaRequest" />
+      <wsdl:output name="BuscarCreditoPorCedulaResponse" message="sch0:BuscarCreditoPorCedulaResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioCreditoISSPOLSoap11" type="sch0:ServicioCreditoISSPOL">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscarCreditoPorCedula">
+      <soap:operation soapAction="" />
+      <wsdl:input name="BuscarCreditoPorCedulaRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="BuscarCreditoPorCedulaResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioCreditoISSPOL">
+    <wsdl:port name="ServicioCreditoISSPOLSoap11" binding="sch0:ServicioCreditoISSPOLSoap11">
+      <soap:address location="https://siisspolweb.isspol.org.ec:443/isspol-web-services/endpoints/credito" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

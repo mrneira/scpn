@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="canalesdigitales.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="canalesdigitales_WSISSPOL_ServicioCreditoISSPOL" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://siisspolweb.isspol.org.ec:443/isspol-web-services/endpoints/credito</Value>
+    </Setting>
+    <Setting Name="canalesdigitales_WSEQUIFAX_wsReporte360CovidCompleto" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://test.equifax.com.ec/wsReporte360CovidCompleto/wsReporte360CovidCompleto.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

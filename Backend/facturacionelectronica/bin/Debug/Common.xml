@@ -1,0 +1,2838 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common</name>
+    </assembly>
+    <members>
+        <member name="T:Common.Kit">
+            <summary>
+            Una colección de propiedades y métodos estáticos de uso general.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.RoleKey">
+            <summary>
+            Clave para almacenamiento de roles del usuario logueado en la colección de items o en la sesión.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.UserKey">
+            <summary>
+            Clave para almacenamiento de datos del usuario logueado en la colección de items o en la sesión.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.OrganizationKey">
+            <summary>
+            Clave para almacenamiento de datos de la organización del usuario logueado en la colección de items o en la sesión.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.PermissionsKey">
+            <summary>
+            Clave para almacenamiento de permisos del usuario logueado en la colección de items o en la sesión.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.SessionKey">
+            <summary>
+            Clave para almacenamiento del objeto administrador de la sesión del usuario logueado.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.IsAdminKey">
+            <summary>
+            Clave para almacenamiento de una variable que indica si el usuario logueado es administrador.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.NotificationInfoKey">
+            <summary>
+            Clave para almacenamiento temporal de notificaciones al usuario en aplicaciones Web.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.CryptoKey">
+            <summary>
+            Clave general para cifrado de cadenas.
+            REVIEW: Debiera poder ser sobreescrita.
+            </summary>
+        </member>
+        <member name="F:Common.Kit.AppDefaultEncoding">
+            <summary>
+             Encoding por defecto para tratamiento de strings en las aplicaciones.
+            </summary>
+        </member>
+        <member name="M:Common.Kit.TruncateHtml(System.String,System.Int32)">
+            <summary>
+            Trunca los caracteres de la cadena especificada en el parámetro <paramref name="input"/>
+            que exceden al tamaño especificado en el parámetro <paramref name="length"/>, ignorando los tags HTML.
+            </summary>
+            <param name="input">Cadena de entrada a truncar.</param>
+            <param name="length">Cantidad de caracteres a incluir en la cadena truncada.</param>
+            <returns>Cadena de caracteres truncada a un tamaño especificado por parámetro, ignorando los tags HTML.</returns>
+        </member>
+        <member name="M:Common.Kit.TruncateText(System.String,System.Int32)">
+            <summary>
+            Trunca los caracteres de la cadena especificada en el parámetro <paramref name="input"/>
+            que exceden al tamaño especificado en el parámetro <paramref name="length"/>.
+            </summary>
+            <param name="input">Cadena de entrada a truncar.</param>
+            <param name="length">Cantidad de caracteres a incluir en la cadena truncada.</param>
+            <returns>Cadena de caracteres truncada a un tamaño especificado por parámetro.</returns>
+        </member>
+        <member name="M:Common.Kit.NotNull(System.Object,System.String)">
+            <summary>
+            Chequea si un argumento es nulo. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotZero(System.Int32,System.String)">
+            <summary>
+            Chequea si un argumento es cero. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotZero(System.Int64,System.String)">
+            <summary>
+            Chequea si un argumento es cero. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotZero(System.Single,System.String)">
+            <summary>
+            Chequea si un argumento es cero. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotZero(System.Double,System.String)">
+            <summary>
+            Chequea si un argumento es cero. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotZero(System.Decimal,System.String)">
+            <summary>
+            Chequea si un argumento es cero. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.NotEmpty(System.Guid,System.String)">
+            <summary>
+            Chequea si un guid es empty. Si esto es así lanza una ArgumentNullException.
+            </summary>
+            <param name="arg">Argumento de entrada a chequear.</param>
+            <param name="argumentName">Nombre del argumento en base al cual se arma la excepción.</param>
+        </member>
+        <member name="M:Common.Kit.ValidateXml(System.Xml.Schema.XmlSchema,System.Xml.XmlDocument)">
+            <summary>
+            Valida un XmlDocument utilizando un XmlSchema. 
+            Lanza una <see cref="T:System.Xml.Schema.XmlSchemaException"/> cuando la validación falla.
+            </summary>
+            <param name="xschema">Instancia de XmlSchema con la que se validará el XmlDocument.</param>
+            <param name="xdoc">Instancia de XmlDocument que será validada.</param>
+            <exception cref="T:System.Xml.Schema.XmlSchemaException"/>
+        </member>
+        <member name="M:Common.Kit.ConvertType(System.Object,System.Type)">
+            <summary>
+            Convierte el valor de entrada al tipo de destino utilizando diferentes maneras.
+            Los intentos son:<br></br>
+            1) Conversión explícita.<br></br>
+            2) Uso de Convert.ChangeType.<br></br> 
+            3) Enumeration Parsing si el tipo de de destino es una enumeración.<br></br>
+            4) Llamar al método parse si el tipo de destino tiene el método estático y público.<br></br>
+            5) Llamar al constructor utilizando directamente el valor de entrada.
+            </summary>
+            <param name="refValue">Valor a convertir.</param>
+            <param name="targetType">Tipo de destino.</param>
+            <returns>Valor convertido.</returns>
+            <exception cref="T:System.NotSupportedException">Si todos los intentos de conversión fallan.</exception>
+        </member>
+        <member name="M:Common.Kit.ConvertType(System.String,System.Type)">
+            <summary>
+            Convert the input string to target type using different ways.<br></br>
+            The attempts are 
+            1) convert explicitly. 
+            2) use Convert.ChangeType. 
+            3) Enumeration Parsing if the target type is an enumeration. 
+            4) Call Parse if the target type has the public static method.
+            5) Call constructor using the direct input value.
+            </summary>
+            <param name="stringValue"></param>
+            <param name="targetType"></param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException">Si todos los intentos de conversión fallan.</exception>
+        </member>
+        <member name="M:Common.Kit.ConvertTypeInternal(System.String,System.Type)">
+            <summary>
+            Convert the input string to target type using different ways.
+            The attempts are 
+            1) convert explicitly. 
+            2) use Convert.ChangeType. 
+            3) Enumeration Parsing if the target type is an enumeration. 
+            4) Call Parse if the target type has the public static method.
+            5) Call constructor using the direct input value.
+            </summary>
+            <param name="stringValue"></param>
+            <param name="targetType"></param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException">If all attempts of convertion are failed.</exception>
+        </member>
+        <member name="M:Common.Kit.ToBool(System.Object,System.Boolean)">
+            <summary>
+            Convierte el valor de entrada a booleano, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve un valor por defecto.<br></br>
+            2) Revisa si el valor de entrada es bool, y si es así lo devuelve directamente.<br></br>
+            3) Intenta hacer bool.Parse.<br></br>
+            4) Compara contra 1 y 0.<br></br>
+            </summary>
+            <param name="arg">Parámetro a comvertir a booleano. Este parámetro convierte a este método en un método de extensión, que será aplicable a todos los tipos object o derivados.</param>
+            <param name="defaultValue">Valor por defecto en caso de valores nulos o que ningún enfoque sea exitoso.</param>
+            <returns>Boolean que representa el parámetro <paramref name="arg"/> convertido o el valor por defecto.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDecimal(System.Object,System.IFormatProvider)">
+            <summary>
+            Convierte el valor de entrada a decimal, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es decimal o de punto flotante menor, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a decimal.<br></br>
+            4) Finalmente, usa decimal.TryParse utilizando <paramref name="cultureInfo"/>
+            </summary>
+            <param name="arg">Parámetro a comvertir a decimal.</param>
+            <param name="cultureInfo">Cultura con la cual se interpreta el parámetro <paramref name="arg"/> al convertir.</param>
+            <returns>Decimal que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDecimal(System.Object)">
+            <summary>
+            Convierte el valor de entrada a decimal, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es decimal o de punto flotante menor, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a decimal.<br></br>
+            4) Finalmente, usa Decimal.TryParse utilizando la cultura en-US.
+            </summary>
+            <param name="arg">Parámetro a comvertir a decimal.</param>
+            <returns>Decimal que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDouble(System.Object,System.IFormatProvider)">
+            <summary>
+            Convierte el valor de entrada a Double, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es double o de punto flotante menor, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a double.<br></br>
+            4) Finalmente, usa decimal.TryParse utilizando <paramref name="cultureInfo"/>
+            </summary>
+            <param name="arg">Parámetro a comvertir a double.</param>
+            <param name="cultureInfo">Cultura con la cual se interpreta el parámetro <paramref name="arg"/> al convertir.</param>
+            <returns>Double que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDouble(System.Object)">
+            <summary>
+            Convierte el valor de entrada a double, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es double o de punto flotante menor, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a double.<br></br>
+            4) Finalmente, usa double.TryParse utilizando la cultura en-US.
+            </summary>
+            <param name="arg">Parámetro a comvertir a double.</param>
+            <returns>Double que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToNullableDouble(System.Object)">
+            <summary>
+            Convierte el valor de entrada a double nullable, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve null.<br></br>
+            2) Revisa si el valor de entrada es double, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a double.<br></br>
+            4) Finalmente, usa double.TryParse.
+            </summary>
+            <param name="arg">Parámetro a comvertir a double nullable.</param>
+            <returns>Double nullable que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToInt32(System.Object)">
+            <summary>
+            Convierte el valor de entrada a Int32, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es Int32, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a Int32.<br></br>
+            4) Finalmente, usa Int32.TryParse.
+            </summary>
+            <param name="arg">Parámetro a convertir a Int32.</param>
+            <returns>Int32 que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToNullableInt32(System.Object)">
+            <summary>
+            Convierte el valor de entrada a Int32 nullable, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve null.<br></br>
+            2) Revisa si el valor de entrada es Int32, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a Int32.<br></br>
+            4) Finalmente, usa Int32.TryParse.
+            </summary>
+            <param name="arg">Parámetro a comvertir a Int32 nullable.</param>
+            <returns>Int32 nullable que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToInt64(System.Object)">
+            <summary>
+            Convierte el valor de entrada a Int64, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve cero.<br></br>
+            2) Revisa si el valor de entrada es Int64 o entero inferior, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a Int64.<br></br>
+            4) Finalmente, usa Int64.TryParse.
+            </summary>
+            <param name="arg">Parámetro a convertir a Int64.</param>
+            <returns>Int64 que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.ToNullableInt64(System.Object)">
+            <summary>
+            Convierte el valor de entrada a Int64 nullable, utilizando diferentes enfoques.<br></br>
+            1) Revisa si el valor de entrada es nulo, y si es así devuelve null.<br></br>
+            2) Revisa si el valor de entrada es Int64, y si es así lo devuelve directamente.<br></br>
+            3) Revisa si el valor de entrada es otro tipo numérico, y si es así lo convierte a Int64.<br></br>
+            4) Finalmente, usa Int64.TryParse.
+            </summary>
+            <param name="arg">Parámetro a comvertir a Int64 nullable.</param>
+            <returns>Int64 nullable que representa el parámetro <paramref name="arg"/> convertido.</returns>
+        </member>
+        <member name="M:Common.Kit.FromDdMmYyyy(System.String)">
+            <summary>
+            Transforma un string dd/MM/yyyy en una instancia System.DateTime.
+            </summary>
+            <param name="arg">String en formato dd/MM/yyyy.</param>
+            <returns>Instancia de System.DateTime convertida a partir de <paramref name="arg"/>.</returns>
+            <remarks>Si el valor no se puede convertir devuelve DateTime.MinValue.</remarks>
+        </member>
+        <member name="M:Common.Kit.GetBytes(System.IO.Stream)">
+            <summary>
+            Obtiene un array de bytes a partir de un stream.
+            </summary>
+            <param name="input">Stream de entrada a partir del cual se deben tomar los bytes.</param>
+            <returns>Array de bytes leído a partir de un stream.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDateTime(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un DateTime.<br/>
+             1. Si es nulo devuelve DateTime.MinValue.
+             2. Si es DateTime devuelve el cast del valor a DateTime.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato DateTime.</returns>
+        </member>
+        <member name="M:Common.Kit.ToNullableDateTime(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un DateTime?.<br/>
+             1. Si es nulo devuelve null.
+             2. Si es DateTime devuelve el cast del valor a DateTime?.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato DateTime?.</returns>
+        </member>
+        <member name="M:Common.Kit.ToInt32(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un Int32.<br/>
+             1. Si es nulo devuelve 0.
+             2. Si es int devuelve el cast del valor a int.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato Int32.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDouble(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un Double.<br/>
+             1. Si es nulo devuelve 0.
+             2. Si es double devuelve el cast del valor a double.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato Double.</returns>
+        </member>
+        <member name="M:Common.Kit.ToDecimal(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un Decimal.<br/>
+             1. Si es nulo devuelve 0.
+             2. Si es Decimal devuelve el cast del valor a Decimal.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato Decimal.</returns>
+        </member>
+        <member name="M:Common.Kit.ToString(System.Data.DataRow,System.String)">
+            <summary>
+             Toma el valor de la columna indicada del DataRow dado y lo devuelve como
+             un string.<br/>
+             1. Si es nulo devuelve null.
+             2. Si es string devuelve el cast del valor a string.
+             3. Si es otra cosa no-casteable va a dar error.
+            </summary>
+            <param name="dr">DataRow a evaluar.</param>
+            <param name="key">Nombre de la columa a encontrar.</param>
+            <returns>Valor en formato string.</returns>
+        </member>
+        <member name="M:Common.Kit.AlgorithmsLuhnCheck(System.String)">
+            <summary>
+            Valida un número por el algoritmo de Luhn
+            </summary>
+            <param name="pNumber">nro a validar</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Kit.ModuleTenCheck(System.String)">
+            <summary>
+            Valida un número por al algoritmo del modulo 10
+            </summary>
+            <param name="pNumber">nro a validar</param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Kit.GetValidPath(System.String,System.Char)">
+            <summary>
+            Replaces invalid characters in a Path.
+            </summary>
+            <param name="path"></param>
+            <param name="replaceChar"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Common.Messaging.MessageQueueHelper">
+            <summary>
+            Métodos de ayuda para tratamiento de mensajes MSMQ.
+            </summary>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.Messaging.MessageQueue,System.Messaging.Message)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queue">Cola MSMQ destinataria del mensaje.</param>
+            <param name="message">Mensaje a enviar.</param>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.String,System.Messaging.Message)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <param name="message">Mensaje a enviar.</param>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <param name="label">Etiqueta del mensaje.</param>
+            <param name="data">Cuerpo del mensaje.</param>
+            <param name="maxSize">Tamaño máximo de cada parte del mensaje.</param>
+            <param name="applicationId">Valor de configuración del id de aplicación origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="companyId">Valor de configuración del id de empresa origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="compress">Especifica si el mensaje se debe comprimir.</param>
+            <param name="encrypt">Especifica si el mensaje se debe encriptar.</param>
+            <param name="skipPartsCount">Especifica si se debe omitir la inclusión de la
+            cantidad de partes que tiene un mensaje en el valor de configuración para
+            seguimiento y traza.</param>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.Messaging.MessageQueue,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queue">Cola MSMQ.</param>
+            <param name="label">Etiqueta del mensaje.</param>
+            <param name="data">Cuerpo del mensaje.</param>
+            <param name="maxSize">Tamaño máximo de cada parte del mensaje.</param>
+            <param name="applicationId">Valor de configuración del id de aplicación origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="companyId">Valor de configuración del id de empresa origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="compress">Especifica si el mensaje se debe comprimir.</param>
+            <param name="encrypt">Especifica si el mensaje se debe encriptar.</param>
+            <param name="skipPartsCount">Especifica si se debe omitir la inclusión de la
+            cantidad de partes que tiene un mensaje en el valor de configuración para
+            seguimiento y traza.</param>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <param name="label">Etiqueta del mensaje.</param>
+            <param name="data">Cuerpo del mensaje.</param>
+            <param name="maxSize">Tamaño máximo de cada parte del mensaje.</param>
+            <param name="applicationId">Valor de configuración del id de aplicación origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="companyId">Valor de configuración del id de empresa origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="compress">Especifica si el mensaje se debe comprimir.</param>
+            <param name="encrypt">Especifica si el mensaje se debe encriptar.</param>
+            <param name="skipPartsCount">Especifica si se debe omitir la inclusión de la
+            cantidad de partes que tiene un mensaje en el valor de configuración para
+            seguimiento y traza.</param>
+            <param name="correlationId">Identificador de un mensaje relacionado.</param>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueHelper.SendMessage(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Envía un mensaje a una cola MSMQ. Debe haber permisos sobre la cola para que
+            pueda recibir el mensaje.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <param name="label">Etiqueta del mensaje.</param>
+            <param name="data">Cuerpo del mensaje.</param>
+            <param name="maxSize">Tamaño máximo de cada parte del mensaje.</param>
+            <param name="applicationId">Valor de configuración del id de aplicación origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="companyId">Valor de configuración del id de empresa origen.
+            Para usos particulares se seguimiento y traza.</param>
+            <param name="compress">Especifica si el mensaje se debe comprimir.</param>
+            <param name="encrypt">Especifica si el mensaje se debe encriptar.</param>
+        </member>
+        <member name="T:Common.Runtime.InteropServices.WindowShowStyle">
+            <summary>Enumeration of the different ways of showing a window using 
+            ShowWindow</summary>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.Hide">
+            <summary>Hides the window and activates another window.</summary>
+            <remarks>See SW_HIDE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowNormal">
+            <summary>Activates and displays a window. If the window is minimized 
+            or maximized, the system restores it to its original size and 
+            position. An application should specify this flag when displaying 
+            the window for the first time.</summary>
+            <remarks>See SW_SHOWNORMAL</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowMinimized">
+            <summary>Activates the window and displays it as a minimized window.</summary>
+            <remarks>See SW_SHOWMINIMIZED</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowMaximized">
+            <summary>Activates the window and displays it as a maximized window.</summary>
+            <remarks>See SW_SHOWMAXIMIZED</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.Maximize">
+            <summary>Maximizes the specified window.</summary>
+            <remarks>See SW_MAXIMIZE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowNormalNoActivate">
+            <summary>Displays a window in its most recent size and position. 
+            This value is similar to "ShowNormal", except the window is not 
+            actived.</summary>
+            <remarks>See SW_SHOWNOACTIVATE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.Show">
+            <summary>Activates the window and displays it in its current size 
+            and position.</summary>
+            <remarks>See SW_SHOW</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.Minimize">
+            <summary>Minimizes the specified window and activates the next 
+            top-level window in the Z order.</summary>
+            <remarks>See SW_MINIMIZE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowMinNoActivate">
+            <summary>Displays the window as a minimized window. This value is
+            similar to "ShowMinimized", except the window is not activated.</summary>
+            <remarks>See SW_SHOWMINNOACTIVE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowNoActivate">
+            <summary>Displays the window in its current size and position. This
+            value is similar to "Show", except the window is not activated.</summary>
+            <remarks>See SW_SHOWNA</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.Restore">
+            <summary>Activates and displays the window. If the window is 
+            minimized or maximized, the system restores it to its original size
+            and position. An application should specify this flag when restoring 
+            a minimized window.</summary>
+            <remarks>See SW_RESTORE</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ShowDefault">
+            <summary>Sets the show state based on the SW_ value specified in the 
+            STARTUPINFO structure passed to the CreateProcess function by the 
+            program that started the application.</summary>
+            <remarks>See SW_SHOWDEFAULT</remarks>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.WindowShowStyle.ForceMinimized">
+            <summary>Windows 2000/XP: Minimizes a window, even if the thread 
+            that owns the window is hung. This flag should only be used when 
+            minimizing windows from a different thread.</summary>
+            <remarks>See SW_FORCEMINIMIZE</remarks>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.LogProvider">
+            <summary>
+            Proveedor de log genérico, para derivar el comportamiento y 
+            reutilizar funcionalidad común a cualquier proveedor de log.
+            </summary>
+        </member>
+        <member name="T:Common.Configuration.Provider.Provider">
+            <summary>
+            Clase que abstrae el concepto de proveedor de una funcionalidad. Está basada en el
+            modelo de proveedores del .Net Framework (hereda de <see cref="T:System.Configuration.Provider.ProviderBase"/>).<br/>
+            Esta clase en conjunto con la clase <see cref="T:Common.Configuration.Provider.ProviderManager`1"/> ofrecen un marco de
+            referencia para la implementación del patrón Strategy mediante el .Net Framework. A
+            través de estas clases es posible diseñar módulos que las aplicaciones pueden utilizar
+            para solucionar problemáticas específicas de manera selectiva, si se necesita se
+            utiliza.
+            </summary>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.GetApplicationName(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Devuelve el nombre de la aplicación configurado en el proveedor.
+            </summary>
+            <param name="config">Lista de valores de configuración del proveedor.</param>
+            <returns>Nombre de la aplicación configurado en el proveedor.</returns>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.InitializeSpecificFeatures(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Permite inicializar valores específicos del proveedor que se esté implementando.
+            </summary>
+            <param name="config">Lista de valores de configuración del proveedor.</param>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.GetApplicationId">
+            <summary>
+            Obtiene el id de aplicación desde la configuración de la aplicación.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.CheckForUnexpectedAttributes(System.Collections.Specialized.NameValueCollection,System.String)">
+             <summary>
+             Permite verificar si para un proveedor dado se han especificado más propiedades de las
+             que son permitidas. Si existe una propiedad que no se conoce, se reporta un error.
+             </summary>
+            <param name="config">Colección de propiedades del proveedor.</param>
+             <param name="providerName">Nombre del proveedor dueño de la colección dada.</param>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.GetConnectionString(System.Collections.Specialized.NameValueCollection,System.String@)">
+            <summary>
+             Permite obtener la cadena de conexión configurada para un proveedor, en su conjunto de
+             propiedades. El método busca la clave 'connectionStringName' en la colección dada.
+            </summary>
+            <param name="config">Colección de propiedades del proveedor.</param>
+            <param name="connectionStringName">Nombre de la cadena de conexión configurada.</param>
+            <returns>Cadena de conexión correspondiente al proveedor dado.</returns>
+        </member>
+        <member name="M:Common.Configuration.Provider.Provider.GetConnectionString(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+             Permite obtener la cadena de conexión configurada para un proveedor, en su conjunto de
+             propiedades. El método busca la clave 'connectionStringName' en la colección dada.
+            </summary>
+            <param name="config">Colección de propiedades del proveedor.</param>
+            <returns>Cadena de conexión correspondiente al proveedor dado.</returns>
+        </member>
+        <member name="P:Common.Configuration.Provider.Provider.ConnectionStringName">
+            <summary>
+             Permite obtener el nombre de la cadena de conexión que utiliza el proveedor.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.Provider.ConnectionString">
+            <summary>
+             Permite obtener la cadena de conexión que utiliza el proveedor.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.Provider.ApplicationId">
+            <summary>
+            	Permite obtener el identificador de la aplicación para la cual trabaja el proveedor.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.Provider.ApplicationName">
+            <summary>
+            	Permite obtener el nombre de la aplicación para la cual trabaja el proveedor.
+            </summary>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.ILogProvider">
+            <summary>
+             Interface para proveedor de log genérico.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.Exception)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="ex">Excepción a incluir junto con el mensaje en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String,System.Exception)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="ex">Excepción a incluir junto con el mensaje en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.ILogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+            <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.UserName">
+            <summary>
+             Nombre de usuario que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.Source">
+            <summary>
+            Origen del mensaje que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.EventName">
+            <summary>
+            Tipo de evento que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.UserHostAddress">
+            <summary>
+            Dirección del equipo del usuario que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.UserAgent">
+            <summary>
+            Dispositivo que utiliza el usuario y que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.Tabs">
+            <summary>
+            Cantidad de tabulaciones que se escriben como prefijo del log.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.ILogProvider.DefaultEntryType">
+            <summary>
+            Tipo de entrada que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.Exception)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="ex">Excepción a incluir junto con el mensaje en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String,System.Exception)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="ex">Excepción a incluir junto con el mensaje en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+            <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProvider.BeginWriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String,System.AsyncCallback)">
+            <summary>
+             Escribe una entrada en el log, pero no espera a que se termine de escribir.
+            </summary>
+             <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+             <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+             <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+             <param name="source">Origen del mensaje a escribir en el log.</param>
+             <param name="message">Mensaje a ser escrito en el log.</param>
+             <param name="type">Tipo de mensaje a escribir.</param>
+             <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+            <param name="callback">Método a llamar cuando finalice la escritura en el log.</param>
+            <returns>El resultado de la escritura del log.</returns>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.UserName">
+            <summary>
+             Nombre de usuario que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.Source">
+            <summary>
+            Origen del mensaje que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.EventName">
+            <summary>
+            Tipo de evento que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.UserHostAddress">
+            <summary>
+            Dirección del equipo del usuario que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.UserAgent">
+            <summary>
+            Dispositivo que utiliza el usuario y que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.Tabs">
+            <summary>
+            Cantidad de tabulaciones que se escriben como prefijo del log.
+            </summary>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProvider.DefaultEntryType">
+            <summary>
+            Tipo de entrada que se escribe en el log por defecto.
+            </summary>
+        </member>
+        <member name="T:Common.Web.Soa.SoaProvider.SoaProviderCollection">
+            <summary>
+             Permite cargar la colección de proveedores de SOA configurados en la aplicación. Esta
+             clase se configura en la sección de configuración correspondiente para ser instanciada
+             automáticamente por el .Net Framework.
+            </summary>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProviderCollection.Add(System.Configuration.Provider.ProviderBase)">
+            <summary>
+            Permite agregar un proveedor SOA a la colección de proveedores SOA.
+            </summary>
+            <param name="provider">Proveedor SOA a agregar.</param>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProviderCollection.CopyTo(Common.Web.Soa.SoaProvider.SoaProvider[],System.Int32)">
+            <summary>
+             Permite copiar la colección de proveedores SOA a un array.
+            </summary>
+            <param name="array">Array destino de los proveedores SOA.</param>
+            <param name="index">Índice en el cual se debe empezar a copiar la colección.</param>
+        </member>
+        <member name="P:Common.Web.Soa.SoaProvider.SoaProviderCollection.Item(System.String)">
+            <summary>
+             Indexador de los proveedores de SOA, que permite obtener cualquiera de la colección
+             a través de su nombre.
+            </summary>
+            <param name="name">Nombre del poveedor SOA.</param>
+        </member>
+        <member name="T:Common.Reflection.ObjectFactory">
+            <summary>
+            Facilita la creación de instancias de objetos.
+            </summary>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.CreateInstance(System.String)">
+            <summary>
+            Crea una instancia de una clase a partir de la forma canónica de .Net para
+            una clase: [namespace.clase, assembly].
+            </summary>
+            <param name="assemblyString">Forma canónica de .Net para una clase: [namespace.clase, assembly].</param>
+            <returns>Instancia de la clase especificada.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.CreateInstance(System.Reflection.AssemblyName,System.String)">
+            <summary>
+            Crea una instancia de una clase a partir de un objeto <see cref="T:System.Reflection.AssemblyName"/>
+            y de un nombre de tipo.
+            </summary>
+            <param name="assemblyName">Objeto <see cref="T:System.Reflection.AssemblyName"/> especificando el assembly que contiene el tipo a instanciar.</param>
+            <param name="typeName">Nombre del tipo a instanciar, con la forma [namespace.clase].</param>
+            <returns>Instancia de la clase especificada.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.CreateInstance(System.Reflection.AssemblyName,System.String,System.AppDomain)">
+            <summary>
+            Crea una instancia de una clase a partir de un objeto <see cref="T:System.Reflection.AssemblyName"/>
+            y de un nombre de tipo. La instancia creada será cargada en el dominio de aplicación
+            especificado en <see cref="!:domain"/>.
+            </summary>
+            <param name="assemblyName">Objeto <see cref="T:System.Reflection.AssemblyName"/> especificando el assembly a cargar.</param>
+            <param name="typeName">Nombre del tipo a instanciar, con la forma [namespace.clase].</param>
+            <param name="domain">Dominio donde se debe cargar la instancia creada.</param>
+            <returns>Instancia de la clase especificada cargada en el dominio especificado.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.CreateNewDomain(System.String,System.String)">
+            <summary>
+            Crea un nuevo dominio de aplicación a donde instanciar objetos.
+            </summary>
+            <param name="baseDirectory">Directorio base donde sondear por assemblies a cargar en
+            el dominio.</param>
+            <param name="relativeSearchPath">Path relativo al directorio base donde se debe buscar
+            para instanciar assemblies privados.</param>
+            <returns>Nuevo dominio de aplicación.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.GetManifestFile(System.Type,System.String)">
+            <summary>
+            Obtiene un string con el contenido del archivo de manifiesto.
+            </summary>
+            <param name="type">Tipo para el cual se necesita el manifiesto.</param>
+            <param name="fileName">Nombre del archivo de manifiesto.</param>
+            <returns>Contenido del archivo de manifiesto.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.GetManifestFile(System.Reflection.Assembly,System.String,System.String)">
+            <summary>
+            Obtiene un string con el contenido del archivo de manifiesto.
+            </summary>
+            <param name="assembly">Assembly donde se encuentra el tipo a buscar.</param>
+            <param name="nameSpace">Namespace donde se encuentra el tipo a buscar.</param>
+            <param name="fileName">Nombre del archivo de manifiesto.</param>
+            <returns>Contenido del archivo de manifiesto.</returns>
+        </member>
+        <member name="M:Common.Reflection.ObjectFactory.GetManifestFile(System.Reflection.Assembly,System.String)">
+            <summary>
+            Obtiene un string con el contenido del archivo de manifiesto.
+            </summary>
+            <param name="assembly">Assembly donde se encuentra el tipo a buscar.</param>
+            <param name="fullFileName">Nombre completo del archivo de manifiesto.</param>
+            <returns>Contenido del archivo de manifiesto.</returns>
+        </member>
+        <member name="T:Common.Security.TokenProvider.ITokenProvider">
+            <summary>
+            Proveedor de tokens de seguridad. Permite enviar un token de seguridad a un dispositivo
+            y luego chequear que el destinatario recibió efectivamente el token en su dispositivo.
+            </summary>
+        </member>
+        <member name="M:Common.Security.TokenProvider.ITokenProvider.SendTokenToDevice(System.String)">
+            <summary>
+            Permite enviar un token de seguridad a un dispositivo.
+            </summary>
+            <param name="recipient">Dirección del dispositivo destinatario del token de seguridad.</param>
+            <returns>Identificador del token de seguridad enviado al dispositivo.</returns>
+        </member>
+        <member name="M:Common.Security.TokenProvider.ITokenProvider.ValidateToken(System.String,System.String)">
+            <summary>
+            Permite chequear que el destinatario recibió efectivamente el token en su dispositivo.
+            </summary>
+            <param name="tokenId">Identificador del token de seguridad enviado al dispositivo.</param>
+            <param name="token">Token de seguridad enviado al dispositivo.</param>
+            <returns>Valor que especifica si el token es correcto o no.</returns>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.FileLogProvider">
+            <summary>
+             Proveedor de log que escribe los registros de log en un archivo de texto plano.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.FileLogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+            <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+        </member>
+        <member name="T:Common.Collections.Generic.SerializableDictionary`2">
+            <summary>
+             Diccionario genérico serializable. El diccionario está basado en una lista genérica, pero al tomar como argumento genérico un objeto basado en dos tipos genéricos funciona como diccionario.
+             El truco para que el diccionario resulte serializable es que los tipos genéricos tienen una restricción que obliga a que sean clases.
+            </summary>
+            <typeparam name="TKey">Tipo que representa la clave del diccionario. Tiene la restricción de que debe ser una clase.</typeparam>
+            <typeparam name="TValue">Tipo que representa el valor del diccionario. Tiene la restricción de que debe ser una clase.</typeparam>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableDictionary`2.SerializeToXml">
+            <summary>
+            Serializa la instancia del diccionario a Xml.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableDictionary`2.DeserializeFromXml(System.String)">
+            <summary>
+            Deserializa un Xml recibido como parámetro y carga los datos en la instancia del diccionario.
+            </summary>
+            <param name="xml"></param>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableDictionary`2.Add(`0,`1)">
+            <summary>
+             Agrega una entrada al diccionario.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableDictionary`2.Remove(`0)">
+            <summary>
+            Remueve una entrada del diccionario.
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableDictionary`2.Contains(`0)">
+            <summary>
+             Permite saber si una clave existe en el diccionario.
+            </summary>
+            <param name="key">Clave a buscar.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Common.Collections.Generic.SerializableDictionary`2.Item(`0)">
+            <summary>
+             Indexer que permite obtener un valor del diccionario a partir de su clave.
+             Si no encuentra el valor lanza una excepción.
+            </summary>
+            <param name="key">Clave a buscar.</param>
+            <exception cref="T:System.ApplicationException"></exception>
+        </member>
+        <member name="T:Common.Web.UI.NotificationInfo">
+            <summary>
+             Paquete de información que se envía a los controles de notificación
+             al momento de mostrar al usuario un mensaje.
+            </summary>
+        </member>
+        <member name="F:Common.Web.UI.NotificationInfo.Title">
+            <summary>
+             Título de la notificación.
+            </summary>
+        </member>
+        <member name="F:Common.Web.UI.NotificationInfo.Message">
+            <summary>
+            Mensaje de la notificación.
+            </summary>
+        </member>
+        <member name="F:Common.Web.UI.NotificationInfo.Type">
+            <summary>
+            Tipo de notificación.
+            </summary>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor(System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Constructor para mensaje y tipo.
+            </summary>
+            <param name="message">Vea <see cref="F:Common.Web.UI.NotificationInfo.Message"/>.</param>
+            <param name="type">Vea <see cref="F:Common.Web.UI.NotificationInfo.Type"/>.</param>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor(System.String)">
+            <summary>
+            Constructor para mensaje. Utiliza "Information" para el tipo de mensaje por defecto.
+            </summary>
+            <param name="message">Vea <see cref="F:Common.Web.UI.NotificationInfo.Message"/>.</param>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor(System.String,System.String,System.Diagnostics.EventLogEntryType)">
+            <summary>
+            Constructor para título, mensaje y tipo.
+            </summary>
+            <param name="title">Vea <see cref="F:Common.Web.UI.NotificationInfo.Title"/>.</param>
+            <param name="message">Vea <see cref="F:Common.Web.UI.NotificationInfo.Message"/>.</param>
+            <param name="type">Vea <see cref="F:Common.Web.UI.NotificationInfo.Type"/>.</param>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor(System.String,System.String)">
+            <summary>
+            Constructor para título y mensaje.
+            </summary>
+            <param name="title">Vea <see cref="F:Common.Web.UI.NotificationInfo.Title"/>.</param>
+            <param name="message">Vea <see cref="F:Common.Web.UI.NotificationInfo.Message"/>.</param>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor(System.Exception)">
+             <summary>
+             Constructor para excepción.
+            </summary>
+            <param name="ex">Excepción a mostrar.</param>
+        </member>
+        <member name="M:Common.Web.UI.NotificationInfo.#ctor">
+            <summary>
+            Constructor sin argumentos.
+            </summary>
+        </member>
+        <member name="T:Common.Microsoft.Win32.RegistryManager">
+            <summary>
+            Helps Microsoft Registry management for keys and values.
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.SubKeyCount(Microsoft.Win32.RegistryKey,System.String)">
+            <summary>
+            Retrive the count of subkeys at the current key.
+            input: void
+            output: number of subkeys
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.DeleteSubKeyTree(Microsoft.Win32.RegistryKey,System.String)">
+            <summary>
+            To delete a sub key and any child.
+            input: void
+            output: true or false 
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.GetValue(Microsoft.Win32.RegistryKey,System.String,System.String)">
+            <summary>
+            To read a registry key.
+            input: keyName (string)
+            output: value (string) 
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.SetValue(Microsoft.Win32.RegistryKey,System.String,System.String,Microsoft.Win32.RegistryValueKind,System.Object)">
+            <summary>
+            To write into a registry key.
+            input: keyName (string) , value (object)
+            output: true or false 
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.DeleteValue(Microsoft.Win32.RegistryKey,System.String,System.String)">
+            <summary>
+            To delete a registry key.
+            input: keyName (string)
+            output: true or false 
+            </summary>
+        </member>
+        <member name="M:Common.Microsoft.Win32.RegistryManager.ValueCount(Microsoft.Win32.RegistryKey,System.String)">
+            <summary>
+            Retrive the count of values in the key.
+            input: void
+            output: number of keys
+            </summary>
+        </member>
+        <member name="T:Common.Security.Cryptography.CertificateManager">
+            <summary>
+            Métodos para administración de certificados digitales.
+            </summary>
+        </member>
+        <member name="M:Common.Security.Cryptography.CertificateManager.CertificateExists(System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Verifica la existencia de un certificado digital en el repositorio My de una ubicación dada.
+            </summary>
+            <param name="storeLocation">Ubicación del repositorio correspondiente al certificado digital.</param>
+            <param name="subjectName">Nombre del certificado digital.</param>
+            <returns>Booleano indicando si encontró el certificado digital dado.</returns>
+        </member>
+        <member name="M:Common.Security.Cryptography.CertificateManager.GetCertificate(System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Obtiene un certificado digital en el repositorio My de una ubicación dada.
+            </summary>
+            <param name="storeLocation">Ubicación del repositorio correspondiente al certificado digital.</param>
+            <param name="subjectName">Nombre del certificado digital.</param>
+            <returns>Certificado digital obtenido del repositorio especificado.</returns>
+        </member>
+        <member name="M:Common.Security.Cryptography.CertificateManager.FindCertificate(System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Busca un certificado digital en el repositorio My de una ubicación dada, y
+            devuelve una colección con aquellos que cumplen el criterio de búsqueda.
+            </summary>
+            <param name="storeLocation">Ubicación del repositorio correspondiente al certificado digital.</param>
+            <param name="subjectName">Nombre del certificado digital.</param>
+            <returns>Colección de certificados digitales obtenidos del repositorio especificado.</returns>
+        </member>
+        <member name="M:Common.Security.Cryptography.CertificateManager.AddCertificate(System.Security.Cryptography.X509Certificates.StoreLocation,System.Security.Cryptography.X509Certificates.StoreName,System.String)">
+            <summary>
+            Crea un certificado digital en un repositorio dado.
+            </summary>
+            <param name="storeLocation">Ubicación del repositorio correspondiente al certificado digital.</param>
+            <param name="storeName">Nombre del repositorio correspondiente al certificado digital.</param>
+            <param name="certificateString">Representación serializada en base64 del certificado digital a agregar.</param>
+            <returns>Certificado digital creado.</returns>
+        </member>
+        <member name="T:Common.Configuration.Provider.ProviderConfiguration">
+            <summary>
+             Sección de configuración que permite leer los providers desde el archivo de configuración de la aplicación.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.ProviderConfiguration.Providers">
+            <summary>
+             Devuelve la colección de proveedores configurados.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.ProviderConfiguration.DefaultProvider">
+            <summary>
+             Devuelve el proveedor por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.ProviderConfiguration.Enabled">
+            <summary>
+             Permite conocer si el proveedor se encuentra habilitado para funcionar.
+            </summary>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.WindowsEventLogProvider">
+            <summary>
+            Provee ayuda para acceder al log de Eventos de Windows de manera fácil.
+            Para poder utilizar esta clase son necesarios permisos para escribir en el log de Eventos
+            de Windows.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.WindowsEventLogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String)">
+             <summary>
+             Escribe una entrada en el log de Eventos de Windows.
+             </summary>
+             <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+             <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+             <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+             <param name="source">Origen del mensaje a escribir en el log.</param>
+             <param name="message">Mensaje a ser escrito en el log.</param>
+             <param name="type">Tipo de mensaje a escribir.</param>
+             <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+        </member>
+        <member name="T:Common.Web.Soa.SoaProvider.ISoaProvider">
+            <summary>
+            Interface que define el comportamiento de un proveedor SOA general, basado en la
+            experiencia obtenida.
+            </summary>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.RaiseEvent(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Permite llamar a un servicio SOA. Si se especifica el valor del identificador de la
+            instancia, el servidor SOA (si así estuvise configurado y si fuera posible) intentará
+            continuar la instancia persistida, de otra forma iniciará una nueva instancia del
+            proceso.
+            </summary>
+            <param name="eventName">Nombre del servicio SOA a llamar.</param>
+            <param name="instanceId">(Opcional) Identificador de la instancia a continuar.</param>
+            <param name="parameters">Parámetros del servicio SOA a llamar.</param>
+            <param name="returnLog">Especifica si se debe retornar el log de la ejecución del servicio SOA.</param>
+            <returns>Log de ejecución e identificador de la instancia a adjuntar.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.AttachDocument(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            	Permite adjuntar un documento a una instancia de un servicio SOA.
+            </summary>
+            <param name = "instanceId">Identificador de la instancia a la cual se adjuntará el documento.</param>
+            <param name = "documentName">Nombre del documento a adjuntar.</param>
+            <param name = "documentPath">Ruta física del documento a adjuntar.</param>
+            <param name = "compressed">Especifica si el documento a adjuntar se encuentra comprimido.</param>
+            <returns>Log de ejecución o identificador del documento adjuntado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.GetDocumentsByInstanceId(System.String)">
+            <summary>
+            Permite obtener una lista de documentos asociados a un identificador de instancia.
+            </summary>
+            <param name="instanceId">Identificador de la instancia.</param>
+            <returns>Lista de documentos en algún formato entendible.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.GetDocumentLob(System.String)">
+            <summary>
+            Permite obtener el LOB de un documento en el servidor SOA a partir de su identificador.
+            Generalmente el LOB vuelve en formato base64 debido al uso del protocolo SOAP.
+            </summary>
+            <param name="documentId">Identificador del documento.</param>
+            <returns>LOB del documento especificado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.DeleteDocument(System.String)">
+            <summary>
+            Permite eliminar un documento en el servidor SOA a partir de su identificador.
+            </summary>
+            <param name="documentId">Identificador del documento.</param>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.GetParameter(System.String,System.String)">
+            <summary>
+            Permite obtener el valor de un parámetro (cuando es posible) a partir del string de
+            parámetros que contiene el parámetro del cual se desea averiguar el valor.
+            </summary>
+            <param name = "parameters">String de parámetros que contiene el parámetro del cual se
+            desea averiguar el valor.</param>
+            <param name = "parameterName">Nombre del parámetro del cual se desea averiguar el valor</param>
+            <returns>Valor del parámetro especificado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.GetInstanceId(System.String)">
+            <summary>
+            Permite obtener el valor del atributo InstanceId (cuando es posible) a partir del
+            string de parámetros de la instancia de la cual se desea conocer el identificador.
+            </summary>
+            <param name = "parameters">String de parámetros de la instancia de la cual se desea conocer el identificador.</param>
+            <returns>Identificador de la instancia correspondiente a los parámetros dados.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.ISoaProvider.BuildParameters(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Permite obtener el string correspondiente a los parámetros especificados en
+            la firma. Se genera un parametro principal, un parámetro con el identificador
+            del recurso que se envía al servicio SOA, y tantos parámetros como se especifican
+            en el diccionario <see cref="!:customParameters"/>.
+            </summary>
+            <param name="mainParameterName">Nombre del parámetro principal a agregar.</param>
+            <param name="mainParameterValue">Valor del parámetro principal a agregar.</param>
+            <param name="resourceIdParameterName">Nombre del parámetro a agregar que contiene el identificador del recurso.</param>
+            <param name="resourceIdParameterValue">Valor del parámetro a agregar que contiene el identificador del recurso.</param>
+            <param name="customParameters">Colección de parámetros adicionales a agregar.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Common.Web.Soa.SoaProvider.ISoaProvider.UserName">
+            <summary>
+             Permite obtener el nombre de usuario configurado para el uso del servicio Soa.
+            </summary>
+        </member>
+        <member name="P:Common.Web.Soa.SoaProvider.ISoaProvider.Password">
+            <summary>
+            Clave del usuario configurado en <see cref="P:Common.Web.Soa.SoaProvider.ISoaProvider.UserName"/>.
+            </summary>
+        </member>
+        <member name="T:Common.Messaging.MessageQueueFactory">
+            <summary>
+            Métodos de ayuda para la creación de colas MSMQ.
+            </summary>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueFactory.CreateForReceive(System.String)">
+            <summary>
+            Crea una instancia de una cola MSMQ para recibir y ojear mensajes. No crea la cola
+            físicamente, crea una instancia para recibir y ojear.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <returns>Instancia de objeto que representa una cola MSMQ para recibir y ojear mensajes.</returns>
+        </member>
+        <member name="M:Common.Messaging.MessageQueueFactory.CreateForSend(System.String)">
+            <summary>
+            Crea una instancia de una cola MSMQ para enviar mensajes. No crea la cola
+            físicamente, crea una instancia para enviar.
+            </summary>
+            <param name="queuePath">Path de la cola MSMQ.</param>
+            <returns>Instancia de objeto que representa una cola MSMQ para enviar mensajes.</returns>
+        </member>
+        <member name="M:Common.Security.TokenProvider.TokenProvider.SendTokenToDevice(System.String)">
+            <summary>
+            Permite enviar un token de seguridad a un dispositivo.
+            </summary>
+            <param name="recipient">Dirección del dispositivo destinatario del token de seguridad.</param>
+            <returns>Identificador del token de seguridad enviado al dispositivo.</returns>
+        </member>
+        <member name="M:Common.Security.TokenProvider.TokenProvider.ValidateToken(System.String,System.String)">
+            <summary>
+            Permite chequear que el destinatario recibió efectivamente el token en su dispositivo.
+            </summary>
+            <param name="tokenId">Identificador del token de seguridad enviado al dispositivo.</param>
+            <param name="token">Token de seguridad enviado al dispositivo.</param>
+            <returns>Valor que especifica si el token es correcto o no.</returns>
+        </member>
+        <member name="M:Common.Security.TokenProvider.KeyMakerTokenProvider.InitializeSpecificFeatures(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Permite inicializar valores específicos del proveedor que se esté implementando.
+            </summary>
+            <param name="config">Lista de valores de configuración del proveedor.</param>
+        </member>
+        <member name="M:Common.Security.TokenProvider.KeyMakerTokenProvider.SendTokenToDevice(System.String)">
+            <summary>
+            Permite enviar un token de seguridad a un dispositivo.
+            </summary>
+            <param name="recipient">Dirección del dispositivo destinatario del token de seguridad.</param>
+            <returns>Identificador del token de seguridad enviado al dispositivo.</returns>
+        </member>
+        <member name="M:Common.Security.TokenProvider.KeyMakerTokenProvider.ValidateToken(System.String,System.String)">
+            <summary>
+            Permite chequear que el destinatario recibió efectivamente el token en su dispositivo.
+            </summary>
+            <param name="tokenId">Identificador del token de seguridad enviado al dispositivo.</param>
+            <param name="token">Token de seguridad enviado al dispositivo.</param>
+            <returns>Valor que especifica si el token es correcto o no.</returns>
+        </member>
+        <member name="T:Common.Data.Objects.AspnetEntities">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.#ctor">
+            <summary>
+            Initializes a new AspnetEntities object using the connection string found in the 'AspnetEntities' section of the application configuration file.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.#ctor(System.String)">
+            <summary>
+            Initialize a new AspnetEntities object.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.#ctor(System.Data.EntityClient.EntityConnection)">
+            <summary>
+            Initialize a new AspnetEntities object.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddToaspnet_Applications(Common.Data.Objects.aspnet_Applications)">
+            <summary>
+            Deprecated Method for adding a new object to the aspnet_Applications EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddToaspnet_Membership(Common.Data.Objects.aspnet_Membership)">
+            <summary>
+            Deprecated Method for adding a new object to the aspnet_Membership EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddToaspnet_Roles(Common.Data.Objects.aspnet_Roles)">
+            <summary>
+            Deprecated Method for adding a new object to the aspnet_Roles EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddToaspnet_Users(Common.Data.Objects.aspnet_Users)">
+            <summary>
+            Deprecated Method for adding a new object to the aspnet_Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_Cache(Common.Data.Objects.common_Cache)">
+            <summary>
+            Deprecated Method for adding a new object to the common_Cache EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_EmailProfile(Common.Data.Objects.common_EmailProfile)">
+            <summary>
+            Deprecated Method for adding a new object to the common_EmailProfile EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_LogEvent(Common.Data.Objects.common_LogEvent)">
+            <summary>
+            Deprecated Method for adding a new object to the common_LogEvent EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_Organization(Common.Data.Objects.common_Organization)">
+            <summary>
+            Deprecated Method for adding a new object to the common_Organization EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_Permission(Common.Data.Objects.common_Permission)">
+            <summary>
+            Deprecated Method for adding a new object to the common_Permission EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.AspnetEntities.AddTocommon_Resource(Common.Data.Objects.common_Resource)">
+            <summary>
+            Deprecated Method for adding a new object to the common_Resource EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.aspnet_Membership">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_Cache">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_EmailProfile">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_LogEvent">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_Organization">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_Permission">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.AspnetEntities.common_Resource">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.aspnet_Applications.Createaspnet_Applications(System.String,System.String,System.Guid)">
+            <summary>
+            Create a new aspnet_Applications object.
+            </summary>
+            <param name="applicationName">Initial value of the ApplicationName property.</param>
+            <param name="loweredApplicationName">Initial value of the LoweredApplicationName property.</param>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.ApplicationName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.LoweredApplicationName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.Description">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.aspnet_Membership">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.common_Cache">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.common_EmailProfile">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.common_LogEvent">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Applications.common_Resource">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.aspnet_Membership">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.aspnet_Membership.Createaspnet_Membership(System.Guid,System.Guid,System.String,System.Int32,System.String,System.Boolean,System.Boolean,System.DateTime,System.DateTime,System.DateTime,System.DateTime,System.Int32,System.DateTime,System.Int32,System.DateTime)">
+            <summary>
+            Create a new aspnet_Membership object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="userId">Initial value of the UserId property.</param>
+            <param name="password">Initial value of the Password property.</param>
+            <param name="passwordFormat">Initial value of the PasswordFormat property.</param>
+            <param name="passwordSalt">Initial value of the PasswordSalt property.</param>
+            <param name="isApproved">Initial value of the IsApproved property.</param>
+            <param name="isLockedOut">Initial value of the IsLockedOut property.</param>
+            <param name="createDate">Initial value of the CreateDate property.</param>
+            <param name="lastLoginDate">Initial value of the LastLoginDate property.</param>
+            <param name="lastPasswordChangedDate">Initial value of the LastPasswordChangedDate property.</param>
+            <param name="lastLockoutDate">Initial value of the LastLockoutDate property.</param>
+            <param name="failedPasswordAttemptCount">Initial value of the FailedPasswordAttemptCount property.</param>
+            <param name="failedPasswordAttemptWindowStart">Initial value of the FailedPasswordAttemptWindowStart property.</param>
+            <param name="failedPasswordAnswerAttemptCount">Initial value of the FailedPasswordAnswerAttemptCount property.</param>
+            <param name="failedPasswordAnswerAttemptWindowStart">Initial value of the FailedPasswordAnswerAttemptWindowStart property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.UserId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.Password">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.PasswordFormat">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.PasswordSalt">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.MobilePIN">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.Email">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.LoweredEmail">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.PasswordQuestion">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.PasswordAnswer">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.IsApproved">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.IsLockedOut">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.CreateDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.LastLoginDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.LastPasswordChangedDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.LastLockoutDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.FailedPasswordAttemptCount">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.FailedPasswordAttemptWindowStart">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.FailedPasswordAnswerAttemptCount">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.FailedPasswordAnswerAttemptWindowStart">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.Comment">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Membership.aspnet_UsersReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.aspnet_Roles.Createaspnet_Roles(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Create a new aspnet_Roles object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="roleId">Initial value of the RoleId property.</param>
+            <param name="roleName">Initial value of the RoleName property.</param>
+            <param name="loweredRoleName">Initial value of the LoweredRoleName property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.RoleId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.RoleName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.LoweredRoleName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.Description">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.common_Permission">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Roles.common_Organization">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.aspnet_Users.Createaspnet_Users(System.Guid,System.Guid,System.String,System.String,System.Boolean,System.DateTime)">
+            <summary>
+            Create a new aspnet_Users object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="userId">Initial value of the UserId property.</param>
+            <param name="userName">Initial value of the UserName property.</param>
+            <param name="loweredUserName">Initial value of the LoweredUserName property.</param>
+            <param name="isAnonymous">Initial value of the IsAnonymous property.</param>
+            <param name="lastActivityDate">Initial value of the LastActivityDate property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.UserId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.UserName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.LoweredUserName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.MobileAlias">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.IsAnonymous">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.LastActivityDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.aspnet_Membership">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.aspnet_MembershipReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.common_Organization">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.common_Permission">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.aspnet_Users.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_Cache">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_Cache.Createcommon_Cache(System.Guid,System.Guid,System.String,System.Byte[],System.DateTime)">
+            <summary>
+            Create a new common_Cache object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="cacheId">Initial value of the CacheId property.</param>
+            <param name="cacheKey">Initial value of the CacheKey property.</param>
+            <param name="cacheValue">Initial value of the CacheValue property.</param>
+            <param name="expiration">Initial value of the Expiration property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.CacheId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.CacheKey">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.CacheValue">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.Expiration">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Cache.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_EmailProfile">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_EmailProfile.Createcommon_EmailProfile(System.Guid,System.Guid,System.String,System.String,System.String,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Create a new common_EmailProfile object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="emailProfileId">Initial value of the EmailProfileId property.</param>
+            <param name="profileName">Initial value of the ProfileName property.</param>
+            <param name="sender">Initial value of the Sender property.</param>
+            <param name="smtpHost">Initial value of the SmtpHost property.</param>
+            <param name="smtpPort">Initial value of the SmtpPort property.</param>
+            <param name="useDefaultCredentials">Initial value of the UseDefaultCredentials property.</param>
+            <param name="enableSsl">Initial value of the EnableSsl property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.EmailProfileId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.ProfileName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.Sender">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SenderName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.ReplyTo">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SmtpHost">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SmtpPort">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.UseDefaultCredentials">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SmtpUserName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SmtpPassword">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.EnableSsl">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SmtpDeliveryMethod">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.SplitChar">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_EmailProfile.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_LogEvent">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_LogEvent.Createcommon_LogEvent(System.Guid,System.Guid,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Create a new common_LogEvent object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="logEventId">Initial value of the LogEventId property.</param>
+            <param name="logDate">Initial value of the LogDate property.</param>
+            <param name="serverName">Initial value of the ServerName property.</param>
+            <param name="userHostAddress">Initial value of the UserHostAddress property.</param>
+            <param name="userAgent">Initial value of the UserAgent property.</param>
+            <param name="userName">Initial value of the UserName property.</param>
+            <param name="eventType">Initial value of the EventType property.</param>
+            <param name="eventName">Initial value of the EventName property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.LogEventId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.LogDate">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.ServerName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.UserHostAddress">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.UserAgent">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.UserName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.EventType">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.EventName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.EventSource">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.Reference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.Details">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_LogEvent.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_Organization">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_Organization.Createcommon_Organization(System.Guid,System.Guid,System.String)">
+            <summary>
+            Create a new common_Organization object.
+            </summary>
+            <param name="organizationId">Initial value of the OrganizationId property.</param>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="name">Initial value of the Name property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.OrganizationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.Name">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.Description">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.DefaultUserId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.ParentId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.Properties">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.aspnet_UsersReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.common_Organization1">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.common_Organization2">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.common_Organization2Reference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Organization.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_Permission">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_Permission.Createcommon_Permission(System.Guid,System.Guid,System.Boolean)">
+            <summary>
+            Create a new common_Permission object.
+            </summary>
+            <param name="permissionId">Initial value of the PermissionId property.</param>
+            <param name="resourceId">Initial value of the ResourceId property.</param>
+            <param name="isAllowed">Initial value of the IsAllowed property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.PermissionId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.ResourceId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.UserId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.RoleId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.IsAllowed">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.aspnet_Roles">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.aspnet_RolesReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.aspnet_Users">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.aspnet_UsersReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.common_Resource">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Permission.common_ResourceReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Data.Objects.common_Resource">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.common_Resource.Createcommon_Resource(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Create a new common_Resource object.
+            </summary>
+            <param name="applicationId">Initial value of the ApplicationId property.</param>
+            <param name="resourceId">Initial value of the ResourceId property.</param>
+            <param name="resourceName">Initial value of the ResourceName property.</param>
+            <param name="loweredResourceName">Initial value of the LoweredResourceName property.</param>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.ApplicationId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.ResourceId">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.ResourceName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.LoweredResourceName">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.Description">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.aspnet_Applications">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.aspnet_ApplicationsReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:Common.Data.Objects.common_Resource.common_Permission">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:Common.Configuration.SystemValuesProvider.SystemValuesProvider">
+            <summary>
+            Proveedor base para obtener valores de configuración del sistema.
+            </summary>
+        </member>
+        <member name="T:Common.Configuration.SystemValuesProvider.ISystemValuesProvider">
+            <summary>
+            Interface que provee valores de configuración del sistema.
+            </summary>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.ISystemValuesProvider.GetValue(System.String,System.String)">
+            <summary>
+            Obtiene del repositorio de configuración el valor cuyo código coincide con <paramref name="code"/> de la tabla <paramref name="table"/>.
+            </summary>
+            <param name="table">Tabla donde buscar la configuración.</param>
+            <param name="code">Código a buscar en la configuración.</param>
+            <returns>Valor de la configuración correspondiente a la tabla y el código especificados.</returns>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.ISystemValuesProvider.GetValue(System.String)">
+            <summary>
+            Obtiene del repositorio de configuración el valor cuyo código coincide con <paramref name="code"/> de una tabla por defecto en la configuración.
+            </summary>
+            <param name="code">Código a buscar en la configuración.</param>
+            <returns>Valor de la configuración correspondiente al código especificado. Generalmente se obtiene de una tabla por defecto.</returns>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.ISystemValuesProvider.GetTable(System.String)">
+            <summary>
+            Obtiene una tabla de configuración completa.
+            </summary>
+            <param name="table">Tabla donde buscar la configuración.</param>
+            <returns>Tabla de configuración completa, con todos sus valores.</returns>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.SystemValuesProvider.GetValue(System.String,System.String)">
+            <summary>
+            Obtiene del repositorio de configuración el valor cuyo código coincide con <paramref name="code"/> de la tabla <paramref name="table"/>.
+            </summary>
+            <param name="table">Tabla donde buscar la configuración.</param>
+            <param name="code">Código a buscar en la configuración.</param>
+            <returns>Valor de la configuración correspondiente a la tabla y el código especificados.</returns>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.SystemValuesProvider.GetValue(System.String)">
+            <summary>
+            Obtiene del repositorio de configuración el valor cuyo código coincide con <paramref name="code"/> de una tabla por defecto en la configuración.
+            </summary>
+            <param name="code">Código a buscar en la configuración.</param>
+            <returns>Valor de la configuración correspondiente al código especificado. Generalmente se obtiene de una tabla por defecto.</returns>
+        </member>
+        <member name="M:Common.Configuration.SystemValuesProvider.SystemValuesProvider.GetTable(System.String)">
+            <summary>
+            Obtiene una tabla de configuración completa.
+            </summary>
+            <param name="table">Tabla donde buscar la configuración.</param>
+            <returns>Tabla de configuración completa, con todos sus valores.</returns>
+        </member>
+        <member name="T:Common.Web.Soa.SoaProvider.SoaProvider">
+            <summary>
+            Clase abstracta que define el comportamiento de un proveedor SOA general, basado en la
+            experiencia obtenida.
+            </summary>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.RaiseEvent(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Permite llamar a un servicio SOA. Si se especifica el valor del identificador de la
+            instancia, el servidor SOA (si así estuvise configurado y si fuera posible) intentará
+            continuar la instancia persistida, de otra forma iniciará una nueva instancia del
+            proceso.
+            </summary>
+            <param name="eventName">Nombre del servicio SOA a llamar.</param>
+            <param name="instanceId">(Opcional) Identificador de la instancia a continuar.</param>
+            <param name="parameters">Parámetros del servicio SOA a llamar.</param>
+            <param name="returnLog">Especifica si se debe retornar el log de la ejecución del servicio SOA.</param>
+            <returns>Log de ejecución e identificador de la instancia a adjuntar.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.AttachDocument(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            	Permite adjuntar un documento a una instancia de un servicio SOA.
+            </summary>
+            <param name = "instanceId">Identificador de la instancia a la cual se adjuntará el documento.</param>
+            <param name = "documentName">Nombre del documento a adjuntar.</param>
+            <param name = "documentPath">Ruta física del documento a adjuntar.</param>
+            <param name = "compressed">Especifica si el documento a adjuntar se encuentra comprimido.</param>
+            <returns>Log de ejecución o identificador del documento adjuntado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.GetDocumentsByInstanceId(System.String)">
+            <summary>
+            Permite obtener una lista de documentos asociados a un identificador de instancia.
+            </summary>
+            <param name="instanceId">Identificador de la instancia.</param>
+            <returns>Lista de documentos en algún formato entendible.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.GetDocumentLob(System.String)">
+            <summary>
+            Permite obtener el LOB de un documento en el servidor SOA a partir de su identificador.
+            Generalmente el LOB vuelve en formato base64 debido al uso del protocolo SOAP.
+            </summary>
+            <param name="documentId">Identificador del documento.</param>
+            <returns>LOB del documento especificado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.DeleteDocument(System.String)">
+            <summary>
+            Permite eliminar un documento en el servidor SOA a partir de su identificador.
+            </summary>
+            <param name="documentId">Identificador del documento.</param>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.GetParameter(System.String,System.String)">
+            <summary>
+            	Permite obtener el valor de un parámetro (cuando es posible) a partir del string de
+            	parámetros que contiene el parámetro del cual se desea averiguar el valor.
+            </summary>
+            <param name = "parameters">String de parámetros que contiene el parámetro del cual se
+            	desea averiguar el valor.</param>
+            <param name = "parameterName">Nombre del parámetro del cual se desea averiguar el valor</param>
+            <returns>Valor del parámetro especificado.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.GetInstanceId(System.String)">
+            <summary>
+            	Permite obtener el valor del atributo InstanceId (cuando es posible) a partir del
+            	string de parámetros de la instancia de la cual se desea conocer el identificador.
+            </summary>
+            <param name = "parameters">String de parámetros de la instancia de la cual se desea conocer el identificador.</param>
+            <returns>Identificador de la instancia correspondiente a los parámetros dados.</returns>
+        </member>
+        <member name="M:Common.Web.Soa.SoaProvider.SoaProvider.BuildParameters(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            	Permite obtener el string correspondiente a los parámetros especificados en
+            	la firma. Se genera un parametro principal, un parámetro con el identificador
+            	del recurso que se envía al servicio SOA, y tantos parámetros como se especifican
+            	en el diccionario <see cref="!:customParameters"/>.
+            </summary>
+            <param name="mainParameterName">Nombre del parámetro principal a agregar.</param>
+            <param name="mainParameterValue">Valor del parámetro principal a agregar.</param>
+            <param name="resourceIdParameterName">Nombre del parámetro a agregar que contiene el identificador del recurso.</param>
+            <param name="resourceIdParameterValue">Valor del parámetro a agregar que contiene el identificador del recurso.</param>
+            <param name="customParameters">Colección de parámetros adicionales a agregar.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Common.Web.Soa.SoaProvider.SoaProvider.UserName">
+            <summary>
+             Permite obtener el nombre de usuario configurado para el uso del servicio Soa.
+            </summary>
+        </member>
+        <member name="P:Common.Web.Soa.SoaProvider.SoaProvider.Password">
+            <summary>
+            Clave del usuario configurado en <see cref="P:Common.Web.Soa.SoaProvider.ISoaProvider.UserName"/>.
+            </summary>
+        </member>
+        <member name="T:Common.Security.Cryptography.Xml.XmlSigningHelper">
+            <summary>
+            Facilitates the signing of XML documents.
+            </summary>
+        </member>
+        <member name="M:Common.Security.Cryptography.Xml.XmlSigningHelper.SignXml(System.String,System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Signs an XML document.
+            </summary>
+            <remarks>
+            The given certificate must have a private key.
+            </remarks>
+            <param name="xml"></param>
+            <param name="certificateStoreLocation"></param>
+            <param name="certificateSubjectName"></param>
+            <returns>XML's digital signature.</returns>
+        </member>
+        <member name="M:Common.Security.Cryptography.Xml.XmlSigningHelper.SignXml(System.String,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Signs an XML document.
+            </summary>
+            <remarks>
+            The given certificate must have a private key.
+            </remarks>
+            <param name="xml"></param>
+            <param name="certificate"></param>
+            <returns>XML's digital signature.</returns>
+        </member>
+        <member name="M:Common.Security.Cryptography.Xml.XmlSigningHelper.SignXml(System.Xml.XmlDocument,System.Security.Cryptography.RSA)">
+            <summary>
+            Signs an XML document.
+            The document cannot be verified unless the verifying code has the key with which it was signed.
+            </summary>
+            <remarks>
+            The given certificate must have a private key.
+            </remarks>
+            <param name="doc"></param>
+            <param name="key"></param>
+            <returns>XML's digital signature.</returns>
+        </member>
+        <member name="T:Common.Data.Objects.BusinessEntity">
+            <summary>
+            TODO: comentar BusinessEntity
+            </summary>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.Create(System.Object,System.Object,System.Xml.XmlNode)">
+            <summary>
+            Creates a configuration section handler.
+            </summary>
+            <returns>
+            The created section handler object.
+            </returns>
+            <param name="parent">Parent object.</param>
+            <param name="configContext">Configuration context object.</param>
+            <param name="section">Section XML node.</param>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.DeserializeFromXml``1(System.String)">
+            <summary>
+            Deserializa un objeto a partir de XML utilizando Generics.
+            </summary>
+            <param name="xml">String XML con la forma serializada del objeto a crear.</param>
+            <returns>Objeto deserializado conteniendo la representación del XML dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.DeserializeFromXml(System.String)">
+            <summary>
+            Deserializa el objeto actual a partir de XML.
+            </summary>
+            <param name="xml">String XML con la forma serializada del objeto a crear.</param>
+            <returns>Objeto deserializado conteniendo la representación del XML dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.DeserializeFromXml(System.Type,System.String)">
+            <summary>
+            Deserializa un objeto a partir de XML.
+            </summary>
+            <param name="type">Tipo al cual se debe llegar.</param>
+            <param name="xml">String XML con la forma serializada del objeto a crear.</param>
+            <returns>Objeto deserializado conteniendo la representación del XML dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.SerializeToXml">
+            <summary>
+            Serializa el objeto actual a XML.
+            </summary>
+            <returns>XML con la representación del objeto dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.SerializeToXml(System.Object)">
+            <summary>
+            Serializa un objeto a XML.
+            </summary>
+            <param name="obj">Objeto a serializar a XML.</param>
+            <returns>XML con la representación del objeto dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.SerializeToJson(System.Object)">
+            <summary>
+            Serializa un objeto a JSON.
+            </summary>
+            <param name="obj">Objeto a serializar a JSON.</param>
+            <returns>JSON con la representación del objeto dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.SerializeToBinary(System.Object)">
+            <summary>
+            Serializa un objeto a binario.
+            </summary>
+            <param name="obj">Objeto a serializar a binario.</param>
+            <returns>Array de bytes con la representación del objeto dado.</returns>
+        </member>
+        <member name="M:Common.Data.Objects.BusinessEntity.DeserializeFromBinary(System.Type,System.Byte[])">
+            <summary>
+            Deserializa un objeto a partir de un Array de bytes.
+            </summary>
+            <param name="type">Tipo al cual se debe llegar.</param>
+            <param name="bytes">Array de bytes con la forma serializada del objeto a crear.</param>
+            <returns>Objeto deserializado conteniendo la representación del Array de bytes dado.</returns>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.LogProviderCollection">
+            <summary>
+             Colección de proveedores de log. Deriva de <see cref="T:System.Configuration.Provider.ProviderCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.LogProviderCollection.CopyTo(Common.Diagnostics.LogProvider.LogProvider[],System.Int32)">
+            <summary>
+            Permite copiar todos los proveedores de la colección en un array,
+            a partir de un índice dado.
+            </summary>
+            <param name="array">Array destino de la copia.</param>
+            <param name="index">Índice a partir del cual comenzar la copia.</param>
+        </member>
+        <member name="P:Common.Diagnostics.LogProvider.LogProviderCollection.Item(System.String)">
+            <summary>
+            Sobreescribe el enumerador de proveedores por nombre, para que
+            devuelva el tipo adecuado.
+            </summary>
+            <param name="name">Nombre del proveedor a buscar.</param>
+            <returns>Proveedor de log.</returns>
+        </member>
+        <member name="M:Common.Configuration.Provider.ProviderManagerInfo.#ctor(System.String)">
+            <summary>
+             Constructor de la clase.
+            </summary>
+            <param name="sectionName">Nombre de la sección de configuración correspondiente al provider.</param>
+        </member>
+        <member name="T:Common.Diagnostics.LogProvider.DummyLogProvider">
+            <summary>
+             Este proveedor de log no hace nada cuando se lo llama.<br/>
+             Permite mantener una referencia al log de Eventos genérico sin que se produzca un error
+             al llamar a los métodos de la interface <see cref="T:Common.Diagnostics.LogProvider.ILogProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Common.Diagnostics.LogProvider.DummyLogProvider.WriteEntry(System.String,System.String,System.String,System.String,System.String,System.Diagnostics.EventLogEntryType,System.String,System.String)">
+            <summary>
+            Escribe una entrada en el log.
+            </summary>
+            <param name="userName">Nombre de usuario a asignar al mensaje.</param>
+            <param name="eventName">Tipo de evento que desencadenó el mensaje a escribir en el log.</param>
+            <param name="reference">Referencia asociada al mensaje a escribir en el log.</param>
+            <param name="source">Origen del mensaje a escribir en el log.</param>
+            <param name="message">Mensaje a ser escrito en el log.</param>
+            <param name="type">Tipo de mensaje a escribir.</param>
+            <param name="userHostAddress">Dirección del equipo del usuario donde se produjo el mensaje a escribir en el log.</param>
+            <param name="userAgent">Dispositivo que utiliza el usuario desde donde se produjo el mensaje a escribir en el log.</param>
+        </member>
+        <member name="P:Common.Configuration.Provider.ProviderManager`1.DefaultProvider">
+            <summary>
+             Proveedor por defecto.
+            </summary>
+        </member>
+        <member name="P:Common.Configuration.Provider.ProviderManager`1.Providers">
+            <summary>
+             Acceso de lectura a la colección de proveedores configurados.
+            </summary>
+        </member>
+        <member name="T:Common.Security.Principal.ImpersonationManager">
+            <summary>
+            Métodos de ayuda para impersonar procesos de ejecución en Windows.
+            </summary>
+        </member>
+        <member name="M:Common.Security.Principal.ImpersonationManager.SaveFile(System.Byte[],System.String,System.String,System.String,System.String)">
+            <summary>
+            Permite guardar un archivo en una ubicación especificando un juego de credenciales
+            a utilizar en lugar de las credenciales con las que corre el proceso inicial donde
+            corre la clase.
+            </summary>
+            <param name="fileBytes">Contenido del archivo a guardar.</param>
+            <param name="destPath">Path completo de destino del archivo a guardar.</param>
+            <param name="userName">Nombre de usuario a utilizar.</param>
+            <param name="password">Clave del usuario a utilizar.</param>
+            <param name="domain">Dominio del usuario a utilizar.</param>
+        </member>
+        <member name="M:Common.Security.Principal.ImpersonationManager.SaveFile(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Permite guardar un archivo en una ubicación especificando un juego de credenciales
+            a utilizar en lugar de las credenciales con las que corre el proceso inicial donde
+            corre la clase.
+            </summary>
+            <param name="fileContents">Contenido del archivo a guardar.</param>
+            <param name="destPath">Path completo de destino del archivo a guardar.</param>
+            <param name="userName">Nombre de usuario a utilizar.</param>
+            <param name="password">Clave del usuario a utilizar.</param>
+            <param name="domain">Dominio del usuario a utilizar.</param>
+        </member>
+        <member name="M:Common.Security.Principal.ImpersonationManager.DoCustomTask(System.String,System.String,System.String,Common.Security.Principal.ImpersonationManager.CustomTask)">
+            <summary>
+            Permite realizar una tarea personalizada especificando un juego de credenciales
+            a utilizar en lugar de las credenciales con las que corre el proceso inicial donde
+            corre la clase.
+            </summary>
+            <param name="userName">Nombre de usuario a utilizar.</param>
+            <param name="password">Clave del usuario a utilizar.</param>
+            <param name="domain">Dominio del usuario a utilizar.</param>
+            <param name="customTask">Puntero a función de la tarea personalizada a realizar.</param>
+        </member>
+        <member name="M:Common.Security.Principal.ImpersonationManager.ImpersonateUser(System.String,System.String,System.String,System.Security.Principal.WindowsImpersonationContext@,System.IntPtr@,System.IntPtr@)">
+            <summary>
+            Permite impersonar un usuario para realizar las tareas que sean necesarias, 
+            especificando un juego de credenciales a utilizar en lugar de las credenciales con 
+            las que corre el proceso inicial donde corre la clase.
+            </summary>
+            <param name="userName">Nombre de usuario a utilizar.</param>
+            <param name="password">Clave del usuario a utilizar.</param>
+            <param name="domain">Dominio del usuario a utilizar.</param>
+            <param name="impersonatedUser">Parámetro de salida donde se especifica el contexto Windows del usuario impersonado.</param>
+            <param name="tokenHandle">Parámetro de salida donde se especifica el token del usuario impersonado.</param>
+            <param name="dupeTokenHandle">Parámetro de salida donde se especifica el token auxiliar del usuario impersonado.</param>
+        </member>
+        <member name="M:Common.Security.Principal.ImpersonationManager.UndoImpersonation(System.Security.Principal.WindowsImpersonationContext,System.IntPtr,System.IntPtr)">
+            <summary>
+            Permite deshacer la impersonación hecha con <see cref="M:Common.Security.Principal.ImpersonationManager.ImpersonateUser(System.String,System.String,System.String,System.Security.Principal.WindowsImpersonationContext@,System.IntPtr@,System.IntPtr@)"/>.
+            Generalmente se utiliza al finalizar las tareas realizadas o en un bloque finally
+            para restaurar el usuario original del proceso.
+            </summary>
+            <param name="impersonatedUser">Contexto Windows del usuario impersonado.</param>
+            <param name="tokenHandle">Token del usuario impersonado.</param>
+            <param name="dupeTokenHandle">Token auxiliar del usuario impersonado.</param>
+        </member>
+        <member name="T:Common.Security.Principal.ImpersonationManager.CustomTask">
+            <summary>
+            Definición del puntero a función que se debe utilizar al llamar al método <see cref="M:Common.Security.Principal.ImpersonationManager.DoCustomTask(System.String,System.String,System.String,Common.Security.Principal.ImpersonationManager.CustomTask)"/>.
+            </summary>
+        </member>
+        <member name="M:Common.Runtime.InteropServices.ProcessHelper.GetOperatingSystemTypeName">
+            <summary>
+            Retorna en términos de driver de impresión, el tipo de entorno en el que está corriendo la aplicación.
+            </summary>
+            <returns>String que permite distinguir si la aplicación está corriendo en un entorno de 32bits o de 64bits.</returns>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.LogonType.Interactive">
+            <summary>
+            This logon type is intended for users who will be interactively using the computer, such as a user being logged on  
+            by a terminal server, remote shell, or similar process.
+            This logon type has the additional expense of caching logon information for disconnected operations; 
+            therefore, it is inappropriate for some client/server applications,
+            such as a mail server.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:Common.Runtime.InteropServices.LogonType.Network" -->
+        <member name="F:Common.Runtime.InteropServices.LogonType.Batch">
+            <summary>
+            This logon type is intended for batch servers, where processes may be executing on behalf of a user without 
+            their direct intervention. This type is also for higher performance servers that process many plaintext
+            authentication attempts at a time, such as mail or Web servers. 
+            The LogonUser function does not cache credentials for this logon type.
+            </summary>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.LogonType.Service">
+            <summary>
+            Indicates a service-type logon. The account provided must have the service privilege enabled. 
+            </summary>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.LogonType.Unlock">
+            <summary>
+            This logon type is for GINA DLLs that log on users who will be interactively using the computer. 
+            This logon type can generate a unique audit record that shows when the workstation was unlocked. 
+            </summary>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.LogonType.NetworkClearText">
+            <summary>
+            This logon type preserves the name and password in the authentication package, which allows the server to make 
+            connections to other network servers while impersonating the client. A server can accept plaintext credentials 
+            from a client, call LogonUser, verify that the user can access the system across the network, and still 
+            communicate with other servers.
+            NOTE: Windows NT:  This value is not supported. 
+            </summary>
+        </member>
+        <member name="F:Common.Runtime.InteropServices.LogonType.NewCredentials">
+            <summary>
+            This logon type allows the caller to clone its current token and specify new credentials for outbound connections.
+            The new logon session has the same local identifier but uses different credentials for other network connections. 
+            NOTE: This logon type is supported only by the LOGON32_PROVIDER_WINNT50 logon provider.
+            NOTE: Windows NT:  This value is not supported. 
+            </summary>
+        </member>
+        <member name="T:Common.IO.Compression.SharpZipLibCompressionProvider">
+            <summary>
+            Contiene métodos para comprimir y descomprimir datos utilizando SharpZipLib.
+            </summary>
+        </member>
+        <member name="M:Common.IO.Compression.SharpZipLibCompressionProvider.Compress(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Comprime una lista de archivos y genera un único archivo .zip de salida.
+            </summary>
+            <param name="outputZipFileName">Path del archivo .zip de salida.</param>
+            <param name="inputFiles">Lista de archivos de entrada.</param>
+        </member>
+        <member name="M:Common.IO.Compression.SharpZipLibCompressionProvider.Compress(System.String)">
+            <summary>
+            Comprime los datos recibidos utilizando SharpZipLib.
+            </summary>
+            <param name="data">Datos de entrada a comprimir.</param>
+            <returns>Resultado comprimido.</returns>
+        </member>
+        <member name="M:Common.IO.Compression.SharpZipLibCompressionProvider.Decompress(System.String)">
+            <summary>
+            Descomprime los datos recibidos utilizando SharpZipLib.
+            </summary>
+            <param name="data">Datos de entrada a descomprimir.</param>
+            <returns>Resultado descomprimido con GZip.</returns>
+        </member>
+        <member name="M:Common.IO.Compression.SharpZipLibCompressionProvider.Compress(System.Byte[])">
+            <summary>
+            Comprime los datos recibidos utilizando SharpZipLib.
+            </summary>
+            <param name="data">Datos de entrada a comprimir.</param>
+            <returns>Resultado comprimido.</returns>
+        </member>
+        <member name="M:Common.IO.Compression.SharpZipLibCompressionProvider.Decompress(System.Byte[])">
+            <summary>
+            Descomprime los datos recibidos utilizando SharpZipLib.
+            </summary>
+            <param name="data">Datos de entrada a descomprimir.</param>
+            <returns>Resultado descomprimido con GZip.</returns>
+        </member>
+        <member name="T:Common.Collections.Generic.SerializableKeyValuePair`2">
+            <summary>
+             Clase serializable que sirve de entrada para <see cref="T:Common.Collections.Generic.SerializableDictionary`2"/>
+            </summary>
+            <typeparam name="TKey">Tipo que representa la clave de la entrada. Tiene la restricción de que debe ser una clase.</typeparam>
+            <typeparam name="TValue">Tipo que representa el valor de la entrada. Tiene la restricción de que debe ser una clase.</typeparam>
+        </member>
+        <member name="F:Common.Collections.Generic.SerializableKeyValuePair`2.Key">
+            <summary>
+             Clave de la entrada.
+            </summary>
+        </member>
+        <member name="F:Common.Collections.Generic.SerializableKeyValuePair`2.Value">
+            <summary>
+            Valor de la entrada.
+            </summary>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableKeyValuePair`2.#ctor">
+            <summary>
+            Inicializa una nueva instancia de SerializableKeyValuePair.
+            </summary>
+        </member>
+        <member name="M:Common.Collections.Generic.SerializableKeyValuePair`2.#ctor(`0,`1)">
+            <summary>
+            Inicializa una nueva instancia de SerializableKeyValuePair.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+    </members>
+</doc>

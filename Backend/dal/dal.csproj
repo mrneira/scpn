@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{492D868F-DF8F-4A08-897C-576B95E94FC8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dal</RootNamespace>
+    <AssemblyName>dal</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="activosfijos\TacfDepreciacionDal.cs" />
+    <Compile Include="activosfijos\TacfDepreciacionDetalleDal.cs" />
+    <Compile Include="activosfijos\TacfInventarioCongeladoDal.cs" />
+    <Compile Include="activosfijos\TacfAjusteDal.cs" />
+    <Compile Include="activosfijos\TacfEgresoDal.cs" />
+    <Compile Include="activosfijos\TacfAjusteDetalleDal.cs" />
+    <Compile Include="activosfijos\TacfKardexProdCodiDal.cs" />
+    <Compile Include="activosfijos\TacfProductoCodificadoDal.cs" />
+    <Compile Include="activosfijos\TacfProductoDal.cs" />
+    <Compile Include="activosfijos\TacfKardexDal.cs" />
+    <Compile Include="activosfijos\TacfEgresoDetalleDal.cs" />
+    <Compile Include="activosfijos\TacfIngresoDal.cs" />
+    <Compile Include="activosfijos\TacfIngresoDetalleDal.cs" />
+    <Compile Include="activosfijos\TacfParametrosDal.cs" />
+    <Compile Include="ArchivosBI\TgenDocumentosBIDal.cs" />
+    <Compile Include="bancaenlinea\TbanParametrosDal.cs" />
+    <Compile Include="bancaenlinea\TbanUsuariosDal.cs" />
+    <Compile Include="bancaenlinea\TbanSuscripcionDal.cs" />
+    <Compile Include="bancaenlinea\TbanUsuarioSessionDal.cs" />
+    <Compile Include="bancaenlinea\TbanUsuarioOtpDal.cs" />
+    <Compile Include="bancaenlinea\TbanUsuarioSessionHistoriaDal.cs" />
+    <Compile Include="bancamovil\TbanSuscripcionMovilDal.cs" />
+    <Compile Include="bancamovil\TbanUsuarioOtpMovilDal.cs" />
+    <Compile Include="bancamovil\TbanUsuariosMovilDal.cs" />
+    <Compile Include="canalesdigitales\TcanActivacionDal.cs" />
+    <Compile Include="canalesdigitales\TcanAgendamientoDal.cs" />
+    <Compile Include="canalesdigitales\TcanEquipoDal.cs" />
+    <Compile Include="canalesdigitales\TcanHorarioAtencionDal.cs" />
+    <Compile Include="canalesdigitales\TcanParametroDal.cs" />
+    <Compile Include="canalesdigitales\TcanSolicitudBuroDal.cs" />
+    <Compile Include="canalesdigitales\TcanSolicitudDal.cs" />
+    <Compile Include="canalesdigitales\TcanSolicitudDetalleDal.cs" />
+    <Compile Include="canalesdigitales\TcanSolicitudISSPOLDal.cs" />
+    <Compile Include="canalesdigitales\TcanUsuarioClaveDal.cs" />
+    <Compile Include="canalesdigitales\TcanUsuarioDal.cs" />
+    <Compile Include="canalesdigitales\TcanUsuarioOtpDal.cs" />
+    <Compile Include="canalesdigitales\TcanUsuarioSesionDal.cs" />
+    <Compile Include="canalesdigitales\TcanUsuarioSesionHistoriaDal.cs" />
+    <Compile Include="canalesdigitales\TcanVersionDal.cs" />
+    <Compile Include="cartera\cuenta\Cuota.cs" />
+    <Compile Include="cartera\TcarCalificacionRangosDal.cs" />
+    <Compile Include="cartera\TcarConvenioDal.cs" />
+    <Compile Include="cartera\TcarCuentaPorCobrarDal.cs" />
+    <Compile Include="cartera\TcarBalanceDal.cs" />
+    <Compile Include="cartera\TcarDescuentosCalendarioDal.cs" />
+    <Compile Include="cartera\TcarDescuentosArchivoDal.cs" />
+    <Compile Include="cartera\TcarDescuentosHomologacionDal.cs" />
+    <Compile Include="cartera\TcarDescuentosCargaDal.cs" />
+    <Compile Include="cartera\TcarDescuentosDetalleDal.cs" />
+    <Compile Include="cartera\TcarOperacionCxCReversoDal.cs" />
+    <Compile Include="cartera\TcarOperacionCxCDal.cs" />
+    <Compile Include="cartera\TcarOperacionCxCHistoriaDal.cs" />
+    <Compile Include="cartera\TcarPrelacionProductoDal.cs" />
+    <Compile Include="cartera\TcarSolicitudReincorporadoDal.cs" />
+    <Compile Include="cartera\TcarSolicitudConsolidadoDal.cs" />
+    <Compile Include="cartera\TcarOperacionTransaccionCxCDal.cs" />
+    <Compile Include="cartera\TcarRelacionPersonaDal.cs" />
+    <Compile Include="cartera\TcarOperacionDescuentosDal.cs" />
+    <Compile Include="cartera\TcarOperacionCalificaHistoriaDal.cs" />
+    <Compile Include="cartera\TcarOperacionCalificacionDal.cs" />
+    <Compile Include="cartera\TcarCambioEstadoDal.cs" />
+    <Compile Include="cartera\TcarAccrualDal.cs" />
+    <Compile Include="cartera\TcarEstatusDal.cs" />
+    <Compile Include="cartera\TcarEstatusSolicitudDal.cs" />
+    <Compile Include="cartera\TcarOperacionArregloPagoDal.cs" />
+    <Compile Include="cartera\TcarOperacionArrePagoRubroDal.cs" />
+    <Compile Include="cartera\TcarOperacionDesembolsoDal.cs" />
+    <Compile Include="cartera\TcarOperacionDocumentosDal.cs" />
+    <Compile Include="cartera\TcarOperacionGastosLiquidaDal.cs" />
+    <Compile Include="cartera\TcarOperacionLoteDal.cs" />
+    <Compile Include="cartera\TcarEventoDal.cs" />
+    <Compile Include="cartera\TcarMovimientoDal.cs" />
+    <Compile Include="cartera\TcarOperacionCargosTablaDal.cs" />
+    <Compile Include="cartera\TcarOperacionCuotaDal.cs" />
+    <Compile Include="cartera\TcarOperacionCuotaHistoriaDal.cs" />
+    <Compile Include="cartera\TcarOperacionCuotaReversoDal.cs" />
+    <Compile Include="cartera\TcarOperacionCxPDal.cs" />
+    <Compile Include="cartera\TcarOperacionDal.cs" />
+    <Compile Include="cartera\TcarOperacionHistoriaDal.cs" />
+    <Compile Include="cartera\TcarOperacionGarantiasDal.cs" />
+    <Compile Include="cartera\TcarOperacionPersonaDal.cs" />
+    <Compile Include="cartera\TcarOperacionRubroDal.cs" />
+    <Compile Include="cartera\TcarOperacionRubroHistoriaDal.cs" />
+    <Compile Include="cartera\TcarOperacionRubroReversoDal.cs" />
+    <Compile Include="cartera\TcarOperacionTasaDal.cs" />
+    <Compile Include="cartera\TcarOperacionTransaccionDal.cs" />
+    <Compile Include="cartera\TcarOperacionTransaccionCxPDal.cs" />
+    <Compile Include="cartera\TcarOperacionTransaccionRubroDal.cs" />
+    <Compile Include="cartera\TcarParametrosDal.cs" />
+    <Compile Include="cartera\TcarPerfilBandaDal.cs" />
+    <Compile Include="cartera\TcarPerfilSegTipoCreSaldoDal.cs" />
+    <Compile Include="cartera\TcarPerfilTipoProductoDal.cs" />
+    <Compile Include="cartera\TcarPrelacionCobroDal.cs" />
+    <Compile Include="cartera\TcarProductoCargosTablaDal.cs" />
+    <Compile Include="cartera\TcarProductoDal.cs" />
+    <Compile Include="cartera\TcarProductoDocumentosDal.cs" />
+    <Compile Include="cartera\TcarProductoRangosDal.cs" />
+    <Compile Include="cartera\TcarProductoPermitidosDal.cs" />
+    <Compile Include="cartera\TcarProductoRequisitosDal.cs" />
+    <Compile Include="cartera\TcarProductoTasasDal.cs" />
+    <Compile Include="cartera\TcarEstadoOperacionDal.cs" />
+    <Compile Include="cartera\TcarSegmentoDal.cs" />
+    <Compile Include="cartera\TcarSegmentoTasasDal.cs" />
+    <Compile Include="cartera\TcarSegmentoTasasFrecDal.cs" />
+    <Compile Include="cartera\TcarSolicitudCapacidadPagoDal.cs" />
+    <Compile Include="cartera\TcarSolicitudCargosTablaDal.cs" />
+    <Compile Include="cartera\TcarSaldoCierreDal.cs" />
+    <Compile Include="cartera\TcarSolicitudCuotaDal.cs" />
+    <Compile Include="cartera\TcarSolicitudDal.cs" />
+    <Compile Include="cartera\TcarSolicitudDescuentosDal.cs" />
+    <Compile Include="cartera\TcarSolicitudDocumentosDal.cs" />
+    <Compile Include="cartera\TcarSolicitudGastosLiquidaDal.cs" />
+    <Compile Include="cartera\TcarSolicitudAbsorcionDal.cs" />
+    <Compile Include="cartera\TcarSolicitudDesembolsoDal.cs" />
+    <Compile Include="cartera\TcarSolicitudPersonaDal.cs" />
+    <Compile Include="cartera\TcarSolicitudRequisitosDal.cs" />
+    <Compile Include="cartera\TcarSolicitudRubroDal.cs" />
+    <Compile Include="cartera\TcarSolicitudGarantiasDal.cs" />
+    <Compile Include="cartera\TcarSolicitudSegurosDal.cs" />
+    <Compile Include="cartera\TcarSolicitudTasaDal.cs" />
+    <Compile Include="cartera\TcarTasaMoraDal.cs" />
+    <Compile Include="cartera\TcarTasaMoraRangosDal.cs" />
+    <Compile Include="cartera\TcarTipoArregloPagoDal.cs" />
+    <Compile Include="cartera\TcarTipoTablaAmortizacionDal.cs" />
+    <Compile Include="cartera\TcarSolicitudEtapaDal.cs" />
+    <Compile Include="cartera\TcarDescuentosDal.cs" />
+    <Compile Include="cartera\TcarDevolucionDal.cs" />
+    <Compile Include="cobranzas\TcobAccionDal.cs" />
+    <Compile Include="cobranzas\TcobCobranzaDal.cs" />
+    <Compile Include="cobranzas\TcobCobranzaLoteDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconBancoDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconConciliacionBancariaDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconConciliacionBancariaExtractoDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconConciliacionBancariamayorDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconconciliacionBancariaSaldoDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconExtractoBancarioDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconLibroBancoSaldoDal.cs" />
+    <Compile Include="contabilidad\conciliacionbancaria\TconLibroBancosDal.cs" />
+    <Compile Include="contabilidad\control\TconControlDal.cs" />
+    <Compile Include="contabilidad\cuentasporcobrar\TconCargaMasivaFacturasParqueaderoDal.cs" />
+    <Compile Include="contabilidad\cuentasporcobrar\TconCuentaPorCobrarDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\liquidacionviaticos\TconLiquidacionGastosDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\liquidacionviaticos\TconLiGastosDetalleDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\TconCuentaporpagarMigradaDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\TconNotaCreditoComprasDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\TconCuentaporpagarDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\TconRetencionAirDal.cs" />
+    <Compile Include="contabilidad\cuentasporpagar\TconRetencionFuenteDal.cs" />
+    <Compile Include="contabilidad\flujocaja\TconFlujoCajaHistorialDal.cs" />
+    <Compile Include="contabilidad\flujocaja\TconFlujoCajaDal.cs" />
+    <Compile Include="contabilidad\flujoefectivo\TconFlujoEfectivoDal.cs" />
+    <Compile Include="contabilidad\lote\TconRegistroLoteDal.cs" />
+    <Compile Include="contabilidad\proveedor\TperProveedorDal.cs" />
+    <Compile Include="contabilidad\reportes\TconLibroMayorDal.cs" />
+    <Compile Include="contabilidad\TconCatalogoDal.cs" />
+    <Compile Include="contabilidad\TconTipoComprobanteTransaccionDal.cs" />
+    <Compile Include="contabilidad\TconComprobanteDal.cs" />
+    <Compile Include="contabilidad\TconParametrosDal.cs" />
+    <Compile Include="contabilidad\TconPeriodoContable.cs" />
+    <Compile Include="contabilidad\TconPlantillaDal.cs" />
+    <Compile Include="contabilidad\TconPlantillaDetalleDal.cs" />
+    <Compile Include="contabilidad\TconComprobanteDetalleDal.cs" />
+    <Compile Include="contabilidad\TconComprobantePrevioDal.cs" />
+    <Compile Include="contabilidad\TconNivelDal.cs" />
+    <Compile Include="contabilidad\TconSaldosCierreDal.cs" />
+    <Compile Include="contabilidad\TconSecuenciaComprobanteDal.cs" />
+    <Compile Include="contabilidad\TconSaldosDal.cs" />
+    <Compile Include="contabilidad\TconSaldosHistoriaDal.cs" />
+    <Compile Include="contabilidad\TconSaldosUsuarioDal.cs" />
+    <Compile Include="facturacionelectronica\TcelInfoEmpresaDal.cs" />
+    <Compile Include="facturacionelectronica\TcelLogDocumentosDal.cs" />
+    <Compile Include="facturacionelectronica\TcelCertificadoDal.cs" />
+    <Compile Include="facturacionelectronica\TcelSecuenciaSriDal.cs" />
+    <Compile Include="facturacion\TfacClienteDal.cs" />
+    <Compile Include="facturacion\TfacFormaPagoDal.cs" />
+    <Compile Include="facturacion\TfacImpuestoDal.cs" />
+    <Compile Include="facturacion\TfacFacturaFormaPagoDal.cs" />
+    <Compile Include="facturacion\TfacProductoDal.cs" />
+    <Compile Include="facturacion\TfacFacturaDetalleDal.cs" />
+    <Compile Include="facturacion\TfacFacturaDal.cs" />
+    <Compile Include="garantias\parametros\TgarEstatusDal.cs" />
+    <Compile Include="garantias\parametros\TgarTipoBienCampoDal.cs" />
+    <Compile Include="garantias\parametros\TgarTipoBienDal.cs" />
+    <Compile Include="garantias\TgarOperacionLoteDal.cs" />
+    <Compile Include="garantias\TgarOperacionAvaluoDal.cs" />
+    <Compile Include="garantias\TgarMovimientoDal.cs" />
+    <Compile Include="garantias\TgarOperacionDal.cs" />
+    <Compile Include="garantias\TgarOperacionHistoriaDal.cs" />
+    <Compile Include="garantias\TgarOperacionTransaccionDal.cs" />
+    <Compile Include="generales\TgenCantonDal.cs" />
+    <Compile Include="generales\TgenCiudadDal.cs" />
+    <Compile Include="generales\TgenPaisDal.cs" />
+    <Compile Include="generales\TgenParroquiaDal.cs" />
+    <Compile Include="generales\TgenProvinciaDal.cs" />
+    <Compile Include="generales\TgenUnidadMedidaDal.cs" />
+    <Compile Include="generales\TgenAgenciaDal.cs" />
+    <Compile Include="generales\TgenArchivoDal.cs" />
+    <Compile Include="generales\TgenBaseCalculoDal.cs" />
+    <Compile Include="generales\TgenCalificacionDal.cs" />
+    <Compile Include="generales\TgenCanalesDal.cs" />
+    <Compile Include="generales\TgenCargaArchivoLogDal.cs" />
+    <Compile Include="generales\TgenCargaArchivoDal.cs" />
+    <Compile Include="generales\TgenCargaBitacoraDal.cs" />
+    <Compile Include="generales\TgenCargaCamposDal.cs" />
+    <Compile Include="generales\TgenCargaControlDal.cs" />
+    <Compile Include="generales\TgenCargaControlErroresDal.cs" />
+    <Compile Include="generales\TgenCatalogoDal.cs" />
+    <Compile Include="generales\TgenCatalogoDetalleDal.cs" />
+    <Compile Include="generales\TgenCompaniaDal.cs" />
+    <Compile Include="generales\TgenCompCodigoConsultaDal.cs" />
+    <Compile Include="generales\TgenCompConsultaDal.cs" />
+    <Compile Include="generales\TgenCompMantenimientoDal.cs" />
+    <Compile Include="generales\TgenLogoDal.cs" />
+    <Compile Include="generales\TgenFechasDal.cs" />
+    <Compile Include="generales\TgenFeriadosDal.cs" />
+    <Compile Include="generales\TgenModuloArchivoDal.cs" />
+    <Compile Include="generales\TgenModuloDal.cs" />
+    <Compile Include="generales\TgenParametrosSeguridadDal.cs" />
+    <Compile Include="generales\TgenTipoCreditoDal.cs" />
+    <Compile Include="generales\TgenTipoProductoDal.cs" />
+    <Compile Include="generales\TgenProductoDal.cs" />
+    <Compile Include="generales\TgenentidadDal.cs" />
+    <Compile Include="generales\TgenfechacontableDal.cs" />
+    <Compile Include="generales\TgenFrecuenciaDal.cs" />
+    <Compile Include="generales\TgenMonedaDal.cs" />
+    <Compile Include="generales\TgenNotificacionesDal.cs" />
+    <Compile Include="generales\TgenOperacionNumeroDal.cs" />
+    <Compile Include="generales\TgenParametrosDal.cs" />
+    <Compile Include="generales\TgenResultadosDal.cs" />
+    <Compile Include="generales\TgenSecuenciaDal.cs" />
+    <Compile Include="generales\TgenSucursalDal.cs" />
+    <Compile Include="generales\TgenTasareferencialDal.cs" />
+    <Compile Include="generales\TgentransaccionDal.cs" />
+    <Compile Include="gestordocumental\TgesArchivoDal.cs" />
+    <Compile Include="gestordocumental\TgesGestorDocumentalDal.cs" />
+    <Compile Include="inversiones\accrualcontrolfechas\TinvControlAccrualFechasDal.cs" />
+    <Compile Include="inversiones\agentebolsa\TinvAgenteBolsaDal.cs" />
+    <Compile Include="inversiones\bancodetalle\TinvBancoDetalleDal.cs" />
+    <Compile Include="inversiones\cargaacciones\TinvPreciosCierreDal.cs" />
+    <Compile Include="inversiones\cargaacciones\TinvVectorPreciosDal.cs" />
+    <Compile Include="inversiones\catalogos\TinvCatalogoDetalleDal.cs" />
+    <Compile Include="inversiones\contabilizacion\TinvContabilizacionDal.cs" />
+    <Compile Include="inversiones\controlaccrualfechas\TinvControlAccrualFechasDal.cs" />
+    <Compile Include="inversiones\emisordetalle\TinvEmisorDetalleDal.cs" />
+    <Compile Include="inversiones\emisorvalornominal\TinvEmisorValorNominalDal.cs" />
+    <Compile Include="inversiones\inversioneshis\TinvInversionHisDal.cs" />
+    <Compile Include="inversiones\inversiones\TinvInversionDal.cs" />
+    <Compile Include="inversiones\inversionrentavariable\TinvInversionRentaVariableDal.cs" />
+    <Compile Include="inversiones\juntaaccionistas\TinvJuntaAccionistasDal.cs" />
+    <Compile Include="inversiones\lote\TinvInversionLoteDal.cs" />
+    <Compile Include="inversiones\operadorinstitucional\TinvOperadorInstitucionalDal.cs" />
+    <Compile Include="inversiones\parametros\TinvAgenteBolsaDal.cs" />
+    <Compile Include="inversiones\parametros\TinvParametrosDal.cs" />
+    <Compile Include="inversiones\plananual\TinvPlanAnualDal.cs" />
+    <Compile Include="inversiones\plananual\TinvPlanAnualDetalleDal.cs" />
+    <Compile Include="inversiones\plantillacontable\TinvPlantillaContableDal.cs" />
+    <Compile Include="inversiones\precancelacion\TinvPrecancelacionDal.cs" />
+    <Compile Include="inversiones\precioscierre\TinvPrecioCierreDal.cs" />
+    <Compile Include="inversiones\reajustes\TinvDefaultDal.cs" />
+    <Compile Include="inversiones\reajustes\TinvPortafolioHistoricoDal.cs" />
+    <Compile Include="inversiones\reajustes\TinvReajustesDal.cs" />
+    <Compile Include="inversiones\registrodividendo\TinvRegistroDividendoDal.cs" />
+    <Compile Include="inversiones\reverso\TinvReversoDal.cs" />
+    <Compile Include="inversiones\tablaamortizaciontmp\TinvTablaAmortizacionTmpDal.cs" />
+    <Compile Include="inversiones\tablaamortizacion\TinvTablaAmortizacionDal.cs" />
+    <Compile Include="inversiones\tablaamortizacionhis\TinvTablaAmortizacionHisDal.cs" />
+    <Compile Include="inversiones\var\varDal.cs" />
+    <Compile Include="inversiones\vectorprecios\TinvInvVectorPreciosDal.cs" />
+    <Compile Include="inversiones\ventaacciones\TinvVentaAccionesDal.cs" />
+    <Compile Include="lote\TloteCodigoDal.cs" />
+    <Compile Include="lote\TLotePredecesoraDal.cs" />
+    <Compile Include="lote\TloteResultadoDal.cs" />
+    <Compile Include="lote\TloteResultadoIndividualDal.cs" />
+    <Compile Include="lote\TloteResultadoFinDal.cs" />
+    <Compile Include="lote\TloteResultadoPrevioDal.cs" />
+    <Compile Include="lote\TlotePrevioDal.cs" />
+    <Compile Include="lote\TloteTareasDal.cs" />
+    <Compile Include="lote\TloteModuloTareasDal.cs" />
+    <Compile Include="lote\TloteModuloDal.cs" />
+    <Compile Include="lote\TloteControlEjecucionDal.cs" />
+    <Compile Include="monetario\TmonCargosDal.cs" />
+    <Compile Include="monetario\TmonClaseDal.cs" />
+    <Compile Include="monetario\TmonComponenteTransaccionDal.cs" />
+    <Compile Include="monetario\TmonMovimientoDal.cs" />
+    <Compile Include="monetario\TmonRubroDal.cs" />
+    <Compile Include="monetario\TmonRubroMapeoConceptoDal.cs" />
+    <Compile Include="monetario\TmonSaldoDal.cs" />
+    <Compile Include="organismosdecontrol\TodcParametrosDal.cs" />
+    <Compile Include="persona\TperNaturalDal.cs" />
+    <Compile Include="persona\TperPersonaDal.cs" />
+    <Compile Include="persona\TperPersonaDetalleDal.cs" />
+    <Compile Include="persona\TperPersonaDireccionDal.cs" />
+    <Compile Include="persona\TperReferenciaBancariaDal.cs" />
+    <Compile Include="persona\TperReferenciaPersonalesDal.cs" />
+    <Compile Include="prestaciones\TpreActosServicioDal.cs" />
+    <Compile Include="prestaciones\TpreAportesDal.cs" />
+    <Compile Include="prestaciones\TpreBeneficiarioDal.cs" />
+    <Compile Include="prestaciones\TpreConstantesDal.cs" />
+    <Compile Include="prestaciones\TpreCuantiaBasicaDal.cs" />
+    <Compile Include="prestaciones\TpreCupoLiquidacionDal.cs" />
+    <Compile Include="prestaciones\TpreExpedienteAsignacionDal.cs" />
+    <Compile Include="prestaciones\TpreExpedienteDal.cs" />
+    <Compile Include="prestaciones\TpreFlujoExpedienteDal.cs" />
+    <Compile Include="prestaciones\TpreLiquidacionBajaDal.cs" />
+    <Compile Include="prestaciones\TpreLiquidacionDal.cs" />
+    <Compile Include="prestaciones\TpreNoCobradasDal.cs" />
+    <Compile Include="prestaciones\TprePagoDal.cs" />
+    <Compile Include="prestaciones\TpreSecuencialExpedienteDal.cs" />
+    <Compile Include="prestaciones\TpreTiempoMixto.cs" />
+    <Compile Include="prestaciones\TpreExpedienteAprobadoDal.cs" />
+    <Compile Include="prestaciones\TpreParametrosDal.cs" />
+    <Compile Include="prestaciones\TpreRequisitosDAL.cs" />
+    <Compile Include="prestaciones\TpreTipoExpedienteRequisitoDal.cs" />
+    <Compile Include="presupuesto\ConstantesPresupuesto.cs" />
+    <Compile Include="presupuesto\TpptCertificacionDal.cs" />
+    <Compile Include="presupuesto\TpptCertificacionDetalleDal.cs" />
+    <Compile Include="presupuesto\TpptCuentaClasificadorDal.cs" />
+    <Compile Include="presupuesto\TpptCedulaIngresoDal.cs" />
+    <Compile Include="presupuesto\TpptHistorialPartidaGastoDal.cs" />
+    <Compile Include="presupuesto\TpptPartidaGastoHistoriaDal.cs" />
+    <Compile Include="presupuesto\TpptPartidaIngresoDal.cs" />
+    <Compile Include="presupuesto\TpptPartidaGastoDal.cs" />
+    <Compile Include="presupuesto\TpptCompromisoDal.cs" />
+    <Compile Include="presupuesto\TpptCompromisoDetalleDal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="seguridades\TsegHorarioUsuarioDal.cs" />
+    <Compile Include="seguridades\TsegPoliticaDal.cs" />
+    <Compile Include="seguridades\TsegRolDal.cs" />
+    <Compile Include="seguridades\TsegRolOpcionesDal.cs" />
+    <Compile Include="seguridades\TsegTerminalDal.cs" />
+    <Compile Include="seguridades\TsegUsuarioDetalleDal.cs" />
+    <Compile Include="seguridades\TsegUsuarioOtpDal.cs" />
+    <Compile Include="seguridades\TsegUsuarioSessionDal.cs" />
+    <Compile Include="seguridades\TsegUsuarioSessionHistoriaDal.cs" />
+    <Compile Include="seguros\TsgsAseguradoraDal.cs" />
+    <Compile Include="seguros\TsgsPolizaDal.cs" />
+    <Compile Include="seguros\TsgsSeguroDal.cs" />
+    <Compile Include="seguros\TsgsTipoSeguroDetalleDal.cs" />
+    <Compile Include="socio\TsocCertificadoDal.cs" />
+    <Compile Include="socio\TsocCesantiaDal.cs" />
+    <Compile Include="socio\TsocCesantiaHistoricoDal.cs" />
+    <Compile Include="socio\TsocEstadoSocioDal.cs" />
+    <Compile Include="socio\TsocNovedadadesHistoriaDal.cs" />
+    <Compile Include="socio\TsocNovedadesDal.cs" />
+    <Compile Include="socio\TsocTipoBajaDal.cs" />
+    <Compile Include="socio\TsocTipoGradoDal.cs" />
+    <Compile Include="socio\TsocTipoPoliciaDal.cs" />
+    <Compile Include="socio\TsocUbicacionDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthAsignacionDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthAsignacionRespDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthCalificacionCualitativaDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthEvaluacionExternaDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthMatrizCorrelacionDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthMatrizCorrelacionDetalleDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthMetaDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthSancionDal.cs" />
+    <Compile Include="talentohumano\evaluacion\TthSancionPonderacionDal.cs" />
+    <Compile Include="talentohumano\liquidacion\TnomPagoLiquidacionDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomLiquidacionDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomNominaDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomPagoSaldoDal.cs" />
+    <Compile Include="talentohumano\TnomVacacionDal.cs" />
+    <Compile Include="tesoreria\OperativoContableDal.cs" />
+    <Compile Include="tesoreria\TtesEnvioArchivoDal.cs" />
+    <Compile Include="tesoreria\TtesRetroalimentacionDal.cs" />
+    <Compile Include="tesoreria\TtesRecaudacionDal.cs" />
+    <Compile Include="tesoreria\TtesRecaudacionDetalleDal.cs" />
+    <Compile Include="tesoreria\TtesSecuenciaReferenciaDal.cs" />
+    <Compile Include="tesoreria\TtesTransaccionDal.cs" />
+    <Compile Include="tesoreria\TtesEmpresaDal.cs" />
+    <Compile Include="talentohumano\contratos\TthRequisitoContratoDal.cs" />
+    <Compile Include="talentohumano\liquidacion\TnomparametroLiquidacionDal.cs" />
+    <Compile Include="talentohumano\nomina\fondosdereserva\TnomFondosDeReservaDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomBeneficioDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomBeneficioPersonalDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomDecimoCuartoDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomDecimoTerceroDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomDescuentoDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomDescuentoPersonalDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomEgresoDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomFondoReservaDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomHoraExtraDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomImpuestoRentaDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomIngresosDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomPagoImpuestoRentaDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomPagoRegionesDecimoDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomParamHorasExtrasDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomRolDal.cs" />
+    <Compile Include="talentohumano\nomina\TnomsaldoVacacionDal.cs" />
+    <Compile Include="talentohumano\ThumHorarioDal.cs" />
+    <Compile Include="storeprocedure\StoreProcedureDal.cs" />
+    <Compile Include="talentohumano\TnomDecimosDal.cs" />
+    <Compile Include="talentohumano\TnomFaltaDal.cs" />
+    <Compile Include="talentohumano\TnomFeriadoDal.cs" />
+    <Compile Include="talentohumano\TnomHoraExtraDal.cs" />
+    <Compile Include="talentohumano\TnomMatrizVacacionDal.cs" />
+    <Compile Include="talentohumano\TnomparametroDal.cs" />
+    <Compile Include="talentohumano\TnomPermisoDal.cs" />
+    <Compile Include="talentohumano\TnomSolicitudDal.cs" />
+    <Compile Include="talentohumano\TthcargoDal.cs" />
+    <Compile Include="talentohumano\TthContratoDal.cs" />
+    <Compile Include="talentohumano\TthDepartamentoDal.cs" />
+    <Compile Include="talentohumano\TthEstudioFormalDal.cs" />
+    <Compile Include="talentohumano\tthEvaluacionPeriodoDal.cs" />
+    <Compile Include="talentohumano\TthFuncionarioDal.cs" />
+    <Compile Include="talentohumano\TthMarcacionesDal.cs" />
+    <Compile Include="talentohumano\TthnomVacacionDal.cs" />
+    <Compile Include="talentohumano\TthParametrosDal.cs" />
+    <Compile Include="talentohumano\contratos\TthRequisitoHabilitanteDal.cs" />
+    <Compile Include="talentohumano\TthProcesoDal.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

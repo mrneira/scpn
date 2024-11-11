@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.creditreport.ec/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.creditreport.ec/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.creditreport.ec/">
+      <s:element name="ObtenerReporte360">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerReporte360Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerReporte360Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="idCodigoConsulta" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CabeceraCR" type="tns:CabeceraCR" />
+      <s:complexType name="CabeceraCR">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Clave" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ObtenerNivelDireccionesyTelefonos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDireccionesyTelefonosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelDireccionesyTelefonosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelIndexPymes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelIndexPymesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelIndexPymesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelHistoriaSeguridadSocial">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="mesesAtras" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelHistoriaSeguridadSocialResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelHistoriaSeguridadSocialResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="mesesAtras" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelHistoricoEstructuraVencimientos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="mesesAtras" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDeuda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelHistoricoEstructuraVencimientosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelHistoricoEstructuraVencimientosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelTotalDeudaHistorica">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="mesesAtras" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDeuda" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelTotalDeudaHistoricaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelTotalDeudaHistoricaResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelOperacionesPorInstitucion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="codigoInstitucion" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoCredito" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoVencimiento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="calificacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fechaCorte" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelOperacionesPorInstitucionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelOperacionesPorInstitucionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleDeLaOperacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="codigoInstitucion" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroOperacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoTC" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="codigoTarjeta" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fechaCorte" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoTipoDeudor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sistema" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleDeLaOperacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelDetalleDeLaOperacionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelSaldoPorVencerPorInstitucion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="codigoInstitucion" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelSaldoPorVencerPorInstitucionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelSaldoPorVencerPorInstitucionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleOperacionesYEntidades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="calificacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fechaCorte" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sistema" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleOperacionesYEntidadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelDetalleOperacionesYEntidadesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleVencidoPorInstitucion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="idReportePadre" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numeroDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipoDeuda" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="codigoInstitucion" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerNivelDetalleVencidoPorInstitucionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerNivelDetalleVencidoPorInstitucionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ObtenerReporte360SoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerReporte360" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerReporte360SoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerReporte360Response" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerReporte360CabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDireccionesyTelefonosSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDireccionesyTelefonos" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDireccionesyTelefonosSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDireccionesyTelefonosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDireccionesyTelefonosCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelIndexPymesSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelIndexPymes" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelIndexPymesSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelIndexPymesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelIndexPymesCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoriaSeguridadSocialSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelHistoriaSeguridadSocial" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoriaSeguridadSocialSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelHistoriaSeguridadSocialResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoriaSeguridadSocialCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoricoEstructuraVencimientosSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelHistoricoEstructuraVencimientos" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoricoEstructuraVencimientosSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelHistoricoEstructuraVencimientosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelHistoricoEstructuraVencimientosCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelTotalDeudaHistoricaSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelTotalDeudaHistorica" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelTotalDeudaHistoricaSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelTotalDeudaHistoricaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelTotalDeudaHistoricaCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelOperacionesPorInstitucionSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelOperacionesPorInstitucion" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelOperacionesPorInstitucionSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelOperacionesPorInstitucionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelOperacionesPorInstitucionCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleDeLaOperacionSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleDeLaOperacion" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleDeLaOperacionSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleDeLaOperacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleDeLaOperacionCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelSaldoPorVencerPorInstitucionSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelSaldoPorVencerPorInstitucion" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelSaldoPorVencerPorInstitucionSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelSaldoPorVencerPorInstitucionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelSaldoPorVencerPorInstitucionCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleOperacionesYEntidadesSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleOperacionesYEntidades" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleOperacionesYEntidadesSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleOperacionesYEntidadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleOperacionesYEntidadesCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleVencidoPorInstitucionSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleVencidoPorInstitucion" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleVencidoPorInstitucionSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerNivelDetalleVencidoPorInstitucionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerNivelDetalleVencidoPorInstitucionCabeceraCR">
+    <wsdl:part name="CabeceraCR" element="tns:CabeceraCR" />
+  </wsdl:message>
+  <wsdl:portType name="wsReporte360CovidCompletoSoap">
+    <wsdl:operation name="ObtenerReporte360">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene segmentos del Reporte 360 Covid Completo WS</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerReporte360SoapIn" />
+      <wsdl:output message="tns:ObtenerReporte360SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDireccionesyTelefonos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Direcciones y Telefonos</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelDireccionesyTelefonosSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelDireccionesyTelefonosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelIndexPymes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene nivel Index Pymes</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelIndexPymesSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelIndexPymesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoriaSeguridadSocial">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel HistoriaSeguridadSocial del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelHistoriaSeguridadSocialSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelHistoriaSeguridadSocialSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Ver evolución histórica de la distribución del endeudamiento del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoricoEstructuraVencimientos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Ver evolución histórica de la estructura de vencimientos del reporte Full (HistoricoEstructuraVencimientos) del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelHistoricoEstructuraVencimientosSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelHistoricoEstructuraVencimientosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelTotalDeudaHistorica">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Ver Evolución de deuda Histórica de Meses Anteriores del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelTotalDeudaHistoricaSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelTotalDeudaHistoricaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelOperacionesPorInstitucion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Operaciones Por Institucion del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelOperacionesPorInstitucionSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelOperacionesPorInstitucionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleDeLaOperacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Operaciones Por Institucion del reporte Full en cada sistema</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelDetalleDeLaOperacionSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelDetalleDeLaOperacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelSaldoPorVencerPorInstitucion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel SaldoPorVencerPorInstitucion (SALDO POR VENCER POR INSTITUCION) del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelSaldoPorVencerPorInstitucionSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelSaldoPorVencerPorInstitucionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleOperacionesYEntidades">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel Operaciones Por Institucion (DETALLE DE OPERACIONES Y ENTIDADES) del reporte Full en cada sistema</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelDetalleOperacionesYEntidadesSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelDetalleOperacionesYEntidadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleVencidoPorInstitucion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Método Web que obtiene el nivel DetalleVencidoPorInstitucion del reporte Full</wsdl:documentation>
+      <wsdl:input message="tns:ObtenerNivelDetalleVencidoPorInstitucionSoapIn" />
+      <wsdl:output message="tns:ObtenerNivelDetalleVencidoPorInstitucionSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsReporte360CovidCompletoSoap" type="tns:wsReporte360CovidCompletoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObtenerReporte360">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerReporte360" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerReporte360CabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerReporte360CabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDireccionesyTelefonos">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelDireccionesyTelefonos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDireccionesyTelefonosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDireccionesyTelefonosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelIndexPymes">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelIndexPymes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelIndexPymesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelIndexPymesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoriaSeguridadSocial">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelHistoriaSeguridadSocial" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelHistoriaSeguridadSocialCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelHistoriaSeguridadSocialCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoricoEstructuraVencimientos">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelHistoricoEstructuraVencimientos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelHistoricoEstructuraVencimientosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelHistoricoEstructuraVencimientosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelTotalDeudaHistorica">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelTotalDeudaHistorica" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelTotalDeudaHistoricaCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelTotalDeudaHistoricaCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelOperacionesPorInstitucion">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelOperacionesPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelOperacionesPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelOperacionesPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleDeLaOperacion">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleDeLaOperacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleDeLaOperacionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleDeLaOperacionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelSaldoPorVencerPorInstitucion">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelSaldoPorVencerPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelSaldoPorVencerPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelSaldoPorVencerPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleOperacionesYEntidades">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleOperacionesYEntidades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleOperacionesYEntidadesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleOperacionesYEntidadesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleVencidoPorInstitucion">
+      <soap:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleVencidoPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleVencidoPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObtenerNivelDetalleVencidoPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsReporte360CovidCompletoSoap12" type="tns:wsReporte360CovidCompletoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObtenerReporte360">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerReporte360" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerReporte360CabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerReporte360CabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDireccionesyTelefonos">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelDireccionesyTelefonos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDireccionesyTelefonosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDireccionesyTelefonosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelIndexPymes">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelIndexPymes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelIndexPymesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelIndexPymesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoriaSeguridadSocial">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelHistoriaSeguridadSocial" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelHistoriaSeguridadSocialCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelHistoriaSeguridadSocialCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelEvolucionHistoricaDistribucionEndeudamiento" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelEvolucionHistoricaDistribucionEndeudamientoCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelHistoricoEstructuraVencimientos">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelHistoricoEstructuraVencimientos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelHistoricoEstructuraVencimientosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelHistoricoEstructuraVencimientosCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelTotalDeudaHistorica">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelTotalDeudaHistorica" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelTotalDeudaHistoricaCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelTotalDeudaHistoricaCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelOperacionesPorInstitucion">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelOperacionesPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelOperacionesPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelOperacionesPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleDeLaOperacion">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleDeLaOperacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleDeLaOperacionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleDeLaOperacionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelSaldoPorVencerPorInstitucion">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelSaldoPorVencerPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelSaldoPorVencerPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelSaldoPorVencerPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleOperacionesYEntidades">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleOperacionesYEntidades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleOperacionesYEntidadesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleOperacionesYEntidadesCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerNivelDetalleVencidoPorInstitucion">
+      <soap12:operation soapAction="http://www.creditreport.ec/ObtenerNivelDetalleVencidoPorInstitucion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleVencidoPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObtenerNivelDetalleVencidoPorInstitucionCabeceraCR" part="CabeceraCR" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsReporte360CovidCompleto">
+    <wsdl:port name="wsReporte360CovidCompletoSoap" binding="tns:wsReporte360CovidCompletoSoap">
+      <soap:address location="https://test.equifax.com.ec/wsReporte360CovidCompleto/wsReporte360CovidCompleto.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsReporte360CovidCompletoSoap12" binding="tns:wsReporte360CovidCompletoSoap12">
+      <soap12:address location="https://test.equifax.com.ec/wsReporte360CovidCompleto/wsReporte360CovidCompleto.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

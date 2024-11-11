@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A082141A-2421-4D6F-B6F3-4D246733E3E6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cartera</RootNamespace>
+    <AssemblyName>cartera</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="accrual\Accrual.cs" />
+    <Compile Include="archivo\DetalleRespuestaCash.cs" />
+    <Compile Include="cobro\BajaCuotasFuturas.cs" />
+    <Compile Include="cobro\Cobro.cs" />
+    <Compile Include="cobro\helper\CobroHelper.cs" />
+    <Compile Include="cobro\helper\PagoHelper.cs" />
+    <Compile Include="cobro\precancelacion\PrecancelacionCuotasFuturas.cs" />
+    <Compile Include="comp\consulta\aprobacion\SaldoAprobacion.cs" />
+    <Compile Include="comp\consulta\masivos\CargarTransferencia.cs" />
+    <Compile Include="comp\consulta\movimiento\MovimientosCuadre.cs" />
+    <Compile Include="comp\consulta\operacion\EstructurasR.cs" />
+    <Compile Include="comp\consulta\operacion\OperacionesGarante.cs" />
+    <Compile Include="comp\consulta\solicitud\DeudasSolicitud.cs" />
+    <Compile Include="comp\consulta\pagos\PagosOperacion.cs" />
+    <Compile Include="comp\consulta\cartera\SaldosVencidos.cs" />
+    <Compile Include="comp\consulta\datos\CuentasBalance.cs" />
+    <Compile Include="comp\consulta\descuentos\ConsultaDescuentos.cs" />
+    <Compile Include="comp\consulta\descuentos\CargarDescuentos.cs" />
+    <Compile Include="comp\consulta\desembolso\OperacionesDesembolso.cs" />
+    <Compile Include="comp\consulta\desembolso\SaldoDesembolso.cs" />
+    <Compile Include="comp\consulta\lov\LovSolicitud.cs" />
+    <Compile Include="comp\consulta\movimiento\MovimientoCancelacion.cs" />
+    <Compile Include="comp\consulta\movimiento\MovimientoDesembolso.cs" />
+    <Compile Include="comp\consulta\movimiento\MovimientoRecuperacion.cs" />
+    <Compile Include="comp\consulta\movimiento\MovimientosContables.cs" />
+    <Compile Include="comp\consulta\operacion\DatosOperacion.cs" />
+    <Compile Include="comp\consulta\operacion\TablaPagos.cs" />
+    <Compile Include="comp\consulta\operacion\DatosBasicos.cs" />
+    <Compile Include="comp\consulta\operacion\OperacionesPorPersona.cs" />
+    <Compile Include="comp\consulta\reverso\Movimientos.cs" />
+    <Compile Include="comp\consulta\saldos\RubrosPrecancelacion.cs" />
+    <Compile Include="comp\consulta\saldos\SaldoAlaFecha.cs" />
+    <Compile Include="comp\consulta\saldos\SaldoArregloPagos.cs" />
+    <Compile Include="comp\consulta\saldos\SaldoPrecancelacion.cs" />
+    <Compile Include="comp\consulta\saldos\RubrosVencidos.cs" />
+    <Compile Include="comp\consulta\saldos\SaldoVencido.cs" />
+    <Compile Include="comp\consulta\solicitud\TablaPagos.cs" />
+    <Compile Include="comp\consulta\solicitud\TipoProducto.cs" />
+    <Compile Include="comp\consulta\solicitud\ValidacionProducto.cs" />
+    <Compile Include="comp\consulta\solicitud\ValidarProducto.cs" />
+    <Compile Include="comp\consulta\transaccion\OperacionTransaccion.cs" />
+    <Compile Include="comp\mantenimiento\anular\AnularAprobados.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\ValidaAprobacionMasiva.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionDesembolso.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\validar\Notificacion.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacion.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionCargosTabla.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionDescuentos.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionDocumentos.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionGastosLiquidacion.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionGarantias.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToSeguros.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionPersona.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\SolicitudToOperacionTasa.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\validar\Garantias.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\validar\RequisitosObligatorios.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\ValidaTasaMaximaPorSegmento.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\AprobacionArregloPago.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\CapacidadPagoArregloPago.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\CreaNuevaOperacionArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\SolicitudArregloPago.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\SimulacionArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\TablaArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\validar\CondicionesRenovacion.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\validar\CuentasPorPagar.cs" />
+    <Compile Include="comp\mantenimiento\cxc\EliminaCxC.cs" />
+    <Compile Include="comp\mantenimiento\cxc\IngresoCxC.cs" />
+    <Compile Include="comp\mantenimiento\descuentos\AplicarPago.cs" />
+    <Compile Include="comp\mantenimiento\descuentos\CargarDescuentos.cs" />
+    <Compile Include="comp\mantenimiento\descuentos\EnvioBancos.cs" />
+    <Compile Include="comp\mantenimiento\descuentos\Simulacion.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\MonetarioReincorporado.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\MonetarioAnticipo.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\TransferenciasPendientes.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\ValidaAbsorcion.cs" />
+    <Compile Include="comp\mantenimiento\devolucion\PagoDevolucion.cs" />
+    <Compile Include="comp\mantenimiento\liquidacion\LiquidacionMora.cs" />
+    <Compile Include="comp\mantenimiento\masivos\AplicarTransferencia.cs" />
+    <Compile Include="comp\mantenimiento\migracion\CompletarDatos.cs" />
+    <Compile Include="comp\mantenimiento\pago\condonacion\Condonacion.cs" />
+    <Compile Include="comp\mantenimiento\recaudacion\PagoPrendario.cs" />
+    <Compile Include="comp\mantenimiento\recaudacion\PagoCash.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTransferenciasPendientes.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarConsolidado.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudConvenio.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudReincorporado.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudAbsorcion.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\validar\PagoPrendario.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudValidaciones.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\PorcentajesPlanAnual.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\validaPorcentajeProducto.cs" />
+    <Compile Include="comp\mantenimiento\traslados\Castigo.cs" />
+    <Compile Include="descuentos\VerificarDescuentos.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\DatosDesembolso.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\MonetarioDesembolso.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\MonetarioGastosLiquidacion.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\MonetarioRubros.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\ValidaDesembolsoMasivo.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\ValidaDesembolso.cs" />
+    <Compile Include="comp\mantenimiento\desembolso\ValidaOperacionAprobada.cs" />
+    <Compile Include="comp\mantenimiento\operacion\ImpresionDocumentos.cs" />
+    <Compile Include="comp\mantenimiento\operacion\ValidaOperacionVencida.cs" />
+    <Compile Include="comp\mantenimiento\operacion\ValidaOperacionVigente.cs" />
+    <Compile Include="comp\mantenimiento\pagoextraordinario\MonetarioRegeneracionTabla.cs" />
+    <Compile Include="comp\mantenimiento\pagoextraordinario\PagoExtraordinario.cs" />
+    <Compile Include="comp\mantenimiento\arreglopago\IngresoArregloPagoOperacion.cs" />
+    <Compile Include="comp\mantenimiento\pago\arreglopago\PagoArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\pago\arreglopago\PagoRenovacion.cs" />
+    <Compile Include="comp\mantenimiento\pago\PagoNormal.cs" />
+    <Compile Include="comp\mantenimiento\pago\precancelacion\Precancelacion.cs" />
+    <Compile Include="comp\mantenimiento\pago\validar\ArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\pago\validar\EstadoCobranza.cs" />
+    <Compile Include="comp\mantenimiento\pago\validar\NumeroDocumento.cs" />
+    <Compile Include="comp\mantenimiento\param\ValidaTraslapeProductoRangosMonto.cs" />
+    <Compile Include="comp\mantenimiento\reverso\arreglopago\ReversoAprobacionArregloPagos.cs" />
+    <Compile Include="comp\mantenimiento\reverso\arreglopago\ReversoPagoArregloPago.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTabla.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTablaDesembolso.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTcarOperacion.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTcarOperacionGastosLiquidacion.cs" />
+    <Compile Include="comp\mantenimiento\reverso\ReversoTcarOperacionTransaccion.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\flujo\AnularEtapa.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\flujo\RechazarEtapa.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\flujo\AprobarEtapa.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\flujo\IngresarEtapa.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CapacidadPago.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitud.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudGarantias.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudPersona.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudRequisitos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\CompletarSolicitudTasas.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\Requisitos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudCargosTablaAmortizacion.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudSeguros.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudDocumentos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudDocumentosImpresion.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudToDatosCartera.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\SolicitudToTablaPagos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\CuotasEdad.cs" />
+    <Compile Include="comp\mantenimiento\aprobacion\validar\Garante.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\DatosConyuge.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\DatosGarante.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\Montos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\MontosRangos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\ProductosPermitidos.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\OperacionesCliente.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\SolicitudesCliente.cs" />
+    <Compile Include="comp\mantenimiento\solicitud\validar\TasaMaximaPorSegmento.cs" />
+    <Compile Include="comp\mantenimiento\traslados\CambioEstadoOperacion.cs" />
+    <Compile Include="comp\mantenimiento\util\MonetarioAcumuladoCartera.cs" />
+    <Compile Include="comp\mantenimiento\util\MonetarioTablaPagos.cs" />
+    <Compile Include="comp\mantenimiento\util\OperacionToDatosCartera.cs" />
+    <Compile Include="comp\mantenimiento\util\TablaPagos.cs" />
+    <Compile Include="comp\mantenimiento\util\Transaccion.cs" />
+    <Compile Include="contabilidad\Perfiles.cs" />
+    <Compile Include="datos\DatosCartera.cs" />
+    <Compile Include="datos\Operacion.cs" />
+    <Compile Include="datos\Operacioncxp.cs" />
+    <Compile Include="datos\OperacionFachada.cs" />
+    <Compile Include="datos\Solicitud.cs" />
+    <Compile Include="datos\SolicitudFachada.cs" />
+    <Compile Include="enums\EnumTipoOperacion.cs" />
+    <Compile Include="enums\EnumCalificacion.cs" />
+    <Compile Include="enums\EnumEstadoOperacion.cs" />
+    <Compile Include="enums\EnumRecaudacion.cs" />
+    <Compile Include="enums\EnumPersonas.cs" />
+    <Compile Include="enums\EnumDescuentos.cs" />
+    <Compile Include="enums\EnumEstatus.cs" />
+    <Compile Include="enums\EnumEventos.cs" />
+    <Compile Include="enums\EnumSaldos.cs" />
+    <Compile Include="helper\TasasOperacion.cs" />
+    <Compile Include="lote\fin\DescuentosPago.cs" />
+    <Compile Include="lote\fin\RecaudacionPago.cs" />
+    <Compile Include="lote\fin\Recaudacion.cs" />
+    <Compile Include="lote\fin\Descuentos.cs" />
+    <Compile Include="lote\LoteOperacionHilo.cs" />
+    <Compile Include="lote\migracion\CompletarDatosOperacion.cs" />
+    <Compile Include="lote\migracion\CompletarDatosPrevio.cs" />
+    <Compile Include="lote\operacion\CobroCuotas.cs" />
+    <Compile Include="lote\operacion\DescuentosPago.cs" />
+    <Compile Include="lote\operacion\RecaudacionPago.cs" />
+    <Compile Include="lote\operacion\Recaudacion.cs" />
+    <Compile Include="lote\operacion\EnvioOcp.cs" />
+    <Compile Include="lote\operacion\VencimientoCartera.cs" />
+    <Compile Include="lote\operacion\Descuentos.cs" />
+    <Compile Include="lote\operacion\Mora.cs" />
+    <Compile Include="lote\operacion\Maduracion.cs" />
+    <Compile Include="lote\operacion\CierreAccrual.cs" />
+    <Compile Include="lote\operacion\Calificacion.cs" />
+    <Compile Include="lote\operacion\PasoVencido.cs" />
+    <Compile Include="lote\operacion\ReajusteTasa.cs" />
+    <Compile Include="lote\operacion\PasoVigente.cs" />
+    <Compile Include="lote\previo\LimpiarArregloPago.cs" />
+    <Compile Include="lote\fin\SaldoCierre.cs" />
+    <Compile Include="lote\previo\DescuentosPago.cs" />
+    <Compile Include="lote\previo\RecaudacionPago.cs" />
+    <Compile Include="lote\previo\Recaudacion.cs" />
+    <Compile Include="lote\previo\EnvioOcp.cs" />
+    <Compile Include="lote\previo\VencimientoCartera.cs" />
+    <Compile Include="lote\previo\LimpiarSimulacion.cs" />
+    <Compile Include="lote\previo\CobroCuotas.cs" />
+    <Compile Include="lote\previo\ContabilizacionProvision.cs" />
+    <Compile Include="lote\previo\Descuentos.cs" />
+    <Compile Include="lote\previo\Mora.cs" />
+    <Compile Include="lote\previo\Maduracion.cs" />
+    <Compile Include="lote\previo\ContabilizacionAccrual.cs" />
+    <Compile Include="lote\previo\Contabilizacion.cs" />
+    <Compile Include="lote\previo\Calificacion.cs" />
+    <Compile Include="lote\previo\CierreAccrual.cs" />
+    <Compile Include="lote\previo\PasoVencido.cs" />
+    <Compile Include="lote\previo\ReajusteTasa.cs" />
+    <Compile Include="lote\previo\PasoVigente.cs" />
+    <Compile Include="lote\TareasCartera.cs" />
+    <Compile Include="lote\TareasOperacionCartera.cs" />
+    <Compile Include="monetario\MonetarioHelper.cs" />
+    <Compile Include="monetario\RubroHelper.cs" />
+    <Compile Include="movimiento\MovimientoCartera.cs" />
+    <Compile Include="movimiento\ReversoCartera.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="saldo\SaldoDesembolso.cs" />
+    <Compile Include="saldo\Saldo.cs" />
+    <Compile Include="saldo\SaldoCartera.cs" />
+    <Compile Include="traslados\helper\TrasladoHelper.cs" />
+    <Compile Include="traslados\Traslado.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\amortizacion\amortizacion.csproj">
+      <Project>{27039CE7-EE2B-425E-B22E-F5258EDD070E}</Project>
+      <Name>amortizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.csproj">
+      <Project>{e723fb91-0191-4bc4-a77a-6fbfcc8d2441}</Project>
+      <Name>core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{492d868f-df8f-4a08-897c-576b95e94fc8}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\general\general.csproj">
+      <Project>{4C870D16-3204-4CBF-A5C1-484594145282}</Project>
+      <Name>general</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lote\lote.csproj">
+      <Project>{287023a2-2334-4b71-9193-8e65fe536a56}</Project>
+      <Name>lote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{35d81711-039f-4913-a9ee-ebae3cbdd010}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\monetario\monetario.csproj">
+      <Project>{61968883-483d-46f8-b41e-8977f4bcc931}</Project>
+      <Name>monetario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\socio\socio.csproj">
+      <Project>{C2CAD90E-C40D-4EAE-8F82-8BE3853010E6}</Project>
+      <Name>socio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tesoreria\tesoreria.csproj">
+      <Project>{a8c61cd6-e4bc-458d-bc99-2482387521a8}</Project>
+      <Name>tesoreria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\util\util.csproj">
+      <Project>{ae40fea7-cf1c-4435-82ba-13b2614bca66}</Project>
+      <Name>util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,5 @@
+ERROR 2023-04-15 10:57:44,452  4102ms ServicioMantenimiento  Mantener           - seguridad.util.Usuario.Validarlogin - SESIÓN CADUCADA - 
+ERROR 2023-04-15 10:57:44,654  4304ms ServicioMantenimiento  Mantener           - seguridad.util.Usuario.Validarlogin - SESIÓN CADUCADA - 
+ERROR 2023-04-15 10:57:44,754  4404ms ServicioMantenimiento  Mantener           - System.Number.StringToNumber - La cadena de entrada no tiene el formato correcto. - 
+ERROR 2023-04-16 11:25:54,122 424434ms ServicioMantenimiento  Mantener           - cartera.comp.mantenimiento.arreglopago.validar.CondicionesRenovacion.ValidaRenovacion - NO SE HA CANCELADO EL PORCENTAJE MÍNIMO REQUERIDO POR OPERACIÓN - 
+ERROR 2023-10-26 10:26:08,171  3802ms ServicioMantenimiento  Mantener           - dal.seguridades.TsegUsuarioSessionDal.FindActivo - USUARIO NO HA INICIADO SESSION DE TRABAJO - 
