@@ -1,0 +1,97 @@
+<div class="f-contenedor-transaccion">
+
+  <form #formulariodatosgenerales="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-10">
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-splitButton *ngIf="registro.tipocdetalle != 'GEN' && !estaVacio(registro.cnomina)" label="&emsp;Reportes&emsp;" icon="ui-icon-list"
+            [model]="itemsReporte" class="f-btn blue-btn"></p-splitButton>
+        </div>
+      </div>
+      <acciones-editar [formAcciones]="formulariodatosgenerales" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+      </acciones-editar>
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="aniof" class="ui-outputlabel required">Año:</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input id="aniof" name="aniof" type="text" pInputText [ngModel]="registro.anio" required [readOnly]="true" style="text-align:center;"
+          />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+            [disabled]="!editable"></button>
+        </div>
+      </div>
+      
+      <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="mescdetalle" class="ui-outputlabel required">Mes de Aplicación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="registro.mescdetalle" required [filter]="true"
+            (ngModelChange)="generarFecha()" [disabled]="!registro.esnuevo"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tipocdetalle" class="ui-outputlabel required">Tipo:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipocdetalle" required [filter]="true"
+            [disabled]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true" [dateFormat]="formatofecha" 
+            [readonlyInput]="true" appendTo="body" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1900:5000" required [disabled]="false"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" 
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="false" [readonlyInput]="true" required></p-calendar>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">Estado:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="estadocdetalle" name="estadocdetalle" [(ngModel)]="registro.estadicdetalle" autofoco required
+            numeric maxlength="10" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12  ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+          <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+            rows="2" [disabled]="!editable"></textarea>
+        </div>
+
+
+      </div>
+
+    </div>
+  </form>

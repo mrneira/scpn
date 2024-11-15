@@ -1,0 +1,85 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="codigosri" header="Cod.Impuesto"></p-column>
+        <p-column field="mdatos.descripcion" header="Descripción"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="baseimpair" header="Base Imponible"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="porcentaje" header="Porcentaje"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="valretair" header="Valor Retenido"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="button" name="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+      <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:12px; overflow:hidden;">
+        <div class="ui-g-12 ui-md-6">
+          <label></label>
+        </div>
+        <div class="ui-g-12 ui-md-2" [style]="{'text-align':'left'}">Total Retenciones IR
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="totalRetencionesIR" name="totalRetencionesIR" [ngModel]="totalRetencionesIR | number:'1.2-2'"
+            [readOnly]="true" style="color: white; text-align: right;" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Impuestos" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+  (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="codigosri" class="ui-outputlabel required">Concepto</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <p-dropdown id="codigosri" name="codigosri" [options]="ltipoimpuestocdetalle" [(ngModel)]="registro.codigosri" (onChange)="seleccionarConcepto()"
+              required [filter]="true" appendTo='body'></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="porcentaje" class="ui-outputlabel required">Porcentaje</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="porcentaje" name="porcentaje" [(ngModel)]="registro.porcentaje" (ngModelChange)="CalcularValorRetencionRenta()"
+              numeroPositivo [readOnly]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-2 ui-md-2">
+            <label for="baseimpair" class="ui-outputlabel required">Base Imponible</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input type="text" pInputText id="baseimpair" name="baseimpair" [(ngModel)]="registro.baseimpair" (ngModelChange)="CalcularValorRetencionRenta()"
+              numeroPositivo readOnly="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-2 ui-md-2">
+            <label for="porcentaje" class="ui-outputlabel required">Valor Retenci&oacute;n</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input type="text" pInputText id="valretair" name="valretair" [(ngModel)]="registro.valretair" numeroPositivo [readOnly]="true"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+    </footer>
+  </form>
+</p-dialog>

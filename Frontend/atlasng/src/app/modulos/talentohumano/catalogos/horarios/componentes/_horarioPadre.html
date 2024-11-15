@@ -1,0 +1,67 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Horario</span>
+				</div>
+				<hr />
+			</div>
+
+			<acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="chorario" class="ui-outputlabel required">Código:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="chorario" name="chorario"
+						[(ngModel)]="registro.chorario" autofoco required entero maxlength="4" [disabled]="!registro.esnuevo || !editable" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="nombre" name="nombre"
+						[(ngModel)]="registro.nombre" maxlength="60" number [disabled]="!editable" autofoco required ng-pattern="/^[0-9]+(\.[0-9]{1,5})?$/" />
+
+          </div>
+			</div>
+      <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+              <textarea type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="150"
+              rows="3" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+        
+
+          <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-6 ui-md-2">
+                <label for="tipo" class="ui-outputlabel required">Tipo:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-dropdown id="tipo" name="tipo" [options]="ltipo" [(ngModel)]="registro.tipojornadacdetalle" required
+                [disabled]="!editable && !registro.esnuevo"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="jornadaespecial" class="ui-outputlabel">Horario Especial?</label>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-checkbox id="jornadaespecial" name="jornadaespecial" [(ngModel)]="registro.jornadaespecial" binary="false"   [disabled]="!editable"></p-checkbox>
+              </div>
+            </div>
+		</div>
+	</form>
+</div>

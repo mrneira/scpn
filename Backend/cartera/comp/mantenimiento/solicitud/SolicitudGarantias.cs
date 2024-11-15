@@ -1,4 +1,5 @@
-﻿using core.componente;
+﻿using cartera.enums;
+using core.componente;
 using dal.cartera;
 using dal.garantias;
 using modelo;
@@ -34,6 +35,10 @@ namespace cartera.comp.mantenimiento.solicitud {
                 tcarsol = TcarSolicitudDal.FindWithLock((long)rqmantenimiento.GetLong("csolicitud"));
             } else {
                 tcarsol = (tcarsolicitud)rqmantenimiento.GetTabla("TCARSOLICITUD").Lregistros.ElementAt(0);
+            }
+            if (!tcarsol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion))
+            {
+                return;
             }
 
             List<IBean> lgarantiassol = null;

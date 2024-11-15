@@ -1,0 +1,749 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+	   <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="verGrabar"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-2">
+			 <label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+		  </div>
+		  <div class="ui-g-2 ui-md-2">
+			 <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-9 ui-md-4">
+			 <input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-1 ui-md-3">
+			 <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+				icon="ui-icon-directions">
+			 </button>
+		  </div>
+		  <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-2">
+			 <label for="finicio" class="ui-outputlabel required">Fecha Desde:</label>
+		  </div>
+		  <div class="ui-g-6 ui-md-2">
+			 <p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" required [dateFormat]="formatofecha"
+			 [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+		  </div>
+		  <div class="ui-g-12 ui-md-2">
+			 <label for="ffin" class="ui-outputlabel required">Fecha Hasta:</label>
+		  </div>
+		  <div class="ui-g-6 ui-md-2">
+			 <p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" required [dateFormat]="formatofecha"
+			 [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+		  </div>
+	   </div>
+	  
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-6 ui-md-6">
+			 <button pButton type="button" name="cargar" id="cargar" label="Cargar" class="f-btn orange-btn" icon="ui-icon-add" (click)="ConsultarDatos()"></button>
+			 <button pButton type="button" name="Validar" id="Validar" label="Validar" class="f-btn" icon="ui-icon-check" (click)="validarConciliacion()"   *ngIf="lregistrosconciliado.length > 0"></button>
+			 <button pButton type="button" name="Cancelar" id="Cancelar"  label="Cancelar" class="f-btn  blue-grey-btn" icon="ui-icon-cancel"  (click)="cancelarConciliacion()"  *ngIf="lregistrosconciliado.length > 0"></button>
+		  </div>
+	   </div>
+	</form>
+	<p-fieldset legend="DETALLE" [toggleable]="true">
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-6">
+			 <p-dataTable #dtMB [(value)]="lregistrosmayor" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSortLibro($event)"
+			 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+			 (onFilter)="calcularTotalesMayor($event.filteredValue)">
+			 <p-header>
+				<div class="ui-table-title ui-md-2">Libro Bancos</div>
+			 </p-header>
+			<!--  <p-column field="lclibrobanco" header="# lb" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true"  >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row">
+				   {{ reg.lclibrobanco}}
+				</div>
+			 </ng-template>
+			 </p-column> -->
+			 <p-column field="lfcontable" header="F. Contable" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (click)="clickBorrarExtracto()">
+				 <!--   {{ reg.lfcontable | fechaenteroformato}} -->
+				 {{ reg.lfcontable }}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="lccomprobante" header="# Comprobante" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true"  >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row">
+				   {{ reg.lccomprobante}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="ldocumento" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true"  >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (click)="clickDocumentoLibro(reg)">
+				   {{ reg.ldocumento}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="lmontodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickDebitoMayor(reg)">
+				   {{ reg.lmontodebito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="lmontocredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickCreditoMayor(reg)">
+				   {{ reg.lmontocredito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="lmodulo" header="Módulo" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"
+			 filterMatchMode="contains">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="row" pTooltip="{{reg.lmodulo}}" tooltipPosition="top">
+				   <div>{{reg.lmodulo}}</div>
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <!-- RRP 21072022 -------------------------------------------------------------------------------------------------------------------- -->
+			 <!-- <p-column [style]="{'width':'40px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <button pButton type="button" icon="ui-icon-add" (click)="agregarhojatrabajomayor(reg)"></button>
+				</ng-template>
+				</p-column> -->
+			 <!-- RRP 21072022 -------------------------------------------------------------------------------------------------------------------- -->
+			 <!-- RRP 20052022 -------------------------------------------------------------------------------------------------------------------- -->
+			 <!-- 	 <p-column [style]="{'width':'40px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <button type="button" pButton icon="ui-icon-pencil" (click)="buscarLibroBanco(reg, 'LB')" title="Cambiar Referencia" style="margin-left:5px">
+				   </button>
+				</ng-template>
+				</p-column> -->
+			 <!-- RRO 20230130 -------------------------------------------------------------------------------------------------------------------- -->
+			 <p-footerColumnGroup style="color:blue;">
+				<p-row>
+				   <p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+				   <p-column footer="Débito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalDebitoMayor| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalCreditoMayor | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalRegistrosMayor | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				</p-row>
+			 </p-footerColumnGroup>
+			 </p-dataTable>
+		  </div>
+		  <div class="ui-g-12 ui-md-6">
+			 <p-dataTable #dtEB [(value)]="lregistrosextracto" [sortField]="sortFex" [sortOrder]="sortOex" (onSort)="changeSort($event)"
+			 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+			 (onFilter)="calcularTotalesExtracto($event.filteredValue)">
+			 <p-header>
+				<div class="ui-table-title ui-md-2">Extracto Bancario</div>
+			 </p-header>
+			
+			 <p-column field="fmovimiento" header="Fecha" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (click)="clickBorrarMayor()">
+				 <!--   {{ reg.fmovimiento | fechaenteroformato}} -->
+
+				   {{ reg.fmovimiento }}
+
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="comprobante" header="# Comprobante" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true"  >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row">
+				   {{ reg.lccomprobante}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="documento" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true" >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row"(click)="clickDocumentoExtracto(reg)">
+				   {{ reg.documento}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickDebitoExtracto(reg)">
+				   {{ reg.montodebito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montocredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickCreditoExtracto(reg)">
+				   {{ reg.montocredito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="concepto" header="Concepto" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"
+			 filterMatchMode="contains">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="row" pTooltip="{{reg.concepto}}" tooltipPosition="top">
+				   <div>{{reg.concepto}}</div>
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="cuentabancaria" header="Cta. Bancaria" [sortable]="true" hidden="hidden"></p-column>
+			
+			 <p-footerColumnGroup style="color:blue;">
+				<p-row>
+				   <p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+				   <p-column footer="Débito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalDebitoExtracto| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalCreditoExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalRegistrosExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				</p-row>
+			 </p-footerColumnGroup>
+			 </p-dataTable>
+		  </div>
+	   </div>
+	</p-fieldset>
+	<p-fieldset legend="AJUSTE" [toggleable]=" true">
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-6">
+			 <p-dataTable #dtMB [(value)]="llibroajuste" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSortLibro($event)"
+			 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+			 (onFilter)="calcularTotalesMayor($event.filteredValue)">
+			 <p-header>
+				<div class="ui-table-title ui-md-2">Libro Bancos</div>
+			 </p-header>
+			 <p-column field="documento" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true"  >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (click)="clickDocumentoLibro(reg)">
+				   {{ reg.documento}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="false"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickDebitoMayor(reg)">
+				   {{ reg.montodebito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montocredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="false"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" (dblclick)="clickCreditoMayor(reg)">
+				   {{ reg.montocredito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-footerColumnGroup style="color:blue;">
+				<p-row>
+				   <p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+				   <p-column footer="Débito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteDebitoLibro| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteCreditoLibro | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteRegistrosLibro | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				</p-row>
+			 </p-footerColumnGroup>
+			 </p-dataTable>
+		  </div>
+		  <div class="ui-g-12 ui-md-6">
+			 <p-dataTable #dtEB [(value)]="lextractoajuste" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)"
+			 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand" >
+			 <p-header>
+				<div class="ui-table-title ui-md-2">Extracto Bancario</div>
+			 </p-header>
+			 <p-column field="documento" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar"
+			 [sortable]="true" >
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row"(click)="clickDocumentoExtracto(reg)">
+				   {{ reg.documento}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="false"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" >
+				   {{ reg.montodebito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="montocredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="false"
+			 filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="ui-grid-row" >
+				   {{ reg.montocredito | number: '1.2-2'}}
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-footerColumnGroup style="color:blue;">
+				<p-row>
+				   <p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+				   <p-column footer="Débito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteDebitoExtracto| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteCreditoExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				   <p-column [footer]="totalAjusteRegistrosExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+				</p-row>
+			 </p-footerColumnGroup>
+			 </p-dataTable>
+		  </div>
+	   </div>
+	</p-fieldset>
+	<p-fieldset legend="HOJA DE TRABAJO" hidden="true">
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <p-dataTable [(value)]="lhojatrabajo" [responsive]="true" scrollable="true" scrollHeight="250px">
+			 <p-header>
+				<div class="ui-table-title">Hoja de trabajo</div>
+			 </p-header>
+			 <p-column header="Fecha" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:red">{{ reg.fcontable }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Comp." styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:red">{{ reg.comprobante }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="# Doc. Bancario" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.documento }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="# Extracto" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.cextractobancario }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Concepto" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.concepto }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 </p-dataTable>
+		  </div>
+	   </div>
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <p-dataTable [(value)]="lregistrosTotales" [responsive]="true" scrollable="true" scrollHeight="250px">
+			 <p-header>
+				<div class="ui-table-title">Totales</div>
+			 </p-header>
+			 <p-column header="Débito Libro Bancos" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <span style="color:blue">{{ reg.mvalordebito | number:'1.2-2' }}</span>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Crédito Libro Bancos" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <span style="color:blue">{{ reg.mvalorcredito | number:'1.2-2' }}</span>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Débito Extracto" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <span style="color:red">{{ reg.valordebito | number:'1.2-2' }}</span>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Crédito Extracto" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <span style="color:red">{{ reg.valorcredito | number:'1.2-2' }}</span>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Saldo" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <span class="f-bold" style="font-size:20px">{{ reg.saldo | number:'1.2-2' }}</span>
+				</ng-template>
+			 </p-column>
+			 <p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" >
+				   <button type="button" pButton icon="ui-icon-add" (click)="conciliar()" label="Conciliar" class="f-btn f-float-left orange-btn"></button>
+				   <!-- RRP 20220517 -------------------------------------------------------------------------------------------------------- -->
+				   <!-- <button type="button" pButton icon="ui-icon-cancel" (click)="conciliacionCancelar()" label="Cancelar" class="f-btn f-float-left orange-btn"></button> -->
+				   <button type="button" pButton icon="ui-icon-cancel" (click)="recargar()" label="Cancelar" class="f-btn f-float-left orange-btn"></button> 
+				   <!-- RRP 20220517 -------------------------------------------------------------------------------------------------------- -->
+				</div>
+			 </p-footer>
+			 </p-dataTable>
+		  </div>
+	   </div>
+	</p-fieldset>
+	<p-fieldset legend="CONCILIACIÓN BANCARIA">
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <p-dataTable [value]="lregistrosconciliado" [responsive]="true" sortField="rnumerodocumentobancario" rowGroupMode="rowspan" expandableRows="true" #DT id="DT" scrollable="true" scrollHeight="250px" >
+			 <p-header>
+				<div class="ui-table-title">Conciliación Bancaria</div>
+			 </p-header>
+			
+			 <p-column field="rnumerodocumentobancario" header="# Documento Bancario" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'130px;'}">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-datacontent ui-g ui-fluid">
+				   <span style="color:blue" *ngIf="!verDetalleConciliacion(reg)">{{ reg.rnumerodocumentobancario }}</span>
+				   <button type="button" class="orange-btn"  pButton icon="ui-icon-info" name="btnpdf" (click)="verDetalle(reg)" *ngIf="verDetalleConciliacion(reg)"
+				   pTooltip="Ver detalle" tooltipPosition="top" label="{{ reg.rnumerodocumentobancario }}"></button>
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="mccomprobante" header="# Comprobante" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-datacontent ui-g ui-fluid">
+				   <span style="color:blue">{{ reg.mccomprobante }}</span>
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="rfcontable" header="F. Contable" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-datacontent ui-g ui-fluid">
+				   <span style="color:blue">{{ reg.rfcontable }}</span>
+				</div>
+			 </ng-template>
+			 </p-column>
+			 <p-column field="mvalordebito" header="LB - Valor Débito" styleClass="f-right"  [filter]="true" filterPlaceholder="Filtrar">
+				<ng-template pTemplate="body" let-reg="rowData" >
+				   <div *ngIf="!verDetalleConciliacion(reg)">{{ reg.mvalordebito | number: '1.2-2'}}</div>
+				</ng-template>
+			 </p-column>
+			 <p-column field="mvalorcredito" header="LB - Valor Crédito" styleClass="f-right"  [filter]="true" filterPlaceholder="Filtrar">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div *ngIf="!verDetalleConciliacion(reg)">{{ reg.mvalorcredito | number: '1.2-2'}}</div>
+				</ng-template>
+			 </p-column>
+			 <p-column field="valordebito" header="EX - Valor Débito" styleClass="f-right"   [filter]="true" filterPlaceholder="Filtrar">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div *ngIf="!verDetalleConciliacion(reg)">{{ reg.valordebito | number: '1.2-2'}}</div>
+				</ng-template>
+			 </p-column>
+			 <p-column field="valorcredito" header="EX - Valor Crédito" styleClass="f-right"   [filter]="true" filterPlaceholder="Filtrar">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div *ngIf="!verDetalleConciliacion(reg)">{{ reg.valorcredito | number: '1.2-2'}}</div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Aut." hidden="true">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <p-checkbox [ngModel]="reg.rautomatico" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			 </p-column>
+			 <p-column [style]="{'width':'40px'}" hidden="true">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <button pButton type="button" icon="ui-icon-delete" (click)="eliminarConciliado(reg)"></button>
+				</ng-template>
+			 </p-column>
+			 <p-footerColumnGroup style="color:blue;">
+				<p-row>
+				   <p-column footer="TOTALES" colspan="2" [style]="{'width':'25%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				   <p-column footer="Registros" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="numConciliados | number : '1.0'" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column footer="LB - SUM Débito" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="sumaDebitoLb| number : '1.2-2'" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column footer="LB - SUM Crédito" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="sumaCreditoLb | number : '1.2-2'" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column footer="EX - SUM Débito" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="sumaDebitoEx| number : '1.2-2'" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column footer="EX - SUM Crédito" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="sumaCreditoEx | number : '1.2-2'" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				</p-row>
+				<p-row>
+				   <p-column footer="SALDOS" colspan="2" [style]="{'width':'25%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				   <p-column footer="Saldo Anterior" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="saldoAnterior | number : '1.2-2'" [style]="{'width':'15%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				   <p-column footer="Libro Bancos" colspan="2" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="saldoLb | number : '1.2-2'" colspan="2" [style]="{'width':'15%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				   <p-column footer="Extracto Bancario" colspan="2"  [style]="{'width':'15%','font-size':'11px'}"></p-column>
+				   <p-column [footer]="saldoEx| number : '1.2-2'" colspan="2" [style]="{'width':'15%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				</p-row>
+
+				<p-row>
+					<p-column footer="SALDO FINAL" colspan="4" [style]="{'width':'25%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+					<p-column footer="Libro Bancos" colspan="2" [style]="{'width':'15%','font-size':'11px'}"></p-column>
+					<p-column [footer]="saldoFinalLb | number : '1.2-2'" colspan="2" [style]="{'width':'15%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+					<p-column footer="Extracto Bancario" colspan="2"  [style]="{'width':'15%','font-size':'11px'}"></p-column>
+					<p-column [footer]="saldoFinalEx| number : '1.2-2'" colspan="2" [style]="{'width':'15%','font-size':'11px', 'font-weight': 'bold'}"></p-column>
+				 </p-row>
+
+			 </p-footerColumnGroup>
+			 </p-dataTable> 
+			 <p-dataTable  [(value)]="lregistrosconciliado" [responsive]="true" scrollable="true" scrollHeight="250px" >
+			 <p-header>
+				<div class="ui-table-title">Conciliación Bancaria</div>
+			 </p-header>
+			 <p-column header="Id." field="rconciliacionbancariaid">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   {{ reg.rconciliacionbancariaid }}
+				</ng-template>
+			 </p-column>
+			 <p-column header="F. Contable" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.rfcontable }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="# Extracto" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.rcconconciliacionbancariaextracto }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column field="rvalordebito" header="Valor Débito" styleClass="f-right"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				{{ reg.rvalordebito | number: '1.2-2'}}
+			 </ng-template>
+			 </p-column>
+			 <p-column field="rvalorcredito" header="Valor Crédito" styleClass="f-right"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				{{ reg.rvalorcredito | number: '1.2-2'}}
+			 </ng-template>
+			 </p-column>
+			 <p-column header="# Documento Bancario" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.rnumerodocumentobancario }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="# Cuenta" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.rcuentabancaria }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Código" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.rcodigounico }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Secuencia" styleClass="f-right" hidden="hidden">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <div class="f-datacontent ui-g ui-fluid">
+					  <span style="color:blue">{{ reg.msecuencia }}</span>
+				   </div>
+				</ng-template>
+			 </p-column>
+			 <p-column header="Aut.">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <p-checkbox [ngModel]="reg.rautomatico" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			 </p-column>
+			 <p-column [style]="{'width':'40px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+				   <button pButton type="button" icon="ui-icon-delete" (click)="eliminarConciliado(reg)"></button>
+				</ng-template>
+			 </p-column>
+			 </p-dataTable>  
+		  </div>
+	   </div>
+	</p-fieldset>
+ </div>
+ <p-dialog  header="Documento Bancario: {{conciliacionDocumento}}" [(visible)]="mostrarExtracoBancario" [modal]="true" showEffect="fade" [responsive]="true"
+ [closable]="true" [positionTop]="120" (onHide)="cerrarDialogoSolicitud()" class="ui-outputlabel f-bold">
+ <form #formDialogo="ngForm">
+	<div class="f-dialogo" style="max-width: 600px">
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="f-contenedor-transaccion">
+				<div class="ui-g-12 ui-g-nopad">
+				   <div class="ui-g-12 ui-md-6">
+					  <p-dataTable #dtMB [(value)]="lregistrosConcLB" 
+					  [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">		
+					  <p-header>
+						 <div class="ui-table-title">Libro Bancos</div>
+					  </p-header>
+					  <p-column field="mccomprobante" header="Comprobante" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mccomprobante }}
+						 </ng-template>
+					  </p-column>
+					  <p-column field="mvalordebito" header="Débito" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mvalordebito | number: '1.2-2'}}
+						 </ng-template>
+					  </p-column>
+					  <p-column field="mvalorcredito" header="Crédito" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mvalorcredito | number: '1.2-2'}}
+						 </ng-template>
+					  </p-column>
+					  </p-dataTable>
+				   </div>
+				   <div class="ui-g-12 ui-md-6">
+					  <p-dataTable #dtMB [(value)]="lregistrosConcEX" sortField="rcconconciliacionbancariaextracto" rowGroupMode="rowspan"
+					  [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">						  
+					  <p-header>
+						 <div class="ui-table-title">Extracto Bancario</div>
+					  </p-header>
+					  <p-column field="rnumerodocumentobancario" header="Comprobante" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.rnumerodocumentobancario }}
+						 </ng-template>
+					  </p-column>
+					  <p-column field="valordebito" header="Débito" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.valordebito | number: '1.2-2'}}
+						 </ng-template>
+					  </p-column>
+					  <p-column field="valorcredito" header="Crédito" styleClass="f-right">
+						 <ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.valorcredito | number: '1.2-2'}}
+						 </ng-template>
+					  </p-column>
+					  </p-dataTable>
+				   </div>
+				</div>
+				<h3>
+				   <div class="ui-g-12 ui-g-nopad">
+					  <div class="ui-g-12 ui-md-6">
+						 <p-dataTable #dtMB1 [(value)]="arrSumaLB" 
+						 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">		
+						 <p-column field="mccomprobante" header="TOTAL" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">				   
+							</ng-template>
+						 </p-column>
+						 <p-column field="sumamvalordebito" header="" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+							   {{ reg.sumamvalordebito | number: '1.2-2'}}
+							</ng-template>
+						 </p-column>
+						 <p-column field="sumamvalorcredito" header="" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+							   {{ reg.sumamvalorcredito | number: '1.2-2'}}
+							</ng-template>
+						 </p-column>
+						 </p-dataTable>
+					  </div>
+					  <div class="ui-g-12 ui-md-6">
+						 <p-dataTable #dtMB1 [(value)]="arrSumaEX" 
+						 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">		
+						 <p-column field="mccomprobante" header="TOTAL" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">				   
+							</ng-template>
+						 </p-column>
+						 <p-column field="sumavalordebito" header="" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+							   {{ reg.sumavalordebito | number: '1.2-2'}}
+							</ng-template>
+						 </p-column>
+						 <p-column field="sumavalorcredito" header="" styleClass="f-right" [style]="{'background-color':'#d9b310'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+							   {{ reg.sumavalorcredito | number: '1.2-2'}}
+							</ng-template>
+						 </p-column>
+						 </p-dataTable>
+					  </div>
+				   </div>
+				</h3>
+			 </div>
+		  </div>
+	   </div>
+	   <footer>
+		  <hr>
+		  <div class="ui-g-6 ui-g-nopad">
+			 <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoSolicitud()" label="Cerrar" class="orange-btn"
+				style="margin-left:5px">
+			 </button>
+		  </div>
+	   </footer>
+	</div>
+ </form>
+ </p-dialog>
+ <!-- RRP 20220519 ------------------------------------------------------------------------------------------------------------------------ -->
+ <p-dialog header="Libro Bancos" [(visible)]="mostrarLibroBanco" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+ <form #formDialogo="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lfcontable" class="ui-outputlabel required">F. Contable:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lfcontable" name="lfcontable" [(ngModel)]="registro.lfcontable" [disabled]="true" />
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lccomprobante" class="ui-outputlabel required"># Comprobante:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lccomprobante" name="lccomprobante" [(ngModel)]="registro.lccomprobante" [disabled]="true" />
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<label for="ldocumento" class="ui-outputlabel required">Doc. Bancario:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="ldocumento" name="ldocumento" [(ngModel)]="registro.ldocumento" [disabled]="true" />
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lmontodebito" class="ui-outputlabel">Débito:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lmontodebito" name="lmontodebito" [(ngModel)]="registro.lmontodebito" [disabled]="true" />
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lmontocredito" class="ui-outputlabel required">Crédito:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lmontocredito" name="lmontocredito" [(ngModel)]="registro.lmontocredito" [disabled]="true" />
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lmodulo" class="ui-outputlabel required">Módulo:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lmodulo" name="lmodulo" [(ngModel)]="registro.lmodulo" [disabled]="true" />
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label for="lreferencia" class="ui-outputlabel required"># Referencia:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="lreferencia" name="lreferencia" [(ngModel)]="registro.lreferencia"  />
+			 </div>
+		  </div>
+	   </div>
+	   <footer>
+		  <HR>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <button type="button" pButton icon="ui-icon-check" (click)="cancelarLibroBanco()" label="Confirmar" pTooltip="Confirmar datos" tooltipPosition="top" class="green-btn">
+			 </button>            
+			 <button type="button" pButton icon="ui-icon-cancel" (click)="cancelarLibroBanco()" label="Cerrar" pTooltip="Cancelar" class="orange-btn" style="margin-left:5px">
+			 </button>
+		  </div>
+	   </footer>
+	</div>
+ </form>
+ </p-dialog>
+ <!-- RRP 20220519 ------------------------------------------------------------------------------------------------------------------------ -->
+ 

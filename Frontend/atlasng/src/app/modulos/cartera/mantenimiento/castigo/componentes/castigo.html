@@ -1,0 +1,60 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>
+		<div class="ui-g-12 ui-md-8 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fcpersona" class="ui-outputlabel required">Persona</label>
+			</div>
+			<div class="ui-g-1">
+				<input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-10 ui-md-7">
+				<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1">
+				<button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions" class="f-float-right"></button>
+			</div>
+			<app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+		</div>
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>
+		
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>
+		<div class="ui-g-12 ui-md-8 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+	            <label for="fcoperacion" class="ui-outputlabel required">Operación</label>
+	        </div>
+	        <div class="ui-g-2 ui-md-1">
+				<input type="text" pInputText id="fcmoneda" name="fcmoneda" [(ngModel)]="mcampos.cmoneda" [readOnly]="true" required />
+			</div>
+	        <div class="ui-g-9 ui-md-7">
+	            <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mfiltros.coperacion" [readOnly]="true" required />
+	        </div>
+			<div class="ui-g-1">
+				<button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions" class="f-float-right">
+		    	</button>
+	    	</div>
+	    	<app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+		</div>
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>
+		
+	
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>
+		<div class="ui-g-12 ui-md-8 ui-g-nopad">
+			<div class="ui-g-2">
+				<button pButton type="button" id="calcular" name="calcular" (click)="grabar()" label="Castigar Operación" class="f-btn green-btn">
+		    	</button>
+	    	</div>
+
+		</div>
+		<div class="ui-g-12 ui-md-2 ui-g-nopad"> </div>		
+	</form>
+
+
+</div>
+
+
+

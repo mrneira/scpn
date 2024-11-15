@@ -1,0 +1,189 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+</div>
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-5 ui-md-5">
+	  
+  </div>
+		 <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-2">
+			  <label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+		  </div>
+		  <div class="ui-g-2 ui-md-1">
+			  <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-9 ui-md-4">
+			  <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-1 ui-md-3">
+			  <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" 
+			  [disabled]="bandeja" icon="ui-icon-directions">
+			  </button>
+		  </div>
+		  <app-lov-personas (eventoCliente)=fijarLovSociosSelec($event)></app-lov-personas>
+	  </div>
+	 
+  </form>
+  <p-fieldset [collapsed] = "!collapsed" legend="DATOS GENERALES" [toggleable]="collapsed">
+		 <form #formularioDatoSocio="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+				<div *ngIf="edited" class="ui-g-12 ui-g-nopad" style="  padding:3px;
+				background-color: #f44336;color: white;margin-bottom: 3px;">
+					<p>{{mensaje}}</p>
+				</div>
+			 <div class="ui-g-12 ui-g-nopad">
+				 <div class="ui-g-6 ui-g-nopad">
+					 <div class="ui-g-12 ui-md-3">
+						 <label for="estadosolicitante" class="ui-outputlabel ">Estado de Solicitante:</label>
+					 </div>
+					 <div class="ui-g-12 ui-md-8">
+						 <input type="text" pInputText id="estadosolicitante" name="estadosolicitante" [readOnly]="true" [(ngModel)]="mcampos.estadoSocio"
+						 />
+					 </div>
+				 </div>
+			   </div>
+			   <div class="ui-g-6 ui-g-nopad">
+				   <div class="ui-g-12 ui-md-3">
+						<label for="cedula" class="ui-outputlabel ">Cédula:</label>
+				   </div>
+				   <div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="cedula" name="cedula" [readOnly]="true" [ngModel]="registro.mdatos.identificacion"
+						/>
+				   </div>
+				</div>
+			    <div class="ui-g-6 ui-g-nopad">
+				   <div class="ui-g-12 ui-md-3">
+					  <label for="fechaalta" class="ui-outputlabel ">Fecha Alta:</label>
+				   </div>
+				   <div class="ui-g-12 ui-md-8">
+					  <input type="text" pInputText id="fechalta" name="fechaalta" [readOnly]="true" [ngModel]="mcampos.fechaAlta | date:'dd-MM-yyyy'"
+					  />
+				   </div>
+				 </div>
+				 <div class="ui-g-6 ui-g-nopad">
+					 <div class="ui-g-12 ui-md-3">
+						  <label for="jerarquia" class="ui-outputlabel">Grado: </label>
+					 </div>
+					  <div class="ui-g-12 ui-md-8">
+						   <input type="text" pInputText id="grado" name="grado" [readOnly]="true" [(ngModel)]="registro.mdatos.grado" />
+					  </div>
+				 </div>
+				 <div *ngIf="mcampos.esbaja" class="ui-g-6 ui-g-nopad">
+					 <div class="ui-g-12 ui-md-3">
+						   <label for="fechabaja" class="ui-outputlabel ">{{mcampos.nfbaja}}:</label>
+					 </div>
+					 <div class="ui-g-12 ui-md-8">
+						   <input type="text" pInputText id="fechabaja" name="fechabaja" [ngModel]="mcampos.fechaBaja  | date:'dd-MM-yyyy' " [readOnly]="true"
+						   />
+					 </div>
+				</div>
+				<div *ngIf="!mcampos.esbaja" class="ui-g-6 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						  <label for="fechabaja" class="ui-outputlabel ">{{mcampos.nfbaja}}:</label>
+					</div>
+					
+			   </div>
+				<div class="ui-g-6 ui-g-nopad">
+					 <div class="ui-g-12 ui-md-3">
+						 <label for="fechanacimiento" class="ui-outputlabel ">Fecha de Nacimiento</label>
+					 </div>
+					 <div class="ui-g-12 ui-md-8">
+						 <input type="text" pInputText id="fechanacimiento" name="fechanacimiento" [ngModel]="mcampos.fnacimiento | date:'dd-MM-yyyy'" [readOnly]="true"
+						 />
+					 </div>
+				</div>
+				<div class="ui-g-6 ui-g-nopad">
+					 <div class="ui-g-12 ui-md-3">
+						 <label for="tiemposervicio" class="ui-outputlabel ">Tiempo Servicio:</label>
+					 </div>
+					 <div class="ui-g-12 ui-md-8">
+						  <input type="text" pInputText id="tiemposervicio" name="tiemposervicio" [(ngModel)]="mcampos.tiemposervicio" [readOnly]="true"
+						  />
+					 </div>
+					 </div>
+					 <div class="ui-g-6 ui-g-nopad">
+						  <div class="ui-g-12 ui-md-3">
+								<label for="edad" class="ui-outputlabel ">Edad:</label>
+						  </div>
+						  <div class="ui-g-12 ui-md-8">
+								 <input type="text" pInputText id="edad" name="edad" [readOnly]="true" [(ngModel)]="mcampos.edad" />
+						  </div>
+					 </div>
+					 <div class="ui-g-6 ui-g-nopad">
+						 <div class="ui-g-12 ui-md-3">
+								<label for="tipobaja" class="ui-outputlabel ">Tipo de Baja:</label>
+						</div>
+						 <div class="ui-g-12 ui-md-8">
+								<input type="text" pInputText id="tipobaja" name="tipobaja" [readOnly]="true" [(ngModel)]="mcampos.tipobaja" />
+						 </div>
+					  </div>
+					  <div class="ui-g-6 ui-g-nopad">
+						   <div class="ui-g-12 ui-md-3">
+							   <label for="sexo" class="ui-outputlabel ">Sexo:</label>
+							</div> 
+						   <div class="ui-g-12 ui-md-8">
+							  <input type="text" pInputText id="sexo" name="sexo" [readOnly]="true" [(ngModel)]="registro.mdatos.genero" />
+						   </div>
+					 </div>
+					  <div class="ui-g-6 ui-g-nopad">
+						 <div class="ui-g-12 ui-md-3">
+							  <label for="aportes" class="ui-outputlabel ">Total Aportes:</label>
+						 </div>
+						 <div class="ui-g-12 ui-md-8">
+							  <input type="text" pInputText id="aportes" name="aportes" [readOnly]="true" [ngModel]="mcampos.numaportaciones"
+							  />
+						 </div>
+					 </div>
+					 <div *ngIf="mcampos.ccomprobante === ''" class="ui-g-6 ui-g-nopad">
+						
+					</div>
+					 <div *ngIf="mcampos.ccomprobante !== ''" class="ui-g-6 ui-g-nopad">
+						<div class="ui-g-12 ui-md-3">
+							 <label for="ccomprobante" class="ui-outputlabel ">Comprobante:</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							 <input type="text" pInputText id="ccomprobante" name="ccomprobante" [readOnly]="true" value="{{mcampos.ccomprobante}}"
+							   />
+						</div>
+					</div>
+					 <div class="ui-g-6 ui-g-nopad">
+						 <div class="ui-g-12 ui-md-3">
+							  <label for="acumuladoaporte" class="ui-outputlabel ">Acumulado Aportes:</label>
+						 </div>
+						 <div class="ui-g-12 ui-md-8">
+							  <input type="text" pInputText id="acumuladoaporte" name="acumuladoaporte" [readOnly]="true" value="{{mcampos.aporteacumuladoCabecera | number:'1.2-2' }}"
+								/>
+						 </div>
+					 </div>
+		  </div>
+	 </form>
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="DATOS LIQUIDACIÓN" [toggleable]="collapsed">
+	<app-liquidacion></app-liquidacion>	
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="OBSERVACIONES" [toggleable]="collapsed">
+	<app-observaciones></app-observaciones>
+</p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="EXPEDIENTE" [toggleable]="collapsed">
+		<app-expediente></app-expediente>
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed"  legend="BENEFICIARIO" [toggleable]="collapsed">
+	<app-beneficiario></app-beneficiario>
+</p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="NOVEDADES" [toggleable]="collapsed">
+	  <app-novedadessocio></app-novedadessocio>
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="RETENCIONES" [toggleable]="collapsed">
+	  <app-retenciones></app-retenciones>
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="PRESTAMOS" [toggleable]="collapsed">
+		<app-prestamos></app-prestamos>
+  </p-fieldset>
+  <p-fieldset [collapsed] = "!collapsed" legend="ANTICIPO DE CESANTIA" [toggleable]="collapsed">
+	<app-anticipo></app-anticipo>
+</p-fieldset>
+  
+
+  
+  
+  

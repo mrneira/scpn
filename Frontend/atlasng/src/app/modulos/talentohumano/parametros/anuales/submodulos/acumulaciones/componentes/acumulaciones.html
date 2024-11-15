@@ -1,0 +1,120 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+ 
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Acumulación o mensualización</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="anio" header="Año" [style]="{'width':'40px'}"></p-column>
+        <p-column field="mdatos.nombre" header="Funcionario" [filter]="true" filterPlaceholder="Filtrar">
+         
+        </p-column>
+        <p-column field="adecimoc" header="Décimo Tercero?" [style]="{'width':'65px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.adecimot" binary="true" disabled="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="adecimot" header="Décimo Cuarto?" [style]="{'width':'65px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.adecimoc" binary="true" disabled="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="afondoreserva" header="Fondos Reserva?" [style]="{'width':'65px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.afondoreserva" binary="true" disabled="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+
+        <p-column [style]="{'width':'100px'}" header="Acciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Acumulación o mensualización" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="anio" class="ui-outputlabel required">Año</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-1">
+            <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="nombref" name="nombref" [(ngModel)]="registro.mdatos.nombre" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="adecimot" class="ui-outputlabel ">Acumula Décimo tercero?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="adecimot" name="adecimot" [(ngModel)]="registro.adecimot" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="adecimoc" class="ui-outputlabel ">Acumula Décimo cuarto?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="adecimoc" name="adecimoc" [(ngModel)]="registro.adecimoc" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-6 ui-g-nopad">
+          <div class="ui-g-6 ui-md-6">
+            <label for="afondoreserva" class="ui-outputlabel ">Acumula Fondos de reserva?:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-checkbox id="afondoreserva" name="afondoreserva" [(ngModel)]="registro.afondoreserva" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-6 ui-g-nopad">
+            <div class="ui-g-6 ui-md-3">
+              <label for="tienederecho" class="ui-outputlabel ">Tiene derecho ?:</label>
+            </div>
+            <div class="ui-g-6 ui-md-8">
+              <p-checkbox id="tienederecho" name="tienederecho" [(ngModel)]="registro.tienederecho" binary="false"></p-checkbox>
+            </div>
+          </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

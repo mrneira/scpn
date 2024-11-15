@@ -1,0 +1,87 @@
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cingreso" class="ui-outputlabel ">Ingreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cingreso" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="loveingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="memoautorizacion" class="ui-outputlabel">Memo autorización</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText id="memoautorizacion" name="memoautorizacion" maxlength="30" [(ngModel)]="cabeceraComponent.registro.memoautorizacion"
+          readonly="true"/>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-2">
+          <label for="ordendecompra" class="ui-outputlabel">Orden de compra</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText id="ordendecompra" name="ordendecompra" maxlength="30" [(ngModel)]="cabeceraComponent.registro.ordendecompra"
+          readonly="true"/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="facturanumero" class="ui-outputlabel">Factura número</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText id="facturanumero" name="facturanumero" maxlength="20" [(ngModel)]="cabeceraComponent.registro.facturanumero"
+          readonly="true"/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="tipoingresocdetalle" class="ui-outputlabel required">Tipo de Ingreso</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown id="tipoingresocdetalle" name="tipoingresocdetalle" [options]="ltipoingresocdetalle" [(ngModel)]="cabeceraComponent.registro.tipoingresocdetalle"
+            required [filter]="true" [readonly]="!nuevo"></p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-2">
+          <label for="estadoingresocdetalle" class="ui-outputlabel required">Estado</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown id="estadoingresocdetalle" name="estadoingresocdetalle" [options]="lestadoingresocdetalle" [(ngModel)]="cabeceraComponent.registro.estadoingresocdetalle"
+            required [filter]="true" [readonly]="!nuevo"></p-dropdown>
+        </div>
+      </div>
+      <span *ngIf="!estaVacio(cabeceraComponent.registro.cgesarchivo)">
+        <button type="button" label = "Descargar Factura" pButton (click)="descargarArchivo(cabeceraComponent.registro.cgesarchivo, true)" icon="ui-icon-file-download">
+        </button>
+      </span>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</form>

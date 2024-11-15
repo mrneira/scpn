@@ -1,0 +1,91 @@
+﻿<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Datos Solicitud</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="fcproducto" name="fcproducto" [options]="solicitud.lproducto" [(ngModel)]="solicitud.registro.cproducto"
+            (onChange)="solicitud.cambiarTipoProducto($event);solicitud.recargarSimulacion()" required [disabled]="!editable"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fctipoproducto" class="ui-outputlabel required">Tipo producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="fctipoproducto" name="fctipoproducto" [options]="solicitud.ltipoproducto" [(ngModel)]="solicitud.registro.ctipoproducto"
+            (onChange)="solicitud.mostrar($event);solicitud.recargarSimulacion()" required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="tablaamortizacion" name="tablaamortizacion" [options]="solicitud.ltablaamortizacion" [(ngModel)]="solicitud.registro.ctabla"
+            required [disabled]="!editable" [filter]="true" (onChange)="solicitud.recargarSimulacion()"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="monto" class="ui-outputlabel required">Monto</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="monto" name="monto" maxlength="10" numero required [(ngModel)]="solicitud.registro.montooriginal"
+            [disabled]="!editable" (ngModelChange)="solicitud.recargarSimulacion()" (blur)="solicitud.cargarCuotas(solicitud.registro.montooriginal)"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="numerocuotas" class="ui-outputlabel required">Número cuotas</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="numerocuotas" name="numerocuotas" maxlength="3" entero [required]="!solicitud.pagoVencimiento"
+            [(ngModel)]="solicitud.registro.numerocuotas" [disabled]="!editable || solicitud.pagoVencimiento" (ngModelChange)="solicitud.recargarSimulacion()"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Datos Simulación</span>
+      </div>
+      <hr />
+    </div>
+    <div class="separador-linea"></div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tasanominal" class="ui-outputlabel">Tasa nominal</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="tasanominal" name="tasanominal" maxlength="5" numero [(ngModel)]="solicitud.mcampos.tasa"
+            disabled="disabled" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="valorcuota" class="ui-outputlabel">Valor cuota</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="valorcuota" name="valorcuota" maxlength="10" numero [(ngModel)]="solicitud.registro.valorcuota"
+            disabled="disabled" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

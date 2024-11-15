@@ -1,0 +1,104 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"
+				 (ngModelChange)="consultar()"></p-calendar>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"
+				 (ngModelChange)="consultar()"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12" style="clear:both;float:right;width:150px">
+				<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+			</div>
+		</div>
+
+	</div>
+
+
+
+</form>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+			 selectionMode="single" (onRowSelect)="seleccionarDetalle($event)">
+				<p-header>
+					<div class="ui-table-title">Compromisos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="Compromiso" header="Secuencia " [style]="{'width': '30px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="afectacionparcial" header="Afectación parcial" [style]="{'width': '30px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.afectacionparcial" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Eliminado" [style]="{'width':'30px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.Eliminado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column field="Estado" header="Estado" [style]="{'width':'30px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="Cusuario" header="Usuario Ingreso" [style]="{'width':'30px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="comentario" header="Comentario" [style]="{'width':'280px'}" [filter]="true" filterPlaceholder="Filtrar"
+				 filterMatchMode="contains"></p-column>
+				<p-column [style]="{'width':'30px'}" header="Acciones" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<div class="ui-helper-clearfix" *ngIf="ins">
+								<button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="descargarCompromiso(reg)"
+								 pTooltip="Descarga PDF" tooltipPosition="top"></button>
+							</div>
+						</div>
+						<div class="ui-g-12" style='display:none'>
+							<app-jasper #tblhistorial [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+						  </div>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistroDetalle" [responsive]="true" scrollable="true" [resizableColumns]="false"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Detalle</div>
+					
+				</p-header>
+				<p-column field="Secuencia" header="Código" [style]="{'width':'8px'}"></p-column>
+				<p-column field="nombre" header="Nombre" [style]="{'width':'40px'}"></p-column>
+				<p-column field="Valor" header="Valor" [style]="{'width':'8px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.Valor | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="ValorPagado" header="Valor Pagado" [style]="{'width':'8px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.ValorPagado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

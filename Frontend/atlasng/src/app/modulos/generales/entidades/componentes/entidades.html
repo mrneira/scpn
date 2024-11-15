@@ -1,0 +1,214 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpktname" class="ui-outputlabel">Nombre tabla</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fpktname" name="fpktname" [(ngModel)]="mfiltros.tname" mayusculas autofoco maxlength="30" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Entidades</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+				<p-column field="tname" header="Nombre tabla"></p-column>
+				<p-column field="entity" header="Entidad"></p-column>
+				
+				<p-column field="project" header="Proyecto" [style]="{'width':'80px'}"></p-column>
+				<p-column field="pac" header="Paquete" [style]="{'width':'80px'}"></p-column>
+				<p-column field="log" header="Registra log?" [style]="{'width':'60px'}"></p-column>
+				
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Entidad" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" >
+<form #formDialogoEnt="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pktname" class="ui-outputlabel required">Nombre tabla</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="pktname" name="pktname"
+						[(ngModel)]="registro.tname" autofoco required maxlength="30" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pkentity" class="ui-outputlabel required">Entidad</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="pkentity" name="pkentity"
+						[(ngModel)]="registro.entity" required maxlength="120" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="project" class="ui-outputlabel required">Proyecto</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="project" name="project" [(ngModel)]="registro.project" 
+						   required maxlength="120" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="paquete" class="ui-outputlabel required">Paquete</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="paquete" name="paquete" [(ngModel)]="registro.pac" 
+						   required maxlength="120" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="javaext" class="ui-outputlabel">Java extends</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="javaext" name="javaext" [(ngModel)]="registro.javaextends" 
+						   maxlength="150" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="javaimpl" class="ui-outputlabel">Java implements</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="javaimpl" name="javaimpl" [(ngModel)]="registro.javaimplements" 
+						   maxlength="150" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="crearef" class="ui-outputlabel required">Crear referencias</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="crearef" name="crearef" [(ngModel)]="registro.createreferences" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="optimisticlocking" class="ui-outputlabel required">Bloqueo optimista</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="optimisticlocking" name="optimisticlocking" [(ngModel)]="registro.optimisticlocking" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="versionreg" class="ui-outputlabel">Version registro</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="versionreg" name="versionreg" [(ngModel)]="registro.versionreg" 
+						   entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="autoimport" class="ui-outputlabel required">Auto import</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="autoimport" name="autoimport" [(ngModel)]="registro.autoimport" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="log" class="ui-outputlabel required">Registra log</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="log" name="log" [(ngModel)]="registro.log" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cachetrans" class="ui-outputlabel required">Cache</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cachetrans" name="cachetrans" [(ngModel)]="registro.cachetrans" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="secautomatica" class="ui-outputlabel required">Sec. automática</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="secautomatica" name="secautomatica" [(ngModel)]="registro.secautomatica" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="retornapk" class="ui-outputlabel required">Retorna pk</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="retornapk" name="retornapk" [(ngModel)]="registro.retornapk" 
+						   required entero maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="camposec" class="ui-outputlabel required">Campo secuencia</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="camposec" name="camposec" [(ngModel)]="registro.camposecuencia" 
+						   required maxlength="50" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoEnt" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

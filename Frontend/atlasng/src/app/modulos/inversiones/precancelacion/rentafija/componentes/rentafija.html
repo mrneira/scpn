@@ -1,0 +1,202 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Precancelación de Inversiones de Renta Fija</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column field="cinversion" header="Id. Inv." [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+
+				<p-column field="mdatos.nEmisor" header="Emisor"></p-column>
+
+				<p-column field="mdatos.nInstrumento" header="Instrumento"></p-column>
+
+				<p-column header="V. Nominal" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nValornominal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Capital Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.capital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.interes | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Mora Cancelada" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mora | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				
+
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Pago / Venta de Inversiones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="70">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+
+			<div class="f-datacontent ui-g ui-fluid">
+
+
+				<div class="ui-g-12 ui-g-nopad">
+
+					<div class="ui-g-12 ui-md-3">
+						<label for="fpkcinversion" class="ui-outputlabel required">Inversión Renta Variable</label>
+					</div>
+
+					<div class="ui-g-2 ui-md-1">
+						<input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="registro.cinversion" required [readOnly]="true"
+						/>
+					</div>
+
+					<div class="ui-g-9 ui-md-4">
+						<input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.ncodigotitulo" [readOnly]="true"
+						/>
+					</div>
+
+					<div class="ui-g-1 ui-md-3">
+						<button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" icon="ui-icon-directions">
+						</button>
+					</div>
+
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>DETALLE DE LA INVERSIÓN</span>
+					</div>
+					<hr />
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="emisor" class="ui-outputlabel required">Emisor</label>
+					</div>
+
+					<div class="ui-g-2 ui-md-7">
+						<input id="emisor" name="emisor" type="text" pInputText [(ngModel)]="registro.mdatos.nEmisor" required [readOnly]="true"
+						/>
+					</div>
+				</div>
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="instrumento" class="ui-outputlabel required">Instrumento</label>
+					</div>
+
+					<div class="ui-g-2 ui-md-7">
+						<input id="instrumento" name="instrumento" type="text" pInputText [(ngModel)]="registro.mdatos.nInstrumento" required [readOnly]="true"
+						/>
+					</div>
+				</div>
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valornominal" class="ui-outputlabel">Valor Nominal</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="valornominal" name="valornominal" [(ngModel)]="mcampos.valornominal" numero maxlength="19"
+						 [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="saldocapital" class="ui-outputlabel">Saldo de Capital</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="saldocapital" name="saldocapital" [(ngModel)]="mcampos.saldocapital" numero maxlength="19"
+						 [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="interestranscurrido" class="ui-outputlabel">Interés Transcurrido</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="interestranscurrido" name="interestranscurrido" [(ngModel)]="mcampos.interestranscurrido"
+						 numero maxlength="19" [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="totalapagar" class="ui-outputlabel">Total a Pagar</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="totalapagar" name="totalapagar" [(ngModel)]="mcampos.totalapagar" numero maxlength="19"
+						 [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>REGISTRO DE PAGOS</span>
+					</div>
+					<hr />
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel required">Monto a Pagar</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="valor" name="valor" [(ngModel)]="mcampos.montopagado" numeroPositivo maxlength="19" [disabled]="false"
+						 required />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="mora" class="ui-outputlabel">Valor Mora</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="mora" name="mora" [(ngModel)]="registro.mora" numeroPositivo maxlength="19" [disabled]="false" />
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>
+<app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>

@@ -1,0 +1,83 @@
+{
+"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "version": "4.1",
+    "name": "cima"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "atlas.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "styles": [
+      	"./assets/css/plantilla.css",
+      	"./assets/theme/theme-cesantia1.css",
+      	"./assets/layout/css/layout-cesantia1.css",
+      	"../node_modules/primeng/resources/primeng.min.css",
+        "../node_modules/fullcalendar/dist/fullcalendar.min.css",
+        "../node_modules/quill/dist/quill.snow.css",
+        "../node_modules/nanoscroller/bin/css/nanoscroller.css",
+        "styles.css"
+      ],
+      "scripts": [
+      	"../node_modules/jquery/dist/jquery.min.js",
+      	"../node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
+      	"./assets/layout/js/ripple.js",
+      	"../node_modules/moment/moment.js",
+      	"../node_modules/chart.js/dist/Chart.min.js",
+      	"../node_modules/fullcalendar/dist/fullcalendar.min.js",
+      	"../node_modules/quill/dist/quill.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+	  "environments": {
+	    "dev": "environments/environment.ts",
+	    "prod": "environments/environment.prod.ts"
+	  }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    },
+    {
+      "files": "e2e/**/*.ts",
+      "project": "e2e/tsconfig.json"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
+  }
+}

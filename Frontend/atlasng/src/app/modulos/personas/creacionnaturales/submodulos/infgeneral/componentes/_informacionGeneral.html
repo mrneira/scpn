@@ -1,0 +1,117 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo,natural.componentehijo,detalle.componentehijo]"
+        class="ui-g-12 ui-g-nopad"></acciones-editar>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cdocumento" class="ui-outputlabel required">Cédula</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="documento" name="documento" [(ngModel)]="detalle.registro.identificacion" maxlength="10" (blur)="validarDocumento()" entero [disabled]="!editable" required/>
+          </div>
+        </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad"></div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="primernombre" class="ui-outputlabel required">Primer nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="primernombre" name="primernombre" [(ngModel)]="natural.registro.primernombre" maxlength="30"
+            required [disabled]="!editable" letras/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="segundonombre" class="ui-outputlabel">Segundo nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="segundonombre" name="segundonombre" [(ngModel)]="natural.registro.segundonombre" maxlength="30"
+            [disabled]="!editable" letras />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="apellidopaterno" class="ui-outputlabel required">Apellido paterno</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="apellidopaterno" name="apellidopaterno" [(ngModel)]="natural.registro.apellidopaterno"
+            maxlength="30" required letras [disabled]="!editable" autofoco />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="nombre" class="ui-outputlabel">Apellido materno</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="apellidomaterno" name="apellidomaterno" [(ngModel)]="natural.registro.apellidomaterno"
+            maxlength="30" [disabled]="!editable" letras />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="genero" class="ui-outputlabel required">Género</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="genero" name="genero" [options]="natural.componentehijo.lgenero" [(ngModel)]="natural.registro.genero" required
+            [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="estadocivilcdetalle" class="ui-outputlabel">Estado civil</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="estadocivilcdetalle" name="estadocivilcdetalle" [options]="natural.componentehijo.lestadocivil" [(ngModel)]="natural.registro.estadocivilcdetalle"
+            [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fnacimiento" class="ui-outputlabel">F.Nacimiento</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-calendar id="fnacimiento" name="fnacimiento" [(ngModel)]="natural.registro.fnacimiento" [showIcon]="true" [locale]="es"
+            [disabled]="!editable" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cnacionalidad" class="ui-outputlabel required">Nacionalidad</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="cnacionalidad" name="cnacionalidad" type="text" pInputText [(ngModel)]="natural.registro.cnacionalidad" required
+            readonly />
+        </div>
+        <div class="ui-g-9 ui-md-3">
+          <input type="text" pInputText id="nnacionalidad" name="nnacionalidad" [(ngModel)]="natural.registro.mdatos.nnacionalidad"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovnacionalidades" name="lovnacionalidades" (click)="natural.componentehijo.mostrarLovNacionalidades()"
+            [disabled]="!editable" icon="ui-icon-directions">
+          </button>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="celular" class="ui-outputlabel">Celular</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="celular" name="celular" 
+						[(ngModel)]="detalle.registro.celular" maxlength="20" entero [disabled]="!editable" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="email" class="ui-outputlabel">Email Personal</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="email" pInputText id="email" name="email" [(ngModel)]="detalle.registro.email" maxlength="120" [disabled]="!editable"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,102 @@
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+      columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Listado de Transacciones</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column header="Fecha" styleClass="f-center" [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.fcontable | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column field="mdatos.ntransaccion" header="Nombre"></p-column>
+      <p-column field="cusuario" header="Usuario"></p-column>
+      <p-column header="Monto" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ ((reg.mdatos.cestadooperacion != 'N' && reg.cmodulo == 7 && reg.ctransaccion == 130) ? (reg.mdatos.montoarreglopago != null ? reg.mdatos.montoarreglopago : reg.monto) : reg.monto) | number:'1.2-2'}}
+          <!--{{ reg.monto | number:'1.2-2'}}-->
+        </ng-template>
+      </p-column>
+      <p-column field="documento" header="Número documento" styleClass="f-right"></p-column>
+      <p-column [style]="{'width':'90px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="mostrarDialogoPagos(reg)" icon="ui-icon-search">
+          </button>
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="mostrarDialogoMovimiento(reg)" icon="ui-icon-format-line-spacing">
+          </button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Detalle de Transacción" [(visible)]="mostrarDialogoDetalle" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 750px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lpagos" [responsive]="true" scrollable="true" [resizableColumns]="false" columnResizeMode="expand"
+          scrollHeight="250px">
+          <p-header>
+            <div class="ui-table-title">Detalle de Transacción</div>
+          </p-header>
+          <p-column field="nsaldo" header="Nombre"></p-column>
+          <p-column field="csaldo" header="Concepto" [style]="{'width':'120px'}"></p-column>
+          <p-column field="ndetalle" header="Detalle"></p-column>
+          <p-column header="Monto" [style]="{'width':'100px'}" styleClass="f-right">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.monto | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogo()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px">
+        </button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>
+
+<p-dialog header="Detalle de Movimiento" [(visible)]="mostrarDialogoDetalleMovimiento" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 750px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lmovimientos" [responsive]="true" scrollable="true" scrollHeight="350px"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">Detalle de Movimiento</div>
+          </p-header>
+          <p-column field="numcuota" header="Cuota" styleClass="f-center" [style]="{'width':'60px'}"></p-column>
+          <p-column field="nsaldo" header="Nombre"></p-column>
+          <p-column field="csaldo" header="Rubro" [style]="{'width':'90px'}"></p-column>
+          <p-column header="Débito" styleClass="f-right" [style]="{'width':'80px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.debito | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <p-column header="Crédito" styleClass="f-right" [style]="{'width':'80px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.credito | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogo()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px"> </button>
+      </div>
+    </footer>
+  </div>
+
+</p-dialog>

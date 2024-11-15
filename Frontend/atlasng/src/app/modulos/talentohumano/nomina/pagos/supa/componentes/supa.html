@@ -1,0 +1,69 @@
+<app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)>
+</app-lov-parametroanual>
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+    <button pButton type="button" label="Generar pago" style="position: absolute; right: 1px;" class="f-btn teal-btn" icon="ui-icon-money"
+      (click)="aprobarEtapa()"></button>
+
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel required">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mfiltros.anio" required [readOnly]="true" style="text-align:center;"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+          [disabled]="!editable"></button>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="mescdetalle" class="ui-outputlabel required">Mes de Aplicación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="mfiltros.mescdetalle" required [filter]="true"
+          [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'nmes')"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="idreg">
+        <p-header>
+            <label class="ui-cell-total">{{getTotal() | number:'1.2-2'}}</label>
+            <div class="ui-table-title">PAGOS SUPA</div>
+
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+
+        </p-header>
+        <p-column [style]="{'width':'28px'}" selectionMode="multiple"></p-column>
+        <p-column field="cdescuentop" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="mdatos.ndescuento" header="Beneficio"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+
+        <p-column field="mdatos.nmes" header="Mes" [style]="{'width':'100px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        <p-column header="Monto" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+
+
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

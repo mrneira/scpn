@@ -1,0 +1,49 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+<div class="f-contenedor-transaccion">
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdesde" class="ui-outputlabel required">Año</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-dropdown (onChange)="eventoSelectYear()" id="anioEstructura" name="anioEstructura" [options]="lanios" [(ngModel)]="mangerFilter.year"
+            [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcrurbo" class="ui-outputlabel required">Mes</label>
+        </div>
+        <div class="ui-g-2 ui-md-8">
+          <p-dropdown (onChange)="eventoSelectMes()" id="mesEstructura" name="mesEstructura" [options]="lmeses" [(ngModel)]="mangerFilter.month" [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <HR>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistrosestructuras" [responsive]="true" scrollable="true" scrollHeight="500px" rowGroupMode="subheader"
+      [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Listado de estructuras de cartera</div>
+      </p-header>
+      <p-column field="name" header="Estructura" [style]="{'width':'80px'}"></p-column>
+      <p-column field="description" header="Descripción"></p-column>
+      <p-column field="year" header="Año" [style]="{'width':'50px'}"></p-column>
+      <p-column field="month" header="Mes" [style]="{'width':'50px'}"></p-column>
+      <p-column header="Acciones" [style]="{'width':'60px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-arrowthickstop-1-s" (click)="downloadEstructura(reg)" icon="ui-icon-file-download" title="Descargar estructura" style="margin-left:5px"></button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

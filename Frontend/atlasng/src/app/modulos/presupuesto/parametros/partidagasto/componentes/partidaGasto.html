@@ -1,0 +1,285 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="aniofiscal" class="ui-outputlabel required">Año fiscal</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input pInputText name="aniofiscal" [(ngModel)]="mfiltros.aniofiscal" entero maxlength="4" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <button pButton type="button" label="Consultar"
+        class="f-btn green-btn" icon="ui-icon-search" (click)="consultarpartidas()"></button>
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-treeTable [value]="root">
+      <p-header>Formulaci&oacute;n de Gastos</p-header>
+      <p-column header="" styleClass="f-left" [style]="{'width':'180px'}">
+        <ng-template pTemplate="body" let-node="rowData">
+          <p-checkbox [(ngModel)]="node.data.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column field="reg.cpartidagasto" header="C&oacute;digo" [style]="{'width':'150px'}" styleClass="f-left"></p-column>
+      <p-column field="reg.aniofiscal" header="Año" [style]="{'width':'30px'}" styleClass="f-left"></p-column>
+      <p-column field="reg.nivel" [hidden]="true" header="Nivel" [style]="{'width':'30px'}" styleClass="f-left"></p-column>
+      <p-column header="Nombre" styleClass="f-left" [style]="{'width':'350px'}">
+        <ng-template pTemplate="body" let-node="rowData">
+          {{node.data.reg.nombre}}
+        </ng-template>
+      </p-column>
+      <p-column header="V. Codificado" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-node="rowData" pTemplate="body">
+          {{node.data.reg.vcodificado | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="V. Pagado" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-node="rowData" pTemplate="body">
+          {{node.data.reg.vpagado | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="% Participación" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-node="rowData" pTemplate="body">
+          {{node.data.reg.porcenparticipacion | number:'1.2-6'}}
+        </ng-template>
+      </p-column>
+      <p-column header="% Ejecución" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-node="rowData" pTemplate="body">
+          {{node.data.reg.porcenejecucion | number:'1.2-6'}}
+        </ng-template>
+      </p-column>
+
+      <p-column header="Acciones" styleClass="f-right">
+        <ng-template pTemplate="body" let-node="rowData">
+          <div class="f-table-actions">
+            <acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+
+      </p-footer>
+    </p-treeTable>
+  </div>
+</div>
+
+
+<p-dialog header="Partida de Gastos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="10">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 650px; max-height: 1000px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoitem" class="ui-outputlabel required">Tipo nodo</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <p-selectButton id="tipoitem" name="tipoitem" [options]="tiposmenu" [(ngModel)]="registro.mdatos.eshoja"
+              [disabled]="!registro.esnuevo" (onChange)="cambiar($event)"></p-selectButton>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.mdatos.eshoja">
+
+          <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12 ui-md-2">
+              <label for="nivel" class="ui-outputlabel">Nivel</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="nivel" name="nivel" [(ngModel)]="nivel" entero maxlength="1" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="cclasificador" class="ui-outputlabel required">Clasificador</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="clasificador" name="clasificador" [(ngModel)]="registro.cclasificador"
+                mayusculas maxlength="10" [disabled]="!editable" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovclasificadorcategoria" name="lovclasificadorcategoria" (click)="mostrarlovclasificadorcategoria()"
+                icon="ui-icon-directions" [disabled]="!editable">
+              </button>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel">C&oacute;digo</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="clasificador" name="clasificador" [(ngModel)]="registro.cpartidagasto"
+              required mayusculas maxlength="10" [disabled]="true" />
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="nombre" class="ui-outputlabel required">Nombre</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas
+                maxlength="250" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="cclasificador" class="ui-outputlabel required">Clasificador</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="clasificador" name="clasificador" [(ngModel)]="registro.cclasificador"
+                mayusculas maxlength="10" [disabled]="!editable" readonly="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovclasificador" name="lovclasificador" (click)="mostrarlovclasificador()"
+                icon="ui-icon-directions" [disabled]="!editable">
+              </button>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="nombre" class="ui-outputlabel">C&oacute;digo</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="clasificador" name="clasificador" [(ngModel)]="registro.cpartidaingreso"
+                required mayusculas maxlength="10" [disabled]="true" />
+            </div>
+          </div>
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="nombre" class="ui-outputlabel required">Nombre</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas
+                maxlength="250" [disabled]="!editable" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12 ui-md-2">
+              <label for="padre" class="ui-outputlabel">Padre</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="padre" name="padre" [(ngModel)]="registro.padre" mayusculas maxlength="10"
+                [disabled]="!registro.esnuevo" [readOnly]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="movimientos" class="ui-outputlabel" hidden="true">Movimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="movimientos" [(ngModel)]="registro.movimiento" binary="false" hidden="true"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="activa" class="ui-outputlabel required">Activa</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="activa" [(ngModel)]="registro.activa" binary="false" aria-required="true"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="aniofiscal" class="ui-outputlabel required">A&ntilde;o Fiscal</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="aniofiscal" name="aniofiscal" [(ngModel)]="registro.aniofiscal"
+                [readOnly]="!esNuevo" entero maxlength="4" required />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="vasignacioninicial" class="ui-outputlabel required">V. Asignaci&oacute;n Inicial</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vasignacioninicial" name="vasignacioninicial" [(ngModel)]="registro.vasignacioninicial"
+                (ngModelChange)="calculaVcodificado($event)" numero maxlength="15" required [readOnly]="!esNuevo" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="vcodificado" class="ui-outputlabel ">V. Codificado</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vcodificado" name="vcodificado" [(ngModel)]="registro.vcodificado"
+                numero maxlength="15" disabled="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="vsaldoporcertificar" class="ui-outputlabel ">Saldo X Certificar</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vsaldoporcertificar" name="vsaldoporcertificar" [(ngModel)]="registro.vsaldoporcertificar"
+                numero maxlength="15" disabled="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="vsaldoporcomprometer" class="ui-outputlabel ">Saldo X Comprometer</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vsaldoporcomprometer" name="vsaldoporcomprometer" [(ngModel)]="registro.vsaldoporcomprometer"
+                numero maxlength="15" disabled="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="vsaldopordevengar" class="ui-outputlabel ">Saldo X Devengar</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vsaldopordevengar" name="vsaldopordevengar" [(ngModel)]="registro.vsaldopordevengar"
+                numero maxlength="15" disabled="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="porcenparticipacion" class="ui-outputlabel required">% Participaci&oacute;n</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="porcenparticipacion" name="porcenparticipacion" [(ngModel)]="registro.porcenparticipacion"
+                numeroDecimal7 maxlength="9" required />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <label for="porcenejecucion" class="ui-outputlabel required">% Ejecuci&oacute;n</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="porcenejecucion" name="porcenejecucion" [(ngModel)]="registro.porcenejecucion"
+                numeroDecimal7 maxlength="9" required />
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+
+  </form>
+</p-dialog>
+
+<app-lov-clasificador #lovclasificador (eventoCliente)=fijarlovclasificadorSelec($event)></app-lov-clasificador>
+<app-lov-clasificador #lovclasificadorcategoria (eventoCliente)=fijarlovclasificadorSelecCategoria($event)></app-lov-clasificador>

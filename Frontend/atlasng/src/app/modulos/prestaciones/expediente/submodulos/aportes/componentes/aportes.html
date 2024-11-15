@@ -1,0 +1,89 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="1000px" [resizableColumns]="false" rowGroupMode="subheader">
+                <p-header>
+                    <div class="ui-table-title">APORTES</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+                <p-column field="anio" header="AÑO" [style]="{'text-align':'Center'}"></p-column>
+                <p-column header="ENERO" [style]="{'text-align':'right'}">
+				 	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.enero | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+                <p-column header="FEBRERO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.febrero | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="MARZO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.marzo | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="ABRIL" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.abril | number:'1.2-2'}}
+					</ng-template>
+                </p-column> 
+                <p-column header="MAYO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.mayo | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="JUNIO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.junio | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="JULIO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.julio | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="AGOSTO" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.agosto | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="SEPTIEMBRE" [style]="{'width':'80px','text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.septiembre | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="OCTUBRE" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.octubre | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="NOVIEMBRE" [style]="{'width':'80px','text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.noviembre | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="DICIEMBRE" [style]="{'text-align':'right'}">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.diciembre | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="ADICIONAL" styleClass="f-right">
+                	<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.adicional | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                <p-column header="ACUMULADO" styleClass="f-right">
+                <ng-template pTemplate="body" let-reg="rowData">
+						{{reg.acumulado | number:'1.2-2'}}
+					</ng-template>
+                </p-column>
+                    <ng-template pTemplate="rowgroupfooter" *ngIf="true">
+                         <td colspan="14" style="text-align:right">TOTAL</td>
+                         <td style="text-align:Left">{{mcampos.aporteacumulado | number:'1.2-2' }}</td>
+                    </ng-template>
+            </p-dataTable>
+
+        </div>
+    </div>
+</div>
+

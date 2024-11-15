@@ -1,0 +1,23 @@
+<p-dialog header="ETAPA DEL EXPEDIENTE" [(visible)]="displayLov" width="1000" showEffect="fade" [responsive]="true" [positionTop]="120" >
+	
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true" scrollHeight="250px">
+		          <p-header>
+		          		<div class="ui-table-title">HISTORICO DEL EXPEDIENTE</div>
+		          		<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		          </p-header>            
+				  <p-column field="mdatos.etapa" header="Etapa"></p-column>
+				  <p-column field="fechaentrada" header="Fecha de entrada"></p-column>
+				  <p-column field="fechasalida" header="Fecha de salida"></p-column>
+				  <p-column field="dias" header="Días"></p-column>
+				  <p-column field="mdatos.liquidacion" header="Liquidación"></p-column>
+				  <p-column field="estado" header="Estado"></p-column>
+				  <p-column field="cusuarioing" header="Usuario"></p-column>
+				  <p-column field="observacion" header="Observación"></p-column>
+	        </p-dataTable>
+		</div>
+	</div>
+
+</p-dialog>
+

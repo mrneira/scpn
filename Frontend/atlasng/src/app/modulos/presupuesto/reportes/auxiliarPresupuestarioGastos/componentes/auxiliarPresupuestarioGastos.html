@@ -1,0 +1,148 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel reqmuired">Año fiscal</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="periodo" name="periodo" [options]="lperiodo" [(ngModel)]="mcampos.periodo" required [filter]="true"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="codigo" class="ui-outputlabel required">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input id="cpartidagasto" name="cpartidagasto" type="text" pInputText [(ngModel)]="mfiltros.cpartidagasto" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="npartida" name="npartida" [(ngModel)]="mcampos.npartida" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<button pButton type="button" id="lovpartidasgasto" name="lovpartidasgasto" (click)="mostrarlovpartidasgasto()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-partidagasto (eventoCliente)=fijarlovpartidasgastoSelec($event)></app-lov-partidagasto>
+		</div>
+
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="lregistros" [responsive]="true">
+
+			<p-header>
+				<div class="ui-table-title">Generar Reporte</div>
+				<div class="f-acciones-cab-tabla">
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+					 style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+					 style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+					<div class="ui-table-title">Auxiliar Presupuestario de Gastos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column header="Fecha" [style]="{'width':'80px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.fingreso | date: 'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+				<p-column field="ccompromiso" header="Compr" [style]="{'width': '40px'}"></p-column>
+				<p-column field="cafectacion" header="Afect" [style]="{'width': '40px'}"></p-column>
+				<p-column field="cliberacion" header="Liber" [style]="{'width': '40px'}"></p-column>
+				<p-column field="creforma" header="Refor" [style]="{'width': '40px'}"></p-column>
+				<p-column field="ccomprobante" header="Conta" [style]="{'width': '40px'}"></p-column>
+				<p-column field="concepto" header="Concepto" [style]="{'width': '120px'}"></p-column>
+				<p-column field="infoadicional" header="Info adicional" [style]="{'width': '200px'}"></p-column>
+				<p-column field="vtransaccion" header="V. transacción" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vtransaccion | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vasignacioninicial" header="V. asig. inicial" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vasignacioninicial | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vmodificado" header="V. modificado" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vmodificado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcodificado" header="V. codificado" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcodificado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcompromiso" header="V. compromiso" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcompromiso | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcomprometido" header="V. comprometido" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcomprometido | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vdevengado" header="V. devengado" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vdevengado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vpagado" header="V. pagado" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vpagado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldoporcomprometer" header="Saldo por comprometer" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldoporcomprometer | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldopordevengar" header="Saldo por devengar" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldopordevengar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldoporpagar" header="Saldo por pagar" [style]="{'width':'100px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldoporpagar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="cusuarioing" header="Usuario" [style]="{'width': '100px'}"></p-column>
+				<p-footerColumnGroup style="color:blue;">
+					<p-row>
+						<p-column footer="Totales" colspan="4" [style]="{'width':'323px'}"></p-column>
+						<p-column [footer]="totalVModificado | number : '1.2-2'"></p-column>
+						<p-column [footer]="totalVCompromiso | number : '1.2-2'"></p-column>
+						<p-column [footer]="totalVDevengado | number : '1.2-2'"></p-column>
+						<p-column [footer]="totalVPagado | number : '1.2-2'"></p-column>
+					</p-row>
+				</p-footerColumnGroup>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

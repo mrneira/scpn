@@ -1,0 +1,134 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"
+				 (ngModelChange)="consultar()"></p-calendar>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"
+				 (ngModelChange)="consultar()"></p-calendar>
+			</div>
+		</div>
+
+	</div>
+
+
+
+</form>
+
+
+<p-accordion [multiple]="true">
+	<p-accordionTab header="Reformas">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false" selectionMode="single"
+					 (onRowSelect)="seleccionarDetalle($event)">
+						<p-header>
+							<div class="ui-table-title">Reformas</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+						</p-header>
+						<p-column field="Codigo" header="Código Reforma " [style]="{'width': '8px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+						<p-column field="Fecha" header="Fecha" [style]="{'width':'8px'}" [filter]="true" filterPlaceholder="Filtrar">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<span>{{reg.Fecha | date: 'yyyy-MM-dd'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="Valor" header="Valor" [style]="{'width':'8px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								{{ reg.Valor | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="UsuarioIng" header="Usuario Ingreso" [style]="{'width':'8px'}"></p-column>
+						<p-column field="FechaIngreso" header="Fecha Ingreso" [style]="{'width':'8px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<span>{{reg.FechaIngreso | date: 'yyyy-MM-dd'}}</span>
+							</ng-template>
+						</p-column>
+
+						<p-column [style]="{'width':'8px'}" header="Info Adicional" styleClass="f-center">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  <div class="f-table-actions">
+								<div class="ui-helper-clearfix" *ngIf="ins">
+									  <button type="button" pButton icon="ui-icon-delete-forever" (click)="visualizar(reg)" icon="ui-icon-search" style="margin-left:5px">
+									  </button>
+									  <button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="descargarReforma(reg)" pTooltip="Descarga PDF" tooltipPosition="top" ></button>
+								</div>
+							  </div>
+							</ng-template>
+						  </p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</p-accordionTab>
+</p-accordion>
+
+
+<p-accordion [multiple]="true">
+	<p-accordionTab header="Detalle">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistroDetalle" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">Detalle</div>
+
+							<div class="f-acciones-cab-tabla" style='display:none'>
+								<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+							</div>
+						</p-header>
+						<p-column field="Secuencia" header="Secuencia" [style]="{'width':'40px'}"></p-column>
+						<p-column field="Partida" header="Partida" [style]="{'width':'50px'}"></p-column>
+						<p-column field="Nombre" header="Nombre" [style]="{'width':'300px'}"></p-column>
+						<p-column header="Decremento" [style]="{'width':'80px','text-align':'right'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<div *ngIf="reg.decremento">
+									{{ reg.Valor | number:'1.2-2' }}
+								</div>
+							</ng-template>
+						</p-column>
+						<p-column header="Incremento" [style]="{'width':'80px','text-align':'right'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<div *ngIf="!reg.decremento">
+									{{ reg.Valor | number:'1.2-2' }}
+								</div>
+							</ng-template>
+						</p-column>
+
+
+					</p-dataTable>
+
+
+				</div>
+			</div>
+		</div>
+	</p-accordionTab>
+</p-accordion>
+
+<p-dialog header="Información Adicional" [(visible)]="infoadicional" modal="modal" width="300" [responsive]="true">
+
+	<div class="ui-g-12 ui-md-9 reg-details">
+		<div class="ui-g">
+			<div class="ui-g-6 ui-sm-6">Comentario: </div>
+			<div [style]="{'text-align' : 'justify'}" class="ui-g-6 ui-sm-4">{{regconsulta[0].coment}}</div>
+
+		</div>
+	</div>
+	<p-footer>
+		<button type="button" pButton icon="fa-check" (click)="infoadicional=false" label="Aceptar"></button>
+	</p-footer>
+</p-dialog>

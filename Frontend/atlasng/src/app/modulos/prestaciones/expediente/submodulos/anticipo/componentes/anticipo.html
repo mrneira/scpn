@@ -1,0 +1,52 @@
+<div class="f-contenedor-transaccion">
+    <form #formularioDatoSocio="ngForm">
+       <div class="f-datacontent ui-g ui-fluid">
+                   <p-fieldset *ngIf="true" legend="Datos Anticipo">
+                      <div class="ui-g-6 ui-g-nopad">
+                          <div class="ui-g-12 ui-md-3">
+                              <label for="nosistema" class="ui-outputlabel ">Número de sistema</label>
+                          </div>
+                         <div class="ui-g-12 ui-md-8">
+                              <input type="text" pInputText id="nosistema" name="nosistema" [readOnly]="true" [(ngModel)]="registro.secuencia"
+                                />
+                         </div>
+                      </div>
+                      <div class="ui-g-6 ui-g-nopad">
+                          <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-12 ui-md-3">
+                                  <label for="noexpediente" class="ui-outputlabel">Nro. Solicitud</label>
+                              </div>
+                              <div class="ui-g-12 ui-md-8">
+                                  <input type="text" pInputText id="noexpediente" name="noexpediente" [(ngModel)]="registro.cexpediente" [readOnly]="true"
+                                  />
+                              </div>
+                          </div>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                           <div class="ui-g-12 ui-md-3">
+                                  <label for="estado" class="ui-outputlabel">Estado</label>
+                           </div>
+                           <div class="ui-g-12 ui-md-8">
+                            <input type="text" pInputText id="estado" name="estado" [(ngModel)]="registro.mdatos.nestado" maxlength="6"
+                            [readOnly]="true" />
+                           </div>
+                         </div>
+                         <div class="ui-g-6 ui-g-nopad">
+                              <div class="ui-g-12 ui-md-3">
+                                   <label for="valor" class="ui-outputlabel">Valor Anticipo:</label>
+                              </div>
+                         <div *ngIf="registro.totalsolicitado > 0" class="ui-g-12 ui-md-8">
+                                    <input type="text" pInputText numero id="valor" name="valor" [(ngModel)]="registro.totalsolicitado" maxlength="10"
+                                    [readOnly]="true" />
+                          </div>
+                          <div *ngIf="registro.totalsolicitado === 0" class="ui-g-12 ui-md-8">
+                            <input type="text" pInputText numero id="valor" name="valor" [(ngModel)]="registro.totalliquidacion" maxlength="10"
+                            [readOnly]="true" />
+                  </div>
+                       </div>
+             </p-fieldset>
+                 <br>
+               <br>
+         </div>
+    </form>
+ </div>

@@ -1,0 +1,73 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!anulado" pButton type="button" label="Anular Compromiso" style="position: absolute; right: 275px;" 
+   class="f-btn green-btn"
+   icon="ui-icon-save" (click)="anularCompromiso()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccompromiso" class="ui-outputlabel ">C&oacute;digo</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="ccompromiso" name="ccompromiso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.ccompromiso" [readOnly]="true"/>
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovcompromiso" name="lovcompromiso" (click)="mostrarlovCompromiso()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-compromiso (eventoCliente)=fijarLovCompromisoSelec($event)></app-lov-compromiso>
+    </div>    
+  </div>
+    <div class="ui-g-12 ui-g-nopad" hidden="true">
+      <div class="ui-g-12" style="clear:both;float:right;width:150px">
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+      </div>
+    </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fechaingreso" class="ui-outputlabel ">Fecha de Ingreso</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-calendar id="fingreso" name="fingreso" [(ngModel)]="cabeceraComponent.mcampos.fingreso" [showIcon]="true"
+          [dateFormat]="formatofecha"  [disabled]="true"></p-calendar>
+      </div>          
+    </div>    
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="tipoingresocdetalle" class="ui-outputlabel">Estado de Compromiso</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+          <input pInputText id="estadocdetalle" style="text-align: right;" name="lestadocdetalle" [(ngModel)]="cabeceraComponent.registro.estadocdetalle" readonly="true"/>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="infoadicional" class="ui-outputlabel required">Comentario</label>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-12">
+            <textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="cabeceraComponent.registro.infoadicional" required mayusculas
+            maxlength="1000" rows="1" [disabled]="true"></textarea>
+        </div>
+    </div>
+   
+    <app-cabecera></app-cabecera>
+    <div>
+      <p-accordion [multiple]="true">
+        <p-accordionTab header="Detalle Compromiso">
+          <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  
+  </form>

@@ -1,0 +1,218 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcmodulo" class="ui-outputlabel">Módulo</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="mfiltros.cmodulo" entero autofoco maxlength="2" />
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="fcmodulo" name="fcmodulo" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true" ></p-dropdown> 
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fctransaccion" class="ui-outputlabel">Transacción</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fctransaccion" name="fctransaccion" [(ngModel)]="mfiltros.ctransaccion" entero maxlength="4" />
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcusuario" class="ui-outputlabel">Usuario</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText id="fcusuario" name="fcusuario" [(ngModel)]="mfiltros.cusuario" mayusculas maxlength="12" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Log de transacciones</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column header="Fecha" [style]="{'width':'140px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.freal | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column field="cusuario" header="Usuario" [style]="{'width':'100px'}"></p-column> 
+				<p-column field="mdatos.nombre" header="Nombre" [style]="{'width':'200px'}"></p-column> 
+				<p-column field="mdatos.nmodulo" header="Módulo" [style]="{'width':'150px'}"></p-column>
+				<p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'150px'}"></p-column>
+				<p-column header="Tipo" [style]="{'width':'140px'}" styleClass="f-center">
+				 	<ng-template pTemplate="body" let-reg="rowData">
+			        	<span *ngIf="reg.tipo == 'C'">CONSULTA</span>
+			        	<span *ngIf="reg.tipo == 'M'">MANTENIMIENTO</span>
+			    	</ng-template>
+				</p-column>
+				<p-column field="cterminal" header="Ip" ></p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column>
+				<p-footer>
+					
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Log de Transacciones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="ccompania" class="ui-outputlabel required">Compañía</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ccompania" name="ccompania" [(ngModel)]="registro.ccompania" 
+						   [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="cagencia" class="ui-outputlabel required">Agencia</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="cagencia" name="cagencia" [(ngModel)]="registro.cagencia" 
+						   [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="csucursal" class="ui-outputlabel required">Sucursal</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="csucursal" name="csucursal" [(ngModel)]="registro.csucursal" 
+						   [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pk" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<input type="text" pInputText id="pk" name="pk"
+						[(ngModel)]="registro.mensaje" autofoco required maxlength="3" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="freal" class="ui-outputlabel required">Fecha</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="freal" name="freal" [value]="registro.freal | date: 'yyyy-MM-dd hh:mm:ss'" 
+						   [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cusuario" class="ui-outputlabel required">Usuario</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="cusuario" name="cusuario" [(ngModel)]="registro.cusuario" [disabled]="true" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nombre" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cmodulo" class="ui-outputlabel required">Módulo</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cmodulo" name="cmodulo" [(ngModel)]="registro.cmodulo" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="ncmodulo" name="ncmodulo" [(ngModel)]="registro.mdatos.nmodulo" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ctransaccion" class="ui-outputlabel required">Transacción</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="ctransaccion" name="ctransaccion" [(ngModel)]="registro.ctransaccion" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nctransaccion" name="nctransaccion" [(ngModel)]="registro.mdatos.ntransaccion" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipo" class="ui-outputlabel required">Tipo</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text"  pInputText id="tipo" name="tipo" [(ngModel)]="mcampos.ntipo" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="crespuesta" class="ui-outputlabel required">Código respuesta</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="crespuesta" name="crespuesta" [(ngModel)]="registro.crespuesta" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cterminal" class="ui-outputlabel required">IP</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cterminal" name="cterminal" [(ngModel)]="registro.cterminal" [disabled]="true" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="mensusuario" class="ui-outputlabel required">Mensaje</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<textarea type="text" pInputText id="mensusuario" name="mensusuario" [(ngModel)]="registro.mensusuario" [disabled]="true" rows="5"></textarea>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

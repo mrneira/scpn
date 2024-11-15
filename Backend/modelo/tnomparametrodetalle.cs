@@ -41,6 +41,7 @@ namespace modelo
         public Nullable<decimal> pcccc { get; set; }
         public Nullable<decimal> pcccl { get; set; }
         public string descripcion { get; set; }
+        public Nullable<decimal> ppasanteiess { get; set; }
     
     [JsonIgnore]
     [IgnoreDataMember]

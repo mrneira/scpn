@@ -1,0 +1,130 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  <button *ngIf="!nuevo && !finalizada" pButton type="button" label="Finalizar Evaluación" style="position: absolute; right: 240px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="finalizarIngreso()"></button>
+
+  <button *ngIf="!finalizada" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+<div class="f-contenedor-transaccion">
+    <form #formularioUsuario="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="title_separator">
+                    <i class="fa ui-icon-adjust"></i>
+                    <span>NIVELES DE EFICIENCIA DEL DESEMPEÑO INDIVIDUAL</span>
+                </div>
+                <hr />
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                    <label for="periodo" class="ui-outputlabel">Funcionario:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="fnombre" name="funcionario" [(ngModel)]="mcampos.nfuncionario" required [readOnly]="true"
+                    />
+                </div>
+                <div class="ui-g-1 ui-md-1">
+                    <button pButton type="button" id="lovFuncionariosEval" name="lovFuncionariosEval" (click)="mostrarLovFuncionariosEval()"
+                        icon="ui-icon-directions" [disabled]="!nuevo"></button>
+                </div>
+                <app-lov-funcionarioseval (eventoCliente)=fijarLovFuncionariosEvalSelec($event)></app-lov-funcionarioseval>
+
+                <div class="ui-g-12 ui-md-1">
+                    <label for="periodo" class="ui-outputlabel ">Periodo:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="fnombre" name="periodo" [(ngModel)]="mcampos.nperiodo" required [readOnly]="true" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                    <label for="ncargo" class="ui-outputlabel ">Puesto:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="ncargo" name="ncargo" [(ngModel)]="mcampos.ncargo" required [readOnly]="true" />
+                </div>
+                <div class="ui-g-12 ui-md-1"></div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="fdesde" class="ui-outputlabel ">Desde:</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <p-calendar name="fdesde" [(ngModel)]="mcampos.fdesde" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="fhasta" class="ui-outputlabel ">Hasta:</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <p-calendar name="fhasta" [(ngModel)]="mcampos.fhasta" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+                </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+                <div class="ui-g-3 ui-md-1">
+                  <label for="adelantometascab" class="ui-outputlabel">Periodo de prueba? </label>
+                </div>
+                
+                <div class="ui-g-12 ui-md-1" style="font-size:small;">
+                  <p-checkbox id="adelantometas" name="adelantometas" [(ngModel)]="mcampos.periodoprueba" binary="false" (onChange)="aplicaAdelanto()" ></p-checkbox>
+                </div>
+              </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                    <label for="comentario" class="ui-outputlabel">OBSERVACIONES DEL JEFE INMEDIATO (EN CASO DE QUE LAS TENGA)</label>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-11">
+                    <textarea type="text" pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas
+                        maxlength="500" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<app-cabecera></app-cabecera>
+
+<p-tabView (onChange)="selectab($event)">
+  <p-tabPanel header="ASIGNACIÓN DE RESPONSABILIDADES" [selected]="true">
+    <app-gestionpuesto (calcularTotalesEvent)="calcularTotalGestionPuesto()"></app-gestionpuesto>
+  </p-tabPanel>
+  <p-tabPanel header="PERFIL DEL PUESTO" [selected]="false">
+    <app-dconocimiento (calcularTotalesConocimientoEvent)="calcularTotalConocimiento()"></app-dconocimiento>
+  </p-tabPanel>
+
+  <p-tabPanel header="COMPETENCIAS TÉCNICAS" [selected]="false">
+    <app-dcompetecnicas (calcularTotalesCompTecnicasEvent)="calcularTotalCompTecnicas()"></app-dcompetecnicas>
+  </p-tabPanel>
+  <p-tabPanel header="COMPETENCIAS CONDUCTUALES" [selected]="false">
+    <app-compuniversales (calcularTotalesCompUniverEvent)="calcularTotalCompUniversal()"></app-compuniversales>
+  </p-tabPanel>
+ 
+</p-tabView>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-lg-8 ui-g-nopad ui-datatable ui-datatable-header, body ui-datatable ui-datatable-footer">
+      <p-dataTable [value]="lcalificaciones" [responsive]="true" rowGroupMode="subheader" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">NIVELES DE EFICIENCIA DEL DESEMPEÑO INDIVIDUAL</div>
+        </p-header>
+        <p-column field="label" header="Factores de Evaluación"></p-column>
+        <p-column field="value" header="Calificación" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+        <p-column field="ponderacion" header="Calificación (%) " [style]="{'width':'70px'}" styleClass="f-center">
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="1" style="text-align:left">TOTAL </td>
+          <td style="text-align:right">{{tablaEvaluacion.registro.calificacion | number:'1.2-2' }}</td>
+          <td style="text-align:right">{{tablaEvaluacion.registro.promedio | number:'1.2-2' }}</td>    
+        </ng-template>
+      </p-dataTable>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-8">
+          <label for="adelantometascab" class="ui-outputlabel" style="font-size:large;">{{mcampos.califcualitativamente }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

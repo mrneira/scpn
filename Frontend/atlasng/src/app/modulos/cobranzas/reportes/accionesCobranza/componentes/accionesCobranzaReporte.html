@@ -1,0 +1,79 @@
+<div class="ui-g-12 ui-md-2">
+</div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="f-filtros ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mfiltros.cpersona" [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-7">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mfiltros.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarlovpersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="pkcusuario" class="ui-outputlabel">Usuario</label>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <input id="pkcusuario" name="pkcusuario" type="text" pInputText [(ngModel)]="mfiltros.cusuario" [readOnly]="true" />
+        </div>
+        <div class="ui-g-6 ui-md-7">
+          <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mfiltros.npersona" [readOnly]="true" />
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <button pButton type="button" id="lovusuariosregistro" name="lovusuariosregistro" (click)="mostrarLovUsuarios()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="fIngreso" class="ui-outputlabel">Fecha Acción Desde:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar id="fcIngreso" name="fIngreso" [(ngModel)]="mcampos.fIngreso" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label for="fFinIngreso" class="ui-outputlabel">Fecha Acción Hasta:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar id="fcFinIngreso" name="fFinIngreso" [(ngModel)]="mcampos.fFinIngreso" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="fIniCompromisopago" class="ui-outputlabel">Fecha Comp de Pago Desde:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar id="fcIniCompromisopago" name="fIniCompromisopago" [(ngModel)]="mcampos.fIniCompromisopago" [showIcon]="true"
+            [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+            [maxDate]="fechaactual" d></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label for="fFinCompromisopago" class="ui-outputlabel">Fecha Comp de Pago Hasta:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar id="fcFinCompromisopago" name="fFinCompromisopago" [(ngModel)]="mcampos.fFinCompromisopago" [showIcon]="true"
+            [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+            [maxDate]="fechaactual" d></p-calendar>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [cajapdf]="false" [pdf]="false"
+    [excel]="false"></app-jasper>
+</div>

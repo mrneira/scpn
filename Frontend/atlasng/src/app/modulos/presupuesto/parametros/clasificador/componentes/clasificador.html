@@ -1,0 +1,127 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-treeTable [value]="root">
+			<p-header>Clasificador Presupuestario</p-header>
+			<p-column header="Activo" [style]="{'width':'200px'}">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [(ngModel)]="node.data.reg.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+				</ng-template>
+			</p-column>
+
+			<p-column field="reg.cclasificador" header="Código" [style]="{'width':'150px'}" styleClass="f-left"></p-column>
+			<p-column field="reg.nombre" header="Nombre" [style]="{'width':'400px'}" styleClass="f-left"></p-column>
+			<p-column field="reg.nivel" header="nivel" [style]="{'width':'100px'}" styleClass="f-center"></p-column>
+			<p-column header="Movimiento" [style]="{'width':'100px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [ngModel]="node.data.reg.movimiento" binary="true" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+
+			<p-column header="Acciones" styleClass="f-right">
+				<ng-template pTemplate="body" let-node="rowData">
+					<div class="f-table-actions">
+						<acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+			</p-footer>
+		</p-treeTable>
+	</div>
+
+</div>
+
+
+<p-dialog header="Clasificador presupuestario" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="nivel" class="ui-outputlabel">Nivel</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="nivel" name="nivel" [(ngModel)]="registro.nivel" entero maxlength="1" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="padre" class="ui-outputlabel">Padre</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="padre" name="padre" [(ngModel)]="registro.padre" entero maxlength="20" disabled="true"
+						/>
+					</div>
+				</div>
+
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="secuencia" class="ui-outputlabel required">Secuencial</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="secuencia" name="secuencia" [maxlength]="digitos" [(ngModel)]="secuencia" required entero
+						[disabled]="!esnuevo" (ngModelChange)="cambiarSecuencia($event)" />
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="cclasificador" class="ui-outputlabel required">Cuenta resultado</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="cclasificador" name="cclasificador" [(ngModel)]="registro.cclasificador" required entero maxlength="20" disabled="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="250"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="descripcion" class="ui-outputlabel required">Descripción</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+						maxlength="1000" rows="2" ></textarea>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="movimientos" class="ui-outputlabel">Movimiento</label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-checkbox name="movimientos" [(ngModel)]="registro.movimiento" binary="false"></p-checkbox>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="activo" class="ui-outputlabel">Activo</label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

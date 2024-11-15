@@ -1,0 +1,82 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fncproducto" name="fncproducto" [options]="lproducto" [(ngModel)]="mfiltros.cproducto" (onChange)="cambiarTipoProducto($event)"
+        autofoco required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fnctipoproducto" name="fnctipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto"
+        (onChange)="consultar()" required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Perfiles Contables por Producto</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="mdatos.nsaldo" header="Saldo"></p-column>
+      <p-column field="mdatos.codigocontable" header="Cuenta" [style]="{'width':'100px'}"></p-column>
+      <p-column field="ccontable" header="Código contable" [style]="{'width':'100px'}"></p-column>
+      <p-column [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Perfil contable por producto" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+  [positionTop]="120" width="600">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Saldo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <p-dropdown id="csaldo" name="csaldo" [options]="lsaldo" [(ngModel)]="registro.csaldo" required [filter]="true"
+              (onChange)="registrarEtiqueta(registro, lsaldo, 'csaldo', 'nsaldo')" [disabled]="!editable || !registro.esnuevo"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Cod.Contable:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.ccontable" required maxlength="6"
+              [disabled]="!editable" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,63 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="nidioma" class="ui-outputlabel required">Nómina:</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input id="cinstruccion" name="cnomina" type="text" pInputText [(ngModel)]="mcampos.cnomina" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="nnomina" name="nnomina" [(ngModel)]="mcampos.nmes" [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <button autofoco pButton type="button" id="lovNomina" name="lovNomina" (click)="mostrarLovNomina()" icon="ui-icon-directions">
+          </button>
+        </div>
+        <app-lov-nomina (eventoCliente)=fijarLovNominaSelec($event)></app-lov-nomina>
+    </div>
+    </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">ROL PROVISIÓN</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          <div class="f-acciones-cab-tabla" >
+              <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+            </div>
+        </p-header>
+        <p-column field="crolprovicion" header="C&oacute;digo" [style]="{'width':'55px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"></p-column>
+        <p-column field="mdatos.ndepartamento" header="Departamento" ></p-column>
+        
+        <p-column field="mdatos.ncargo" header="Cargo" ></p-column>
+        <p-column field="mdatos.nregimen" header="Régimen" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.nregion" header="Región" [style]="{'width':'70px'}"></p-column>
+        <p-column header="A. Patronal" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.aportepatronal  | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="A. Personal" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.aporteiess | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="CCC" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.ccc | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        
+        
+      </p-dataTable>
+    </div>
+  </div>
+</div>

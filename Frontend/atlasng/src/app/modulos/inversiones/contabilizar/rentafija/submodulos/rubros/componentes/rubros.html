@@ -1,0 +1,49 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="oficina" class="ui-outputlabel">Centro de costos:</label>
+			</div>
+			<div class="ui-g-12 ui-md-5">
+				<p-dropdown id="centrocostos" name="centrocostos" [options]="lcentrocostos" [(ngModel)]="registro.centrocostocdetalle" [disabled]="true" ></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				
+				<p-header>
+					<div class="ui-table-title">Contabilización</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column field="rubro" header="Rubro" [style]="{'width':'150px'}"></p-column>
+
+				<p-column header="Cuenta" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.ccuenta }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="ncuenta" header="Nombre" [style]="{'width':'200px'}"></p-column>
+
+				<p-column header="Debe" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.valordebe | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Haber" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.valorhaber | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+			
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+

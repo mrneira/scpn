@@ -1,0 +1,57 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="false">
+        <p-column field="ccuenta" header="Cuenta" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            {{ reg.ccuenta }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="mdatos.ncuenta" header="Nombre Cuenta" [style]="{'width':'250px'}"></p-column>
+
+        <p-column field="numerodocumentobancario" header="Referencia" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            {{ reg.numerodocumentobancario }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="centrocostoscdetalle" header="Centro de costos" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            {{ reg.centrocostoscdetalle }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="ccompromiso" header="No. Compromiso" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.ccompromiso" maxlength="10" style="text-align:right" (blur)="presupuestoBlur(reg,index)"
+              (focus)="ccompromisoFocus(reg,index)" />
+          </ng-template>
+        </p-column>
+        <p-column field="cpartida" header="Partida" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.cpartida" maxlength="10" style="text-align:right" (blur)="presupuestoBlur(reg,index)"
+              (focus)="cpartidagastoFocus(reg)" />
+          </ng-template>
+        </p-column>
+
+
+        <p-column header="D&eacute;bito" [style]="{'width':'80px','text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div *ngIf="reg.debito">
+              {{ reg.monto | number:'1.2-2' }}
+            </div>
+          </ng-template>
+        </p-column>
+        <p-column header="Cr&eacute;dito" [style]="{'width':'80px','text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div *ngIf="!reg.debito">
+              {{ reg.monto | number:'1.2-2' }}
+            </div>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>

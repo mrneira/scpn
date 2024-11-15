@@ -1,0 +1,76 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="permiteEliminar" pButton type="button" label="Eliminar Facturas" style="position: absolute; right: 110px;"
+    class="f-btn green-btn" icon="ui-icon-trash" (click)="eliminarfacturas()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ffactura" class="ui-outputlabel required">Fecha Facturaci&oacute;n</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+          <p-calendar id="ffactura" name="ffactura" [(ngModel)]="mcampos.ffactura" [showIcon]="true" [locale]="es"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" required></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+            <label for="fpnombre" class="ui-outputlabel required">Caja recaudadora</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText required id="cctacajaparqueadero" name="cctacajaparqueadero" [(ngModel)]="mfiltros.cctacajaparqueadero"
+                [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarlovcuentascontables()"
+                icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+    </div>    
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Facturas parqueadero</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="cfacturaparqueadero" header="C&oacute;digo"></p-column>
+      <p-column field="ffactura" header="Fecha" [style]="{'width':'100px'}"></p-column>
+      <p-column field="secuencial" header="Secuencial" [style]="{'width':'100px'}"></p-column>
+      <p-column field="nombre" header="Nombre" [style]="{'width':'200px'}"></p-column>
+      <p-column field="subtotal" header="Subtotal" [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <input type="text" pInputText [ngModel]="reg.subtotal | number : '1.2-2'" maxlength="14" style="text-align:right" readOnly="true"
+          />
+        </ng-template>
+      </p-column>
+      <p-column field="montoiva" header="IVA" [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <input type="text" pInputText [ngModel]="reg.montoiva | number : '1.2-2'" maxlength="14" style="text-align:right" readOnly="true"
+          />
+        </ng-template>
+      </p-column>
+      <p-column field="total" header="Total" [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <input type="text" pInputText [ngModel]="reg.total | number : '1.2-2'" maxlength="14" style="text-align:right" readOnly="true"
+          />
+        </ng-template>
+      </p-column>
+      <p-column field="estadocdetalle" header="Estado" [style]="{'width':'60px'}"></p-column>
+      <p-column field="cusuarioing" header="Usuario" [style]="{'width':'60px'}"></p-column>
+      <p-column header="Comprobante eliminado" [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox id="activo" name="activo" [(ngModel)]="reg.mdatos.eliminado" binary="true" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

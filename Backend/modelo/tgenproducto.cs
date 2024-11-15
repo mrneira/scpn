@@ -67,5 +67,9 @@ namespace modelo
     [JsonIgnore]
     [IgnoreDataMember]
         public virtual ICollection<tgentipoproducto> tgentipoproducto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    [JsonIgnore]
+    [IgnoreDataMember]
+        public virtual ICollection<tcarproductorangosnegociacion> tcarproductorangosnegociacion { get; set; }
     }
 }

@@ -1,0 +1,74 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+        rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">PRÉSTAMOS</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column header="F. Apertura" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fapertura | date:'dd-MM-yyyy'}}
+          </ng-template>
+        </p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'80px'}"></p-column>
+        <p-column header="Producto" [style]="{'width':'160px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.operacion}} <br /> {{reg.tipo}}
+          </ng-template>
+        </p-column>
+        <p-column field="estatus" header="Estatus" [style]="{'width':'120px'}"></p-column>
+        <p-column header="% Pagado" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.porcentaje | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor vencido" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valorvencido | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo total" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.saldo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        
+        <ng-template pTemplate="rowgroupfooter" *ngIf="true">
+          <td colspan="6" style="text-align:right">TOTAL</td>
+          <td style="text-align:right">{{totalvencido | number:'1.2-2' }}</td>
+          <td style="text-align:right">{{totalmonto | number:'1.2-2' }}</td>
+          
+        </ng-template>
+      </p-dataTable>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="!estaVacio(OPERACIONESGARANTE)">
+      <br />
+      <br />
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="OPERACIONESGARANTE" [responsive]="true" scrollable="true" scrollHeight="350px"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">GARANTE</div>
+          </p-header>
+          <p-column field="coperacion" header="Operación" [style]="{'width':'65px'}"></p-column>
+          <p-column field="mdatos.identificacion" header="Identificación" [style]="{'width':'80px'}"></p-column>
+          <p-column field="mdatos.nombre" header="Deudor"></p-column>
+          <p-column header="Producto">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.mdatos.nproducto}}
+              <br /> {{reg.mdatos.ntipoproducto}}
+            </ng-template>
+          </p-column>
+          <p-column field="mdatos.nestatus" header="Estatus" [style]="{'width':'80px'}"></p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>

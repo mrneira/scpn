@@ -1,0 +1,123 @@
+<app-lov-tth-designaciones (eventoCliente)=fijarLovDesignaciones($event)></app-lov-tth-designaciones>
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionarios($event)></app-lov-funcionarios>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	<button *ngIf="!estaVacio(this.mcampos.ccontrato)" pButton type="button" label="Imprimir Contrato" style="position: absolute; right: 205px;" class="f-btn teal-btn"
+    icon="ui-icon-print" (click)="descargarReporte()"></button>
+    <div class="oculto" style='display:none;'>
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="ccontratoFilter" class="ui-outputlabel required">Vinculación:</label>
+		</div>
+		<div class="ui-g-2 ui-md-2">
+			<input id="ccontratoFilter" name="ccontratoFilter" type="text" pInputText [(ngModel)]="mcampos.ccontrato" required [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-9 ui-md-7">
+			<input type="text" pInputText id="ndesignacionFilter" name="ndesignacionFilter" [(ngModel)]="mcampos.ndesignacion" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-1 ui-md-1">
+			<button pButton type="button" id="lovDesignaciones" name="lovDesignaciones" (click)="mostrarLovDesignaciones()" icon="ui-icon-directions"></button>
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]=false>
+				<p-header>
+					<div class="ui-table-title">Documentos Vinculantes</div>
+					<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="Secuencia"></p-column>
+				<p-column field="mdatos.ndocumento" header="Documento"></p-column>
+				<p-column field="mdatos.nresponsable" header="Responsable"></p-column>
+				<p-column field="codigodocumento" header="C&oacute;digo de Documento"></p-column>
+				<p-column field="fechaemision" header="F. de Emisión" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fechaemision | date: 'yyyy-MM-dd hh:mm'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+			
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Documentos Vinculantes" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120" width="900">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="secuencia" class="ui-outputlabel">Secuencia</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.secuencia" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="responsablecfuncionario" class="ui-outputlabel required">Funcionario Responsable del Documento</label>
+					</div>
+					<div class="ui-g-2 ui-md-2">
+						<input id="responsablecfuncionario" name="responsablecfuncionario" type="text" pInputText [(ngModel)]="registro.responsablecfuncionario"
+						 required [readOnly]="true" />
+					</div>
+					<div class="ui-g-9 ui-md-6">
+						<input type="text" pInputText id="nresponsable" name="nresponsable" [(ngModel)]="registro.mdatos.nresponsable" [readOnly]="true"
+						/>
+					</div>
+					<div class="ui-g-1 ui-md-1">
+						<button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="codigodocumento" class="ui-outputlabel required">C&oacute;digo de Documento:</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<input type="text" pInputText id="codigodocumento" name="codigodocumento" [(ngModel)]="registro.codigodocumento" required
+						 mayusculas maxlength="30" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="fechaemision" class="ui-outputlabel required">Fecha de Emisión</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-calendar id="fechaemision" name="fnacimiento" [(ngModel)]="registro.fechaemision" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+						 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-1 ui-md-12">
+						<label for="clausula" class="ui-outputlabel required">Cláusula</label>
+					</div>
+					<div class="ui-g-11 ui-md-12">
+						<p-editor id="clausula" name="clausula" [(ngModel)]="registro.funciones" [style]="{'height':'360px'}" required></p-editor>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

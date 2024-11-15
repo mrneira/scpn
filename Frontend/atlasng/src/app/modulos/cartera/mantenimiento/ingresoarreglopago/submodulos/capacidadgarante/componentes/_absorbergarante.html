@@ -1,0 +1,39 @@
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="title_separator">
+      <i class="fa ui-icon-adjust"></i>
+      <span>Operaciones Absorber</span>
+    </div>
+    <hr />
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Operaciones Deudor</div>
+      </p-header>
+      <p-column field="coperacion" header="Operacion" [style]="{'width':'80px'}"></p-column>
+      <p-column field="mdatos.nproducto" header="Producto"></p-column>
+      <p-column field="mdatos.ntipoproducto" header="Tipo Producto"></p-column>
+      <p-column field="mdatos.nestatus" header="Estatus" [style]="{'width':'120px'}"></p-column>
+      <p-column header="Monto" styleClass="f-right" [style]="{'width':'90px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.montooriginal | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Valor Cuota" styleClass="f-right" [style]="{'width':'90px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.mdatos.valorcuotaencurso | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Saldo a la Fecha" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.mdatos.saldo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Pagar" [style]="{'width':'50px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [(ngModel)]="reg.mdatos.pagar" binary="false" [disabled]="!editable" (onChange)="marcar(reg, $event)"></p-checkbox>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>

@@ -1,0 +1,184 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="solicitud" id="solicitud" label="Aprobar" style="position: absolute; right: 95px;"
+      class="f-btn green-btn" icon="ui-icon-save" (click)="aprobarEtapa()"></button>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="flcproducto" class="ui-outputlabel">Producto</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input pInputText id="fmcproducto" name="fmcproducto" [(ngModel)]="mfiltros.cproducto" [readOnly]="true" entero
+          maxlength="5" />
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="fdcproducto" name="fdcproducto" [options]="lproducto" [(ngModel)]="mfiltros.cproducto"
+          (onChange)="cambiarTipoProducto($event)" autofoco [filter]="true"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="flctipoproducto" class="ui-outputlabel">Tipo Producto</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input pInputText id="fmctipoproducto" name="fmctipoproducto" [(ngModel)]="mfiltros.ctipoproducto" [readOnly]="true"
+          entero maxlength="5" />
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="fdctipoproducto" name="lctipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto"
+          (onChange)="consultar()" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px" [resizableColumns]="false"
+        columnResizeMode="expand" [(selection)]="selectedRegistros" dataKey="csolicitud">
+        <p-header>
+          <div class="ui-table-title">Aprobación de Solicitudes</div>
+          <acciones-consulta [componente]="componentehijo"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+        <p-column header="Solicitud" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <a [routerLink]="" (click)="cargarPagina(reg)">{{ reg.csolicitud }}</a>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.npersona" header="Nombre"></p-column>
+        <p-column header="Producto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.mdatos.nproducto}} - {{reg.mdatos.ntipoproducto}}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.nestadooperacion" header="Tipo" [style]="{'width':'100px'}"></p-column>
+        <p-column field="cusuarioingreso" header="Oficial" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Fecha Ingreso" styleClass="f-center" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{((reg.cestadooperacion != 'N') ? reg.montoarreglopago : reg.montooriginal) | number:'1.2-2'}}
+            <!--{{reg.montooriginal | number:'1.2-2'}}-->
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton (click)="selectRegistro(reg)" icon="ui-icon-comment" pTooltip="Flujo" style="margin-left:5px">
+              </button>
+              <button type="button" pButton (click)="mostrarDesembolso(reg)" icon="ui-icon-attach-money" pTooltip="Desembolso"
+                style="margin-left:1px" *ngIf="reg.cestadooperacion==='N'">
+              </button>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> {{estaVacio(selectedRegistros) ? '' : 'La
+            solicitud [' + selectedRegistros.csolicitud + '] ha sido seleccionada'}}</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-solicitud-etapa></app-solicitud-etapa>
+
+<p-dialog header="" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 800px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="solicitudEtapaComponent.lregistros" [responsive]="true" scrollable="true" scrollHeight="350px"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">Flujo de solicitud</div>
+          </p-header>
+          <p-column field="cetapa" header="Secuencia" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+          <p-column field="mdatos.nestatus" header="Etapa" [style]="{'width':'150px'}"></p-column>
+          <p-column field="cusuariomod" header="Usuario" [style]="{'width':'100px'}"></p-column>
+          <p-column header="Fecha" styleClass="f-center" [style]="{'width':'70px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.fmodificacion | SoloFechaPipe}}
+            </ng-template>
+          </p-column>
+          <p-column header="Rechazo" [style]="{'width':'55px'}" styleClass="f-center">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <span *ngIf="!reg.aprobado && reg.aprobado!=null">SI</span>
+            </ng-template>
+          </p-column>
+          <p-column field="comentario" header="Comentario"></p-column>
+        </p-dataTable>
+      </div>
+      <footer>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cerrar" class="orange-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+
+
+<p-dialog header="Detalle de Desembolso" [(visible)]="solicitudDesembolsoComponent.mostrarDialogoDesembolso" [modal]="true"
+  showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 800px">
+      <app-desembolso></app-desembolso>
+      <footer>
+        <p-fieldset legend="Acciones">
+          <div class="ui-g">
+            <button type="button" pButton icon="ui-icon-check" (click)="grabarDesembolso()" label="Actualizar" class="green-btn">
+            </button>
+            <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cerrar" class="orange-btn"
+              style="margin-left:5px">
+            </button>
+          </div>
+        </p-fieldset>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoConfirmacion" [modal]="true" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario"
+              required mayusculas maxlength="255" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="grabar()" label="Confirmar" class="green-btn"
+            [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

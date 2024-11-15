@@ -1,0 +1,80 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+	               <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+	           </div>
+	           <div class="ui-g-12 ui-md-1">
+	               <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="registro.cpersona" required [readOnly]="true" />
+	           </div>
+	           <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="registro.nombre" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions">
+		    	</button>
+	    	</div>
+	    	<app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+	     </div>
+	</form>
+
+
+	<form #formularioPersona="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioPersona" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+						
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="identificacion" class="ui-outputlabel required">Identificación</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.nombre" required [readOnly]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="email" class="ui-outputlabel required">Email</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="email" name="email" [(ngModel)]="registro.email" [readOnly]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="archivofirma" class="ui-outputlabel required">Foto firma</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<img id="archivofirma" name="archivofirma" [src]="marchivosngstr['carchivofirma']" height="150" width="200" />
+				</div>
+				<div class="ui-g-12">
+					<p-fileUpload id="uploadarchivofirma" name="fotos[]" (onSelect)="onSelectArchivoFirma($event)" class="upload-hidden"
+					        accept="image/*" [uploadLabel]="" [maxFileSize]="1000000" [disabled]="!editable">
+					</p-fileUpload>
+				</div>
+			</div>
+			
+			<div class="ui-g-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="archivofoto" class="ui-outputlabel required">Foto perfil</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<img id="archivofoto" name="archivofoto" [src]="marchivosngstr['carchivofoto']" height="150" width="150" />
+				</div>
+				<div class="ui-g-12">
+					<p-fileUpload id="uploadarchivofoto" name="fotos[]" (onSelect)="onSelectArchivoFoto($event)" class="upload-hidden"
+					        accept="image/*" [uploadLabel]="" [maxFileSize]="1000000" [disabled]="!editable">
+					</p-fileUpload>
+				</div>
+			</div>
+	        
+		</div>
+	</form>
+
+</div>

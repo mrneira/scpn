@@ -1,0 +1,118 @@
+<p-dialog header="Comprobantes Contables" [(visible)]="displayLov" width="1200" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpk" class="ui-outputlabel">Secuencial Comprobante</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText name="fpk" [(ngModel)]="mfiltros.ccomprobante" autofoco mayusculas maxlength="20" />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="numerocomprobantecesantia" class="ui-outputlabel">N&uacute;mero comprobante cesant&iacute;a</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="numerocomprobantecesantia" [(ngModel)]="mfiltros.numerocomprobantecesantia" mayusculas maxlength="20"
+				/>
+			</div>
+		
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="comentario" class="ui-outputlabel">Comentario</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<input pInputText name="comentario" [(ngModel)]="mcampos.comentario" mayusculas maxlength="500" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="valordesde" class="ui-outputlabel">Valor desde</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="valordesde" [(ngModel)]="mcampos.valordesde" numeroPositivo maxlength="20" />
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="valorhasta" class="ui-outputlabel">Valor hasta</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="valorhasta" [(ngModel)]="mcampos.valorhasta" mayusculas numeroPositivo maxlength="20" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ffrealdesde" class="ui-outputlabel">F.Real desde</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar id="ffrealdesde" name="ffrealdesde" [(ngModel)]=mcampos.frealdesde appendTo="body" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="ffrealhasta" class="ui-outputlabel">F.Real hasta</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar id="ffrealhasta" name="ffrealhasta" [(ngModel)]=mcampos.frealhasta appendTo="body" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+					<div class="ui-table-title">Comprobantes Contables</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="ccomprobante" header="Secuencial" [style]="{'width':'80px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="numerocomprobantecesantia" header="N&uacute;mero comprobante cesant&iacute;a" [style]="{'width':'120px'}"
+				 [filter]="true" filterMatchMode="contains" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="mdatos.nconcepto" header="Concepto" [style]="{'width':'90px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="freal" header="F.Real" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.freal | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="fcontable" header="F.Contable" [style]="{'width':'80px'}"></p-column>
+				<p-column field="mdatos.nmodulo" header="Módulo" [style]="{'width':'100px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'100px'}" [filter]="true" filterMatchMode="contains"
+				 filterPlaceholder="Filtrar"></p-column>
+				<p-column field="montocomprobante" header="Monto comprobante" [style]="{'width':'100px','text-align':'right'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.montocomprobante | number: '1.2-2'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="automatico" header="Auto." [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.automatico ? "Si":"No" }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="cuadrado" header="Cuadr." [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.cuadrado ? "Si":"No" }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="actualizosaldo" header="Mayor." [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.actualizosaldo ? "Si":"No" }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="anulado" header="Anul." [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.anulado ? "Si":"No" }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="eliminado" header="Elim." [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.eliminado ? "Si":"No" }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="comentario" header="Comentario" [filter]="true" filterMatchMode="contains" filterPlaceholder="Filtrar"></p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

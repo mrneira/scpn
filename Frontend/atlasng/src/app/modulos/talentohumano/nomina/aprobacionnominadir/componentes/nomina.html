@@ -1,0 +1,137 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+   
+     <div class="f-acciones-cabecera ui-g ui-fluid">
+    <p-splitButton label="&emsp;Limpiar&emsp;" icon="ui-icon-list" (onClick)="recargar()" [model]="itemsNomina" class="f-btn blue-btn"></p-splitButton>
+  </div>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12  ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel ">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mfiltros.anio" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+    <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="mescdetalle" class="ui-outputlabel ">Mes:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="mfiltros.mescdetalle" [filter]="true" (onChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"  dataKey="cnomina">
+        <p-header>
+          <div class="ui-table-title">NÓMINA</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column field="cnomina" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nmes" header="Mes" [style]="{'width':'100px'}"></p-column>
+        
+        <p-column field="finicio" header="F. Inicio" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.finicio | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="ffin" header="F. Fin" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.ffin | date: 'yyyy-MM-dd '}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.ntipo" header="Tipo" [style]="{'width':'100px'}"></p-column>
+
+        <p-column field="mdatos.nestado" header="Estado" [style]="{'width':'100px'}"></p-column>
+
+        <p-column header="Cerrada?" [style]="{'width':'65px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.cerrada" binary="true" disabled="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        <p-column [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+                <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+              
+                    <button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="generarCompromisoPrevio(reg)"
+                     pTooltip="Descarga PDF" tooltipPosition="top"></button>
+                
+              <button type="button" pButton icon="ui-icon-delete-forever" (click)="buscar(reg)" icon="ui-icon-search" style="margin-left:5px">
+              </button>
+            </div>
+          </ng-template>
+          
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="Asignación Presupuesto" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-2 ui-md-2">
+						<label for="cegreso" class="ui-outputlabel">Código</label>
+					</div>
+					<div class="ui-g-10 ui-md-10">
+						<input type="text" pInputText id="cegreso" name="cnomina" [(ngModel)]="registro.cnomina" [disabled]="true" />
+					</div>
+        </div>
+      
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-2 ui-md-2">
+						<label for="descripcion" class="ui-outputlabel required">Descripcion:</label>
+					</div>
+					<div class="ui-g-10 ui-md-10">
+						<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+						 maxlength="200" [disabled]="!editable" />
+					</div>
+				</div>
+			
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="ccompromiso" class="ui-outputlabel ">C&oacute;digo</label>
+            </div>
+            <div class="ui-g-2 ui-md-2">
+              <input id="ccompromiso" name="ccompromiso required" type="text" pInputText [(ngModel)]="registro.ccompromiso" [readOnly]="true"
+              />
+            </div>
+          	<div class="ui-g-10 ui-md-10">
+              <input type="text" pInputText id="infoadicional" name="infoadicional" [(ngModel)]="registro.mdatos.infoadicional" required mayusculas
+               maxlength="1000" [disabled]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovcompromiso" name="lovcompromiso" (click)="mostrarlovCompromiso()" icon="ui-icon-directions"></button>
+            </div>
+           
+          </div>
+        </div>
+			
+				
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>
+<app-lov-compromiso (eventoCliente)=fijarLovCompromisoSelec($event)></app-lov-compromiso>

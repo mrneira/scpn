@@ -1,0 +1,62 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+     </div>
+     <div class="f-datacontent ui-g ui-fluid f-center-items">
+      <div class="ui-g-5 ui-md-3 ui-g-nopad">
+        <button pButton type="button" name="grabar" id="grabar" label="Obtener Data" style="margin-bottom:10px" class="f-btn green-btn"
+         icon="ui-icon-save" (click)="grabar()"> </button>
+      </div>
+    </div>
+      <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+       <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="FechaInicio" class="ui-outputlabel">Fecha Baja Inicio:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar name="FechaInicio" [(ngModel)]="mcampos.FechaInicio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label for="FechaFin" class="ui-outputlabel">Fecha Baja Fin:</label>
+        </div>
+        <div class="ui-g-6 ui-md-4">
+          <p-calendar name="FechaFin" [(ngModel)]="mcampos.FechaFin" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-6 ui-md-2">
+            <label for="jerarquia" class="ui-outputlabel">Jerarquia</label>
+          </div>
+          <div class="ui-g-6 ui-md-5">
+            <p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquias" [(ngModel)]="this.mcampos.jerarquia"></p-dropdown>
+          </div>
+         </div>
+        <div class="ui-g-12 ui-g-nopad">
+		    	<div class="ui-g-12 ui-md-12">
+				   <p-radioButton name="group1" value="modelo1" label="Devolución De Aportes" [(ngModel)]="selectedmodelo" value="opt1"></p-radioButton>
+				   <p-radioButton name="group1" value="modelo2" label="Cesantia" [(ngModel)]="selectedmodelo" value="opt2"></p-radioButton>
+			    </div>
+		    </div>
+      </form>
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+  <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+    <p-dataTable [value]="ljerarquias" [responsive]="true">
+      <p-header>
+        <div class="ui-table-title">Generar Reporte</div>
+        <div class="f-acciones-cab-tabla">
+        <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+        </button>
+        <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+        </button>
+      
+        </div>
+        <div class="ui-g-12" style='display:none'>
+          <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+        </div>
+      </p-header>
+    </p-dataTable>
+  </div>
+</div>
+
+</div>

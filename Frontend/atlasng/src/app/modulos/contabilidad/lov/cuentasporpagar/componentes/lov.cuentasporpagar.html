@@ -1,0 +1,62 @@
+<p-dialog header="Cuentas por pagar" [(visible)]="displayLov" width="1200" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Cuenta por pagar</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.cctaporpagar" autofoco mayusculas maxlength="20" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ffacturasustentoini" class="ui-outputlabel">F.Factura inicio</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="ffacturasustentoini" name="ffacturasustentoini" [(ngModel)]="mcampos.ffacturasustentoini" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="ffacturasustentofin" class="ui-outputlabel">F.Factura fin</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="ffacturasustentofin" name="ffacturasustentofin" [(ngModel)]="mcampos.ffacturasustentofin" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+      
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Cuentas por pagar</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+          </acciones-consulta>
+        </p-header>
+        <p-column field="cctaporpagar" header="Cuenta por pagar" [style]="{'width':'90px'}">
+        </p-column>
+        <p-column field="mdatos.nproveedor" header="Proveedor" [style]="{'width':'300px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains" >
+        </p-column>
+        <p-column header="Doc sustento" field="numdocumentosustento" [style]="{'width':'120px'}" ></p-column>
+        <p-column field="ffacturasustento" header="F. sustento" [style]="{'width':'150px'}">
+            <ng-template  pTemplate="body" let-reg="rowData">
+                <span>{{reg.ffacturasustento | date: 'yyyy-MM-dd'}}</span>
+             </ng-template>
+        </p-column>
+        <p-column header="C. retención" field="numdocumento" ></p-column>
+        <p-column field="valorpagar" header="Valor a pagar" [style]="{'text-align':'right'}">
+          <ng-template  pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorpagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="estadocxpcdetalle" header="Estado" [style]="{'width':'90px'}" 
+        [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains" >
+        </p-column>
+
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

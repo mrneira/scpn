@@ -1,12 +1,14 @@
 ﻿using amortizacion.dto;
 using cartera.comp.consulta.solicitud;
 using cartera.datos;
+using cartera.enums;
 using core.componente;
 using core.servicios;
 using dal.cartera;
 using dal.contabilidad;
 using modelo;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using util.dto.mantenimiento;
@@ -32,7 +34,8 @@ namespace cartera.comp.mantenimiento.solicitud {
             TcarSolicitudCuotaDal.Delete(csolicitud);
             // Genera tabla de pagos.
             List<amortizacion.dto.Cuota> lcuota = solicitud.GenerarTabla(rqmantenimiento);
-            CuotasToTablaSolicitud(rqmantenimiento, lcuota);
+            tcarsolicitud.numcuotaprorrateo = (tcarsolicitud.numcuotaprorrateo == null) ? 0 : tcarsolicitud.numcuotaprorrateo;
+            CuotasToTablaSolicitud(rqmantenimiento, lcuota, tcarsolicitud.cestadooperacion, (int)tcarsolicitud.numcuotaprorrateo, (int)tcarsolicitud.numerocuotas);
             // completar en el response plazo, fecha de generacion y el numero de solicitud.                    
             rqmantenimiento.Response["csolicitud"] = tcarsolicitud.csolicitud;
             rqmantenimiento.Response["plazo"] = tcarsolicitud.plazo;
@@ -44,7 +47,7 @@ namespace cartera.comp.mantenimiento.solicitud {
         /// </summary>
         /// <param name="rqmantenimiento">Request a adicionar la tabla de pagos.</param>
         /// <param name="lcuotasgeneral">Lista de cuotas a transformar en cuotas de la solcitud.</param>
-        private void CuotasToTablaSolicitud(RqMantenimiento rqmantenimiento, List<amortizacion.dto.Cuota> lcuotasgeneral)
+        private void CuotasToTablaSolicitud(RqMantenimiento rqmantenimiento, List<amortizacion.dto.Cuota> lcuotasgeneral, string cestadooperacion, int numcuotasprorrateo = 0, int numcuotas = 0)
         {
             List<tcarsolicitudcuota> lcuota = new List<tcarsolicitudcuota>();
             List<tcarsolicitudrubro> lrubro = new List<tcarsolicitudrubro>();
@@ -60,8 +63,80 @@ namespace cartera.comp.mantenimiento.solicitud {
 
             // Adiciona cabecera de la tabla para que el motor de mantenimiento lo envie a la base.
             rqmantenimiento.AdicionarTabla("TcarSolicitudCuotaDto", lcuota, false);
-            // Adiciona rubros de la tabla de pagos para que el motor de mantenimiento lo envie a la base.
-            rqmantenimiento.AdicionarTabla("TcarSolicitudRubroDto", lrubro, false);
+            if (!cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion) && ((numcuotas + 1) - numcuotasprorrateo) != numcuotas)
+            {
+                IDictionary rubrosarreglopago = (IDictionary)rqmantenimiento.GetDatos("MSALDOS-ARREGLO-PAGOS-TABLA");
+                //Encerar rubros vencidos a prorrateados
+                foreach (tcarsolicitudrubro rub in lrubro)
+                {
+                    foreach (object key in rubrosarreglopago.Keys)
+                    {
+                        if (rub.csaldo.Equals(key))
+                        {
+                            rub.valorcuota = 0;
+                            break;
+                        }
+                    }
+                }
+                //Realizar prorrateo
+                long prorrateo = (rqmantenimiento.GetDatos("prorrateo") != null) ? long.Parse(rqmantenimiento.GetDatos("prorrateo").ToString()) : numcuotasprorrateo;
+                List<tcarsolicitudrubro> rubrosprorrateo = new List<tcarsolicitudrubro>();
+                foreach (object key in rubrosarreglopago.Keys)
+                {
+                    decimal valorprorrateo = decimal.Round((decimal)rubrosarreglopago[key] / (numcuotas - prorrateo + 1), 2);
+                    for (int i = (int)prorrateo; i <= numcuotas; i++)
+                     {
+                        foreach (tcarsolicitudrubro rub in lrubro)
+                        {
+                            if (i == rub.numcuota && rub.csaldo.Equals(key))
+                            {
+                                bool existRubro = false;
+                                foreach (tcarsolicitudrubro r in rubrosprorrateo)
+                                {
+                                    if (r.csaldo == rub.csaldo)
+                                    {
+                                        decimal total = (decimal)r.valorcuota + valorprorrateo;
+                                        if (i == numcuotas)
+                                        {
+                                            if (total != (decimal)rubrosarreglopago[key])
+                                            {
+                                                total = total - valorprorrateo;
+                                                rub.valorcuota = decimal.Round((((decimal)rubrosarreglopago[key]) - total), 2);
+                                                total = total + (decimal)rub.valorcuota;
+                                            }
+                                            else
+                                            {
+                                                rub.valorcuota = valorprorrateo;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rub.valorcuota = valorprorrateo;
+                                        }
+                                        r.valorcuota = total;
+                                        existRubro = true;
+                                        break;
+                                    }
+                                }
+                                if (!existRubro)
+                                {
+                                    tcarsolicitudrubro help = new tcarsolicitudrubro();
+                                    help.csaldo = rub.csaldo;
+                                    help.valorcuota = valorprorrateo;
+                                    rub.valorcuota = valorprorrateo;
+                                    rubrosprorrateo.Add(help);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                rqmantenimiento.AdicionarTabla("TcarSolicitudRubroDto", lrubro, false);
+            }
+            else
+            {
+                rqmantenimiento.AdicionarTabla("TcarSolicitudRubroDto", lrubro, false);
+            }
         }
 
         /// <summary>
@@ -118,7 +193,5 @@ namespace cartera.comp.mantenimiento.solicitud {
             // Fija la respuesta en el response. La respuesta contiene la tabla de pagos.
             rqmantenimiento.Response["TABLA"] = lresp;
         }
-
     }
-
 }

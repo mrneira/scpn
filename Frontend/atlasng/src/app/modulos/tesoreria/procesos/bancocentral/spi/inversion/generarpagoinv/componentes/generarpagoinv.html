@@ -1,0 +1,141 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+		<button pButton type="button" name="generararchivo" id="generararchivo" label="Generar Archivo" style="position: absolute; right: 105px;"
+		 class="f-btn green-btn" icon="ui-icon-save" (click)="GenerarArchivo()"></button>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-outputlabel required">Institución Origen de pago:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown (onChange)="seleccionarEmpresa($event)" id="detallempresa" name="detallempresa" [options]="lempresa" [(ngModel)]="mcampos.cempresa"
+					 [filter]="true" required></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-outputlabel ">Módulos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<p-accordion [multiple]="true">
+	<p-accordionTab header="Información Institución Origen SPI">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-8">
+						<label class="ui-outputlabel">INSTITUCIÓN PÚBLICA ORDENANTE (IP)</label>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Cta.Cte. en BCE:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.cuentaorigen}}
+					</div>
+
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Nombre Institución:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.nombre}}
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Localidad:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.localidad}}
+					</div>
+
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Subcuenta:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.subcuenta}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</p-accordionTab>
+</p-accordion>
+
+<br>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+		 [(selection)]="selectedRegistros">
+			<p-header>
+				<div class="ui-table-title">Pagos Pendientes</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+			<p-column field="ctestransaccion" header="Id"></p-column>
+			<p-column field="mdatos.modulo" header="Módulo"></p-column>
+			<p-column field="identificacionbeneficiario" header="Identificación Beneficiario" scrollable="true"></p-column>
+			<p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+			<p-column field="mdatos.institucion" header="Institución"></p-column>
+			<p-column field="mdatos.tipocuenta" header="Tipo Cuenta"></p-column>
+			<p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+			<p-column field="valorpago" header="Valor Pago"></p-column>
+			<p-column field="subcuenta" header="Concepto"></p-column>
+			<p-column field="detalle" header="Detalle"></p-column>
+			<p-column field="referenciainterna" header="Referencia Interna"></p-column>
+			<p-column field="secuenciainterna" header="Secuencia Interna"></p-column>
+			<p-column field="concepto" header="Concepto"></p-column>
+			<p-column header="Modificado">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<p-checkbox [ngModel]="reg.modificado" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column header="integración">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<p-checkbox [ngModel]="reg.integracion" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column header="">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<button type="button" pButton icon="ui-icon-search" name="btnHistorial" (click)="Historico(reg)" pTooltip="Historial Pago"
+						 tooltipPosition="top"></button>
+					</div>
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>
+
+<p-dialog [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lhistoricopagos" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px"
+		 columnResizeMode="expand">
+			<p-header>
+				<div class="ui-table-title">Historial de Pago</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="ctestransaccion" header="Id"></p-column>
+			<p-column field="identificacionbeneficiario" header="Identificación Beneficiario" scrollable="true"></p-column>
+			<p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+			<p-column field="institucion" header="Institución"></p-column>
+			<p-column field="tipocuenta" header="Tipo Cuenta"></p-column>
+			<p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+			<p-column field="valorpago" header="Valor Pago"></p-column>
+			<p-column field="descripcionestado" header="Estado"></p-column>
+
+		</p-dataTable>
+	</div>
+</p-dialog>

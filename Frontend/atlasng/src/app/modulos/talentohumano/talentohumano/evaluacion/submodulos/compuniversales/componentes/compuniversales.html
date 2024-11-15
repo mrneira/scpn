@@ -1,0 +1,113 @@
+
+
+<div class="f-contenedor-transaccion">
+ 
+      <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true"  [appendTo]="'body'" [style]="{width: '450px'}">
+          <p-dataTable [value]="lpuntajed" [responsive]="true" [resizableColumns]="false" >
+              <p-header>
+                <div class="ui-table-title">PARÁMETROS DE CALIFICACIÓN</div>
+              </p-header>
+              <p-column field="nombre" header="Calificación" styleClass="f-center" ></p-column>
+              <p-column field="descripcion" header="Descripción"></p-column>
+            </p-dataTable> 
+      </p-overlayPanel>
+
+      
+     
+ 
+  
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+        <p-header>
+            <button  pButton type="button" label="Ayuda Calificación" style="position: absolute; left: 1%;"
+            class="f-btn green-btn" icon="ui-icon-help"  (click)="op.toggle($event)" (mouseenter)="op.toggle($event)"></button>
+  
+          <div class="ui-table-title">COMPETENCIAS CONDUCTUALES</div>
+         
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+
+          </acciones-consulta>
+          
+          
+         
+
+        </p-header>
+        <p-column header="Ayuda" [style]="{'width':'30px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-registro="rowData">
+            <div class="f-table-actions">
+              <button *ngIf="registro.ccompetencia!=undefined || registro.ccompetencia!=null" type="button" pButton icon="ui-icon-delete-forever"
+              (click)="consultarComportamiento($event,registro,compportamiento)" icon="ui-icon-search" style="margin-left:5px">
+              </button>
+
+              </div>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Destreza" [style]="{'width':'200px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdestrezac" name="cdestrezac" [filter]="true" [options]="ldetreza" [(ngModel)]="reg.ccompetencia" appendTo="body"
+              required [filter]="true" (onChange)="buscarNivel(reg)" required></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Nivel" [style]="{'width':'30px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="nivelcdetalle" name="nivelcdetalle" [filter]="true" [options]="lnivel" [(ngModel)]="reg.nivelcdetalle" appendTo="body"
+              required [filter]="true" required (onChange)="actualizarComportamiento(i,reg.nivelcdetalle)"></p-dropdown>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Puntaje" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="puntajecparametro" name="puntajecparametro" [filter]="true" [options]="lpuntaje" [(ngModel)]="reg.puntajecparametro"
+              (onChange)="actualizarCalificacion(i)" appendTo="body" required required></p-dropdown>
+          </ng-template>
+
+        </p-column>
+
+        <p-column header="Comentarios" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.comentario" mayusculas maxlength="300" style="text-align:left" />
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'50px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+             
+              <acciones-reg [componente]="componentehijo" [mostrarEditar]="false" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Comportamiento" [(visible)]="comportamiento" modal="modal" width="300" [responsive]="true">
+
+  <div class="ui-g-12 ui-md-9 reg-details">
+    <div class="ui-g">
+      <div class="ui-g-2 ui-sm-6">ALTA: </div>
+      <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].alta}}</div>
+      <div class="ui-g-2 ui-sm-6">MEDIA: </div>
+      <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].media}}</div>
+      <div class="ui-g-2 ui-sm-6">BAJA: </div>
+      <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].baja}}</div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa-check" (click)="comportamiento=false" label="Aceptar"></button>
+  </p-footer>
+</p-dialog>
+<p-overlayPanel #compportamiento [showCloseIcon]="true" [dismissable]="true" [appendTo]="'body'" >
+    <p-dataTable [value]="lcomportamiento" [responsive]="true" [resizableColumns]="false" [style]="{width: '450px'}" styleClass="headerless">
+      <p-header>
+        <div class="ui-table-title" [style]="{'font-size':'7px'}">COMPORTAMIENTO POR DESTREZA</div>
+      </p-header>
+      <p-column field="nivel"   styleClass="f-center" [style]="{'font-size':'20px','width':'40px'}"></p-column>
+      <p-column field="descripcion" [style]="{'font-size':'8px','width':'180px'}" ></p-column>
+    </p-dataTable>
+
+</p-overlayPanel>
+

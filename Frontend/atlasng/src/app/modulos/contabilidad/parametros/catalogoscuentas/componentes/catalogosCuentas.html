@@ -1,0 +1,149 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="tipoplancdetalle" class="ui-outputlabel required">Tipo de plan</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="tipoplancdetalle" name="tipoplancdetalle" [options]="ltipoplancdetalle" [(ngModel)]="mfiltros.tipoplancdetalle"
+			 required (onChange)="consultar()" [filter]="true"></p-dropdown>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-treeTable [value]="root">
+			<p-header>Plan de Cuentas</p-header>
+			<p-column header="" [style]="{'width':'160px'}">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [(ngModel)]="node.data.reg.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+				</ng-template>
+			</p-column>
+
+			<p-column field="reg.ccuenta" header="Cuenta" [style]="{'width':'120px'}" styleClass="f-left"></p-column>
+			<p-column field="reg.nombre" header="Nombre" [style]="{'width':'380px'}" styleClass="f-left"></p-column>
+			<p-column field="reg.cnivel" header="Nivel" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+			<p-column header="Movimiento" [style]="{'width':'70px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [ngModel]="node.data.reg.movimiento" binary="true" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column header="Activa" [style]="{'width':'70px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [ngModel]="node.data.reg.activa" binary="true" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column field="reg.numeronota" header="Nota" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+			<p-column header="Acciones" styleClass="f-right">
+				<ng-template pTemplate="body" let-node="rowData">
+					<div class="f-table-actions">
+						<acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+			</p-footer>
+		</p-treeTable>
+	</div>
+
+</div>
+
+
+<p-dialog header="Plan de cuentas" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cnivel" class="ui-outputlabel">Nivel</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cnivel" name="cnivel" [(ngModel)]="cnivel" entero maxlength="1" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cmoneda" class="ui-outputlabel required">Moneda</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="cmoneda" name="cmoneda" [options]="lmoneda" [(ngModel)]="registro.cmoneda" required></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="padre" class="ui-outputlabel">Cuenta padre</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="padre" name="padre" [(ngModel)]="registro.padre" entero maxlength="20" disabled="true"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="secuencia" class="ui-outputlabel required">Secuencial</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="secuencia" name="secuencia" [maxlength]="digitos" [(ngModel)]="secuencia" required entero
+						 [disabled]="!esnuevo" (ngModelChange)="cambiarSecuencia($event)" />
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="ccuenta" class="ui-outputlabel required">Cuenta resultado</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="ccuenta" name="ccuenta" [(ngModel)]="registro.ccuenta" required entero maxlength="20" disabled="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required maxlength="140"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="movimientos" class="ui-outputlabel">Movimiento</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="movimientos" [(ngModel)]="registro.movimiento" binary="false"></p-checkbox>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="activa" class="ui-outputlabel">Activa</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="activa" [(ngModel)]="registro.activa" binary="false" (onChange)="ValidarSaldo($event,registro)"></p-checkbox>
+					</div>
+
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="eslegal" class="ui-outputlabel">Es cuenta legal</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="eslegal" [(ngModel)]="registro.eslegal" binary="false"></p-checkbox>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="numeronota" class="ui-outputlabel">Nota al balance</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="numeronota" name="numeronota" [(ngModel)]="registro.numeronota"  maxlength="20" 
+						/>
+					</div>				
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

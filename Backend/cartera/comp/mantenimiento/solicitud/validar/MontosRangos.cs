@@ -1,4 +1,5 @@
 ﻿using cartera.datos;
+using cartera.enums;
 using cartera.saldo;
 using core.componente;
 using dal.cartera;
@@ -31,11 +32,16 @@ namespace cartera.comp.mantenimiento.solicitud.validar {
             if (lrangos.Count() != 1) {
                 throw new AtlasException("CAR-0031", "MONTO NO SE ENCUENTRA PARAMETRIZADO");
             }
-
-            if (((int)lrangos[0].plazomaximo) < ((int)tcarsolicitud.numerocuotas)) {
+            if (rqmantenimiento.Cmodulotranoriginal == 7 && rqmantenimiento.Ctranoriginal == 52)
+            {
+                if ((!tcarsolicitud.cestadooperacion.Equals(EnumEstadoOperacion.RESTRUCTURADA.CestadoOperacion) && !tcarsolicitud.cestadooperacion.Equals(EnumEstadoOperacion.REFINANCIADA.CestadoOperacion)) && ((int)lrangos[0].plazomaximo) < ((int)tcarsolicitud.numerocuotas))
+                {
+                    throw new AtlasException("CAR-0032", "NÚMERO DE CUOTAS MÁXIMO NO PUEDE SER MAYOR A: {0}", lrangos[0].plazomaximo);
+                }
+            }
+            else if (((int)lrangos[0].plazomaximo) < ((int)tcarsolicitud.numerocuotas)) {
                 throw new AtlasException("CAR-0032", "NÚMERO DE CUOTAS MÁXIMO NO PUEDE SER MAYOR A: {0}", lrangos[0].plazomaximo);
             }
-
             CalculaMontoMaximo(rqmantenimiento, tcarsolicitud);
         }
 

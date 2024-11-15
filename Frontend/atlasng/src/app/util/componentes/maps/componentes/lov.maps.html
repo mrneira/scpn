@@ -1,0 +1,20 @@
+<p-dialog header="Selección de Coordenadas" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-gmap #gmap [style]="{'width':'98%','height':'320px'}" [options]="options" [overlays]="overlays" (onMapClick)="handleMapClick($event)"></p-gmap>
+		<div class="ui-g-4 ui-g-nopad">
+			<button type="button" pButton label="Acercar" icon="ui-icon-zoom-in" (click)="zoomIn(gmap.getMap())" style="margin-top: 10px; width:98%; text-align:center;"></button>
+		</div>
+		<div class="ui-g-4 ui-g-nopad">
+			<button type="button" pButton label="Eliminar Marcadores" icon="ui-icon-cancel" (click)="clearAll()" style="margin-top: 10px; width:98%; text-align:center;"></button>
+		</div>
+		<div class="ui-g-4 ui-g-nopad">
+			<button type="button" pButton label="Alejar" icon="ui-icon-zoom-out" (click)="zoomOut(gmap.getMap())" style="margin-top: 10px; width:98%; text-align:center;"></button>
+		</div>
+		<div class="ui-g-6 ui-g-nopad" ng-if="controles">
+			<button type="button" pButton label="Confirmar" (click)="confirm()" style="margin-top: 10px; width:98%; text-align:center;"></button>
+		</div>
+		<div class="ui-g-6 ui-g-nopad" ng-if="controles">
+			<button type="button" pButton label="Cancelar" (click)="hideDialog()" style="margin-top: 10px; width:98%; text-align:center;"></button>
+		</div>
+	</div>
+</p-dialog>

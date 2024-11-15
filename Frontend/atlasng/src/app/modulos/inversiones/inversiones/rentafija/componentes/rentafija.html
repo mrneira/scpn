@@ -1,0 +1,203 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="this.pTransaccion < 1000">
+    </acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+        <div class="ui-g-12 ui-md-2">
+
+            <label for="fpkcinversion" class="ui-outputlabel">
+
+                <span *ngIf="pTasaclasificacioncdetalle == 'FIJA'">Inversiones de Renta Fija</span>
+                <span *ngIf="pTasaclasificacioncdetalle != 'FIJA'">Inversiones de Renta Variable</span>
+
+            </label>
+
+        </div>
+
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="mcampos.cinversion" required readonly
+            />
+        </div>
+        <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.codigotitulo" [disabled]="true"
+            />
+        </div>
+
+        <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" [disabled]="instrumentoComponent.pEditable != 0"
+                icon="ui-icon-directions">
+            </button>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!estaVacio(this.instrumentoComponent.pAlerta)">
+
+            <div class="ui-g-12 ui-md-2">
+                <label for="alerta" class="ui-outputlabel" style="color: red;">Alerta</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="alerta" name="alerta" [(ngModel)]="this.instrumentoComponent.pAlerta" [disabled]="true"
+                    style="color: red;" />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion > 1000 && !estaVacio(this.instrumentoComponent.registro.comentariosingreso) && !(this.pTransaccion >= 2000 && this.pTransaccion <= 3000)">
+
+            <div class="ui-g-12 ui-md-2">
+                <label for="comentarios" class="ui-outputlabel">Comentarios</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="comentarios" name="comentarios" [(ngModel)]="this.instrumentoComponent.registro.comentariosingreso"
+                    [disabled]="true" />
+            </div>
+
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion < 1000 && !estaVacio(this.instrumentoComponent.registro.comentariosdevolucion) && !(this.pTransaccion >= 2000 && this.pTransaccion <= 3000)">
+
+            <div class="ui-g-12 ui-md-2">
+                <label for="comentariosdev" class="ui-outputlabel">Comentarios</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="comentariosdev" name="comentariosdev" [(ngModel)]="this.instrumentoComponent.registro.comentariosdevolucion"
+                    [disabled]="true" />
+            </div>
+
+        </div>
+
+
+
+        <app-lov-comentarios (eventoCliente)=fijarLovComentario($event)></app-lov-comentarios>
+
+    </div>
+</form>
+
+<div class="ui-helper-clearfix" style="width: 100%">
+
+    <button type="button" *ngIf="this.pTransaccion < 1000" pButton icon="ui-icon-add" (click)="nuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"
+        [disabled]="instrumentoComponent.pEditable != 0 || estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault)">
+    </button>
+
+    <button type="button" pButton icon="ui-icon-update" *ngIf="((this.pTransaccion < 1000 && (this.esIngresadaOAnulada() || (this.inversionesServicios.pEstadocdetalle == 'PAG' && (this.inversionesServicios.pInstrumentocdetalle == 'ACCION' || this.inversionesServicios.pInstrumentocdetalle == 'PCCERO' || this.inversionesServicios.pInstrumentocdetalle == 'FACCO' || this.inversionesServicios.pInstrumentocdetalle == 'ACCOPP' || this.inversionesServicios.pstrInstrumentoCLegal == 'CDP')))) || (this.pTransaccion > 2000 && this.pTransaccion < 3000 && this.inversionesServicios.pEstadocdetalle == 'APR')) && this.lInstrumento[0].cinversion != undefined && this.lInstrumento[0].cinversion != 0"
+        (click)="actualizar()" label="Actualizar" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || instrumentoComponent.pEditable == 2 || (this.inversionesServicios.pEstadocdetalle == 'APR' && !(this.pTransaccion > 2000 && this.pTransaccion < 3000))">
+    </button>
+
+    <button type="button" *ngIf="this.pTransaccion < 1000" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar"
+        class="f-btn f-float-left orange-btn" [disabled]="instrumentoComponent.pEditable == 0">
+    </button>
+
+    <button *ngIf="false" type="button" pButton icon="ui-icon-update" (click)="generaTablaAmortizacion()" label="Generar Tabla Amortización"
+        class="f-btn f-float-left orange-btn" [disabled]="instrumentoComponent.pEditable == 0">
+    </button>
+
+    <button type="button" *ngIf="!estaVacio(this.mAprobar) && this.pTransaccion <= 2000 && this.pTransaccion >= 1000 && (this.inversionesServicios.pEstadocdetalle == 'ENVAPR' || this.inversionesServicios.pEstadocdetalle == 'FINAPR')"
+        pButton icon="ui-icon-check" (click)="aprobar()" label="{{this.mAprobar}}" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || instrumentoComponent.pEditable != 0 || estaVacio(this.mcampos.cinversion) || this.inversionesServicios.pCcomprobante != null || !estaVacio(this.inversionesServicios.pCcomprobante)">
+    </button>
+
+    <button type="button" *ngIf="this.pTransaccion <= 2000 && this.mPermiteAnular == 1 && this.pTransaccion >= 1000 && this.inversionesServicios.pEstadocdetalle == 'APR'"
+        pButton icon="ui-icon-closethick" (click)="anular()" label="Anular" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || this.inversionesServicios.pCcomprobanteanulacion != null || !estaVacio(this.inversionesServicios.pCcomprobanteanulacion) || instrumentoComponent.pEditable != 0 || estaVacio(this.mcampos.cinversion) || this.inversionesServicios.pCcomprobante == null || estaVacio(this.inversionesServicios.pCcomprobante)">
+    </button>
+
+    <button type="button" *ngIf="this.pTransaccion < 1000 && instrumentoComponent.pEditable == 0 && esIngresadaOAnulada()" pButton
+        icon="ui-icon-cancel" (click)="eliminarInversion()" label="Eliminar" class="f-btn f-float-left orange-btn" [disabled]="false">
+    </button>
+
+    <button type="button" *ngIf="!this.estaVacio(this.mLabelEnviar) && this.pTransaccion <= 2000 && ((!estaVacio(this.mCinversionhisultimo) && this.mCinversionhisultimo > 0) || (( this.esIngresadaOAnulada() || this.inversionesServicios.pEstadocdetalle == 'PAG') && this.pTransaccion < 1000) || ((this.inversionesServicios.pEstadocdetalle == 'ENVAPR' || this.inversionesServicios.pEstadocdetalle == 'FINAPR') && this.pTransaccion >= 1000 && this.pTransaccion < 2000)) && instrumentoComponent.pEditable == 0 && !estaVacio(this.inversionesServicios.pCentrocostocdetalle) && !estaVacio(mcampos.cinversion)"
+        pButton icon="ui-icon-directions" (click)="enviar()" label={{this.mLabelEnviar}} class="f-btn f-float-left orange-btn"
+        [disabled]="false">
+    </button>
+
+    <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center"
+        [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || this.lInstrumento[0].cinversion == undefined || this.lInstrumento[0].cinversion == 0">
+    </button>
+
+    <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center"
+        [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || this.lInstrumento[0].cinversion == undefined || this.lInstrumento[0].cinversion == 0">
+    </button>
+
+    <div class="ui-g-12" style='display:none'>
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+</div>
+
+
+
+
+<p-tabView>
+
+    <p-tabPanel header="Instrumento Financiero" [selected]="true" [disabled]="false">
+        <app-instrumento [natural]="personaNaturalComponent" [detalle]="personaDetalleComponent"></app-instrumento>
+    </p-tabPanel>
+
+    <p-tabPanel header="{{mcampos.tablaAmortizaSubir}}" lazy=true *ngIf="pTasaclasificacioncdetalle == 'FIJA'" [disabled]="estaVacio(this.mcampos.tablaAmortizaSubir) || pTasaclasificacioncdetalle != 'FIJA' || (pTasaclasificacioncdetalle == 'FIJA' && this.inversionesServicios.pEstadocdetalle != 'PAG')">
+
+        <div class="f-contenedor-transaccion">
+            <div class="f-acciones-cabecera ui-g ui-fluid">
+                <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+            </div>
+
+            <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-1">
+                        <label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+                    </div>
+
+
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".xlsx" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+                            (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir"
+                            cancelLabel="Cancelar">
+                        </p-fileUpload>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <app-resultado-carga></app-resultado-carga>
+            </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-md-1">
+        </div>
+
+        <div class="ui-g-12 ui-md-12">
+            <label for="fnmensaje" class="ui-outputlabel" styleClass="f-center" class="f-bold" style="font-size:20px;color:forestgreen">{{this.mMensajeCarga}}</label>
+        </div>
+
+
+
+    </p-tabPanel>
+
+    <p-tabPanel header="{{mcampos.tablaAmortiza}}" lazy=true [disabled]="this.inhabilitarPestanias() || estaVacio(this.mcampos.tablaAmortiza) || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+        <app-tablamortizacion></app-tablamortizacion>
+    </p-tabPanel>
+
+
+    <p-tabPanel header="{{mcampos.TIR}}" lazy=true *ngIf="pTasaclasificacioncdetalle == 'FIJA'" [disabled]="this.inhabilitarPestanias() || estaVacio(this.mcampos.TIR) || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+        <app-tir></app-tir>
+    </p-tabPanel>
+
+    <p-tabPanel header="Información Adicional" lazy=true [disabled]="this.inhabilitarPestanias() || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+        <app-sbs></app-sbs>
+    </p-tabPanel>
+
+
+
+
+</p-tabView>
+
+<app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>

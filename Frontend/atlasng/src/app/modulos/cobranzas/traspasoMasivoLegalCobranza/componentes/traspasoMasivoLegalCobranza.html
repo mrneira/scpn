@@ -1,0 +1,44 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="observacion" class="ui-outputlabel required">Observación</label>
+      </div>
+      <div class="ui-g-12 ui-md-11 ui-g-nopad">
+        <textarea pInputText type="text" id="observacion" name="observacion" [(ngModel)]="registro.observacion" required mayusculas
+          maxlength="255" rows="3"></textarea>
+      </div>
+
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="coperacion" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Traspaso a Jurídico</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'6px'}" selectionMode="multiple"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'25px'}"></p-column>
+        <p-column field="mdatos.nnombre" header="Nombre" [style]="{'width':'95px'}"></p-column>
+        <p-column field="mdatos.producto" header="Producto" [style]="{'width':'140px'}"></p-column>
+        <p-column field="diasvencidos" header="Dias Vencidos" [style]="{'width':'70px'}"></p-column>
+        <p-column field="cuotasvencidas" header="Cuotas Vencidos" [style]="{'width':'70px'}"></p-column>
+        <p-column field="montovencido" header="Monto Vencidos" [style]="{'width':'70px'}"></p-column>
+        <p-column field="fingreso" header="Fecha Ingreso" [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<p-fieldset legend="Acciones">
+    <div class="ui-g">
+       
+        <div *ngIf="componente.editable || componente.registro.esnuevo" > 
+            <button type="button" pButton icon="ui-icon-check" (click)="componente.actualizar()" label="Confirmar" 
+            pTooltip="Confirmar datos" tooltipPosition="top"
+                       class="green-btn" [disabled]="!formAcciones.valid">
+            
+            </button>            
+        </div>
+        <div *ngIf="componente.del"> 
+            <button type="button" 
+            pTooltip="Eliminar registro" tooltipPosition="top"
+            pButton icon="ui-icon-delete-forever" (click)="componente.eliminar()" label="Eliminar" class="blue-grey-btn" style="margin-left:5px">
+            </button> 
+        </div>
+        <div *ngIf="componente.editable || componente.registro.esnuevo"> 
+            <button type="button"
+            pTooltip="Cancelar" tooltipPosition="top"
+             pButton icon="ui-icon-cancel" (click)="componente.cancelar()" label="Cancelar" class="orange-btn" style="margin-left:5px">
+            </button> 
+        </div>
+        <div *ngIf="!componente.editable && !componente.registro.esnuevo"> 
+            <button 
+            pTooltip="Cerrar la pantalla" tooltipPosition="top"
+            type="button" pButton icon="ui-icon-cancel" (click)="componente.cancelar()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+            </button> 
+        </div>
+    </div>
+</p-fieldset>

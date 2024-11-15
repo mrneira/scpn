@@ -1,0 +1,88 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numerolinea }}
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Id. Inv." [style]="{'width':'30px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.cinversion }}
+                    </ng-template>
+                </p-column>
+
+                <p-column field="tasaclasificacioncdetalle" header="Inv." [style]="{'width':'30px'}" ></p-column>
+
+                <p-column field="nombreinstrumento" header="Instrumento" [style]="{'width':'120px'}" ></p-column>
+
+                <p-column field="tipoinversion" header="Tipo Inversión" [style]="{'width':'115px'}" ></p-column>
+
+                <p-column field="codigotitulo" header="Código Título" [style]="{'width':'130px'}" ></p-column>
+
+                <p-column field="tasa" header="Tasa" [style]="{'width':'35px'}" ></p-column>
+
+                <p-column field="plazo" header="Plazo" [style]="{'width':'35px'}" *ngIf="false"></p-column>
+
+                <p-column field="fvencimiento" header="F. Vencimiento" [style]="{'width':'65px'}" ></p-column>
+
+                <p-column field="nombreemisor" header="Emisor" [style]="{'width':'230px'}" ></p-column>
+
+                <p-column header="Valor Nominal" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valornominal  | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="fcompra" header="F. Compra" [style]="{'width':'65px'}" ></p-column>
+
+                <p-column header="Valor Efectivo" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valorefectivo  | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="yield" header="Yield" [style]="{'width':'35px'}" ></p-column>
+
+                <p-column field="porcentajecalculoprecio" header="% Cálc. Precio" [style]="{'width':'50px'}" ></p-column>
+
+                <p-column field="calificacionriesgoinicialcdetalle" header="Cal. Riesgo Inic." [style]="{'width':'55px'}" ></p-column>
+
+                <p-column field="calificacionriesgoactualcdetalle" header="Cal. Riesgo Actual" [style]="{'width':'55px'}" ></p-column>
+
+                <p-column field="fultimopago" header="F. Últ. Pag." [style]="{'width':'55px'}" ></p-column>
+
+                <p-column field="basediasinterescdetalle" header="Base Días Interés" [style]="{'width':'55px'}" ></p-column>
+
+                <p-column field="calendarizacioncdetalle" header="Base Tasa Interés" [style]="{'width':'55px'}" ></p-column>
+
+                <p-column header="Número acciones" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.numeroacciones  | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Div. en acciones" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.dividendosenacciones  | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="sector" header="Sector" [style]="{'width':'55px'}" ></p-column>
+
+
+                <p-column field="mensaje" header="Mensaje" [style]="{'width':'20px'}"></p-column>
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

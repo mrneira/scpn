@@ -1,0 +1,54 @@
+<p-dialog header="Productos" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cbarras" class="ui-outputlabel">Cod. Barras</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="cbarras" [(ngModel)]="mfiltros.cbarras" autofoco mayusculas maxlength="20" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="serial" class="ui-outputlabel">Serial</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="serial" [(ngModel)]="mfiltros.serial" autofoco mayusculas maxlength="20" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="codigo" class="ui-outputlabel ">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			  <input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mcampos.codigo" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-6">
+			  <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nproducto" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+			  <button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovproductos()" icon="ui-icon-directions"></button>
+			</div>
+		  </div> 
+	
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" resizableColumns="true" (onRowSelect)="seleccionaRegistro($event)"
+			 scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Productos Codificados</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cbarras" header="C. Barras" [filter]="true" filterPlaceholder="Contiene" [style]="{'width':'90px'}"></p-column>
+				<p-column field="serial" header="Serial"  [filter]="true" filterPlaceholder="Contiene" [style]="{'width':'90px'}"></p-column>
+				<p-column field="mdatos.codigo" header="C&oacute;digo" [style]="{'width':'80px'}"></p-column>
+				<p-column field="mdatos.nombre" header="Nombre" [filter]="true" filterPlaceholder="Contiene" [style]="{'width':'110px'}"></p-column>
+				<p-column field="mdatos.Responsable" header="Usuario" [style]="{'width':'90px'}"></p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>
+
+<app-lov-productos (eventoCliente)=fijarLovProductosSelec($event)>

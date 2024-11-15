@@ -1,0 +1,92 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+		<button pButton type="button" label="Crear pago" style="position: absolute; right: 105px;" class="f-btn teal-btn" icon="ui-icon-add"
+		 (click)="nuevaNomina()"></button>
+	</div>
+	<form #pago="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+			<div class="ui-g-12 ui-md-4 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+					  <label for="tipocdetalle" class="ui-outputlabel required">Tipo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+					  <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="mcampos.tipocdetalle" required [filter]="true"
+					 (onChange)="obtnerdatos()"></p-dropdown>
+					</div>
+				  </div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [(selection)]="selectedRegistros"
+			 dataKey="cfuncionario">
+				<p-header>
+					<div class="ui-table-title">PAGOS DE DÉCIMOS AL PERSONAL</div>
+				</p-header>
+				<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+				<p-column field="cfuncionario" header="Código" [style]="{'width':'50px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="documento" header="Documento" [style]="{'width':'100px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="nombre" header="Funcionario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="cargo" header="Cargo" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column field="centrocosto" header="Centro Costos" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				
+				<p-column header="Total pago" [style]="{'text-align':'right','width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					  {{ reg.total | number : '1.2-2' }}
+					</ng-template>
+				  </p-column>
+
+				<p-footerColumnGroup>
+					<p-row>
+						<p-column footer="Total Funcionarios" [style]="{'font-size':'12px'}" styleClass="f-right"></p-column>
+						<p-column [footer]="getTotal() | number : '1.0-0'" [style]="{'text-align':'center','font-size':'12px','width':'75'}" [style]="{'width':'50px'}"></p-column>
+					</p-row>
+					<p-row>
+						
+
+						<p-column footer="Total Pago" [style]="{'font-size':'12px'}" styleClass="f-right"></p-column>
+						<p-column [footer]="mcampos.total | number : '1.0-0'" [style]="{'text-align':'center','font-size':'12px','width':'75'}" [style]="{'width':'50px'}"></p-column>
+					</p-row>
+				</p-footerColumnGroup>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins"> </div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+		<form #formDialogo="ngForm">
+		  <div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+			  <div class="separador-linea"></div>
+			  <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12">
+				  <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+				</div>
+			  </div>
+			  <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12">
+				  <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+				</div>
+				<div class="ui-g-12">
+				  <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario"
+					required mayusculas maxlength="2000" rows="3"></textarea>
+				</div>
+			  </div>
+			</div>
+			<footer>
+			  <div align="right">
+				<button type="button" pButton icon="ui-icon-check" (click)="aprobarpago()" label="Confirmar" class="green-btn"
+				  [disabled]="!formDialogo.valid">
+				</button>
+				<button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+				  style="margin-left:5px">
+				</button>
+			  </div>
+			</footer>
+		  </div>
+		</form>
+	  </p-dialog>
+	  

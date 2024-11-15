@@ -1,0 +1,67 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Productos Permitidos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.nproductopermitido" header="Producto"></p-column>
+        <p-column field="mdatos.ntipoproductopermitido" header="Tipo de Producto"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Productos Permitidos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 500px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.cproductopermitido" [readOnly]="true" entero required
+              maxlength="5" />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fcproducto" name="fcproducto" [options]="lproducto" [(ngModel)]="registro.cproductopermitido" (onChange)="cambiarTipoProducto($event)"
+              autofoco required [filter]="true" (onChange)="registrarEtiqueta(registro, lproducto, 'cproductopermitido', 'nproductopermitido')"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.ctipoproductopermitido" [readOnly]="true"
+              entero required maxlength="5" />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fctipoproducto" name="fctipoproducto" [options]="ltipoproducto" [(ngModel)]="registro.ctipoproductopermitido"
+              required [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoproducto, 'ctipoproductopermitido', 'ntipoproductopermitido')"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

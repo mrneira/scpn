@@ -1,0 +1,152 @@
+<div class="ui-g-12 ">
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px" rowGroupMode="subheader">
+				<p-header>
+                    <div class="ui-table-title">NOVEDADES</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+				<p-column field="numerooficio" [style]="{'width':'35px'}" header="Oficio"></p-column> 
+
+				<p-column header="Fecha recepción" [style]="{'width':'40px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fecharecepcion | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+
+
+				<p-column field="mdatos.ntiponovedad" [style]="{'width':'110px'}" header="Tipo novedad"></p-column> 
+				<p-column field="novedad" [style]="{'width':'130px'}" header="Descripción"></p-column>
+
+				<p-column header="Valor" [style]="{'width':'40px','text-align':'right'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.valor | number:'1.2-2'}}
+					</ng-template>
+				</p-column> 
+
+				<p-column header="Estado" [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-dropdown [options]="lestado" [disabled]="true" [ngModel]="reg.estado"></p-dropdown>
+					</ng-template>
+				</p-column> 
+				<ng-template pTemplate="rowgroupfooter" *ngIf="true">
+					<td colspan="4" style="text-align:right">TOTAL</td>
+					<td style="text-align:right">{{mcampos.totalmonto  | number:'1.2-2' }}</td>
+					<td colspan="2" style="text-align:right"></td>
+				</ng-template>	
+				<p-column [style]="{'width':'30px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>			
+<p-dialog header="Novedades" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+				<div *ngIf="edited" class="ui-g-12 ui-g-nopad" style="  padding:3px;
+				background-color: #f44336;color: white;margin-bottom: 3px;">
+					<p>{{mensaje}}</p>
+				</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Datos Novedad</span>
+				</div>
+				<hr />
+			</div>
+
+		    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetallenovedad" class="ui-outputlabel required">Tipo novedad</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetallenovedad" name="cdetallenovedad" [options]="ltipoNovedad" [(ngModel)]="registro.cdetallenovedad" 
+						[disabled]="!editable && !registro.esnuevo" required></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="novedad" class="ui-outputlabel required">Descripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<input type="text" pInputText id="novedad" name="novedad" [(ngModel)]="registro.novedad" 
+						   required mayusculas maxlength="200" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fecharecepcion" class="ui-outputlabel required">Fecha recepción</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fecharecepcion" name="fecharecepcion" [(ngModel)]="registro.fecharecepcion" 
+							[showIcon]="true" [disabled]="!editable" required [dateFormat]="formatofecha"
+							[monthNavigator]="true" [yearNavigator]="true"
+							yearRange="1900:2200"
+							[locale]="es"></p-calendar>
+						</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="estado" class="ui-outputlabel required">Estado</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="estado" name="estado" [options]="lestado" [disabled]="!editable"
+							[(ngModel)]="registro.estado" required></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="valor" class="ui-outputlabel required">Valor</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" 
+						   numeroPositivo maxlength="19" [disabled]="!editable && !registro.esnuevo" required/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="numerooficio" class="ui-outputlabel">Número de oficio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="numerooficio" name="numerooficio" [(ngModel)]="registro.numerooficio" 
+						 enteroGuion maxlength="50" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fechaoficio" class="ui-outputlabel">Fecha oficio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fechaoficio" name="fechaoficio" [(ngModel)]="registro.fechaoficio" 
+							[showIcon]="true" [disabled]="!editable" [dateFormat]="formatofecha"
+							[monthNavigator]="true" [yearNavigator]="true"
+							yearRange="1900:2200"
+							[locale]="es"></p-calendar>
+				</div>
+			</div>					
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

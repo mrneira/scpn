@@ -1,0 +1,98 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Referencias</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="creferencialaboral" header="Código" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="nombres" header="Nombre" ></p-column>
+        <p-column field="telefono1" header="Teléfono" [style]="{'width':'100px'}"></p-column>
+        <p-column field="telefono2" header="Celular" [style]="{'width':'100px'}" styleClass="f-center"></p-column>
+        <p-column field="ocupacion" header="Cargo" [style]="{'width':'100px'}" ></p-column>
+        <p-column field="profesion" header="Profesión" [style]="{'width':'100px'}" ></p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Referencia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="secuencia" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="creferencialaboral" name="creferencialaboral" [(ngModel)]="registro.creferencialaboral" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <textarea type="text" pInputText id="nombres" name="nombres" [(ngModel)]="registro.nombres"
+                   required mayusculas maxlength="300" rows="3" [disabled]="!editable && !registro.esnuevo"></textarea>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="telefono1" class="ui-outputlabel required">Teléfono:</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+             	<p-inputMask id="telefono1" name="telefono1" [(ngModel)]="registro.telefono1" 
+								 mask="(09)-999-9999"[disabled]="!editable"></p-inputMask>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="telefono2" class="ui-outputlabel required">Celular:</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+            	<p-inputMask id="telefono2" name="telefono2" [(ngModel)]="registro.telefono2" 
+								 mask="(099)-999-9999"[disabled]="!editable"></p-inputMask>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="ocupacion" class="ui-outputlabel required">Cargo:</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <textarea type="text" pInputText id="ocupacion" name="ocupacion" [(ngModel)]="registro.ocupacion"
+                   required mayusculas maxlength="200" rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+            </div>
+          </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="profesion" class="ui-outputlabel required">Profesión:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+              <textarea type="text" pInputText id="profesion" name="profesion" [(ngModel)]="registro.profesion"
+              required mayusculas maxlength="200" rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+            </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

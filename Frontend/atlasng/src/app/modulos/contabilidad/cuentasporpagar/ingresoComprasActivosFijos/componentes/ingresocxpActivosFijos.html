@@ -1,0 +1,424 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!nuevo && !eliminado" pButton type="button" label="Eliminar CxP" style="position: absolute; right: 515px;"
+    class="f-btn green-btn" icon="ui-icon-trash" (click)="eliminarcxp()"></button>
+  <button *ngIf="!nuevo && !tieneComprobante && !eliminado" pButton type="button" label="Generar Comprobante Contable" style="position: absolute; right: 275px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="generarComprobante()">
+  </button>
+  <button *ngIf="!tieneComprobante && !eliminado" pButton type="button" label="Guardar cambios" style="position: absolute; right: 115px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()">
+  </button>
+
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="cctaporpagar" class="ui-outputlabel required">Cuenta por pagar:</label>
+    </div>
+    <div class="ui-g-12 ui-md-5">
+      <input type="text" pInputText id="cctaporpagar" name="cctaporpagar" [(ngModel)]="comprobanteComponent.registro.cctaporpagar"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovcuentasporpagar" name="lovcuentasporpagar" (click)="mostrarlovcuentasporpagar()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-cuentasporpagar (eventoCliente)=fijarLovCuentasporpagar($event)></app-lov-cuentasporpagar>
+    <div class="ui-g-12 ui-md-3"></div>
+    <div class="ui-g-12 ui-md-2">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">Comprobante Contable</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="comprobanteComponent.registro.ccompcontable"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">No.Comprobante Cesantía</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="comprobanteComponent.registro.mdatos.numerocomprobantecesantia"
+        [readOnly]="true" />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-md-1">
+    <label for="numdocumento" class="ui-outputlabel">No.Comp.Retención</label>
+  </div>
+  <div class="ui-g-12 ui-md-2">
+    <input type="text" pInputText id="numdocumento" name="numdocumento" [(ngModel)]="comprobanteComponent.registro.numdocumento"
+      [readOnly]="true" />
+  </div>
+
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad" hidden="true">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fecha" [style]="{'text-align':'right'}" class="ui-outputlabel required">Fecha Contable</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fcontable" name="fcontable" [(ngModel)]="comprobanteComponent.registro.fcontable" [showIcon]="true" [disabled]="!editable || grabo"
+        [dateFormat]="formatofecha" required></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel required">Proveedor</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText required id="cpersona" name="cpersona" [(ngModel)]="comprobanteComponent.registro.cpersona"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">Identificaci&oacute;n</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="comprobanteComponent.registro.mdatos.identificacion"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">Raz&oacute;n social</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="comprobanteComponent.registro.mdatos.nproveedor" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarlovproveedores()" icon="ui-icon-directions"
+        hidden="!nuevo"></button>
+    </div>
+    <app-lov-proveedores (eventoCliente)=fijarLovProveedores($event)></app-lov-proveedores>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="numdocumentosustento" class="ui-outputlabel">No. doc sustento</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numdocumentosustento" name="numdocumentosustento" [(ngModel)]="comprobanteComponent.registro.numdocumentosustento"
+        [readOnly]="true" (onBlur)="validarNumeroDocumentoSustento()" [disabled]="!editable" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"
+        hidden="!nuevo"></button>
+    </div>
+    <app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+
+    <div class="ui-g-12 ui-md-1">
+      <label for="autorizacion" class="ui-outputlabel required">Autorizaci&oacute;n sustento</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="autorizacionsustento" name="autorizacionsustento" entero required maxlength="50" [(ngModel)]="comprobanteComponent.registro.autorizacionsustento"
+      />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="tcomprobantecdetalle" class="ui-outputlabel required">Tipo comprobante</label>
+    </div>
+    <div class="ui-g-12 ui-md-5">
+      <p-dropdown id="tcomprobantecdetalle" name="tcomprobantecdetalle" [options]="ltcomprobantecdetalle" [(ngModel)]="comprobanteComponent.registro.tcomprobantecdetalle"
+        required [filter]="true"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="sustentocdetalle" [style]="{'text-align':'right'}" class="ui-outputlabel required">Sustento</label>
+    </div>
+    <div class="ui-g-12 ui-md-5">
+      <p-dropdown id="sustentocdetalle" name="sustentocdetalle" [options]="lsustentocdetalle" [(ngModel)]="comprobanteComponent.registro.sustentocdetalle"
+        required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="ffacturasustento" class="ui-outputlabel required">Fecha Factura sustento</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-calendar id="ffacturasustento" name="ffacturasustento" [(ngModel)]="comprobanteComponent.registro.ffacturasustento" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es" required></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="fcaducidadsustento" [style]="{'text-align':'right'}" class="ui-outputlabel required">Fecha caducidad sustento</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-calendar id="fcaducidadsustento" name="fcaducidadsustento" [(ngModel)]="comprobanteComponent.registro.fcaducidadsustento"
+          [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+          [locale]="es" required></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="fecha" [style]="{'text-align':'right'}" class="ui-outputlabel required">Fecha Pago Vencimiento</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-calendar id="fpagovencimiento" name="fpagovencimiento" [(ngModel)]="comprobanteComponent.registro.fpagovencimiento" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es" required></p-calendar>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="formapagocdetalle" class="ui-outputlabel required">Forma de pago</label>
+    </div>
+    <div class="ui-g-12 ui-md-5">
+      <p-dropdown id="formapagocdetalle" name="formapagocdetalle" [options]="lformapagocdetalle" [(ngModel)]="comprobanteComponent.registro.formapagocdetalle"
+        required [filter]="true"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="estadocxpcdetalle" class="ui-outputlabel ">Estado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="estadocxpcdetalle" name="estadocxpcdetalle" maxlength="9" [ngModel]="comprobanteComponent.registro.estadocxpcdetalle"
+        readonly="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">
+      <label for="comentario" class="ui-outputlabel">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-11">
+      <textarea pInputText id="comentario" name="comentario" [(ngModel)]="comprobanteComponent.registro.comentario" required mayusculas
+        maxlength="500" rows="3" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">Necesita aprobación presupuestaria?
+    </div>
+    <input type="checkbox" name="ruteopresupuesto" [(ngModel)]="comprobanteComponent.registro.ruteopresupuesto" checked="true"
+    />
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">Exento de retención?
+    </div>
+    <input type="checkbox" name="exentoretencion" [(ngModel)]="comprobanteComponent.registro.exentoretencion" checked="false"
+    />
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">Contribuyente especial?
+    </div>
+    <input type="checkbox" name="contribuyenteespecial" [(ngModel)]="comprobanteComponent.registro.mdatos.contribuyenteespecial"
+    [disabled]="true" />
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="baseimponible" class="ui-outputlabel required">Base Imponible</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="baseimponible" name="baseimponible" [(ngModel)]="comprobanteComponent.registro.baseimponible"
+        required numeroPositivo [readOnly]="false" (ngModelChange)="replicarValor()" maxlength="18" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="baseimpgrav" class="ui-outputlabel required">Base Imponible Gravable</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="baseimpgrav" name="baseimpgrav" [(ngModel)]="comprobanteComponent.registro.baseimpgrav"
+        required numeroPositivo [readOnly]="false" (ngModelChange)="calcularImpuestosBaseImpGrav()" maxlength="18" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="porcentajeivacdetalle" class="ui-outputlabel required">% I.V.A</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-dropdown id="porcentajeivacdetalle" name="porcentajeivacdetalle" [options]="lporcentajeivacdetalle" [(ngModel)]="comprobanteComponent.registro.porcentajeivacdetalle"
+        required [filter]="true" (onChange)="calcularIVA()"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="montoiva" name="montoiva" [(ngModel)]="comprobanteComponent.registro.montoiva" required
+        numeroPositivo [disabled]="true" />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="baseimpice" class="ui-outputlabel ">Base Imponible ICE</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="baseimpice" name="baseimpice" [(ngModel)]="comprobanteComponent.registro.baseimpice" numeroPositivo
+        [readOnly]="false" maxlength="18" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="porcentajeicecdetalle" class="ui-outputlabel">% I.C.E.</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-dropdown id="porcentajeicecdetalle" name="porcentajeicecdetalle" [options]="lporcentajeicecdetalle" [(ngModel)]="comprobanteComponent.registro.porcentajeicecdetalle"
+        [filter]="true" (onChange)="calcularICE()" maxlength="18"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="montoice" name="montoice" [(ngModel)]="comprobanteComponent.registro.montoice" numeroPositivo
+        [readOnly]="false" maxlength="18" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="mcampos.totalfactura" class="ui-outputlabel " [style]="{}">Total Factura</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="mcampos.totalfactura" name="mcampos.totalfactura" [(ngModel)]="mcampos.totalfactura" numeroPositivo
+        (ngModelChange)="calcularTotalRetenciones()" [disabled]="true" maxlength="18" style="font-size:2em" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="valormulta" class="ui-outputlabel ">Valor multa</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="valormulta" name="valormulta" [(ngModel)]="comprobanteComponent.registro.valormulta" numeroPositivo
+        (ngModelChange)="calcularTotalRetenciones()" maxlength="18" />
+    </div>
+  </div>
+  <p-accordion [multiple]="true">
+    <p-accordionTab header="Retenciones I.V.A.">
+      <div *ngIf="!comprobanteComponent.registro.mdatos.contribuyenteespecial">
+        <table cellspacing="0" cellpadding="0">
+          <tr>
+            <th style="border-style:solid; border-width:1px; border-color: blue;">IVA en bienes
+              <p-checkbox name="chkivabienes" (onChange)="cargarIVAenBienes($event)" binary="false"></p-checkbox>
+            </th>
+            <th hidden="true" style="border-style:solid; border-width:1px; border-color: blue;">IVA en servicios
+              <p-checkbox name="chkivaservicios" (onChange)="cargarIVAenServicios($event)" binary="false"></p-checkbox>
+            </th>
+          </tr>
+          <tr>
+            <td style="border-style:solid; border-width:1px;border-color: gray;height:100px">
+              <div class="ui-g-9 ui-g-nopad">
+                <div class="ui-g-9 ui-md-1"></div>
+                <div class="ui-g-9 ui-md-3">
+                  <label for="montoivabienes" class="ui-outputlabel required">Monto IVA Bienes</label>
+                </div>
+                <div class="ui-g-9 ui-md-6">
+                  <input type="text" pInputText id="montoivabienes" name="montoivabienes" [(ngModel)]="comprobanteComponent.registro.montoivabienes"
+                    required numeroPositivo [readOnly]="false" (ngModelChange)="calcularRetIVABienes()" />
+                </div>
+              </div>
+              <div class="ui-g-9 ui-g-nopad">
+                <div class="ui-g-9 ui-md-1"></div>
+                <div class="ui-g-9 ui-md-3">
+                  <label for="porretbienescdetalle" class="ui-outputlabel required">% retenci&oacute;n</label>
+                </div>
+                <div class="ui-g-9 ui-md-3">
+                  <p-dropdown id="porretbienescdetalle" name="porretbienescdetalle" [options]="lporretbienescdetalle" [(ngModel)]="comprobanteComponent.registro.porretbienescdetalle"
+                    required [filter]="true" (onChange)="calcularRetIVABienes()"></p-dropdown>
+                </div>
+                <div class="ui-g-9 ui-md-3">
+                  <input type="text" pInputText id="valorretbienes" name="valorretbienes" [(ngModel)]="comprobanteComponent.registro.valorretbienes"
+                    required numeroPositivo [readOnly]="false" />
+                </div>
+              </div>
+            </td>
+            <td hidden="true" style="border-style:solid; border-width:1px;border-color: gray;height:100px">
+              <div class="ui-g-9 ui-g-nopad">
+                <div class="ui-g-9 ui-md-1"></div>
+                <div class="ui-g-9 ui-md-3">
+                  <label for="montoivaservicios" class="ui-outputlabel required">Monto IVA Servicios</label>
+                </div>
+                <div class="ui-g-9 ui-md-6">
+                  <input type="text" pInputText id="montoivaservicios" name="montoivaservicios" [(ngModel)]="comprobanteComponent.registro.montoivaservicios"
+                    required numeroPositivo [readOnly]="false" (ngModelChange)="calcularRetIVAServicios()" />
+                </div>
+              </div>
+              <div class="ui-g-9 ui-g-nopad">
+                <div class="ui-g-9 ui-md-1"></div>
+                <div class="ui-g-9 ui-md-3">
+                  <label for="porretservicioscdetalle" class="ui-outputlabel required">% retenci&oacute;n</label>
+                </div>
+                <div class="ui-g-9 ui-md-3">
+                  <p-dropdown id="porretservicioscdetalle" name="porretservicioscdetalle" [options]="lporretservicioscdetalle" [(ngModel)]="comprobanteComponent.registro.porretservicioscdetalle"
+                    required [filter]="true" (onChange)="calcularRetIVAServicios()"></p-dropdown>
+                </div>
+                <div class="ui-g-9 ui-md-3">
+                  <input type="text" pInputText id="valorretservicios" name="valorretservicios" [(ngModel)]="comprobanteComponent.registro.valorretservicios"
+                    required numeroPositivo [readOnly]="false" />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+              <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:12px; overflow:hidden;">
+                <div class="ui-g-12 ui-md-6">
+                  <label></label>
+                </div>
+                <div class="ui-g-12 ui-md-2" [style]="{'text-align':'left'}">Total Retenciones IVA
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                  <input type="text" pInputText id="totalretencionesiva" name="totalretencionesiva" [ngModel]="totalretencionesiva | number:'1.2-2'"
+                    [readOnly]="true" style="color: white; text-align: right;" />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Retenciones I.Renta">
+      <div>
+        <app-comprobante></app-comprobante>
+      </div>
+      <div>
+        <app-detalle [baseimpgravable]="mcampos.baseimpgrav" (calcularTotalesIREvent)="calcularTotalRetencionFuente()"></app-detalle>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+  <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+    <div class="ui-g-12 ui-md-6">
+      <label></label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="totalretenciones" class="ui-outputlabel" style="color: white; text-align: left;">
+        Total retenciones:
+      </label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="totalretenciones" name="totalretenciones" [ngModel]="totalretenciones | number:'1.2-2'"
+        [readOnly]="true" style="color: white; text-align: right;" />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+    <div class="ui-g-12 ui-md-6">
+      <label></label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="totalmulta" class="ui-outputlabel" style="color: white; text-align: left;">
+        Total multa:
+      </label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="totalmulta" name="totalmulta" [ngModel]="comprobanteComponent.registro.valormulta | number:'1.2-2'"
+        [readOnly]="true" style="color: white; text-align: right;" />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+    <div class="ui-g-12 ui-md-6">
+      <label></label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="valorpagar" class="ui-outputlabel" style="color: white; text-align: left;">
+        Total a pagar:
+      </label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="valorpagar" name="valorpagar" [ngModel]="comprobanteComponent.registro.valorpagar | number:'1.2-2'"
+        [readOnly]="true" style="color: white; text-align: right;" />
+    </div>
+  </div>
+
+</div>

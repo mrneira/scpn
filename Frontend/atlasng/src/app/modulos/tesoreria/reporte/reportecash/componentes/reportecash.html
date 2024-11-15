@@ -1,0 +1,86 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel ">Módulos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel ">Estado:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="detallesestados" name="detallesestados" [options]="lestados" [(ngModel)]="mfiltros.cestado" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel">Identificación:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="identificacioncliente" name="identificacioncliente" [(ngModel)]="this.mfiltros.identificacioncliente" minlength="10" maxlength="13"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="fdesde" class="ui-outputlabel required">Fecha Generación:</label>
+				</div>
+				<div class="ui-g-6 ui-md-8">
+					<p-calendar name="fdesde" [(ngModel)]="mcampos.fingreso" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+				</div>
+			</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+			<p-header>
+				<div class="ui-table-title">Reporte CashManagement</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				<div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+			<p-column field="modulo" header="Módulo" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+			<p-column field="transaccion" header="Transacción" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+			<p-column field="identificacioncliente" header="Identificación" [style]="{'width':'90px'}" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="nombrecliente" header="Nombre" [style]="{'width':'180px'}" styleClass="f-left" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="referencia" header="Contrapartida" [style]="{'width':'100px'}" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column header="Valor" [style]="{'width':'90px'}" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{reg.valor | number:'1.2-2'}}
+				</ng-template>
+			</p-column>
+			<p-column header="Valor Procesado" [style]="{'width':'90px'}" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{reg.valorprocesado | number:'1.2-2'}}
+				</ng-template>
+			</p-column>
+			<p-column field="descripcionEstado" header="Estado" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+			<p-column header="Fecha Contable" [style]="{'width':'100px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData"  >
+					{{reg.fcontable | fechaenteroformato}}
+				</ng-template>
+			</p-column>
+			<p-column field="registrosenviado" header="Reg. Enviados" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+			<p-column field="registrosrecibido" header="Reg. Recibidos" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+			
+		</p-dataTable>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fcpersona" class="ui-outputlabel required">Funcionario:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="registro.cfuncionario" required [readOnly]="true" style="text-align:left;"/>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" style="text-align:left;" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+     </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Educación Formal" [selected]="true">
+    <app-institucionformal></app-institucionformal>
+  </p-tabPanel>
+
+  <p-tabPanel header="Capacitación" [selected]="false">
+   <app-capacitacion></app-capacitacion>
+
+  </p-tabPanel>
+
+  <p-tabPanel header="Idiomas" [selected]="false">
+    <app-idiomas></app-idiomas>
+  </p-tabPanel>
+
+</p-tabView>
+

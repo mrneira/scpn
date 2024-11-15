@@ -1,0 +1,86 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Información Bancarias</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.tipoinstitucioncdetalle1" header="Institución"></p-column>
+        <p-column field="mdatos.tipocuentacdetalle1" header="Tipo"></p-column>
+        <p-column field="numero" header="No. cuenta"></p-column>
+        <p-column header="Estado" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.cuentaprincipal" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="reg.cuentaprincipal" [mostrarEliminar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins && lregistros.length == 0">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Información bancaria" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoRefPersonal="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="secuencia" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.secuencia" [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Inst.Financiera</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipoinstitucioncdetalle" appendTo="body" name="tipoinstitucioncdetalle" [options]="linstfinanciera" [(ngModel)]="registro.tipoinstitucioncdetalle"
+              required [disabled]="!editable" (onChange)="registrarEtiqueta(registro, linstfinanciera, 'tipoinstitucioncdetalle', 'tipoinstitucioncdetalle1')"
+              [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipocuentacdetalle" class="ui-outputlabel required">Tipo cuenta</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipocuentacdetalle" appendTo="body" name="tipocuentacdetalle" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"
+              required [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipocuenta, 'tipocuentacdetalle', 'tipocuentacdetalle1')"
+              [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="numero" class="ui-outputlabel required">No cuenta</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numero" name="numero" [(ngModel)]="registro.numero" maxlength="19" required entero [disabled]="!editable"
+            />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoRefPersonal" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

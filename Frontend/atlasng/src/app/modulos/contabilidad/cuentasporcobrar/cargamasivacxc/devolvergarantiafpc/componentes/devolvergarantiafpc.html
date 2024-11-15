@@ -1,0 +1,94 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button pButton *ngIf="!grabo" type="button" label="Devolver Garantía" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+        icon="ui-icon-save" (click)="devolvergarantia()"></button>
+</div>
+
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-2 ui-md-1">
+                <label for="fpnombre" class="ui-outputlabel required">Cliente</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+                <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="mfiltros.cpersona" [readOnly]="true" required />
+            </div>
+            <div class="ui-g-3 ui-md-2">
+                <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion" [readOnly]="true"
+                />
+            </div>
+            <div class="ui-g-4 ui-md-4">
+                <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.ncliente" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+                <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+            </div>
+            <app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12" style="clear:both;float:right;width:150px">
+                <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+                <label for="comentario" class="ui-outputlabel required">Comentario</label>
+            </div>
+            <div class="ui-g-12 ui-md-7">
+                <textarea pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario" required mayusculas maxlength="500"
+                    rows="1"></textarea>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobantedevolucion != undefined">
+            <div class="ui-g-1 ui-md-2">
+                <label for="ccomprobantedevolucion" class="ui-outputlabel">Código de Comprobante Contable</label>
+            </div>
+            <div class="ui-g-11 ui-md-4">
+                <input type="text" pInputText id="ccomprobantedevolucion" name="ccomprobantedevolucion" [(ngModel)]="mcampos.ccomprobantedevolucion"
+                    [readOnly]="true" />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+            <div class="ui-g-1 ui-md-2">
+                <label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+            </div>
+            <div class="ui-g-11 ui-md-4">
+                <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+                    [readOnly]="true" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [(selection)]="selectedRegistro"
+                selectionMode="single">
+                <p-header>
+                    <div class="ui-table-title">Garantías asociadas al cliente</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+                <p-column field="ccomprobanteregistro" header="Secuencial"></p-column>
+                <p-column field="ccuenta" header="Cuenta"></p-column>
+                <p-column field="documentoreferencia" header="Doc. referencia"></p-column>
+                <p-column header="Valor" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valor | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Fecha registro" styleClass="f-right">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.fingreso | date:'yyyy-MM-dd' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="cusuarioing" header="Usuario"></p-column>
+                <p-column selectionMode="single"></p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

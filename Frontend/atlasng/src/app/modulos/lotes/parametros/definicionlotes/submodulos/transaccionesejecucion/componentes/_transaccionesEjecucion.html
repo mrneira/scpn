@@ -1,0 +1,72 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" dataKey="cmodulo" scrollable="true" scrollHeight="500px">
+        <p-header>
+          <div class="ui-table-title">Permisos transacciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Módulo" field="cmodulo" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Transacción" field="ctransaccion" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Nombre transacción" field="mdatos.ntransaccion"></p-column>
+        <p-column header="Activo?" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.activo == '1' ? true : false" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-transacciones (eventoCliente)="fijarLovTransaccionesSelect($event)"></app-lov-transacciones>
+
+<p-dialog header="Transacciones de ejecución" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="pkcmodulo" class="ui-outputlabel required">Transacción</label>
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <input id="pkcmodulo" name="pkcmodulo" type="text" pInputText [(ngModel)]="cmodulo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <input type="text" pInputText id="pkctransaccion" name="pkctransaccion" [(ngModel)]="ctransaccion" [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="ntransaccion" name="ntransaccion" [(ngModel)]="registro.mdatos.ntransaccion" [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" name="lovtransacciones" (click)="mostrarLovTransacciones()" icon="ui-icon-directions" [disabled]="!editable || !registro.esnuevo"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="activo" class="ui-outputlabel">Activo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

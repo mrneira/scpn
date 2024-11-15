@@ -1,0 +1,70 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-outputlabel ">Módulo:</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdesde" class="ui-outputlabel required">Fecha:</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-calendar id="fcdesde" name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" required [locale]="es"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" d></p-calendar>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false"
+        columnResizeMode="expand" scrollHeight="350px" [(selection)]="selectedRegistros" dataKey="ctestransaccion">
+        <p-header>
+          <div class="ui-table-title">Pagos Modificados</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+          <div class="f-acciones-cab-tabla">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf"
+              style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+        <p-column selectionMode="multiple" [style]="{'width':'50px'}"></p-column>
+
+        <p-column field="fmodificacion" header="F. Modificación" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fmodificacion | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" [style]="{'width':'110px'}"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+        <p-column field="transaccion" header="Transacción" [style]="{'width':'120px'}"></p-column>
+        <p-column field="tipoBanco" header="Institución"></p-column>
+        <p-column field="numerocuentabeneficiario" header="Num Cuenta Beneficiario" [style]="{'width':'130px'}"></p-column>
+        <p-column field="tipoCuenta" header="Tipo Cuenta" [style]="{'width':'130px'}"></p-column>
+
+        <p-column header="Valor Pago" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

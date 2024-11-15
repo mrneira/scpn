@@ -1,0 +1,79 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"/>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel required">Operación</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-6">
+        <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="valor" class="ui-outputlabel required">Valor a pagar</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="valor" name="valor" type="text" pInputText [ngModel]="mcampos.valor" required numero [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2"></div>
+    </div>
+    <HR>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ndocumento" class="ui-outputlabel required">N° documento</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="ndocumento" name="ndocumento" type="text" pInputText [(ngModel)]="mcampos.documento" required />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-6 ui-g-nopad ui-datatable ui-datatable-header, body ui-datatable ui-datatable-footer">
+      <p-dataTable [value]="lregistros" [responsive]="true" rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">Registro de Pago</div>
+        </p-header>
+        <p-column field="nombre" header="Rubro"></p-column>
+        <p-column header="Monto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.monto" numero maxlength="16" style="text-align:right" (ngModelChange)="actualizarMonto()"
+            />
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="1" style="text-align:left">TOTAL</td>
+          <td style="text-align:right">{{rqMantenimiento.monto | number:'1.2-2' }}</td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

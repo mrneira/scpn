@@ -1,0 +1,25 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+      <p-header>
+        <div class="ui-table-title">Documentos</div>
+        <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="mdatos.numerodocumento" header="N°" [style]="{'width':'50px'}"></p-column>
+      <p-column field="mdatos.nnombre" header="Nombre"></p-column>
+      <p-column field="mdatos.ndescripcion" header="Descripción"></p-column>
+      <p-column header="Acciones" [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-attach-file" name="btn" (click)="Descargar(reg,$event)" pTooltip="Descarga XLS"
+              tooltipPosition="top"></button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

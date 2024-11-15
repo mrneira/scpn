@@ -1,0 +1,151 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="emisorcdetalle" class="ui-outputlabel required">Institución Financiera</label>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown id="emisorcdetalle" name="emisorcdetalle" [options]="lEmisor" [(ngModel)]="mcampos.emisorcdetalle" required [disabled]="false"
+            (onChange)="consultar()"></p-dropdown>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="valornominal" class="ui-outputlabel required">Valor Nominal</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input type="text" pInputText id=valornominal name="valornominal" [(ngModel)]="mcampos.vnominal" numero required maxlength="26"
+          [disabled]="true" />
+      </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccomprobante" class="ui-outputlabel">Comprobante</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="ccomprobante" name="ccomprobante" type="text" pInputText [(ngModel)]="mcampos.ccomprobante" readonly />
+      </div>
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel"># Comprobante Cesantía</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="numerocomprobantecesantia" name="numerocomprobantecesantia" type="text" pInputText [(ngModel)]="mcampos.numerocomprobantecesantia"
+          readonly />
+      </div>
+    </div>
+
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Movimientos de Cuenta</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column header="F.Movimiento" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.nftransaccion | date:'yyyy-MM-dd' }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'90px'}"></p-column>
+
+
+        <p-column field="valornominal" header="V. Nominal" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.valornominal | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Movimientos de Cuenta" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="false"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-3">
+            <label for="nfcolocacion" class="ui-outputlabel required">Fecha de Movimiento</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <p-calendar id="nfcolocacion" name="nfcolocacion" [(ngModel)]="registro.mdatos.nftransaccion" [showIcon]="true" [locale]="es"
+              [disabled]="false" required [dateFormat]="formatofecha"></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="transaccdetalle" class="ui-outputlabel required">Transacción</label>
+          </div>
+
+          <div class="ui-g-12 ui-md-5">
+            <p-dropdown id="transaccdetalle" name="transaccdetalle" [options]="lTransaccion" [(ngModel)]="registro.transaccioncdetalle"
+              required [disabled]="false" (onChange)="registrarEtiqueta(registro, lTransaccion, 'transaccioncdetalle', 'ntransaccion')"></p-dropdown>
+          </div>
+        </div>
+
+     
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="porcentajeprecio" class="ui-outputlabel required">Valor Nominal</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input type="text" pInputText id=porcentajeprecio name="porcentajeprecio" [(ngModel)]="registro.valornominal" numero required
+              maxlength="26" [disabled]="false" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="motivo" class="ui-outputlabel required">Motivo</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText type="text" id="motivo" name="motivo" [(ngModel)]="registro.motivo" required mayusculas rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+</p-dialog>

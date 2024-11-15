@@ -1,0 +1,109 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Datos Solicitud</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fcproducto" name="fcproducto" [options]="solicitud.lproducto" [(ngModel)]="solicitud.registro.cproducto"
+              (onChange)="solicitud.cambiarTipoProducto($event);solicitud.recargarSimulacion()" required [disabled]="!editable"
+              [filter]="true"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fctipoproducto" class="ui-outputlabel required">Tipo producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fctipoproducto" name="fctipoproducto" [options]="solicitud.ltipoproducto" [(ngModel)]="solicitud.registro.ctipoproducto"
+              (onChange)="solicitud.mostrar($event);solicitud.recargarSimulacion()" required [disabled]="!editable" [filter]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="tablaamortizacion" name="tablaamortizacion" [options]="solicitud.ltablaamortizacion" [(ngModel)]="solicitud.registro.ctabla"
+              required [disabled]="!editable" [filter]="true" (onChange)="solicitud.recargarSimulacion()"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="montooriginal" class="ui-outputlabel required">Monto</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="montooriginal" name="montooriginal" maxlength="10" numero required [(ngModel)]="solicitud.registro.montooriginal"
+              [disabled]="true" (ngModelChange)="solicitud.recargarSimulacion()" (blur)="solicitud.cargarCuotas(solicitud.registro.montooriginal)"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="snumerocuotas" class="ui-outputlabel required">Número cuotas</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="snumerocuotas" name="snumerocuotas" maxlength="3" entero [required]="!solicitud.pagoVencimiento"
+              [(ngModel)]="solicitud.registro.numerocuotas" [disabled]="!editable || solicitud.pagoVencimiento" (ngModelChange)="solicitud.recargarSimulacion()"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="solicitud.registro.mdatos.gracia">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cuotagracia" class="ui-outputlabel">Cuotas de gracia</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cuotagracia" name="cuotagracia" maxlength="2" entero [(ngModel)]="solicitud.registro.cuotasgracia"
+              [disabled]="!editable" (ngModelChange)="solicitud.recargarSimulacion()" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="solicitud.registro.mdatos.gracia">
+          <div class="ui-g-12 ui-md-4">
+            <label for="finiciopago" class="ui-outputlabel">Fecha inicio de pagos</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-calendar id="finiciopago" name="finiciopago" [(ngModel)]="solicitud.registro.mdatos.finiciopagos" [showIcon]="true" [disabled]="!editable"
+              [dateFormat]="formatofecha" (ngModelChange)="solicitud.recargarSimulacion()"></p-calendar>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Datos Simulación</span>
+        </div>
+        <hr />
+      </div>
+      <div class="separador-linea"></div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tasa" class="ui-outputlabel">Tasa nominal</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="tasa" name="tasa" maxlength="5" numero [(ngModel)]="solicitud.mcampos.tasa" disabled="disabled"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="svalorcuota" class="ui-outputlabel">Valor cuota</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="svalorcuota" name="svalorcuota" maxlength="10" numero [(ngModel)]="solicitud.registro.valorcuota"
+            disabled="disabled" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

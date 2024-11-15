@@ -1,0 +1,146 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcsecuencia" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fcsecuencia" name="fcsecuencia" [(ngModel)]="mfiltros.csecuencia" mayusculas autofoco maxlength="12" />
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdescripcion" class="ui-outputlabel">Descripción</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fdescripcion" name="fdescripcion" [(ngModel)]="mfiltros.descripcion" mayusculas maxlength="80" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Secuencias</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="csecuencia" header="C&oacute;digo" [style]="{'width':'150px'}"></p-column>
+				<p-column field="descripcion" header="Descripción"></p-column>
+				<p-column field="valorinicial" header="Val.Inicial" [style]="{'width':'80px'}"></p-column>
+				<p-column field="valorfinal" header="Val.Final" [style]="{'width':'100px'}"></p-column>
+				<p-column field="valorincremento" header="Val.Incremento" [style]="{'width':'100px'}"></p-column>
+				<p-column field="valoractual" header="Val.Actual" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Cíclica" [style]="{'width':'60px'}">
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [ngModel]="reg.ciclica" binary="true" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Secuencia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="csecuencia" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="csecuencia" name="csecuencia"
+						[(ngModel)]="registro.csecuencia" autofoco required maxlength="12" [disabled]="!editable || !registro.esnuevo"/>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="descripcion" class="ui-outputlabel required">Descripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" 
+						   required mayusculas maxlength="80" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="valorinicial" class="ui-outputlabel required">Valor inicial</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="valorinicial" name="valorinicial" [(ngModel)]="registro.valorinicial" 
+						   required entero maxlength="15" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="valorfinal" class="ui-outputlabel required">Valor final</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="valorfinal" name="valorfinal" [(ngModel)]="registro.valorfinal" 
+						   required entero maxlength="15" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="valorincremento" class="ui-outputlabel required">Valor incremento</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="valorincremento" name="valorincremento" [(ngModel)]="registro.valorincremento" 
+						   required entero maxlength="15" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="valoractual" class="ui-outputlabel required">Valor actual</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="valoractual" name="valoractual" [(ngModel)]="registro.valoractual" 
+						   required entero maxlength="15" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="ciclica" class="ui-outputlabel">Cíclica</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<p-checkbox name="ciclica" [(ngModel)]="registro.ciclica" binary="false"></p-checkbox>
+				</div>
+			</div>
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

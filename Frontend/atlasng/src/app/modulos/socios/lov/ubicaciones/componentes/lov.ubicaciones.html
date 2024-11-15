@@ -1,0 +1,44 @@
+
+<app-lov-distritos (eventoCliente)=fijarLovDistritosSelec($event)></app-lov-distritos>
+<p-dialog header="Lista de ubicaciones" [(visible)]="displayLov" width="600" showEffect="fade" [responsive]="true" [positionTop]="120" >
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+           <div class="ui-g-12 ui-md-2">
+               <label for="fkcdistritou" class="ui-outputlabel required">Distrito</label>
+           </div>
+           <div class="ui-g-12 ui-md-1">
+               <input id="fkcdistrito" name="fkcdistritou" type="text" pInputText entero [(ngModel)]="mfiltros.cdistrito" required [disabled]="true"/>
+           </div>
+           <div class="ui-g-12 ui-md-4">
+               <input type="text" pInputText id="fndistritou" name="fndistritou" [(ngModel)]="mcampos.ndistrito" [disabled]="true" />
+           </div>
+           <div class="ui-g-12 ui-md-3">
+               <button pButton type="button" id="lovdistritosu" name="lovdistritosu" (click)="mostrarLovDistritos()" icon="ui-icon-directions"></button>
+           </div>
+                
+       </div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-treeTable [value]="root" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="seleccionaNodo($event)">
+					<p-header>Ubicación</p-header>
+					<p-column field="reg.cubicacion" header="Código" styleClass="f-left"></p-column>
+					<p-column field="reg.alias" header="Alias" styleClass="f-left"></p-column>
+					<p-column field="reg.nivel" header="Nivel" [style]="{'width':'60px'}"></p-column>
+					<p-column header="Nombre" styleClass="f-left">
+				    	<ng-template pTemplate="body" let-node="rowData">
+			     		   	<span *ngIf="node.data.reg.nivel <= 4">{{node.data.reg.mdatos.ntabla}}</span>
+			     		   	<span *ngIf="node.data.reg.nivel > 4">{{node.data.reg.nombre}}</span>
+			 		  	</ng-template>
+				    </p-column>
+				   	<p-column header="Ubicación Final" [style]="{'width':'60px'}">
+			         	<ng-template pTemplate="body" let-node="rowData">
+				 	      	<p-checkbox [(ngModel)]="node.data.reg.finubicacion" binary="true" [disabled]="true"></p-checkbox>
+		     		   	</ng-template>
+			</p-column>
+		</p-treeTable>
+		</div>
+	</div>
+</p-dialog>
+

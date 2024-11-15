@@ -112,6 +112,8 @@ namespace dal.cartera {
             t.csolicitud = (tcarsolicitud.csolicitud);
             t.mesnogeneracuota = (tcarsolicitud.mesnogeneracuota);
             t.csegmento = (tcarsolicitud.csegmento);
+            t.numcuotaprorrateo = (tcarsolicitud.numcuotaprorrateo);
+            t.montoarreglopago = (tcarsolicitud.montoarreglopago);
             return t;
         }
 

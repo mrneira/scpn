@@ -1,0 +1,73 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">COMPETENCIAS UNIVERSALES</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column header="Destreza" [style]="{'width':'200px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdestrezac" name="cdestrezac" [filter]="true" [options]="ldetreza" [(ngModel)]="reg.cdestreza" appendTo="body"
+              required [filter]="true" required></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Relevancia" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdetallerelevanciac" name="cdetallerelevanciac" [filter]="true" [options]="lrelevancia" [(ngModel)]="reg.cdetallerelevancia"
+              appendTo="body" required [filter]="true" required></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="COMPETENCIAS UNIVERSALES" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fjerarquias" class="ui-outputlabel required">Destreza:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <p-dropdown [filter]="true" id="cdestreza" name="cdestreza" [options]="ldetreza" [(ngModel)]="registro.cdestreza" (onChange)="registrarEtiqueta(registro, ldetreza, 'cdestreza', 'ndestreza')"
+              appendTo="body" required></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cdetallerelevancian" class="ui-outputlabel required">Relevancia:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <p-dropdown [filter]="true" id="cdetallerelevancia" name="cdetallerelevancia" [options]="lrelevancia" [(ngModel)]="registro.cdetallerelevancia"
+              (onChange)="registrarEtiqueta(registro, lrelevancia, 'cdetallerelevancia', 'nrelevancia')" appendTo="body" required></p-dropdown>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

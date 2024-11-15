@@ -1,0 +1,89 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <button pButton type="button" name="recargar" id="recargar" label="Limpiar" style="margin-bottom:10px" class="f-btn green-btn"
+      pTooltip="Recarga la pantalla" tooltipPosition="top" icon="ui-icon-update" (click)="recargar()"> </button>
+    <span *ngIf="!estaVacio(mcampos.cestado)">
+      <button pButton type="button" name="grabar" id="grabar" label="Bloquear" style="margin-bottom:10px" class="f-btn orange-btn"
+        pTooltip="Bloquear Usuario" tooltipPosition="top" icon="ui-icon-save" (click)="bloquear()"
+        *ngIf="mcampos.cestado === 'ACT'"></button>
+      <button pButton type="button" name="grabar" id="grabar" label="Desbloquear" style="margin-bottom:10px" class="f-btn"
+        pTooltip="Desbloquear Usuario" tooltipPosition="top" icon="ui-icon-save" (click)="desbloquear()"
+        *ngIf="mcampos.cestado === 'BLO'"></button>
+    </span>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.identificacion" [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" required [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovUsuarios()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-usuarios-canales (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios-canales>
+    </div>
+  </form>
+
+  <form #formularioInactivacion="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Informaci&oacute;n</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Credencial:</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input type="text" pInputText name="credencial" [(ngModel)]="mcampos.credencial" [disabled]="true" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Celular:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-inputMask id="celular" name="celular" [(ngModel)]="mcampos.celular" mask="999-999-9999" [disabled]="true" required> </p-inputMask>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Correo Electrónico:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText name="correo" [(ngModel)]="mcampos.email" email [disabled]="true" required />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fregistro" class="ui-outputlabel required">Fecha de registro:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="fingreso" [(ngModel)]="mcampos.fregistro" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Estado:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText name="estado" [(ngModel)]="mcampos.estado" [disabled]="true" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

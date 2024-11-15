@@ -1,0 +1,257 @@
+<app-lov-tth-designaciones (eventoCliente)=fijarLovDesignaciones($event)></app-lov-tth-designaciones>
+<app-lov-funcionarios #lov1 (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+<app-lov-funcionarios #lov2 (eventoCliente)=fijarLovFuncionarioReemplazado($event)></app-lov-funcionarios>
+<app-lov-cargo (eventoCliente)=fijarLovCargos($event)></app-lov-cargo>
+<app-lov-tth-grupoocupacional (eventoCliente)=fijarLovGrupos($event)></app-lov-tth-grupoocupacional>
+<app-lov-horario (eventoCliente)=fijarLovHorarios($event)></app-lov-horario>
+<app-lov-tth-tipovinculacion (eventoCliente)=fijarLovTipoVinculacion($event)></app-lov-tth-tipovinculacion>
+<app-lov-tth-tiporelacionlaboral (eventoCliente)=fijarLovTipoRelacionLaboral($event)></app-lov-tth-tiporelacionlaboral>
+
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    <button *ngIf="!estaVacio(this.mcampos.ccontrato)" pButton type="button" label="Imprimir Contrato" style="position: absolute; right: 205px;" class="f-btn teal-btn"
+    icon="ui-icon-print" (click)="descargarReporte()"></button>
+    <div class="oculto" style='display:none;'>
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="ccontratoFilter" class="ui-outputlabel required">Viculación:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="ccontratoFilter" name="ccontratoFilter" type="text" pInputText [(ngModel)]="mfiltros.ccontrato" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-7">
+        <input type="text" pInputText id="ndesignacionFilter" name="ndesignacionFilter" [(ngModel)]="mcampos.ndesignacion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovDesignaciones" name="lovDesignaciones" (click)="mostrarLovDesignaciones()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="f-contenedor-transaccion">
+        <form #formularioUsuario="ngForm">
+          <div class="f-datacontent ui-g ui-fluid">
+            <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+            </acciones-editar>
+
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-6 ui-md-3">
+                <label for="cfuncionario" class="ui-outputlabel required">Funcionario</label>
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <input id="cfuncionario" name="cfuncionario" type="text" pInputText [(ngModel)]="registro.cfuncionario" required [readOnly]="true"
+                />
+              </div>
+              <div class="ui-g-6 ui-md-7">
+                <input type="text" pInputText id="nfuncionario" name="nfuncionario" [(ngModel)]="registro.mdatos.nfuncionario" required [readOnly]="true"
+                />
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"
+                  [disabled]="!editable || !registro.esnuevo"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-6 ui-md-3">
+                <label for="reemplazadocfuncionario" class="ui-outputlabel">Funcionario a quien reemplaza</label>
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <input id="reemplazadocfuncionario" name="reemplazadocfuncionario" type="text" pInputText [(ngModel)]="registro.reemplazadocfuncionario"
+                  [readOnly]="true" />
+              </div>
+              <div class="ui-g-6 ui-md-7">
+                <input type="text" pInputText id="nreemplazadocfuncionario" name="nreemplazadocfuncionario" [(ngModel)]="registro.mdatos.nreemplazadocfuncionario"
+                  [readOnly]="true" />
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <button pButton type="button" id="lovFuncionarioReemplazado" name="lovFuncionarioReemplazado" (click)="mostrarLovFuncionarioReemplazado()"
+                  icon="ui-icon-directions" [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-6 ui-md-3">
+                <label for="ccargo" class="ui-outputlabel required">Cargo</label>
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <input id="ccargo" name="ccargo" type="text" pInputText [(ngModel)]="registro.ccargo" required [readOnly]="true" />
+              </div>
+              <div class="ui-g-6 ui-md-7">
+                <input type="text" pInputText id="ncargo" name="ncargo" [(ngModel)]="registro.mdatos.ncargo" [readOnly]="true" />
+              </div>
+              <div class="ui-g-6 ui-md-1">
+                <button pButton type="button" id="lovCargos" name="lovCargos" (click)="mostrarLovCargos()" icon="ui-icon-directions" [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-6 ui-md-3">
+                <label for="cgrupo" class="ui-outputlabel ">Grupo Ocupacional:</label>
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <input id="cgrupo" name="cgrupo" type="text" pInputText [(ngModel)]="registro.cgrupo" [readOnly]="true" [disabled]="!editable"
+                   />
+              </div>
+              <div class="ui-g-3 ui-md-7">
+                <input type="text" pInputText id="ngrupo" name="ngrupo" [(ngModel)]="registro.mdatos.ngrupo"      [disabled]="!editable"           />
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <button pButton type="button" id="lovGrupos" name="lovGrupos" (click)="mostrarLovGrupos()" icon="ui-icon-directions" [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-3 ui-md-3">
+                <label for="chorario" class="ui-outputlabel required">Horario</label>
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <input id="chorario" name="chorario" type="text" pInputText [(ngModel)]="registro.chorario" required [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-7">
+                <input type="text" pInputText id="nhorario" name="nhorario" [(ngModel)]="registro.mdatos.nhorario" [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <button pButton type="button" id="lovHorarios" name="lovHorarios" (click)="mostrarLovHorarios()" icon="ui-icon-directions"
+                  [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-3 ui-md-3">
+                <label for="ctipovinculacion" class="ui-outputlabel required">Documento de Vinculación</label>
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <input id="ctipovinculacion" name="ctipovinculacion" type="text" pInputText [(ngModel)]="registro.ctipovinculacion" required
+                  [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-7">
+                <input type="text" pInputText id="ntipovinculacion" name="ntipovinculacion" [(ngModel)]="registro.mdatos.ntipovinculacion"
+                  [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <button pButton type="button" id="lovTipoVinculacion" name="lovTipoVinculacion" (click)="mostrarLovTipoVinculacion()" icon="ui-icon-directions"
+                  [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-6 ui-g-nopad">
+              <div class="ui-g-3 ui-md-3">
+                <label for="ctiporelacionlaboral" class="ui-outputlabel required">Tipo de Relación Laboral</label>
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <input id="ctiporelacionlaboral" name="ctiporelacionlaboral" type="text" pInputText [(ngModel)]="registro.ctiporelacionlaboral"
+                  required [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-7">
+                <input type="text" pInputText id="ntiporelacionlaboral" name="ntiporelacionlaboral" [(ngModel)]="registro.mdatos.ntiporelacionlaboral"
+                  [readOnly]="true" />
+              </div>
+              <div class="ui-g-3 ui-md-1">
+                <button pButton type="button" id="lovTipoRelacionLaboral" name="lovTipoRelacionLaboral" (click)="mostrarLovTipoRelacionLaboral()"
+                  icon="ui-icon-directions" [disabled]="!editable"></button>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="remuneracion" class="ui-outputlabel required">Remuneración</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <input type="text" pInputText id="remuneracion" name="remuneracion" [(ngModel)]="registro.remuneracion" numeroPositivo maxlength="9" [disabled]="!editable"
+                  required />
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="fvinculacion" class="ui-outputlabel required">Fecha de Vinculación:</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-calendar id="fvinculacion" name="fvinculacion" [(ngModel)]="registro.fvinculacion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+                  [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="fdesvinculacion" class="ui-outputlabel">Fecha de Desvinculación:</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-calendar id="fdesvinculacion" name="fdesvinculacion" [(ngModel)]="registro.fdesvinculacion" [showIcon]="true" [locale]="es"
+                  [disabled]="!editable" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="estadocontratocdetalle" class="ui-outputlabel required">Estado de Contrato:</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-dropdown id="estadocontratocdetalle" name="estadocontratocdetalle" [options]="lestadocontrato" [(ngModel)]="registro.estadocontratocdetalle"
+                  (onChange)="registrarEtiqueta(registro, lestadocontrato, 'estadocontratocdetalle', 'nestadocontrato')" required
+                  [disabled]="!editable"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="regioncdetalle" class="ui-outputlabel required">Región:</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-dropdown id="regioncdetalle" name="regioncdetalle" [options]="lregion" [(ngModel)]="registro.regioncdetalle" [readonly]="!editable"
+                  required></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="regimencdetalle" class="ui-outputlabel required">Régimen</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-dropdown id="regimencdetalle" name="regimencdetalle" [options]="lregimen" (onChange)="cambiarEtiquetaDropdown($event, lregimen, 'nregimen')"
+                  [(ngModel)]="registro.regimencdetalle" [readonly]="!editable" required></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-3 ui-g-nopad">
+              <div class="ui-g-3 ui-md-6">
+                <label for="esjefe" class="ui-outputlabel">Es jefe?</label>
+              </div>
+              <div class="ui-g-3 ui-md-6">
+                <p-checkbox id="esjefe" name="esjefe" [(ngModel)]="registro.esjefe" binary="true" [disabled]="!editable"></p-checkbox>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                  <label for="codigo" class="ui-outputlabel required">Partida Presupuesto</label>
+                </div>
+              
+                <div class="ui-g-12 ui-md-1">
+                  <input type="text" pInputText id="cproducto" name="cproducto" required [(ngModel)]="registro.partidapresupuesto" [readOnly]="true"  />
+                </div>
+          
+                <div class="ui-g-12 ui-md-5">
+                  <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.npartida" [readOnly]="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovPartidaGasto()" icon="ui-icon-directions"></button>
+                </div>
+                <app-lov-partidagasto (eventoCliente)=fijarLovPartidaGastoSelec($event)></app-lov-partidagasto>
+              </div>
+
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-1 ui-md-12">
+                <label for="funciones" class="ui-outputlabel required">Funciones</label>
+              </div>
+              <div class="ui-g-11 ui-md-12">
+                <p-editor id="funciones" name="funciones" [(ngModel)]="registro.funciones" [style]="{'height':'360px'}" maxlength="30000"
+                  required [readonly]="!editable"></p-editor>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

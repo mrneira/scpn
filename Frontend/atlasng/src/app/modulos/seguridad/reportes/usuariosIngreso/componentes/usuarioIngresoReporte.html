@@ -1,0 +1,30 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="pkcusuario" class="ui-outputlabel ">Usuario:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<input id="pkcusuario" name="pkcusuario" type="text" pInputText
+					 [(ngModel)]="mcampos.cusuario" [readOnly]="true" />
+			</div>
+			<div class="ui-g-6 ui-md-6">
+				<input type="text" pInputText id="fnpersona" name="fnpersona"
+					[(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<button pButton type="button" id="lovusuariosregistro"
+					name="lovusuariosregistro" (click)="mostrarLovUsuarios()"
+					icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+		</div>
+
+</form>
+<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

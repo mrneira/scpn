@@ -1,0 +1,375 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo">
+    </acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+
+            <label for="fpkcinversion" class="ui-outputlabel">
+
+                <span *ngIf="pTasaclasificacioncdetalle == 'FIJA'">Inversiones de Renta Fija</span>
+                <span *ngIf="pTasaclasificacioncdetalle != 'FIJA'">Inversiones de Renta Variable</span>
+
+            </label>
+
+        </div>
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="mcampos.cinversion" required readonly
+            />
+        </div>
+        <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.codigotitulo" [disabled]="true"
+            />
+        </div>
+
+        <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" [disabled]="instrumentoComponent.pEditable != 0"
+                icon="ui-icon-directions">
+            </button>
+        </div>
+
+    
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!estaVacio(this.instrumentoComponent.pInstrumento[0].comentariosdevolucion)">
+
+            <div class="ui-g-12 ui-md-2">
+                <label for="comentariosdev" class="ui-outputlabel">Comentarios</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="comentariosdev" name="comentariosdev" [(ngModel)]="this.instrumentoComponent.pInstrumento[0].comentariosdevolucion"
+                    [disabled]="true" />
+            </div>
+
+        </div>
+
+        <app-lov-comentarios (eventoCliente)=fijarLovComentario($event)></app-lov-comentarios>
+
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="tasaactual" class="ui-outputlabel ">Tasa Actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="tasaactual" name="tasaactual" [(ngModel)]="mcampos.tasaactual" numeroDecimal7
+                    maxlength="25" [disabled]="true" [style]="{'width':'90px'}" readonly />
+            </div>
+
+
+
+            <div class="ui-g-12 ui-md-1">
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+                <label for="tasanueva" class="ui-outputlabel ">Tasa Nueva</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="tasanueva" name="tasanueva" [(ngModel)]="mcampos.tasanueva" numeroDecimal7 maxlength="25"
+                    [disabled]="pEditable == 0" [style]="{'width':'90px'}" (blur)="cambiarTasa()" 
+                />
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</form>
+
+<div class="ui-helper-clearfix" style="width: 100%">
+
+    <button type="button" *ngIf="this.pTransaccion < 1000" pButton icon="ui-icon-add" (click)="nuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"
+        [disabled]="instrumentoComponent.pEditable != 0 || estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault)">
+    </button>
+
+    <button type="button" pButton icon="ui-icon-update" *ngIf="this.pTransaccion < 1000 && this.inversionesServicios.pEstadocdetalle == 'ING' && this.lInstrumento[0].cinversion != undefined && this.lInstrumento[0].cinversion != 0"
+        (click)="actualizarForm()" label="Actualizar" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || instrumentoComponent.pEditable == 2 || (this.inversionesServicios.pEstadocdetalle == 'APR' && !(this.pTransaccion > 2000 && this.pTransaccion < 3000))">
+    </button>
+
+    <button type="button" *ngIf="this.pTransaccion < 1000" pButton icon="ui-icon-cancel" (click)="cancelarActualizacion()" label="Cancelar"
+        class="f-btn f-float-left orange-btn" [disabled]="instrumentoComponent.pEditable == 0">
+    </button>
+
+    <button *ngIf="false" type="button" pButton icon="ui-icon-update" (click)="generaTablaAmortizacion()" label="Generar Tabla Amortización"
+        class="f-btn f-float-left orange-btn" [disabled]="instrumentoComponent.pEditable == 0">
+    </button>
+
+    <button type="button" *ngIf="!estaVacio(this.mAprobar) && this.pTransaccion <= 2000 && this.pTransaccion >= 1000 && (this.inversionesServicios.pEstadocdetalle == 'ENVAPR' || this.inversionesServicios.pEstadocdetalle == 'FINAPR')"
+        pButton icon="ui-icon-check" (click)="aprobar()" label="{{this.mAprobar}}" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || instrumentoComponent.pEditable != 0 || estaVacio(this.mcampos.cinversion) || this.inversionesServicios.pCcomprobante != null || !estaVacio(this.inversionesServicios.pCcomprobante)">
+    </button>
+
+    <button type="button" *ngIf="this.pTransaccion <= 2000 && this.mPermiteAnular == 1 && this.pTransaccion >= 1000 && this.inversionesServicios.pEstadocdetalle == 'APR'"
+        pButton icon="ui-icon-closethick" (click)="anular()" label="Anular" class="f-btn f-float-left orange-btn" [disabled]="estaVacio(this.inversionesServicios.pCentrocostocdetalleDefault) || this.inversionesServicios.pCcomprobanteanulacion != null || !estaVacio(this.inversionesServicios.pCcomprobanteanulacion) || instrumentoComponent.pEditable != 0 || estaVacio(this.mcampos.cinversion) || this.inversionesServicios.pCcomprobante == null || estaVacio(this.inversionesServicios.pCcomprobante)">
+    </button>
+
+    <button type="button" *ngIf="!estaVacio(this.mLabelEnviar) && this.pTransaccion <= 3000 && this.inversionesServicios.pEstadocdetalle == 'APR' && instrumentoComponent.pEditable == 0 && !estaVacio(this.inversionesServicios.pCentrocostocdetalle) && !estaVacio(mcampos.cinversion)"
+        pButton icon="ui-icon-directions" (click)="enviar()" label={{this.mLabelEnviar}} class="f-btn f-float-left orange-btn"
+        [disabled]="false">
+    </button>
+
+    <button type="button" *ngIf="!estaVacio(this.mLabelEliminar)"
+        pButton icon="ui-icon-directions" (click)="eliminarReajuste()" label={{this.mLabelEliminar}} class="f-btn f-float-left orange-btn"
+        [disabled]="false">
+    </button>
+
+
+ 
+
+    <div class="ui-g-12" style='display:none'>
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+</div>
+
+
+
+
+<p-tabView>
+
+    <p-tabPanel header="Instrumento Financiero" [selected]="true" [disabled]="false">
+        <app-instrumento [natural]="personaNaturalComponent" [detalle]="personaDetalleComponent"></app-instrumento>
+    </p-tabPanel>
+
+    <p-tabPanel header="Información Adicional" lazy=true [disabled]="this.inhabilitarPestanias() || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+        <app-sbs></app-sbs>
+    </p-tabPanel>
+
+    <p-tabPanel header="" 
+        lazy=true 
+        [disabled]="this.inhabilitarPestanias() || estaVacio(this.mcampos.tablaAmortiza) || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+
+                <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]="false">
+
+                    
+                    <p-column header="Inicio" [style]="{'width':'150px'}" styleClass="f-center">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.mdatos.nfinicio | date:'yyyy-MM-dd' }}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Vencimiento" [style]="{'width':'150px'}" styleClass="f-center">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.mdatos.nfvencimiento | date:'yyyy-MM-dd' }}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column field="plazo" header="Plazo" styleClass="f-center" [style]="{'width':'90px'}" *ngIf="false"></p-column>
+
+                    <p-column header="Tasa" [style]="{'width':'150px'}" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.proyecciontasa * 100 | number:'1.2-2'}}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Capital" [style]="{'width':'150px'}" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.proyeccioncapital | number:'1.2-2'}}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Interés" [style]="{'width':'150px'}" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.proyeccioninteres | number:'1.2-2'}}
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Total" [style]="{'width':'150px'}" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            {{ reg.mdatos.total | number:'1.2-2'}}
+                        </ng-template>
+                    </p-column>
+
+
+                    <p-column field="mdatos.nestado" header="Estado" styleClass="f-center" [style]="{'width':'90px'}"></p-column>
+
+                
+
+                    <p-column [style]="{'width':'100px'}" disabled="true" *ngIf="pEditable != 0">
+
+                        <ng-template pTemplate="body" let-reg="rowData" disabled="pEditable == 0">
+                            <div class="f-table-actions" disabled="pEditable == 0">
+                                <acciones-reg [componente]="componentehijo" [reg]="reg" disabled="pEditable == 0" [mostrarEditar]="reg.estadocdetalle == 'PEN'"
+                                    [mostrarEliminar]="false"></acciones-reg>
+                            </div>
+                        </ng-template>
+
+                    </p-column>
+
+                    <p-footer *ngIf="pEditable != 0 && 1 == 0">
+                        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+                            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"
+                                [disabled]="pEditable == 0"></button>
+                        </div>
+                    </p-footer>
+                </p-dataTable>
+            </div>
+        </div>
+
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <p-dataTable [value]="rqMantenimiento.lregistrosTotales" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+                    <p-header>
+                        <div class="ui-table-title">Totales</div>
+                    </p-header>
+
+
+                    
+
+                    <p-column header="Valor nominal" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            <span>{{ this.instrumentoComponent.pInstrumento[0].valornominal | number:'1.2-2' }}</span>
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Capital" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            <span>{{ this.rqMantenimiento.lregistrosTotales[0].capital | number:'1.2-2' }}</span>
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Interés" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            <span>{{ this.rqMantenimiento.lregistrosTotales[0].interes | number:'1.2-2' }}</span>
+                        </ng-template>
+                    </p-column>
+
+                    <p-column header="Total" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                            <span>{{ this.rqMantenimiento.lregistrosTotales[0].total | number:'1.2-2' }}</span>
+                        </ng-template>
+                    </p-column>
+
+               
+
+
+
+
+                </p-dataTable>
+            </div>
+        </div>
+
+
+
+    </p-tabPanel>
+
+
+    <p-tabPanel header="{{mcampos.TIR}}" lazy=true *ngIf="pTasaclasificacioncdetalle == 'FIJA'" [disabled]="this.inhabilitarPestanias() || estaVacio(this.mcampos.TIR) || (this.instrumentoComponent.pEditable == 1 && estaVacio(this.mMensajeCarga))">
+        <app-tir></app-tir>
+    </p-tabPanel>
+
+
+
+    <p-tabPanel header="" lazy=true [disabled]="true">
+        <app-tablamortizacion></app-tablamortizacion>
+    </p-tabPanel>
+
+</p-tabView>
+
+
+<p-dialog header="Detalle Dividendo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+    [positionTop]="120">
+    <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width: 15000">
+            <div class="f-datacontent ui-g ui-fluid">
+
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="finicio" class="ui-outputlabel" [style]="{'width':'90px'}">Fecha de Inicio</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p-calendar id="finicio" name="finicio" [(ngModel)]="registro.mdatos.nfinicio" [showIcon]="true" [locale]="es" [disabled]="true"
+                            [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()" [style]="{'width':'90px'}" readonly>
+                        </p-calendar>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="efvencimiento" class="ui-outputlabel">Fecha de Vencimiento</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p-calendar id="efvencimiento" name="efvencimiento" [(ngModel)]="registro.mdatos.nfvencimiento" [showIcon]="true" [locale]="es"
+                            [disabled]="true" [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()" [style]="{'width':'90px'}"
+                            readonly>
+                        </p-calendar>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="xaplazo" class="ui-outputlabel">Plazo en días</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText id="xaplazo" name="xaplazo" [(ngModel)]="registro.plazo" maxlength="10" entero [disabled]="true"
+                            [style]="{'width':'90px'}" readonly />
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="tgproyecciontasa" class="ui-outputlabel ">Tasa</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText id="tgproyecciontasa" name="tgproyecciontasa" [(ngModel)]="registro.proyecciontasa" numeroDecimal7
+                            maxlength="20" [disabled]="true" [style]="{'width':'90px'}" readonly/>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="taproyeccioncapital" class="ui-outputlabel required">Capital</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText id="taproyeccioncapital" name="taproyeccioncapital" [(ngModel)]="registro.proyeccioncapital"
+                            numeroDecimal7 maxlength="25" [disabled]="false" [style]="{'width':'90px'}" (ngModelChange)="totalizarLinea()"
+                            (blur)="totalizarLinea()" required />
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="taproyeccioninteres" class="ui-outputlabel required">Interes</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText id="taproyeccioninteres" name="taproyeccioninteres" [(ngModel)]="registro.proyeccioninteres"
+                            numeroDecimal7 maxlength="25" [disabled]="false" [style]="{'width':'90px'}" (ngModelChange)="totalizarLinea()"
+                            (blur)="totalizarLinea()" required />
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="tatotxl" class="ui-outputlabel ">Total</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText id="tatotxl" name="tatotxl" [(ngModel)]="registro.mdatos.total" numero maxlength="14" [disabled]="true"
+                            [style]="{'width':'90px'}" />
+                    </div>
+                </div>
+
+
+            </div>
+            <footer>
+
+                <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+
+               
+
+            </footer>
+        </div>
+    </form>
+
+
+</p-dialog>
+
+
+
+
+<app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>

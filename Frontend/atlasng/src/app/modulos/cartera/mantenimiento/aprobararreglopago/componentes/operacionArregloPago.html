@@ -1,0 +1,32 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctipoarreglo" class="ui-outputlabel required">Tipo de negociación</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="fctipoarreglo" name="fctipoarreglo" [options]="ltipoarreglo" [(ngModel)]="registro.ctipoarreglopago" required
+          [filter]="true" [disabled]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="numcuota" class="ui-outputlabel required">Num. cuotas</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="numcuota" name="numcuota" [(ngModel)]="registro.numerocuotas" autofoco entero maxlength="4"
+          [disabled]="true" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="valcuota" class="ui-outputlabel required">Valor cuota</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="valcuota" name="valcuota" [(ngModel)]="registro.valorcuota" numero [disabled]="true" />
+      </div>
+    </div>
+  </div>
+</div>

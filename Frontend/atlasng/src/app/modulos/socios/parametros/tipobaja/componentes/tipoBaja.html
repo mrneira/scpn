@@ -1,0 +1,170 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctipobaja" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fctipobaja" name="fctipobaja" [(ngModel)]="mfiltros.ctipobaja" entero autofoco maxlength="20" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="nombre" name="nombre" [(ngModel)]="mfiltros.nombre" mayusculas autofoco maxlength="20"
+        />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Tipo de Baja</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ctipobaja" header="Código" [style]="{'width':'50px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="puedeotorgaranticipo" header="Anticipo">
+          <ng-template let-reg="rowData" pTemplate="body">
+            <span *ngIf="reg.puedeotorgaranticipo == true">SI</span>
+            <span *ngIf="reg.puedeotorgaranticipo == null || reg.puedeotorgaranticipo == false">NO</span>
+          </ng-template>
+        </p-column>
+        <p-column field="numeroanticipocesantia" header="# Anticipos"></p-column>
+        <p-column field="porcentajeanticipocesantia" header="% Anticipo"></p-column>
+    
+        <p-column field="aplicadesgravamen" header="Aplica Desgravamen">
+          <ng-template let-reg="rowData" pTemplate="body">
+            <span *ngIf="reg.aplicadesgravamen == true">SI</span>
+            <span *ngIf="reg.aplicadesgravamen == null || reg.aplicadesgravamen == false">NO</span>
+          </ng-template>
+        </p-column>
+        <p-column field="tieneflujoprestacion" header="Tiene Flujo Prestación">
+          <ng-template let-reg="rowData" pTemplate="body">
+            <span *ngIf="reg.tieneflujoprestacion == true">SI</span>
+            <span *ngIf="reg.tieneflujoprestacion == null || reg.tieneflujoprestacion == false">NO</span>
+          </ng-template>
+        </p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        <p-column header="Estado" [style]="{'width':'50px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="orden" header="Orden" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="Tipo de Baja" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="30"
+              [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="otorgaanticipo" class="ui-outputlabel">Anticipo</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-checkbox name="otorgaanticipo" [(ngModel)]="registro.puedeotorgaranticipo" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div *ngIf="registro.puedeotorgaranticipo" class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="numeroanticipocesantia" class="ui-outputlabel required">Número Anticipos</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="numeroanticipocesantia" name="numeroanticipocesantia" [(ngModel)]="registro.numeroanticipocesantia"
+              required maxlength="2" entero [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div *ngIf="registro.puedeotorgaranticipo" class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="porcentajeanticipocesantia" class="ui-outputlabel required">Porcentaje Anticipos</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="porcentajeanticipocesantia" name="porcentajeanticipocesantia" [(ngModel)]="registro.porcentajeanticipocesantia"
+             required maxlength="5" numeroPositivo [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="aplicadesgravamen" class="ui-outputlabel">Aplica Desgravamen</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-checkbox name="aplicadesgravamen" [(ngModel)]="registro.aplicadesgravamen" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tieneflujoprestacion" class="ui-outputlabel">Tiene Flujo Prestación</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-checkbox name="tieneflujoprestacion" [(ngModel)]="registro.tieneflujoprestacion" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="descripcion" class="ui-outputlabel">Descripción</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" mayusculas maxlength="200"
+              [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="orden" class="ui-outputlabel">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden"  entero maxlength="2" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="estado" class="ui-outputlabel">Estado</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-checkbox name="estado" [(ngModel)]="registro.estado" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

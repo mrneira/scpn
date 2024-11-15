@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpk" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-2 ui-md-4">
+				<input id="fpk" name="fpk" type="text" pInputText mayusculas [(ngModel)]="mfiltros.clote" maxlength="30" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fnombre" class="ui-outputlabel">Nombre</label>
+			</div>
+			<div class="ui-g-2 ui-md-6">
+				<input id="fnombre" name="fnombre" type="text" pInputText mayusculas [(ngModel)]="mfiltros.nombre" maxlength="60" />
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable rowGroupMode="subheader" [value]="lregistros" [responsive]="true" [editable]="true" dataKey="clote" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Lotes</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column header="Código" field="clote"></p-column>
+				<p-column header="Nombre" field="nombre" ></p-column>
+				<p-column header="Valida cambio fecha?" [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [ngModel]="reg.validaejecucion" binary="true" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column header="Acciones" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+<p-dialog header="Lote" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="60" >
+<form #formDialogoLote="ngForm" >
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pk" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<input type="text" pInputText id="pk" name="pk" [(ngModel)]="registro.clote"
+						required mayusculas maxlength="30" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre"
+						required mayusculas maxlength="60" [disabled]="!editable" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="validaejecucion" class="ui-outputlabel">Valida cambio fecha?</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<p-checkbox name="estaactivo" [(ngModel)]="registro.validaejecucion" binary="true" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoLote" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>

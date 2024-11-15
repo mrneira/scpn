@@ -1,0 +1,65 @@
+<form #formularioSolicitud="ngForm">
+  <div class="f-datacontent ui-g ui-fluid">
+    <acciones-editar [formAcciones]="formularioSolicitud" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+    <button pButton type="button" name="recibo" id="recibo" label="Digitalizar Recibo" style="position: absolute; right: 20px;"
+      class="f-btn" icon="ui-icon-file-upload" (click)="mostrarLovGestorDocumental(registro)" [disabled]="!editable"></button>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fvalorasegurado" class="ui-outputlabel required">Valor asegurado</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fvalorasegurado" name="fvalorasegurado" [(ngModel)]="registro.valorasegurado"
+            [disabled]="!editable" numero required />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fnumeropoliza" class="ui-outputlabel required">Número póliza</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input pInputText id="fnumeropoliza" name="fnumeropoliza" [(ngModel)]="registro.numeropoliza" [disabled]="!editable"
+          mayusculas required />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="finicio" class="ui-outputlabel required">Fecha inicio</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-calendar id="finicio" name="finicio" [(ngModel)]="mcampos.finicio" required [showIcon]="true" [disabled]="!editable"
+          [dateFormat]="formatofecha" [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fmontoprima" class="ui-outputlabel required">Monto prima</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="fmontoprima" name="fmontoprima" [(ngModel)]="registro.valorprima" [disabled]="!editable"
+          numero required />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fvencimiento" class="ui-outputlabel required">Fecha vencimiento</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="mcampos.fvencimiento" required [showIcon]="true"
+          [disabled]="!editable" [dateFormat]="formatofecha" [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcomentario" class="ui-outputlabel required">Comentario</label>
+      </div>
+      <div class="ui-g-12 ui-md-9">
+        <textarea pInputText id="fcomentario" name="fcomentario" [(ngModel)]="registro.comentario" required mayusculas
+          maxlength="500" rows="3" [disabled]="!editable"></textarea>
+      </div>
+    </div>
+  </div>
+  <app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+</form>

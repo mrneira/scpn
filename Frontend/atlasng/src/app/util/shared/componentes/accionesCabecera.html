@@ -1,0 +1,12 @@
+<!--no forzar a utilizar un registro en ciertas paginas se incluye botones adicionales en la misma linea -->
+<div class="ui-g-12 ui-g-nopad f-acciones-editar">
+  <div *ngIf="cargar">
+    <button pButton type="button" name="recargar" id="recargar" label="Limpiar" style="margin-bottom:10px" class="f-btn green-btn"
+    pTooltip="Recarga la pantalla" tooltipPosition="top" icon="ui-icon-update" (click)="recargar()"> </button>
+
+  </div>
+  <div *ngIf="grabar">
+    <button pButton type="button" name="grabar" id="grabar" label="Grabar" style="margin-bottom:10px" class="f-btn green-btn"
+    pTooltip="Grabar los cambios" tooltipPosition="top" icon="ui-icon-save" (click)="componente.grabar()"></button>
+  </div>
+</div>

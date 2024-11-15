@@ -1,0 +1,110 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarlovpersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcoperacioncartera" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcoperacioncartera" name="fcoperacioncartera" type="text" pInputText [(ngModel)]="mfiltros.coperacioncartera"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovSeguros()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-seguros (eventoOperCartera)=fijarLovSegurosSelec($event)></app-lov-seguros>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Información general" [selected]="true">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Datos operación</span>
+        </div>
+        <hr />
+        <app-datos-operacion></app-datos-operacion>
+      </div>
+      <div class="ui-g-12">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Datos garantía</span>
+        </div>
+        <hr />
+        <app-datos-garantia></app-datos-garantia>
+      </div>
+      <div class="ui-g-12">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Datos seguro</span>
+        </div>
+        <hr />
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fctiposeguro" class="ui-outputlabel">Tipo seguro</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="fctiposeguro" name="fctiposeguro" [(ngModel)]="registro.mdatos.ntiposeguro"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fvalorprimaretenida" class="ui-outputlabel">Valor retenido</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="fvalorprimaretenida" name="fvalorprimaretenida" [(ngModel)]="registro.valorprimaretenida"
+              [disabled]="true" numero />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ffecharetenida" class="ui-outputlabel">Fecha recepción</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-calendar id="frecepcion" name="frecepcion" [(ngModel)]="registro.frecepcion" required [showIcon]="true"
+              [disabled]="true" [dateFormat]="formatofecha" [locale]="es"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fusuario" class="ui-outputlabel">Usuario ingreso</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="cusuario" name="cusuario" [(ngModel)]="registro.cusuarioing" [disabled]="true" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Pólizas">
+    <app-tabla-poliza></app-tabla-poliza>
+  </p-tabPanel>
+</p-tabView>

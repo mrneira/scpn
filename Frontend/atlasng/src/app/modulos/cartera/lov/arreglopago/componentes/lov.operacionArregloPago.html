@@ -1,0 +1,36 @@
+<p-dialog header="Operaciones Cartera" [(visible)]="displayLov" width="800" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Número operación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.coperacion" autofoco entero maxlength="15" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Negociación de Pagos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"> </acciones-consulta>
+        </p-header>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'100px'}"> </p-column>
+        <p-column field="cestatus" header="Estado" [style]="{'width':'100px'}"> </p-column>
+        <p-column field="mdatos.ntipoarreglopago" header="Tipo negociación"></p-column>
+        <p-column field="cusuarioingreso" header="Usuario ing."></p-column>
+        <p-column field="cusuarioingreso" header="Fecha ing.">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.fingreso | date: 'yyyy-MM-dd hh:mm:ss' }}
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

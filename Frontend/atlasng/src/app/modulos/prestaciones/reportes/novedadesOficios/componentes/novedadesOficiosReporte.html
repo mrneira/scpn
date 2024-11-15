@@ -1,0 +1,45 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formulario="ngForm">
+    <div class="f-filtros ui-g ui-fluid">
+	   <div class="ui-g-12 ui-g-nopad">
+	       <div class="ui-g-12 ui-md-1">
+               <label for="fpkcpersona" class="ui-outputlabel">Persona</label>
+     	   </div>
+    	   <div class="ui-g-2 ui-md-1">
+    	        <input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mcampos.cpersona" [readOnly]="true" />
+    	   </div>
+		   <div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		  </div>
+	      <div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+	    		</button>
+    	  </div>
+    			<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel">Fecha Oficio Desde:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar  name="fdesde" [(ngModel)]="mcampos.fIniOficio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel">Fecha Oficio Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar  name="fdesde" [(ngModel)]="mcampos.fFinOficio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+	   </div>
+   </div>
+         <div class="f-datacontent ui-g ui-g-12 ui-fluid">
+				<div class="ui-g-4"></div>
+	            <div class="ui-g-3">
+	                <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+	            </div>
+				<div class="ui-g-4"></div>
+         </div>
+</form>

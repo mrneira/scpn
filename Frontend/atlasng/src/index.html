@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <script>document.write('<base href="' + document.location + '" />');</script>
+	  <!--base href="/"-->
+	  <title>Cesantía Policía Nacional</title>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	  <meta name="apple-mobile-web-app-capable" content="yes" />
+	  <script src="node_modules/systemjs/dist/system.src.js"></script>
+	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5YKfxceJdiINj0ppvDAg7Pg0jVpG33Mc"
+	  type="text/javascript"></script>
+	  <!--link rel="stylesheet" type="text/css" href="src/resources/icons/css/font-awesome.min.css" /-->
+	  <!-- 1. Load libraries -->
+	</head>
+	<!-- 3. Display the application -->
+	<body>
+		<my-app>Loading... </my-app>
+		<script type="text/javascript">
+			var inactivityTime = function () {
+				var t;
+				window.onload = resetTimer;
+				// DOM Events
+				document.onmousemove = resetTimer;
+				document.onkeypress = resetTimer;
+				function inactividad() {
+					// window['angularComponent'].zone.run(() => {
+     				// 	component.logout();
+   					// });
+				}
+				function resetTimer() {
+					clearTimeout(t);
+					t = setTimeout(inactividad, 30000)
+				}
+			};
+			inactivityTime();
+		</script>
+	</body>
+</html>

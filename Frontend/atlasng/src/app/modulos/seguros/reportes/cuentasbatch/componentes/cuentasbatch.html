@@ -1,0 +1,71 @@
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="ftiposeguro" class="ui-outputlabel">Tipo reporte</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="ftiposeguro" name="ftiposeguro" [options]="lestados" [(ngModel)]="mcampos.tipo"
+          autofoco [filter]="true"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="fdesdeRecepcion" class="ui-outputlabel">Fecha de corte </label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-calendar name="fcorte" [(ngModel)]="mcampos.fcorte" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">
+      <label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable:</label>
+    </div>
+
+    <div class="ui-g-2 ui-md-2">
+      <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText autofoco [(ngModel)]="mcampos.ccuenta" required 
+      />
+    </div>
+
+    <div class="ui-g-9 ui-md-4">
+      <input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" required [readOnly]="true" />
+    </div>
+
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+        icon="ui-icon-directions">
+      </button>
+    </div>
+  </div>
+   
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+      <p-dataTable [value]="ltiposeguro" [responsive]="true">
+        <p-header>
+          <div class="ui-table-title">Generar Reporte</div>
+          <div class="f-acciones-cab-tabla">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel"
+              style="text-align:center">
+            </button>
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf"
+              style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper #tblapagos [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

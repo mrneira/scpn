@@ -1,0 +1,52 @@
+<p-dialog header="Productos" [(visible)]="displayLov" width="700" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+    <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+        <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+                <label for="fnombre" class="ui-outputlabel">Nombre</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <input pInputText name="fnombre" [(ngModel)]="mfiltros.nombre" autofoco mayusculas maxlength="20" (keyup.enter)="consultar()" />
+            </div>
+
+            <div class="ui-g-11 ui-md-2">
+                <label for="fesserv" class="ui-outputlabel">Es Servicio?</label>
+            </div>
+            <div class="ui-g-1">
+                <p-checkbox name="fesserv" [(ngModel)]="mfiltrosigual.esservicio" binary="true"></p-checkbox>
+            </div>
+        </div>
+    </form>
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)">
+				<p-header>
+					<div class="ui-table-title">Productos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="cproducto" header="Código" [style]="{'width':'60px'}"></p-column> 
+				<p-column field="nombre" header="Nombre"></p-column>
+                <p-column field="mdatos.ncategoria" header="Categoría"></p-column>
+                <p-column header="Activo?" [style]="{'width':'70px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.activo" binary="true" [disabled]="true"></p-checkbox>
+					</ng-template>
+                </p-column>
+                <p-column header="Es Servicio?" [style]="{'width':'70px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.esservicio" binary="true" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</p-dialog>

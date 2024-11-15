@@ -1,0 +1,136 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fnombre" class="ui-outputlabel required">Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="fproducto" name="fproducto" [(ngModel)]="mfiltros.cproducto" [readOnly]="true" required
+      />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="fnombre" name="fnombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovproducto" name="lovproducto" (click)="mostrarlovproducto()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-producto (eventoCliente)=fijarLovProductoSelec($event)></app-lov-producto>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="ftnombre" class="ui-outputlabel required">Tipo Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="ftipoproducto" name="ftipoproducto" [(ngModel)]="mfiltros.ctipoproducto" [readOnly]="true"
+        required />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="ftnombre" name="ftnombre" [(ngModel)]="mcampos.tnombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovtipoProducto" name="lovtipoProducto" (click)="mostrarlovtipoProducto()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-tipo-producto (eventoCliente)=fijarLovTipoProductoSelec($event)></app-lov-tipo-producto>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Tasas por Producto</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="mdatos.nsaldo" header="Saldo" [style]="{'width':'200px'}"></p-column>
+      <p-column field="mdatos.ntasa" header="Tasa Referencial" [style]="{'width':'150px'}"></p-column>
+      <p-column field="mdatos.ntasabase" header="Tasa Base" [style]="{'width':'100px'}"></p-column>
+      <p-column field="operador" header="Operador" [style]="{'width':'70px'}"></p-column>
+      <p-column field="margen" header="Margen" [style]="{'width':'70px'}"></p-column>
+      <p-column field="activo" header="Activo" [style]="{'width':'70px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [(ngModel)]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<app-lov-saldo (eventoCliente)=fijarLovSaldoSelec($event)></app-lov-saldo>
+
+<p-dialog header="Tasas por Producto" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="csaldo" class="ui-outputlabel required">Rubro:</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="csaldo" name="csaldo" type="text" pInputText [(ngModel)]="registro.csaldo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nombre" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovsaldo" name="lovsaldo" [disabled]="!registro.esnuevo" (click)="mostrarlovsaldo()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ctasareferencial" class="ui-outputlabel required">Tasa Referencial:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="ctasareferencial" name="ctasareferencial" [options]="ltasareferencial" [(ngModel)]="registro.ctasareferencial"
+              [disabled]="!editable && !registro.esnuevo" (onChange)="registrarEtiqueta(registro, ltasareferencial, 'ctasareferencial', 'ntasa')"
+              [filter]="true" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="operador" class="ui-outputlabel required">Operador:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="operador" name="operador" [options]="loperador" [(ngModel)]="registro.operador" [disabled]="!editable && !registro.esnuevo"
+              required (onChange)="registrarEtiqueta(registro, loperador, 'operador', 'operador')" [filter]="true" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="margen" class="ui-outputlabel required">Margen:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="margen" name="margen" [(ngModel)]="registro.margen" required numero maxlength="60" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="activo" class="ui-outputlabel">Activo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

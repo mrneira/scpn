@@ -1,0 +1,64 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numerolinea }}
+                    </ng-template>
+                </p-column>
+
+				<p-column header="Inicio" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfinicio | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Vencimiento" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfvencimiento | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="plazo" header="Plazo" styleClass="f-center" [style]="{'width':'90px'}" *ngIf="false"></p-column>
+
+				<p-column field="proyecciontasa" header="Tasa" styleClass="f-right" [style]="{'width':'90px'}"></p-column>
+
+
+				<p-column header="Capital" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioncapital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioninteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+			
+
+				<p-column header="Total" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.total | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+                <p-column field="mensaje" header="Mensaje" [style]="{'width':'200px'}"></p-column>
+
+        
+
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

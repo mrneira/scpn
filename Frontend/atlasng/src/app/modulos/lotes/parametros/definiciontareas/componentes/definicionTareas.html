@@ -1,0 +1,98 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Modulo</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="fpkcmodulo" name="fpkcmodulo" [options]="lmodulo" [(ngModel)]="mfiltros.cmodulo" required [filter]="true" (onChange)="consultar()"></p-dropdown>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable rowGroupMode="subheader" [value]="lregistros" [responsive]="true" [editable]="true" dataKey="ctarea" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Tareas</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column header="Código" field="ctarea" [style]="{'width':'200px'}"></p-column>
+				<p-column header="Nombre" field="nombre" ></p-column>
+				<p-column header="Acciones" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Tareas" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="60" >
+<form #formDialogoLote="ngForm" >
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkctarea" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="pkctarea" name="pkctarea" [(ngModel)]="registro.ctarea"
+						required mayusculas maxlength="30" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre"
+						required mayusculas maxlength="60" [disabled]="!editable" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ccomponenteprevio" class="ui-outputlabel">Componente previo</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="ccomponenteprevio" name="ccomponenteprevio" [(ngModel)]="registro.ccomponenteprevio"
+						maxlength="150" [disabled]="!editable" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ccomponenteoperacion" class="ui-outputlabel">Componente por operación</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="ccomponenteoperacion" name="ccomponenteoperacion" [(ngModel)]="registro.ccomponenteoperacion"
+						maxlength="150" [disabled]="!editable" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ccomponentefin" class="ui-outputlabel">Componente finalización</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="ccomponentefin" name="ccomponentefin" [(ngModel)]="registro.ccomponentefin"
+						maxlength="150" [disabled]="!editable" />
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoLote" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>

@@ -1,0 +1,22 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader" resizableColumns="true"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Acciones de Judiciales</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Código" [style]="{'width':'50px'}"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.netapa" header="Acción" [style]="{'width':'150px'}"></p-column>
+        <p-column header="F. Registro" [style]="{'width': '100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="observacion" header="Observación"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

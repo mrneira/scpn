@@ -1,0 +1,56 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+ 
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+      <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpersona" class="ui-outputlabel required">Persona</label>
+         
+        </div>
+        <div class="ui-g-2">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-10 ui-md-7">
+          <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions" class="f-float-right"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+
+      </div>
+      <div class="ui-g-12">
+        <h4 style="color: blue; text-align: center;">{{msgIsspol}}</h4>
+      </div>
+      <div class="ui-g-12"></div>
+      
+    </form>
+
+</div>
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="datosisspol" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros">
+      <p-header>
+        <div class="ui-table-title">Creditos Vigentes</div>
+        
+      </p-header>
+
+      <p-column field="Credito" header="Credito" [style]="{'width':'200px'}"></p-column>
+      <p-column field="TipoCredito" header="TipoCredito" [style]="{'width':'200px'}"></p-column>
+      <p-column field="CuotaTotal" header="CuotaTotal" [style]="{'width':'200px'}"></p-column>
+      <p-column field="Mora" header="Mora" [style]="{'width':'200px'}"></p-column>
+      <p-footerColumnGroup style="color:blue;">
+        <p-row>
+          <p-column footer="Total Cuota Prestamos" [style]="{'color':'blue','font-size':'12px'}"></p-column>
+          <p-column [footer]="sumaCuotas | number : '1.2-2'" [style]="{'color':'blue','font-size':'12px'}"></p-column>
+        </p-row>
+      </p-footerColumnGroup>
+    </p-dataTable>
+  </div>
+</div>
+

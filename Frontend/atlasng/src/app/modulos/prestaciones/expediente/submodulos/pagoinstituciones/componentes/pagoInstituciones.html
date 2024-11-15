@@ -1,0 +1,101 @@
+<app-jasper [componente]="componentehijo" style="position: absolute; right: 460px" [pdf]="false" [excel]="false" [impr]="false" [formulario]="formFiltros"></app-jasper>
+
+<div *ngIf="mcampos.cdetalleetapa === '4'" class="ui-g-12">
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+                    <div class="ui-table-title">PAGO INSTITUCIONES EXTERNAS</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+				<p-column field="identificacion" [style]="{'width':'50px'}" header="Ruc"></p-column> 
+				<p-column header="Nombre" [style]="{'width':'80px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+						  {{reg.primerapellido}} &nbsp;
+						  {{reg.segundoapellido}}  &nbsp;
+						  {{reg.primernombre}} &nbsp;
+						  {{reg.segundonombre}}
+						  
+						</ng-template>
+			    </p-column>
+				<p-column field="mdatos.nbanco" [style]="{'width':'90px'}" header="Institución"></p-column>
+				<p-column field="numerocuenta" [style]="{'width':'60px'}" header="No cuenta"></p-column>
+				<p-column header="Total a Recibir" [style]="{'width':'40px'}" styleClass="f-right">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{reg.valorliquidacion | number:'1.2-2'}}
+                    </ng-template>
+				</p-column>
+				<p-column [style]="{'width':'30px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [mostrarEditar]="true" [mostrarEliminar]="false" [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>			
+<p-dialog header="Pagos Instituciones Externas" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cedula" class="ui-outputlabel required">Ruc</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" required pInputText id="cedula" name="cedula" [(ngModel)]="registro.identificacion" 
+						 mayusculas maxlength="10" [disabled]="true" />
+				</div>
+			</div>
+	 	    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="primernombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" required pInputText id="primernombre" name="primernombre" [(ngModel)]="registro.primernombre" 
+						 mayusculas maxlength="60" [disabled]="true" />
+				</div>
+			</div>
+           	<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuemrocuenta" class="ui-outputlabel">Total a Recibir</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valorliquidacion" name="valorliquidacion" 
+					value="{{registro.valorliquidacion | number:'1.2-2' }}" [readOnly]="true"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetallebanco" class="ui-outputlabel">Institución</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetallebanco"  [filter]="true" appendTo="body" [required]="requerido" name="cdetallebanco" [disabled]="true" [options]="lbancos" [(ngModel)]="registro.tipoinstitucioncdetalle"></p-dropdown>
+				</div>
+			</div>
+          	<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetalletipocuenta" class="ui-outputlabel">Tipo cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetalletipocuenta" [filter]="true" appendTo="body" [required]="requerido" [disabled]="true" name="cdetalletipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"></p-dropdown>
+				</div>
+			</div>
+            <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuemrocuenta" class="ui-outputlabel">Número Cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText [required]="requerido" id="nuemrocuenta" name="nuemrocuenta" [(ngModel)]="registro.numerocuenta" 
+						 mayusculas maxlength="60" [disabled]="true" />
+				</div>
+			</div>
+		</div>
+    </div>
+</form>
+</p-dialog>
+

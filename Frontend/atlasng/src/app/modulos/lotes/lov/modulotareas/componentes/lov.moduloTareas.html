@@ -1,0 +1,54 @@
+<p-dialog header="Lista de tareas" [(visible)]="displayLov"
+	width="600" [responsive]="true" [positionTop]="120" >
+
+<form #formFiltros="ngForm"
+	class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+	<div class="ui-g-12 ui-g-nopad"  *ngIf="mostrarModulo">
+		<div class="ui-g-12 ui-md-3">
+			<label for="fcmodulo" class="ui-outputlabel required">Módulo</label>
+		</div>
+		<div class="ui-g-1 ui-md-1">
+			<input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="mfiltros.cmodulo" entero autofoco maxlength="2" [disabled]="mdesabilitaFiltros['cmodulo']" />
+		</div>
+		<div class="ui-g-11 ui-md-5">
+			<p-dropdown id="fmodulo" name="fmodulo" [options]="lmodulo" (onChange)="consultar()"
+				[(ngModel)]="mfiltros.cmodulo" required [disabled]="mdesabilitaFiltros['cmodulo']" [filter]="true"></p-dropdown>
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="fpk" class="ui-outputlabel">Tarea</label>
+		</div>
+		<div class="ui-g-12 ui-md-3">
+			<input pInputText name="fpk" [(ngModel)]="mfiltros.ctransaccion" autofoco entero maxlength="4" />
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="nombre" class="ui-outputlabel">Nombre:</label>
+		</div>
+		<div class="ui-g-12 ui-md-9">
+			<input pInputText name="nombre" [(ngModel)]="mfiltros.nombre"
+				mayusculas maxlength="80" />
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)"
+			scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Tareas</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header> 
+			<p-column field="ctarea" header="Tarea" [style]="{'width':'180px'}"></p-column>
+			<p-column field="nombre" header="Nombre"></p-column>
+		</p-dataTable>
+	</div>
+</div>
+</p-dialog>
+

@@ -1,0 +1,90 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipoidentificacion" class="ui-outputlabel required">Tipo identificación</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="tipoidentificacion" name="tipoidentificacion" [options]="ltipoidentificacion" [(ngModel)]="registro.tipoidentificacion"
+					 required autofoco></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Identificación beneficiario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="idbeneficiario" name="idbeneficiario" [(ngModel)]="registro.idbeneficiario"  required
+					 documento entero maxlength="13" minlength="10" [tipodocumento]="registro.tipoidentificacion"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Nombre beneficiario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nombrebeneficiario" name="nombrebeneficiario" [(ngModel)]="registro.nombrebeneficiario"
+					 maxlength="30" minlength="10" mayusculas required/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Número cuenta beneficiario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="numerocuentabeneficiario" name="numerocuentabeneficiario" [(ngModel)]="registro.numerocuentabeneficiario"
+					 required entero maxlength="20" minlength="4"/>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel">Código beneficiario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="codigobeneficiario" name="codigobeneficiario" [(ngModel)]="registro.codigobeneficiario"
+					 entero maxlength="10"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Tipo cuenta:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="tipocuenta" name="tipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.tipocuenta" [filter]="true" required></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Institución bancaria:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="institucionbancaria" name="institucionbancaria" [options]="linstitucion" [(ngModel)]="registro.institucionbancaria"
+					 [filter]="true" required></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Valor pago:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valorpago" name="valorpago" [(ngModel)]="registro.valorpago" maxlength="15" required numero/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label class="ui-outputlabel required">Referencia:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="referenciainterna" name="referenciainterna" [(ngModel)]="registro.referenciainterna" required maxlength="50" minlength="5"/>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>

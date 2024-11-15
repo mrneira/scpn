@@ -1,0 +1,104 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Impuesto a la Renta</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="anio" header="Año" [style]="{'width':'40px'}"></p-column>
+        <p-column header="Fracción Básica" >
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.fbasica | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Exceso Hasta" >
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.exceso | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Impuesto Fracción Básica" >
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.fbasicap | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Impuesto Fracción Excedente" >
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.impfraccion | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}" header="Acciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Impuesto Renta" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="anio" class="ui-outputlabel required">Año</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+              [disabled]="registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fbasica" class="ui-outputlabel required">Fracción Básica:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <input type="text" pInputText id="fbasica" name="fbasica" [(ngModel)]="registro.fbasica" maxlength="11" numeroPositivo />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="exceso" class="ui-outputlabel required">Exceso Hasta:</label>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <input type="text" pInputText id="exceso" name="exceso" [(ngModel)]="registro.exceso" maxlength="11" numeroPositivo />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="fbasicap" class="ui-outputlabel required">Impuesto Fracción Básica:</label>
+              </div>
+              <div class="ui-g-6 ui-md-2">
+                <input type="text" pInputText id="fbasicap" name="fbasicap" [(ngModel)]="registro.fbasicap" maxlength="11" numeroPositivo />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-2">
+                  <label for="impfraccion" class="ui-outputlabel required">Impuesto Fracción Excedente:</label>
+                </div>
+                <div class="ui-g-6 ui-md-2">
+                  <input type="text" pInputText id="impfraccion" name="impfraccion" [(ngModel)]="registro.impfraccion" maxlength="11" numeroPositivo />
+                </div>
+              </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

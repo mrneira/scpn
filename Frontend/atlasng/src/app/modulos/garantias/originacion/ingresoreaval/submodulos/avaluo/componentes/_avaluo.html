@@ -1,0 +1,54 @@
+<div class="f-contenedor-transaccion">
+	<form #formAval="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formAval" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="aval" class="ui-outputlabel required">Reavalúo</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="aval" name="aval" maxlength="10" numero required [(ngModel)]="registro.valoravaluo" [disabled]="!editable" />
+				</div>
+			</div>
+		
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="avalcom" class="ui-outputlabel required">Valor comercial</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="avalcom" name="avalcom" maxlength="10" numero required [(ngModel)]="registro.valorcomercial" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="favaladuador" class="ui-outputlabel required">Avaluador</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="avaluador" name="avaluador"   [(ngModel)]="registro.cpersonaavaluador" maxlength="100"  mayusculas [disabled]="true"/>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="finsp" class="ui-outputlabel required">Fecha de inspección</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<p-calendar id="finsp" name="finsp" [(ngModel)]="registro.mdatos.finspeccion" [showIcon]="true" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="avalreal" class="ui-outputlabel ">Detalle de avalúo</label>
+				</div>
+				<div class="ui-g-12 ui-md-12">
+					<textarea style="width: 100%"  id="det" name="det" [(ngModel)]="registro.detalleavaluo" mayusculas maxlength="100" rows="5" [disabled]="true"></textarea>
+				</div>
+			</div>
+
+	
+		</div>
+	</form>
+</div>

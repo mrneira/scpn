@@ -1,0 +1,116 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="farreglopago" class="ui-outputlabel required">Tipo de negociación</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="farreglopago" name="farreglopago" [options]="ltipoarreglopago" (onChange)="consultar()" [(ngModel)]="mfiltros.ctipoarreglopago"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Listado de rubros por tipo de negociación de pago</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="csaldo" header="Cod. saldo" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.nsaldo" header="Saldo"></p-column>
+        <p-column field="csaldodestino" header="Cod. saldo destino" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.nsaldodestino" header="Saldo destino"></p-column>
+        <p-column header="Pago obligatorio" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.pagoobligatorio" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-saldo #saldo (eventoCliente)=fijarLovSaldoSelec($event)></app-lov-saldo>
+<app-lov-saldo #saldodestino (eventoCliente)=fijarLovSaldoDestinoSelec($event)></app-lov-saldo>
+
+<p-dialog header="Rubros" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" width="600">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pk" class="ui-outputlabel required">Tipo de negociación</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="pkarreglopago" name="pkarreglopago" [options]="ltipoarreglopago" [(ngModel)]="registro.ctipoarreglopago"
+              [filter]="true" [disabled]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pkcsaldo" class="ui-outputlabel required">Saldo</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="pkcsaldo" name="pkcsaldo" type="text" pInputText [(ngModel)]="registro.csaldo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <input type="text" pInputText id="nsaldo" name="nsaldo" [(ngModel)]="registro.mdatos.nsaldo" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovsaldo" name="lovsaldo" [disabled]="!editable || !registro.esnuevo" (click)="mostrarlovsaldo()"
+              icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="saldodestino" class="ui-outputlabel required">Saldo destino</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="saldodestino" name="saldodestino" type="text" pInputText [(ngModel)]="registro.csaldodestino" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <input type="text" pInputText id="nsaldodestino" name="nsaldodestino" [(ngModel)]="registro.mdatos.nsaldodestino" [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovsaldodestino" name="lovsaldodestino" [disabled]="!editable" (click)="mostrarlovsaldodestino()"
+              icon="ui-icon-directions"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pagoobligatorio" class="ui-outputlabel">Pago obligatorio?</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox name="pagoobligatorio" [(ngModel)]="registro.pagoobligatorio" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

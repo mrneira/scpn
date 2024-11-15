@@ -1,0 +1,46 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column field="cbarras" header="Código" [style]="{'width':'15%'}">
+        </p-column>
+        <p-column field="mdatos.nombre" header="Nombre" [style]="{'width':'25%'}"></p-column>
+        <p-column field="mdatos.centrocostoscdetalle" header="Centro costos" [style]="{'width':'6%'}"></p-column>
+        <p-column field="ccuentadepreciacion" header="C.Deprec" [style]="{'width':'6%'}"></p-column>
+        <p-column field="ccuentadepreciacionacum" header="C.Deprec Acum" [style]="{'width':'6%'}"></p-column>
+        <p-column field="mdatos.vidautil" header="Vida útil" [style]="{'width':'6%'}"></p-column>
+        <p-column field="mdatos.valorcompra" header="V. Compra" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valorcompra | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.valorlibros" header="V.Libros" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valorlibros | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+      
+        <p-column field="mdatos.valordepperiodo" header="V.dep. periodo" [style]="{'text-align':'right','width':'6%'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.mdatos.valordepperiodo | number : '1.2-2' }}
+            </ng-template>
+          </p-column>        
+        <p-column header="V. Deprec" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.mdatos.valordepreciacion | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="mostrargrabar" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad" hidden="true">
+			<div class="ui-g-12" style="clear:both;float:right;width:150px">
+				<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-3 ui-g-nopad">
+				<div class="ui-g-3 ui-md-6">
+					<label class="ui-outputlabel required">Año :</label>
+				</div>
+				<div class="ui-g-3 ui-md-6">
+					<input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anio" autofoco required entero maxlength="4" minlength="4"
+					/>
+				</div>
+			</div>
+
+			<div class="ui-g-3 ui-g-nopad">
+				<div class="ui-g-3 ui-md-6">
+					<label class="ui-outputlabel required">Mes :</label>
+				</div>
+				<div class="ui-g-3 ui-md-6">
+					<p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mes" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+					 appendTo="body"></p-dropdown>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<p-fileUpload id="fnarchivosubir" (onSelect)="seleccionarFile($event)" name="fnarchivosubir" customUpload="true" accept="text/*"
+			 [disabled]="false" (uploadHandler)="uploadHandler($event)" (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger"
+			 uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+		</div>
+		<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+			<div class="ui-g-1 ui-md-2">
+				<label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+			</div>
+			<div class="ui-g-11 ui-md-4">
+				<input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+				 [readOnly]="true" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante != undefined">
+			<div class="ui-g-1 ui-md-2">
+				<label for="ccompcontable" class="ui-outputlabel">Código de Comprobante Contable</label>
+			</div>
+			<div class="ui-g-11 ui-md-4">
+				<input type="text" pInputText id="ccompcontable" name="ccompcontable" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+
+	</form>
+
+</div>
+
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carga></app-resultado-carga>
+	</div>
+</div>

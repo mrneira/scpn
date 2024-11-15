@@ -1,0 +1,81 @@
+<div class="ui-g-12 ui-md-2">
+</div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button pButton type="button" name="generar" id="generar" label="Generar" style="margin-bottom:10px; position: absolute; right: 100px;"
+      class="f-btn orange-btn" icon="ui-icon-save" (click)="grabar()" *ngIf="ins"> </button>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcontable" class="ui-outputlabel required">Fecha corte</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="fcontable" [(ngModel)]="mcampos.fproceso" required="true" [showIcon]="true" [dateFormat]="formatofecha"
+            [disabled]="true"></p-calendar>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="270px" [resizableColumns]="false"
+        rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">Liquidaciones por Mora</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+          <div class="f-acciones-cab-tabla">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir()" class="f-btn green-btn f-excel"
+              style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper #tblapagos [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+          </div>
+        </p-header>
+        <p-column field="identificacion" header="Identificación" [filter]="true" [style]="{'width':'80px'}"></p-column>
+        <p-column field="nombre" header="Nombre" [filter]="true"></p-column>
+        <p-column field="ngrado" header="Grado" [style]="{'width':'120px'}"></p-column>
+        <p-column field="tiemposervicio" header="Tiempo Servicio" styleClass="f-right" [style]="{'width':'140px'}"></p-column>
+        <p-column field="coperacion" header="Operación" styleClass="f-center" [style]="{'width':'70px'}"></p-column>
+        <p-column header="Monto Operación" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montooriginal | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo Operación" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.saldo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Total Aportes" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.totalaportes | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor Pago" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo Aportes" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.saldoaportes | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td style="text-align:center">{{ lregistros.length }} <br />REGISTROS</td>
+          <td style="text-align:right" colspan="6">{{ mcampos.totalsaldooperacion | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mcampos.totaltotalaportes | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mcampos.totalvalorpago | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mcampos.totalsaldoaportes | number:'1.2-2'}}</td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

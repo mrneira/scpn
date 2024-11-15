@@ -1,0 +1,265 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="activo" class="ui-outputlabel">Activo</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="false" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="segmento" class="ui-outputlabel">Segmento</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="segmento" name="segmento" [options]="lsegmentos" [(ngModel)]="registro.csegmento" [disabled]="!editable"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tipocredito" class="ui-outputlabel required">Tipo de crédito</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="tipocredito" name="tipocredito" [options]="ltipocredito" [(ngModel)]="registro.ctipocredito"
+            required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="tablaamortizacion" name="tablaamortizacion" [options]="ltablaamortizacion" [(ngModel)]="registro.ctabla"
+            required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="basecalculo" class="ui-outputlabel required">Base de cálculo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="basecalculo" name="basecalculo" [options]="lbasecalculo" [(ngModel)]="registro.cbasecalculo"
+            required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="frecuenciainteres" class="ui-outputlabel required">Frecuencia interés</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="frecuenciainteres" name="frecuenciainteres" [options]="lfrecuenciainteres" [(ngModel)]="registro.cfrecuecia"
+            required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="flujo" class="ui-outputlabel required">Flujo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="flujo" name="flujo" [options]="lflujo" [(ngModel)]="registro.cflujo" required [disabled]="!editable"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="cobrovertical" class="ui-outputlabel">Cobro vertical</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="cobrovertical" name="cobrovertical" [(ngModel)]="registro.cobrovertical" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="precancelacion" class="ui-outputlabel">Permite precancelación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="precancelacion" name="precancelacion" [(ngModel)]="registro.precancelacion" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="gracia" class="ui-outputlabel">Permite gracia</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="gracia" name="gracia" [(ngModel)]="registro.gracia" binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="productoconyuge" class="ui-outputlabel">Controla producto entre cónyuges</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="productoconyuge" name="productoconyuge" [(ngModel)]="registro.productoconyuge" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="absorberoperaciones" class="ui-outputlabel">Absorber operaciones activas</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="absorberoperaciones" name="absorberoperaciones" [(ngModel)]="registro.absorberoperaciones"
+            binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="requieregarante" class="ui-outputlabel">Requiere garante</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="requieregarante" name="requieregarante" [(ngModel)]="registro.requieregarante" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="aprobarsupervisor" class="ui-outputlabel">Aprueba supervisor</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="aprobarsupervisor" name="aprobarsupervisor" [(ngModel)]="registro.aprobarsupervisor" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="desembolsomasivo" class="ui-outputlabel">Permite desembolso masivo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="desembolsomasivo" name="desembolsomasivo" [(ngModel)]="registro.desembolsomasivo" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="capacidadconyuge" class="ui-outputlabel">Permite capacidad cónyuge</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="capacidadconyuge" name="capacidadconyuge" [(ngModel)]="registro.capacidadconyuge" binary="false"
+            [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="consolidado" class="ui-outputlabel">Consolidado</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="consolidado" name="consolidado" [(ngModel)]="registro.consolidado" binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="educativo" class="ui-outputlabel">Educativo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="educativo" name="educativo" [(ngModel)]="registro.educativo" binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="convenio" class="ui-outputlabel">Convenio</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <p-checkbox id="convenio" name="convenio" [(ngModel)]="registro.convenio" binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <p-dropdown id="cconvenio" name="cconvenio" [options]="lconvenio" [(ngModel)]="registro.cconvenio" [disabled]="!editable"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montoporaportaciones" class="ui-outputlabel">Monto por aportaciones</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="montoporaportaciones" name="montoporaportaciones" [(ngModel)]="registro.montoporaportaciones"
+            binary="false" [disabled]="!editable" (onChange)="marcarAportaciones($event)"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="porcentajeaportaciones" class="ui-outputlabel">Porcentaje aportaciones</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="porcentajeaportaciones" name="porcentajeaportaciones" maxlength="3" entero
+            [(ngModel)]="registro.porcentajeaportaciones" [disabled]="!editable || !checkableAportaciones" [required]="checkableAportaciones" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tasareajustable" class="ui-outputlabel">Tasa reajustable</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="tasareajustable" name="tasareajustable" [(ngModel)]="registro.tasareajustable" binary="false"
+            [disabled]="!editable" (onChange)="marcarReajuste($event)"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="numerocoutasreajuste" class="ui-outputlabel">N° cuotas reajuste</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="numerocoutasreajuste" name="numerocoutasreajuste" maxlength="2" entero
+            [(ngModel)]="registro.numerocuotasreajuste" [disabled]="!editable || !checkableReajuste" [required]="checkableReajuste" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="exigegarantia" class="ui-outputlabel">Exige garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="exigegarantia" name="exigegarantia" [(ngModel)]="registro.exigegarantia" binary="false"
+            [disabled]="!editable" (onChange)="marcarGarantia($event)"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="porcentajegarantia" class="ui-outputlabel">Porcentaje garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="porcentajegarantia" name="porcentajegarantia" maxlength="5" entero
+            [(ngModel)]="registro.porcentajegarantia" [disabled]="!editable || !checkableGarantia" [required]="checkableGarantia" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="renovacion" class="ui-outputlabel">Permite renovación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="permiterenovacion" name="renovacion" [(ngModel)]="registro.renovacion" binary="false"
+            [disabled]="!editable" (onChange)="marcarRenovacion($event)"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="porcentajerenovacion" class="ui-outputlabel">Porcentaje renovación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="porcentajerenovacion" name="porcentajerenovacion" maxlength="5" entero
+            [(ngModel)]="registro.porcentajerenovacion" [disabled]="!editable || !checkableRenovacion" [required]="checkableRenovacion" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="mincoutaspagoextraordinario" class="ui-outputlabel required">Mínimo de cuotas pago extraordinario</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="mincoutaspagoextraordinario" name="mincoutaspagoextraordinario" maxlength="2"
+            entero [(ngModel)]="registro.mincuotaspagoextraordinario" required [disabled]="!editable" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,153 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  
+  <button *ngIf="!estaVacio(this.mcampos.cevaluacion)" pButton type="button" label="Imprimir Evaluación" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+  icon="ui-icon-print" (click)="descargarReporte()"></button>
+  <div class="oculto" style='display:none;'>
+    <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+  </div>
+
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="cevaluacion" class="ui-outputlabel required">Evaluación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="cevaluacion" name="cevaluacion" type="text" pInputText [ngModel]="mcampos.cevaluacion" required [readOnly]="true"
+          style="text-align:center;" />
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="npersonacevaluacion" name="npersonacevaluacion" [(ngModel)]="mcampos.nevaluacion" [readOnly]="true"
+          style="text-align:center;" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovEvaluacion" name="LovEvaluacion" (click)="mostrarLovEvaluacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-evaluacion (eventoCliente)=fijarLovEvaluacionSelec($event)></app-lov-evaluacion>
+    </div>
+  
+  </form>
+<div class="f-contenedor-transaccion">
+    <form #formularioUsuario="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="title_separator">
+                    <i class="fa ui-icon-adjust"></i>
+                    <span>FORMULARIO PARA LA EVALUACIÓN DEL DESEMPEÑO POR COMPETENCIAS PAR EL USO DEL JEFE INMEDIATO</span>
+                </div>
+                <hr />
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                    <label for="periodo" class="ui-outputlabel required">Funcionario:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="fnombre" name="funcionario" [(ngModel)]="mcampos.nfuncionario" required [readOnly]="true"
+                    />
+                </div>
+                
+
+                <div class="ui-g-12 ui-md-1">
+                    <label for="periodo" class="ui-outputlabel required">Periodo:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="fnombre" name="periodo" [(ngModel)]="mcampos.nperiodo" required [readOnly]="true" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                    <label for="ncargo" class="ui-outputlabel required">Puesto:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="ncargo" name="ncargo" [(ngModel)]="mcampos.ncargo" required [readOnly]="true" />
+                </div>
+                <div class="ui-g-12 ui-md-1"></div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="fdesde" class="ui-outputlabel required">Desde:</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <p-calendar name="fdesde" [(ngModel)]="mcampos.fdesde" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="fhasta" class="ui-outputlabel required">Hasta:</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <p-calendar name="fhasta" [(ngModel)]="mcampos.fhasta" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-1">
+                    <label for="ntitulo" class="ui-outputlabel required">Título o profesión:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText id="ntitulo" name="ntitulo" [(ngModel)]="mcampos.ntitulo" required [readOnly]="true" />
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                    <label for="comentario" class="ui-outputlabel">OBSERVACIONES DEL JEFE INMEDIATO (EN CASO DE QUE LAS TENGA)</label>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-11">
+                    <textarea type="text" pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario" required mayusculas
+                        maxlength="500" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<app-cabecera></app-cabecera>
+
+<p-tabView (onChange)="selectab($event)">
+  <p-tabPanel header="INDICADORES DE GESTIÓN DEL PUESTO" [selected]="true">
+    <app-gestionpuesto (calcularTotalesEvent)="calcularTotalGestionPuesto()"></app-gestionpuesto>
+  </p-tabPanel>
+  <p-tabPanel header="CONOCIMIENTOS" [selected]="false">
+    <app-dconocimiento (calcularTotalesConocimientoEvent)="calcularTotalConocimiento()"></app-dconocimiento>
+  </p-tabPanel>
+
+  <p-tabPanel header="COMPETENCIAS TÉCNICAS DEL PUESTO" [selected]="false">
+    <app-dcompetecnicas (calcularTotalesCompTecnicasEvent)="calcularTotalCompTecnicas()"></app-dcompetecnicas>
+  </p-tabPanel>
+  <p-tabPanel header="COMPETENCIAS UNIVERSALES" [selected]="false">
+    <app-compuniversales (calcularTotalesCompUniverEvent)="calcularTotalCompUniversal()"></app-compuniversales>
+  </p-tabPanel>
+  <p-tabPanel header="TRABAJO EN EQUIPO, INICIATIVA Y LIDERAZGO" [selected]="false">
+    <app-trabajoequipo (calcularTotalesTrabEquipoEvent)="calcularTotalTrabEquipo()"></app-trabajoequipo>
+  </p-tabPanel>
+  <p-tabPanel header="QUEJAS DEL CIUDADANO" [selected]="false">
+    <app-quejasciudadano (calcularTotalesQuejas)="calcularTotalQuejas()"></app-quejasciudadano>
+  </p-tabPanel>
+</p-tabView>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-lg-8 ui-g-nopad ui-datatable ui-datatable-header, body ui-datatable ui-datatable-footer">
+      <p-dataTable [value]="lcalificaciones" [responsive]="true" rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">CALIFICACIONES</div>
+        </p-header>
+        <p-column field="label" header="Factores de Evaluación"></p-column>
+        <p-column field="value" header="Calificación alcanzada (%)" [style]="{'width':'70px'}" styleClass="f-center">
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="1" style="text-align:left">TOTAL EVALUACIÓN DEL DESEMPEÑO</td>
+          <td style="text-align:right">{{tablaEvaluacion.registro.calificacion | number:'1.2-2' }}</td>    
+        </ng-template>
+      </p-dataTable>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-8">
+          <label for="adelantometascab" class="ui-outputlabel" style="font-size:large;">{{mcampos.califcualitativamente }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

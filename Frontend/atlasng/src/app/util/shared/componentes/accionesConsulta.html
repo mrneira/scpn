@@ -1,0 +1,20 @@
+<div style="display: inline-flex; float: right;margin: 0px 3px 0px 0px;">
+    <div *ngIf="consulta"> 
+        <button type="button" pButton icon="ui-icon-search" (click)="componente.consultar()"  class="green-btn" style="margin-left:10px"
+        pTooltip="Consultar" tooltipPosition="top"
+        >
+      
+        </button>
+    </div>
+    <div *ngIf="anterior"> 
+        <button type="button" pButton icon="ui-icon-navigate-before" (click)="componente.consultarAnterior()" 
+        pTooltip="Página anterior" tooltipPosition="top"
+        class="green-btn" style="margin-left:5px">
+        </button>
+    </div>
+    <div *ngIf="siguiente"> 
+        <button type="button" 
+        pTooltip="Página siguiente" tooltipPosition="left"pButton icon="ui-icon-navigate-next" (click)="componente.consultarSiguiente()" class="green-btn" style="margin-left:5px">
+        </button>
+    </div>
+</div>

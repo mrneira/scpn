@@ -1,0 +1,83 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Informaci&oacute;n del Usuario</span>
+				</div>
+				<hr />
+			</div>
+
+			<acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="cusuario" class="ui-outputlabel required">Username</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cusuario" name="cusuario"
+						[(ngModel)]="registro.cusuario" autofoco required mayusculas maxlength="20" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="sobrenombre" class="ui-outputlabel required">Alias</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="sobrenombre" name="sobrenombre"
+						mayusculas [(ngModel)]="registro.sobrenombre" maxlength="30" [disabled]="!editable" autofoco required />
+				</div>
+			</div>
+
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="canal" class="ui-outputlabel required">Canal</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="canal" name="canal" [options]="lcanales" [(ngModel)]="registro.ccanal" [disabled]="!editable" required></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="area" class="ui-outputlabel required">Área</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="area" name="area" [options]="lareas" [(ngModel)]="registro.carea" [disabled]="!editable" required></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="sucursal" class="ui-outputlabel required">Sucursal</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="sucursal" name="sucursal" [options]="lsucursales" [(ngModel)]="registro.csucursal"
+								(onChange)="cambiarSucursal($event)" [disabled]="!editable" required></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="agencia" class="ui-outputlabel required">Agencia</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="agencia" name="agencia" [options]="lagencias" [(ngModel)]="registro.cagencia" [disabled]="!editable" required></p-dropdown>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="estado" class="ui-outputlabel required">Estado</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="estado" name="estado" [options]="lestado" [ngModel]="registro.estatuscusuariocdetalle" [disabled]="true" required></p-dropdown>
+				</div>
+			</div>
+
+		</div>
+	</form>
+</div>

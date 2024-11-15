@@ -1,0 +1,102 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel required">Año:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown (onChange)="fijarconsulta()" id="anio" name="anio" [options]="lanios" [(ngModel)]="mfiltros.anio" [filter]="true"
+            required></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Calendario de Descuentos</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="anio" header="Año"></p-column>
+      <p-column field="mdatos.mes" header="Mes" scrollable="true"></p-column>
+      <p-column header="Fecha Ejecución Descuentos">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.mdatos.fejecucion | SoloFechaPipe}}
+        </ng-template>
+      </p-column>
+      <p-column field="cusuarioing" header="Usuario Ingreso"></p-column>
+      <p-column header="Fecha Ingreso">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.fingreso | SoloFechaPipe}}
+        </ng-template>
+      </p-column>
+      <p-column field="cusuariomod" header="Usuario Modificación"></p-column>
+      <p-column header="Fecha Modificación">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.fmodificacion | SoloFechaPipe}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="reg.fejecucion>=dtoServicios.mradicacion.fcontable"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Calendario Descuentos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-outputlabel required">Año:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="anio" name="anio" [options]="lanios" [(ngModel)]="registro.anio" [filter]="true" required appendTo="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-outputlabel required">Mes:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="registro.mescdetalle" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-outputlabel" required>Fecha Ejecución Descuento:</label>
+          </div>
+          <div class="ui-g-6 ui-md-4">
+            <p-calendar name="fejecucion" [(ngModel)]="registro.mdatos.fejecucion" [showIcon]="true" required [dateFormat]="formatofecha"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es" appendTo="body"></p-calendar>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

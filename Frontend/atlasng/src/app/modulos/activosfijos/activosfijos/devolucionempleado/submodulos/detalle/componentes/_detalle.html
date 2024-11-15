@@ -1,0 +1,29 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true" >
+          <p-header>
+            <div class="ui-table-title">Productos Asignados</div>
+            <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          </p-header>
+          <p-column  header="Seleccionar" [style]="{'width':'40px'}">
+              <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+                <p-checkbox name="seleccionado" [(ngModel)]="reg.mdatos.seleccionado" binary="false" ></p-checkbox>
+              </ng-template>
+            </p-column>
+          <p-column field="ckardexprodcodi" header="pk" hidden="true" ></p-column>
+          <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+          <p-column field="mdatos.nproducto" header="Nombre"></p-column>
+          <p-column field="cbarras" header="C. Barras"></p-column>
+          <p-column field="serial" header="Serial"></p-column>
+          <p-column field="infoadicional" header="Observaci&oacute;n">
+            <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+              <input type="text" name="infoadicional"  pInputText [(ngModel)]="reg.infoadicional" maxlength="1000" style="text-align:right" mayusculas />
+            </ng-template>
+          </p-column>
+          <p-footer>
+          </p-footer>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>

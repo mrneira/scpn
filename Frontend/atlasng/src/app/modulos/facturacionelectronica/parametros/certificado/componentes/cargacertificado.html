@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Información Certificado</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ccertificado" header="C&oacute;digo" ></p-column>
+        <p-column field="fingreso" header="Fecha Inicio" >
+            <ng-template  pTemplate="body" let-reg="rowData">
+              <span>{{reg.fechainicio | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="ffin" header="Fecha Fin" >
+              <ng-template  pTemplate="body" let-reg="rowData">
+                <span>{{reg.fechafin | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+              </ng-template>
+            </p-column>
+            <p-column field="nombrecertificado" header="Nombre Certificado"></p-column>
+            <p-column field="extension" header="Extensión"></p-column>
+        <p-column header="Activo" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="fingreso" header="Fecha Registro" >
+            <ng-template  pTemplate="body" let-reg="rowData">
+              <span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+            </ng-template>
+          </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Carga Certificado" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.esnuevo">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="ccertificado" name="ccertificado" required
+              numeric maxlength="10" [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label class="ui-outputlabel ">Seleccione Certificado Digital</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <p-fileUpload id="fucertificado" name="fucertificado" customUpload="true" accept=".p12,.pfx" [disabled]="false" (onSelect)="onSelectArchivo($event)" required
+            (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione" [showCancelButton]="false" [showUploadButton]="false"></p-fileUpload>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label class="ui-outputlabel">Ingrese la Clave:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input pInputText type="password" required name="clave" texto maxlength="300" autofoco
+          [(ngModel)]="registro.clave"/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Verifique la Clave:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input pInputText type="password" required name="rclave"  texto maxlength="300" (blur)="ValidarInformacion()"
+            [(ngModel)]="registro.rclave" />
+          </div>
+        </div>
+    </div>
+    <footer>
+      <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+    </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -580,5 +580,6 @@ namespace modelo
         public virtual DbSet<tnomanticiposolicitud> tnomanticiposolicitud { get; set; }
         public virtual DbSet<tpreexpedienteasignacion> tpreexpedienteasignacion { get; set; }
         public virtual DbSet<tsoccertificado> tsoccertificado { get; set; }
+        public virtual DbSet<tcarproductorangosnegociacion> tcarproductorangosnegociacion { get; set; }
     }
 }

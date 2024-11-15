@@ -1,0 +1,48 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button  *ngIf="!grabo" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+  </div>
+  
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">   
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cegreso" class="ui-outputlabel required">Ingreso</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="cabeceraComponent.mcampos.cingreso"
+            required [readOnly]="true" />
+        </div>       
+        <div class="ui-g-12 ui-md-2">
+          <button pButton type="button" id="lovingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"></button>
+        </div>       
+      <app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="facturanumero" class="ui-outputlabel required">Factura N&uacute;mero</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText id="cabeceraComponent.registro.facturanumero" name="cabeceraComponent.registro.facturanumero" required maxlength="30" [(ngModel)]="cabeceraComponent.registro.facturanumero" />
+        </div>
+      </div>
+      
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cingreso" class="ui-outputlabel ">Proveedor</label>
+        </div>
+        <div class="ui-g-2 ui-md-3">
+          <input id="npersonaproveedor" name="npersonaproveedor" type="text" pInputText 
+        [(ngModel)]="cabeceraComponent.registro.mdatos.npersonaproveedor" [readOnly]="true"
+        />  
+        </div>
+      </div>
+      <app-cabecera></app-cabecera>
+      <div>
+        <p-accordion [multiple]="true">
+          <p-accordionTab header="Detalle Devoluci&oacute;n">
+            <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+          </p-accordionTab>
+        </p-accordion>
+      </div>  
+  </form>

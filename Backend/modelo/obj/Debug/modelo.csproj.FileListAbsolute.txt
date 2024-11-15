@@ -37,3 +37,17 @@ C:\AtlasProd\AtlasBE\Backend\modelo\obj\Debug\modelo.csprojAssemblyReference.cac
 C:\AtlasProd\AtlasBE\Backend\modelo\obj\Debug\modelo.csproj.CopyComplete
 C:\AtlasProd\AtlasBE\Backend\modelo\obj\Debug\modelo.dll
 C:\AtlasProd\AtlasBE\Backend\modelo\obj\Debug\modelo.pdb
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\modelo.dll.config
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\modelo.dll
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\modelo.pdb
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\EntityFramework.dll
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\Newtonsoft.Json.dll
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\EntityFramework.xml
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\bin\Debug\Newtonsoft.Json.xml
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\obj\Debug\modelo.csproj.AssemblyReference.cache
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\obj\Debug\modelo.csproj.CoreCompileInputs.cache
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\obj\Debug\modelo.csproj.CopyComplete
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\obj\Debug\modelo.dll
+C:\Users\mneirar\Desktop\SCPN\ATLAS\SISTEMA\ACTUAL\Backend\modelo\obj\Debug\modelo.pdb

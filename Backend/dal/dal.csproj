@@ -110,6 +110,7 @@
     <Compile Include="cartera\TcarOperacionCxCDal.cs" />
     <Compile Include="cartera\TcarOperacionCxCHistoriaDal.cs" />
     <Compile Include="cartera\TcarPrelacionProductoDal.cs" />
+    <Compile Include="cartera\TcarProductoRangosNegociacionDal.cs" />
     <Compile Include="cartera\TcarSolicitudReincorporadoDal.cs" />
     <Compile Include="cartera\TcarSolicitudConsolidadoDal.cs" />
     <Compile Include="cartera\TcarOperacionTransaccionCxCDal.cs" />

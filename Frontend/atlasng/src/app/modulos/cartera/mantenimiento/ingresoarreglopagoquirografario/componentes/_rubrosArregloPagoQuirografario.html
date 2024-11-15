@@ -1,0 +1,23 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <hr />
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Rubros negociación de pago</div>
+        </p-header>
+        <p-column field="csaldo" header="Cod. saldo" [style]="{'width':'150px'}"></p-column>
+        <p-column field="mdatos.nsaldo" header="Saldo"></p-column>
+        <p-column field="csaldodestino" header="Cod. saldo destino" [style]="{'width':'150px'}"></p-column>
+        <p-column field="mdatos.nsaldodestino" header="Saldo destino"></p-column>
+
+        <p-column header="Pago obligatorio?" [style]="{'width':'160px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.pagoobligatorio" binary="true" [disabled]="true" (onChange)="selectRegistro(reg); actualizar();"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>

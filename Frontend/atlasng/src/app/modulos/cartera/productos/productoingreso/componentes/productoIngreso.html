@@ -1,0 +1,47 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="flcproducto" class="ui-outputlabel required">Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input pInputText id="fmcproducto" name="fmcproducto" [(ngModel)]="mfiltros.cproducto" [readOnly]="true" entero required
+        maxlength="5" />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fdcproducto" name="fdcproducto" [options]="lproducto" [(ngModel)]="mfiltros.cproducto" (onChange)="cambiarTipoProducto($event)"
+        autofoco required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="flctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input pInputText id="fmctipoproducto" name="fmctipoproducto" [(ngModel)]="mfiltros.ctipoproducto" [readOnly]="true" entero
+        required maxlength="5" />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fdctipoproducto" name="lctipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto" (onChange)="mostrar($event)"
+        required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Producto" [selected]="true">
+    <app-productos></app-productos>
+  </p-tabPanel>
+  <p-tabPanel header="Requisitos" lacy=true>
+    <app-requisitos></app-requisitos>
+  </p-tabPanel>
+  <p-tabPanel header="Documentos" lacy=true>
+    <app-documentos></app-documentos>
+  </p-tabPanel>
+  <p-tabPanel header="Productos Permitidos" lacy=true>
+    <app-productos-permitidos></app-productos-permitidos>
+  </p-tabPanel>
+</p-tabView>

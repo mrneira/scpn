@@ -1,0 +1,128 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Trabajos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="nombreempleador" header="Lugar trabajo"></p-column>
+				<p-column header="Negocio propio?" [style]="{'width':'180px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.negociopropio" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Trabajo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoTrab="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="secuencia" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="secuencia" name="secuencia"
+						   [(ngModel)]="registro.secuencia" [disabled]="true" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="trabajocdetalle" class="ui-outputlabel required">Cargo</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="trabajocdetalle" name="trabajocdetalle" [options]="lcargo"
+					[(ngModel)]="registro.trabajocdetalle" required [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipocontartocdetalle" class="ui-outputlabel required">Tipo contrato</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="tipocontartocdetalle" name="tipocontartocdetalle" [options]="ltipocontrato"
+					[(ngModel)]="registro.tipocontartocdetalle" required [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombreempleador" class="ui-outputlabel required">Lugar trabajo</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<textarea type="text" pInputText id="nombreempleador" name="nombreempleador" [(ngModel)]="registro.nombreempleador"
+						   required mayusculas maxlength="80" required rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="referencia" class="ui-outputlabel required">Referencia</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<textarea type="text" pInputText id="referencia" name="referencia" [(ngModel)]="registro.referencia"
+						   required mayusculas maxlength="200" rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="negociopropio" class="ui-outputlabel">Negocio propio?</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-checkbox id="negociopropio" name="negociopropio" [(ngModel)]="registro.negociopropio" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fingresotrabjo" class="ui-outputlabel required">F.Ingreso</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fingresotrabjo" name="fingresotrabjo" [(ngModel)]="registro.fingresotrabjo"
+					[showIcon]="true" [locale]="es" [disabled]="!editable" [dateFormat]="formatofecha"
+					[monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fsalidatrabajo" class="ui-outputlabel">F.Salida</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fsalidatrabajo" name="fsalidatrabajo" [(ngModel)]="registro.fsalidatrabajo"
+							    [showIcon]="true" [disabled]="!editable" [dateFormat]="formatofecha"></p-calendar>
+				</div>
+			</div>
+
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoTrab" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

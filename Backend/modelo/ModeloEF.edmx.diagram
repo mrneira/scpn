@@ -1436,6 +1436,8 @@
         <AssociationConnector Association="atlas_desarrolloModel.FK_EXP_ASIGNACION_TO_AGENCIA" />
         <AssociationConnector Association="atlas_desarrolloModel.FK_EXP_ASIGNACION_TO_SECUENCIA" />
         <EntityTypeShape EntityType="atlas_desarrolloModel.tsoccertificado" Width="1.5" PointX="5.375" PointY="34.75" />
+        <EntityTypeShape EntityType="atlas_desarrolloModel.tcarproductorangosnegociacion" Width="1.5" PointX="12.75" PointY="549" />
+        <AssociationConnector Association="atlas_desarrolloModel.FK_TGENMODULO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

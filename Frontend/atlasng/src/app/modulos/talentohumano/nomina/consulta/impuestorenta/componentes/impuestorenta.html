@@ -1,0 +1,106 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+ 
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel required">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mfiltros.anio" required [readOnly]="true" style="text-align:center;"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+          [disabled]="!editable"></button>
+      </div>
+    </div>
+
+    <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Impuesto a la Renta</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="anio" header="Año" [style]="{'width':'40px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"[filter]="true" filterPlaceholder="Filtrar" >
+        </p-column>
+        <p-column field="valor" header="Valor" [style]="{'width':'120px'}" styleClass="f-right">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.valor | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+
+        <p-column [style]="{'width':'100px'}" header="Acciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Impuesto a la Renta" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="anio" class="ui-outputlabel required">Año</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-1">
+            <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="nombref" name="nombref" [(ngModel)]="registro.mdatos.nfuncionario" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="afondoreserva" class="ui-outputlabel ">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="valor" name="valor" maxlength="9" [(ngModel)]="registro.valor" numeroPositivo [disabled]="!editable"
+              required />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

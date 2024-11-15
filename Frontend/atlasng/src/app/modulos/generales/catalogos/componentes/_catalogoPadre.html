@@ -1,0 +1,36 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Catálogo padre</span>
+        </div>
+        <hr />
+      </div>
+
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="pccatalogo" class="ui-outputlabel required">Código</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input type="text" pInputText id="pccatalogo" name="pccatalogo" [(ngModel)]="registro.ccatalogo" autofoco required maxlength="4"
+            [disabled]="true" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="pnombre" class="ui-outputlabel required">Nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="pnombre" name="pnombre" [(ngModel)]="registro.nombre" maxlength="60" mayusculas [disabled]="!editable"
+            autofoco required />
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

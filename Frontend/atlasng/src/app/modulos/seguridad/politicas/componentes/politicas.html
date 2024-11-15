@@ -1,0 +1,125 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioPolitica="ngForm">
+		<div class="f-acciones-cabecera ui-g ui-fluid">
+			<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+		</div>
+	
+	
+		<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fcanal" class="ui-outputlabel">Canal</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown  id="canal" name="canal" [options]="lcanales" [(ngModel)]="mfiltros.ccanal"  (onChange)="consultar()"  required></p-dropdown>
+				</div>
+			</div>
+		</form>
+	
+		
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioPolitica" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="longitud" class="ui-outputlabel required">Longitud de la clave:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="longitud" name="longitud" 
+						[(ngModel)]="registro.longitud" autofoco required entero
+						maxlength="3" [disabled]="!editable" />
+				</div>
+			</div>
+	
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="diasvalidez" class="ui-outputlabel required">Días validez:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="diasvalidez" name="diasvalidez" 
+						[(ngModel)]="registro.diasvalidez" autofoco required entero
+						maxlength="4" [disabled]="!editable" />
+				</div>
+			</div>
+	
+
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="numintentos" class="ui-outputlabel required">Num. intentos para bloqueo:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="intentos" name="intentos" 
+						[(ngModel)]="registro.intentos" autofoco required entero
+						maxlength="1" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="repeticiones" class="ui-outputlabel required">Num. password históricos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="repeticiones" name="repeticiones" 
+						[(ngModel)]="registro.repeticiones" autofoco required entero
+						maxlength="3" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="numeros" class="ui-outputlabel required">Cant. numeros:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="numeros" name="numeros" 
+						[(ngModel)]="registro.numeros" autofoco required entero
+						maxlength="3" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="especiales" class="ui-outputlabel required">Cant. especiales:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="especiales" name="especiales" 
+						[(ngModel)]="registro.especiales" autofoco required entero
+						maxlength="2" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="minusculas" class="ui-outputlabel required">Cant. minúsculas:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="minusculas" name="minusculas" 
+						[(ngModel)]="registro.minusculas" autofoco required entero
+						maxlength="2" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="mayusculas" class="ui-outputlabel required">Cant. mayúsculas:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="mayusculas" name="mayusculas" 
+						[(ngModel)]="registro.mayusculas" autofoco required entero
+						maxlength="2" [disabled]="!editable" />
+				</div>
+			</div>
+			
+ 			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tiemposesion" class="ui-outputlabel required">Tiempo de sesión (min):</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="tiemposesion" name="tiemposesion" [(ngModel)]="registro.tiemposesion" 
+						   autofoco required entero	maxlength="3" [disabled]="!editable" />
+				</div>
+			</div>
+			
+		</div>
+	</form>
+</div>

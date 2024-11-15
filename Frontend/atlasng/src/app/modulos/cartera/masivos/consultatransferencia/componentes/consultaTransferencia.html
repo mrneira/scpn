@@ -1,0 +1,121 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2 ui-g-nopad">
+        <label for="fcparticion" class="ui-outputlabel required">Fecha transferencia</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <p-dropdown id="fcparticion" name="fcparticion" required [options]="ltransferencias" (onChange)="selectLista($event)" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad"></div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="freferencia" class="ui-outputlabel">Referencia:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="freferencia" name="freferencia" type="text" pInputText [(ngModel)]="mcampos.referencia"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fnumoficio" class="ui-outputlabel">Num. Oficio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="fnumoficio" name="fnumoficio" type="text" pInputText [(ngModel)]="mcampos.numoficio" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fcantidad" class="ui-outputlabel">Num. registros:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="fcantidad" name="fcantidad" type="text" pInputText [(ngModel)]="mcampos.cantidad" [disabled]="true" />
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fmonto" class="ui-outputlabel">Monto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="fmonto" name="fmonto" type="text" pInputText [(ngModel)]="mcampos.monto" numero [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fmontopago" class="ui-outputlabel">Monto pago:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="fmontopago" name="fmontopago" type="text" pInputText [(ngModel)]="mcampos.montopago" numero
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fmontodevolucion" class="ui-outputlabel">Monto devolución:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input id="fmontodevolucion" name="fmontodevolucion" type="text" pInputText [(ngModel)]="mcampos.montodevolucion"
+              numero [disabled]="true" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12" style='display:none'>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" rowGroupMode="subheader"
+        [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Detalle de transferencia</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+          <div class="f-acciones-cab-tabla">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir()" class="f-btn green-btn f-excel"
+              style="text-align:center">
+            </button>
+          </div>
+        </p-header>
+        <p-column field="identificacion" header="Identificación" [style]="{'width':'120px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column header="Monto" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto pago" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montopago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto devolución" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montodevolucion | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="2" style="text-align:left">TOTAL</td>
+          <td style="text-align:right">{{ mcampos.monto | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mcampos.montopago | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mcampos.montodevolucion | number:'1.2-2'}}</td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

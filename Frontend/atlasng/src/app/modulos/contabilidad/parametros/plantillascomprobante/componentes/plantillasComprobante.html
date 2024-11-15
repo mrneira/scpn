@@ -1,0 +1,143 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fkcplantilla" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fkcplantilla" name="fkcplantilla" [(ngModel)]="mfiltros.cplantilla" entero autofoco maxlength="5" />
+			</div>
+
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fnombre" class="ui-outputlabel">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-5">
+				<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="80" />
+			</div>
+		</div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+				<p-header>
+					<div class="ui-table-title">Plantillas comprobantes</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cplantilla" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="mdatos.nconcepto" header="Concepto"></p-column>
+				<p-column field="mdatos.ntipo" header="Tipo Movimiento" [style]="{'width':'150px'}"></p-column>
+				<p-column field="mdatos.nmodulo" header="Módulo" [style]="{'width':'150px'}"></p-column>
+				<p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'150px'}"></p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+<app-lov-concepto-contables (eventoCliente)=fijarLovConceptoContables($event)></app-lov-concepto-contables>
+<app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+
+<p-dialog header="Plantillas comprobantes" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="pkcplantilla" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="pkcplantilla" name="pkcplantilla" [(ngModel)]="registro.cplantilla" autofoco required entero
+						 maxlength="5" [disabled]="!registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="nombre" class="ui-outputlabel required">Nombre</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="60"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="fpnombre" class="ui-outputlabel required">Concepto</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText required id="cconcepto" name="cconcepto" [(ngModel)]="registro.cconcepto"
+						 [readOnly]="true" />
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="nconcepto" name="nconcepto" [(ngModel)]="registro.mdatos.nconcepto" [readOnly]="true"
+						/>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" id="lovconceptocontables" name="lovconceptocontables" 
+						(click)="mostrarlovconceptoContable()" icon="ui-icon-directions"></button>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cmodulo" class="ui-outputlabel">Transacción</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="cmodulo" name="cmodulo" [(ngModel)]="registro.cmodulo" [readOnly]="true" />
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="ctransaccion" name="ctransaccion" [(ngModel)]="registro.ctransaccion" [readOnly]="true" />
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<input type="text" pInputText id="ntransaccion" name="ntransaccion" [(ngModel)]="registro.mdatos.ntransaccion" [readOnly]="true" />
+					</div>
+					<div class="ui-g-1 ui-md-1">
+						<button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()"
+							icon="ui-icon-directions" ></button>
+					</div>
+				</div>				
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="tipomovimientocdetalle" class="ui-outputlabel ">Tipo movimiento:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="tipomovimientocdetalle" name="tipomovimientocdetalle" [options]="ltipomovimientocdetalle" [(ngModel)]="registro.tipomovimientocdetalle"
+						  [filter]="true"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="comentario" class="ui-outputlabel required">Comentario:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="60"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

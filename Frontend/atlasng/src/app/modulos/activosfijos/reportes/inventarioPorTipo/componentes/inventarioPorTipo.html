@@ -1,0 +1,73 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+		
+			<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-1">
+						<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+					</div>
+					<div class="ui-g-6 ui-md-4">
+						<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+					</div>
+					<div class="ui-g-6 ui-md-4">
+						<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+					</div>
+				</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="tipo" class="ui-outputlabel">Tipo:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-dropdown id="tipoproducto" name="tipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto"
+				 [filter]="true"></p-dropdown>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="codigo" class="ui-outputlabel">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mfiltros.codigo" (blur)="cbarrasBlur()"
+					 (keyup.enter)="cbarrasBlur()" />
+				</div>
+			
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nproducto" [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovproductos()" icon="ui-icon-directions"></button>
+				</div>
+				<app-lov-productos (eventoCliente)=fijarLovProductosSelec($event)></app-lov-productos>
+			</div>
+
+		
+
+
+		</div>
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formFiltros" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+	<div>
+		<h1>Reporte Suministros</h1>
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel">Mes (mm): </label>
+		</div>
+		<div class="ui-g-12 ui-md-3">	
+			<input pInputText id="mes" name="mes" [(ngModel)]="mfiltros.mes" mayusculas autofoco maxlength="2" />
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel">Año (aaaa): </label>
+		</div>
+		<div class="ui-g-12 ui-md-3">	
+			<input pInputText id="anioreporte" name="anioreporte" [(ngModel)]="mfiltros.anioreporte" mayusculas autofoco maxlength="4" />
+		</div>
+	</div>
+	<div>
+		<app-jasper style="display: inline-flex; padding-top: 2%;" [componente]="componentehijo" [formulario]="formFiltros" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+	</div>
+</div>

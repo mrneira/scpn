@@ -1,0 +1,63 @@
+<p-dialog header="Lista de capacitaciones" [(visible)]="displayLov"
+	width="600" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fcfuncionario" class="ui-outputlabel">Código:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+			<input pInputText name="fcfuncionario" [(ngModel)]="mfiltros.cactividad" entero maxlength="5" />
+		</div>
+  </div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fidentificacion" class="ui-outputlabel">Nombre:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+			<input pInputText name="fidentificacion" [(ngModel)]="mfiltros.nombre" entero maxlength="13" />
+		</div>
+	</div>
+
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)"
+					 scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Capacitaciones</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="cinstruccion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+			<p-column field="mdatos.ninstitucion" header="Institución"></p-column>
+			<p-column field="nombre" header="Nombre"></p-column>
+			<p-column field="finicio" header="F. Inicio" [style]="{'width':'70px'}">
+			  <ng-template pTemplate="body" let-reg="rowData">
+				<span>{{reg.finicio | date: 'yyyy-MM-dd'}}</span>
+			  </ng-template>
+			</p-column>
+			<p-column field="ffin" header="F. Fin" [style]="{'width':'70px'}">
+			  <ng-template pTemplate="body" let-reg="rowData">
+				<span>{{reg.ffin | date: 'yyyy-MM-dd'}}</span>
+			  </ng-template>
+			</p-column>
+			<p-column header="Costo" styleClass="f-right" [style]="{'width':'50px'}">
+			  <ng-template pTemplate="body" let-reg="rowData">
+				{{ reg.costo | number:'1.2-2'}}
+			  </ng-template>
+			</p-column>
+			<p-column field="plananual" header="Plan Anual?" [style]="{'width':'60px'}">
+			  <ng-template pTemplate="body" let-reg="rowData">
+				<p-checkbox [ngModel]="reg.plananual" binary="true" disabled="true"></p-checkbox>
+			  </ng-template>
+			</p-column>
+
+		</p-dataTable>
+	</div>
+</div>
+
+</p-dialog>
+

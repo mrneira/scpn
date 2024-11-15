@@ -1,0 +1,41 @@
+<p-dialog header="Lista detalle de catálogos" [(visible)]="displayLov" width="700" showEffect="fade" [responsive]="true" [positionTop]="120">
+	
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+                <label for="fccatalogo" class="ui-outputlabel">Código catalogo</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input pInputText name="fccatalogo" [(ngModel)]="mfiltros.ccatalogo" autofoco entero maxlength="3" />
+            </div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+                <label for="nombre" class="ui-outputlabel">Nombre:</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <input pInputText name="nombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="80"  />
+            </div>
+		</div>
+	</form>
+	
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true" scrollHeight="250px">
+		          <p-header>
+		          		<div class="ui-table-title">Detalle de catálogos</div>
+		          		<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		          </p-header>
+		          <p-column header="Código-Catálogo"> 
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{reg.ccatalogo}} - {{reg.mdatos.ncatalogopadre}}
+						</ng-template> 
+				  </p-column>
+		          <p-column field="cdetalle" header="C&oacute;digo" [style]="{'width':'70px'}"></p-column>
+		          <p-column field="nombre" header="Nombre" [style]="{'width':'230px'}"></p-column>
+	        </p-dataTable>
+		</div>
+	</div>
+</p-dialog>
+

@@ -1,0 +1,72 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g-12">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+
+
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    </form>
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-treeTable [value]="root">
+                <p-header>Lista de opciones</p-header>
+
+                <p-column field="reg.ccategoria" header="Código" styleClass="f-left"></p-column>
+                <p-column header="Nombre" styleClass="f-left">
+                    <ng-template pTemplate="body" let-node="rowData">
+                        {{node.data.nombre}}
+                    </ng-template>
+                </p-column>
+                <p-column header="Acciones" styleClass="f-right">
+                    <ng-template pTemplate="body" let-node="rowData">
+                        <div class="f-table-actions">
+                            <acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+                        </div>
+                    </ng-template>
+                </p-column>
+            </p-treeTable>
+        </div>
+
+    </div>
+</div>
+
+
+<p-dialog header="Impuesto" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true">
+    <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width: 650px">
+            <div class="f-datacontent ui-g ui-fluid">
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="tipoitem" class="ui-outputlabel required">Tipo nodo</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-9">
+                        <p-selectButton name="tipoitem" [options]="tiposmenu" [(ngModel)]="registro.eshoja" [disabled]="!editable || !registro.esnuevo"></p-selectButton>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="pk" class="ui-outputlabel required">Código</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" pInputText name="pk" [(ngModel)]="registro.ccategoria" required entero [disabled]="true" />
+                    </div>
+                </div>
+                
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="nombre" class="ui-outputlabel required">Nombre</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-8">
+                        <input type="text" pInputText name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="60" autofoco [disabled]="!editable" />
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+            </footer>
+        </div>
+    </form>
+</p-dialog>

@@ -1,0 +1,121 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button pButton type="button" label="Contabilizar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+        icon="ui-icon-save" (click)="contabilizar()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+            <label for="fpnombre" class="ui-outputlabel required">Cliente</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="mcampos.cpersona" />
+        </div>
+        <div class="ui-g-12 ui-md-2 required">
+            <input type="text" pInputText required id="identificacion" name="identificacion" [(ngModel)]="mfiltros.identificacion" />
+        </div>
+        <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.ncliente" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia !== undefined">
+        <div class="ui-g-1 ui-md-2">
+            <label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+        </div>
+        <div class="ui-g-11 ui-md-4">
+            <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+                [readOnly]="true" />
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+        <div class="ui-g-1 ui-md-2">
+            <label for="ccomprobante" class="ui-outputlabel">Código de Comprobante Contable</label>
+        </div>
+        <div class="ui-g-11 ui-md-4">
+            <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccomprobante"
+                [readOnly]="true" />
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+            <label for="numdocumentosustento" class="ui-outputlabel">No. doc sustento</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <p-inputMask id="numdocumentosustento" name="numdocumentosustento" [(ngModel)]="mcampos.numdocumentosustento"
+                mask="999-999-999999999"></p-inputMask>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="fnotacredito" class="ui-outputlabel required">Fecha N/C</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <p-calendar id="fnotacredito" name="fnotacredito" [(ngModel)]="mcampos.fnotacredito" [showIcon]="true" [dateFormat]="formatofecha"
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050" required></p-calendar>
+        </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+            <label for="comentario" class="ui-outputlabel">Comentario</label>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-11">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario" required mayusculas
+                maxlength="2000" rows="1"></textarea>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" hidden="true">
+        <div class="ui-g-12" style="clear:both;float:right;width:150px">
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+        </div>
+    </div>
+</form>
+
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [(selection)]="selectedRegistros">
+                <p-header>
+                    <div class="ui-table-title">Facturas de parqueadero por contrato</div>
+                </p-header>
+                <p-column field="ffactura" header="F.Factura" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{reg.ffactura | date: 'yyyy-MM-dd hh:mm'}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="secuencial" header="Secuencial" [style]="{'width':'120px'}"></p-column>
+                <p-column field="nombre" header="Nombre" [style]="{'width':'200px'}"></p-column>
+                <p-column field="identificacion" header="Identificación" [style]="{'width':'140px'}"></p-column>
+                <p-column header="Subtotal" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.subtotal | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="IVA" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.montoiva | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Total" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.total | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Seleccione" [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins"> </div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

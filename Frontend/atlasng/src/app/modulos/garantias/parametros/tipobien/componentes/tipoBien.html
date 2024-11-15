@@ -1,0 +1,124 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctipogar" class="ui-outputlabel required">Tipo garantía</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="fctipogar" name="fctipogar" [options]="ltipogarantia" [(ngModel)]="mfiltros.ctipogarantia" required (onChange)="consultar()"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Tipos de bienes</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ctipobien" header="Código" [style]="{'width':'80px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="codigocontable" header="Cod.Contable"></p-column>
+        <p-column header="Aplica Seguro" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.aplicaseguro" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.ntiposeguro" header="Tipo Seguro"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Tipo de bien" [(visible)]="mostrarDialogoGenerico" [modal]="true" [width]="600" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ctipogarantia" class="ui-outputlabel required">Tipo garantía</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="ctipogarantia" name="ctipogarantia" [(ngModel)]="registro.mdatos.ntipogar" [disabled]="true"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ctipobien" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="ctipobien" name="ctipobien" [(ngModel)]="registro.ctipobien" autofoco required mayusculas
+              maxlength="3" [disabled]="!editable || !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="60"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="codigocontable" class="ui-outputlabel required">Código contable</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="codigocontable" name="codigocontable" [(ngModel)]="registro.codigocontable" required entero
+              maxlength="8" [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="aplicaseguro" class="ui-outputlabel">Aplica seguro</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="aplicaseguro" name="aplicaseguro" [(ngModel)]="registro.aplicaseguro" binary="false" [disabled]="!editable"
+              (onChange)="marcarSeguro($event)"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="tiposeguro" class="ui-outputlabel">Tipo seguro</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="tiposeguro" name="tiposeguro" [options]="ltiposeguro" [(ngModel)]="registro.ctiposeguro" [filter]="true"
+              [disabled]="!editable || !checkableSeguro" [required]="checkableSeguro" appendTo="body" (onChange)="registrarEtiqueta(registro, ltiposeguro, 'ctiposeguro', 'ntiposeguro')"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

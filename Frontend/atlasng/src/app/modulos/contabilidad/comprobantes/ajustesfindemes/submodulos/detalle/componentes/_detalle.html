@@ -1,0 +1,146 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="false">
+        <p-column field="ccuenta" header="Cuenta" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.ccuenta" entero maxlength="20" style="text-align:right" (blur)="cuentaBlur(reg,index)"
+            (focus)="cuentaFocus(reg,index)" #myinput/>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.tipoplancdetalle" header="tipoplan" hidden="true" [style]="{'width':'250px'}"></p-column>
+        <p-column field="mdatos.ncuenta" header="Nombre Cuenta" [style]="{'width':'250px'}"></p-column>
+        
+        <p-column field="numerodocumentobancario" header="Referencia" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.numerodocumentobancario" maxlength="100" style="text-align:right" 
+            />
+          </ng-template>
+        </p-column>       
+        
+        <p-column field="centrocostoscdetalle" header="Centro de costos" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-dropdown id="centrocostoscdetalle" name="centrocostoscdetalle" [options]="lcentrocostoscdetalle" [(ngModel)]="reg.centrocostoscdetalle"
+              required [filter]="true"  appendTo="body" (onChange)="setCentroCostos()">
+            </p-dropdown>
+          </ng-template>
+        </p-column>
+
+        <p-column field="ccompromiso" header="No. Compromiso" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.ccompromiso"  maxlength="10" style="text-align:right" (blur)="presupuestoBlur(reg,index)"
+            (focus)="ccompromisoFocus(reg,index)"/>
+          </ng-template>
+        </p-column> 
+        <p-column field="cpartida" header="Partida" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.cpartida"  maxlength="10" style="text-align:right" (blur)="presupuestoBlur(reg,index)"
+            (focus)="cpartidagastoFocus(reg)"/>
+          </ng-template>
+        </p-column>
+        <p-column field="debito" header="Es débito" [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-checkbox name="debito" [(ngModel)]="reg.debito" binary="false" (onChange)="debitoChange(reg,index,$event)"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column header="D&eacute;bito" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.monto" numeroPositivo maxlength="14" style="text-align:right" (ngModelChange)="cambiarMonto()"
+              *ngIf="reg.debito" />
+          </ng-template>
+        </p-column>
+        
+        <p-column header="Cr&eacute;dito" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.monto" numeroPositivo maxlength="14" style="text-align:right" (ngModelChange)="cambiarMonto()"
+              *ngIf="!reg.debito" />
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="agregarcuenta" name="agregarcuenta" pButton icon="ui-icon-add" (click)="agregarCuenta()" label="Agregar Cuenta"
+              class="f-btn f-float-left orange-btn"></button>
+            <button type="button" id="button" name="button" pButton icon="ui-icon-search" (click)="crearNuevo()" label="Buscar Cuenta"
+              class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+
+    <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+    <p-dialog header="Datos detalle comprobante" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+      [positionTop]="120" (onHide)="cerrarDialogo()">
+      <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width: 700px">
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-1">
+                <label for="ccuenta" class="ui-outputlabel required">Cuenta</label>
+              </div>
+              <div class="ui-g-2 ui-md-2">
+                <input id="ccuenta" name="ccuenta" type="text" pInputText [(ngModel)]="registro.ccuenta" required [readOnly]="true" />
+              </div>
+              <div class="ui-g-9 ui-md-8">
+                <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+              </div>
+              <div class="ui-g-1 ui-md-1">
+                <button pButton type="button" id="lovcuentasContables" name="lovcuentasContables" (click)="mostrarlovcuentasContables()"
+                  icon="ui-icon-directions"></button>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="centrocostoscdetalle" class="ui-outputlabel required">Centro de costos</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-dropdown id="centrocostoscdetalle" name="centrocostoscdetalle" [options]="lcentrocostoscdetalle" [(ngModel)]="registro.centrocostoscdetalle"
+                  [filter]="true" appendTo="body" required></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad" hidden="true">
+              <div class="ui-g-12 ui-md-2">
+                <label for="moneda" class="ui-outputlabel">Moneda</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id=moneda name="moneda" [(ngModel)]="registro.cmoneda" [readOnly]="true" entero maxlength="5"
+                  [disabled]="!editable" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-1">
+                <label for="debito" class="ui-outputlabel">Débito</label>
+              </div>
+              <div class="ui-g-12 ui-md-5">
+                <p-checkbox name="debito" [(ngModel)]="registro.debito" binary="false"></p-checkbox>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-1">
+                <label for="monto" class="ui-outputlabel required">Monto</label>
+              </div>
+              <div class="ui-g-12 ui-md-5">
+                <input type="text" pInputText id=monto name="monto" [(ngModel)]="registro.monto" required numeroPositivo maxlength="14" [disabled]="!editable"
+                />
+              </div>
+            </div>
+          </div>
+          <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+          </footer>
+        </div>
+      </form>
+    </p-dialog>
+  </div>
+</div>

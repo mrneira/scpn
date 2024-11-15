@@ -1,0 +1,27 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioDescuentos="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioDescuentos" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6">
+            <label for="autorizacion" class="ui-outputlabel">Autorización débito</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox id="autorizacion" name="autorizacion" [(ngModel)]="registro.autorizacion" binary="false" (onChange)="marcarCuenta($event)"
+              [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-8 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ncuenta" class="ui-outputlabel">Datos débito</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="registro.mdatos.ncuenta" disabled="true" />
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>

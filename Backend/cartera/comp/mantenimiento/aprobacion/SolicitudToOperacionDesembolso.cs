@@ -1,4 +1,5 @@
-﻿using core.componente;
+﻿using cartera.enums;
+using core.componente;
 using dal.cartera;
 using modelo;
 using System.Collections.Generic;
@@ -17,6 +18,12 @@ namespace cartera.comp.mantenimiento.aprobacion {
         /// <param name="rqmantenimiento"></param>
         public override void Ejecutar(RqMantenimiento rqmantenimiento)
         {
+            tcarsolicitud sol = TcarSolicitudDal.Find(long.Parse(rqmantenimiento.Mdatos["csolicitud"].ToString()));
+            if (!sol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion))
+            {
+                return;
+            }
+
             IList<tcarsolicituddesembolso> lsoldesembolso = TcarSolicitudDesembolsoDal.Find(long.Parse(rqmantenimiento.Mdatos["csolicitud"].ToString()));
 
             // Transforma a desembolso de la operacion.

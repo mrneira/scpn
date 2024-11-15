@@ -1,0 +1,49 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+	<div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="cingreso" class="ui-outputlabel ">Ingreso</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+			  <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="mfiltros.cingreso" [readOnly]="true"
+			  />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+			  <button pButton type="button" id="lovdevoluciones" name="lovdevoluciones" (click)="mostrarlovdevoluciones()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-devoluciones (eventoCliente)=fijarLovDevolucionesSelec($event)></app-lov-devoluciones>
+		  </div>
+		
+
+		<div class="ui-g-6 ui-g-nopad">
+		</div>
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true " scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">Devoluci&oacute;n Bienes</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+						</p-header>
+						<p-column field="cpersona" header="cpersona" hidden= "true" [style]="{'width':'85px'}"></p-column>
+						<p-column field="UsuarioDevuelve" header="Funcionario" [style]="{'width':'100px'}"></p-column>						
+						
+						<p-column header="Acciones" [style]="{'width':'80px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								 <div class="f-table-actions">																		
+									<button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="Descargar(reg,$event)" pTooltip="Descarga PDF" tooltipPosition="top" ></button>
+									<button type="button" pButton icon="ui-icon-closethick" name="btnxls" (click)="Descargar(reg,$event)" pTooltip="Descarga EXCEL" tooltipPosition="top"></button>
+								</div>
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>

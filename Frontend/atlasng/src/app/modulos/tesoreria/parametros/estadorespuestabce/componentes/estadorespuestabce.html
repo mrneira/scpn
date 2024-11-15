@@ -1,0 +1,102 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-column field="ctescrespuesta" header="Id"></p-column>
+      <p-column field="codigorespuesta" header="C&oacute;digo Respuesta"></p-column>
+      <p-column field="nombre" header="Descripción Respuesta BCE"></p-column>
+      <p-column field="mdatos.ncatalogoestado" header="Descripci&oacute;n Estado"></p-column>
+      <p-column header="Modificable">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [ngModel]="reg.modificable" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column field="tipotransaccion" header="Tipo Transacci&oacute;n"></p-column>
+      <p-column>
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Estados Pago BCE" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad" hidden="true">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Id Respuesta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ctspicrespuesta" name="ctspicrespuesta" [(ngModel)]="registro.ctspicrespuesta" [disabled]="!registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="ncatalogoestado" class="ui-outputlabel">Descripción Estado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="ncatalogoestado" name="ncatalogoestado" [options]="lcatalogoestado" [(ngModel)]="registro.cestado" [filter]="true"
+              (onChange)="cambiarEtiquetaDropdown($event, lcatalogoestado, 'ncatalogoestado')"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Código Respuesta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="codigorespuesta" name="codigorespuesta" [(ngModel)]="registro.codigorespuesta" autofoco
+              maxlength="6" minlength="1" mayusculas required/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Descripción Respuesta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas minlength="3" maxlength="300"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Modificable:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="modificable" [(ngModel)]="registro.modificable" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Tipo Transacción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipotransaccion" name="tipotransaccion" [options]="ltipotransaccion" required [(ngModel)]="registro.tipotransaccion"
+            required></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

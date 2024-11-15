@@ -1,0 +1,55 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-column field="cestado" header="C&oacute;digo Estado" ></p-column>
+      <p-column field="nombre" header="Descripción Estado"></p-column>
+      <p-column >
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Estados Cash" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [closable]="false"
+  [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Código Estado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cestado" name="cestado" [(ngModel)]="registro.cestado" autofoco maxlength="6"
+            minlength="1" mayusculas [disabled]="true"/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Descripción Estado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas minlength="3" maxlength="300"/>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

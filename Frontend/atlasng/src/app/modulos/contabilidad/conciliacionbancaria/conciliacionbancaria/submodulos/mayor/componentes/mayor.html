@@ -1,0 +1,43 @@
+
+<div class="f-contenedor-transaccion" >
+				
+	<div class="f-datacontent ui-g ui-fluid" >
+
+			<div class="ui-g-12 ui-g-nopad" >
+					
+				<p-dataTable [(value)]="lregistros" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)"
+				[responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+				[globalFilter]="gb" #dt>
+				
+				<p-header>
+					<div class="ui-table-title">Mayor</div>
+				</p-header>
+
+				<p-column field="mfcontable" header="F. Contable" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column field="mccomprobante" header="# Comprobante" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column field="mnumerodocumentobancario" header="# Doc. Bancario"  [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"></p-column>
+
+				<p-column field="mvalordebito" header="Débito"  styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+						<ng-template pTemplate="body" let-reg="rowData">
+								{{ reg.mvalordebito | number: '1.2-2'}}
+						</ng-template>
+				</p-column>
+
+				<p-column field="mvalorcredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column field="mmodulo" header="Módulo" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column field="mcomentario" header="Comentario" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column  [style]="{'width':'40px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+								<button pButton type="button" icon="ui-icon-add" (click)="agregarhojatrabajo(reg)" ></button>
+						</ng-template>
+					</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+

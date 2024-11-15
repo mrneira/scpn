@@ -1,0 +1,157 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcmodulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="mfiltros.cmodulo" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="fcmodulo" name="fcmodulo" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" (onChange)="cambiarModulo($event)" required [filter]="true" ></p-dropdown> 
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fctransaccion" class="ui-outputlabel">Transacción</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fctransaccion" name="fctransaccion" [(ngModel)]="mfiltros.ctransaccion" autofoco entero maxlength="4" />
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayuscula maxlength="80" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Transacción</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ctransaccion" header="Transacción" [style]="{'width':'80px'}"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column header="Registra Log" [style]="{'width':'60px'}">
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [(ngModel)]="reg.registralog" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Transacci&oacute;n" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkcmodulo" class="ui-outputlabel required">Módulo</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="pkcmodulo" name="pkcmodulo"
+						[(ngModel)]="registro.cmodulo" autofoco disabled maxlength="3" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkctransaccion" class="ui-outputlabel required">Transacción</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="pkctransaccion" name="pkctransaccion"
+						[(ngModel)]="registro.ctransaccion" autofoco entero required maxlength="3" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="80" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>			
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ruta" class="ui-outputlabel">Ruta</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<input type="text" pInputText id="ruta" name="ruta" [(ngModel)]="registro.ruta" 
+						   maxlength="150" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>					
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="registralog" class="ui-outputlabel">Registra log</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox name="registralog" [(ngModel)]="registro.registralog" binary="false"></p-checkbox>
+				</div>
+			</div>
+
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="false">
+				<div class="ui-g-12 ui-md-5">
+					<label for="completarubros" class="ui-outputlabel">Completa rubros</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox name="completarubros" [(ngModel)]="registro.completarubros" binary="false"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="false">
+				<div class="ui-g-12 ui-md-5">
+					<label for="inmobilizacion" class="ui-outputlabel">Inmobilización</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox name="inmobilizacion" [(ngModel)]="registro.inmobilizacion" binary="false"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="false">
+				<div class="ui-g-12 ui-md-5">
+					<label for="mapearubros" class="ui-outputlabel">Mapea rubros</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox name="mapearubros" [(ngModel)]="registro.mapearubros" binary="false"></p-checkbox>
+				</div>
+			</div>
+			
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

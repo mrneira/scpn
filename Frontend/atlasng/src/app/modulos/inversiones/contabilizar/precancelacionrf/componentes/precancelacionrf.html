@@ -1,0 +1,203 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccomprobante" class="ui-outputlabel">Comprobante</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="ccomprobante" name="ccomprobante" type="text" pInputText [(ngModel)]="mcampos.ccomprobante" readonly />
+			</div>
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="numerocomprobantecesantia" class="ui-outputlabel"># Comprobante Cesantía</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="numerocomprobantecesantia" name="numerocomprobantecesantia" type="text" pInputText [(ngModel)]="mcampos.numerocomprobantecesantia"
+				 readonly />
+			</div>
+		</div>
+
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+
+			<p-dataTable [value]="lregistros" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+				<p-header>
+					<div class="ui-table-title">Precancelaciones Registradas</div>
+
+				</p-header>
+
+				<p-column field="mdatos.fcompra" header="F.Compra Inv." [style]="{'width':'20px'}" styleClass="f-center"></p-column>
+
+				<p-column field="mdatos.nEmisor" header="Emisor" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nInstrumento" header="Instrumento" [style]="{'width':'60px'}"></p-column>
+
+				<p-column header="V. Nominal" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nValornominal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Capital Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.capital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.interes | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Mora Cancelada" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mora | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+			
+
+				<p-column field="cinversion" header="Id. Inv." [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+				<p-column [style]="{'width':'40px'}">
+					<ng-template pTemplate="body" let-row="rowData" let-index="rowIndex">
+						<button pButton type="button" (click)="edit(row,index)" icon="ui-icon-add"></button>
+					</ng-template>
+				</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>DETALLE DE LA PRECANCELACIÓN</span>
+			</div>
+			<hr />
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="idinversion" class="ui-outputlabel">Id. Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="idinversion" name="idinversion" type="text" pInputText [(ngModel)]="this.mCinversion" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="valordividendospagados" class="ui-outputlabel">Valor Nominal</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="valordividendospagados" name="valordividendospagados" type="text" pInputText [(ngModel)]="this.inversionesServicios.pValorNominal"
+				 disabled="true" numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="capital" class="ui-outputlabel">Capital</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="capital" name="capital" type="text" pInputText [(ngModel)]="this.inversionesServicios.pCapital"
+				 disabled="true" numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="fcompra" class="ui-outputlabel">Fecha de Compra</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fcompra" name="fcompra" type="text" pInputText [(ngModel)]="this.inversionesServicios.pFemision" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="interes" class="ui-outputlabel">Interés</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="interes" name="interes" type="text" pInputText [(ngModel)]="this.inversionesServicios.pInteres"
+				 disabled="true" numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="memisorNombre" class="ui-outputlabel">Emisor</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="memisorNombre" name="memisorNombre" type="text" pInputText [(ngModel)]="this.mEmisorNombre" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="mora" class="ui-outputlabel">Valor Mora</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="mora" name="mora" type="text" pInputText [(ngModel)]="this.inversionesServicios.pMora"
+				 disabled="true" numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="minstrumentoNombre" class="ui-outputlabel">Instrumento</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="minstrumentoNombre" name="minstrumentoNombre" type="text" pInputText [(ngModel)]="this.mInstrumentoNombre" readonly
+				 class="f-bold" style="font-size:13px" />
+			</div>
+
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="total" class="ui-outputlabel">Total</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="total" name="total" type="text" pInputText [(ngModel)]="this.inversionesServicios.pSubtotal"
+				 disabled="true" numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+
+		</div>
+
+
+		<button type="button" pButton icon="ui-icon-cancel" (click)="cancelarPago()" label="Cancelar" class="f-btn f-float-left orange-btn"
+		 [disabled]="estaVacio(this.mCinversion)"></button>
+
+	</form>
+
+</div>

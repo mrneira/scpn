@@ -1,0 +1,179 @@
+<app-lov-tth-designaciones (eventoCliente)=fijarLovDesignaciones($event)></app-lov-tth-designaciones>
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccontratoFilter" class="ui-outputlabel required">Contrato</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="ccontratoFilter" name="ccontratoFilter" type="text" pInputText [(ngModel)]="mcampos.ccontrato" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-7">
+        <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="mcampos.ndesignacion"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovcontratos" name="lovcontratos" (click)="mostrarLovDesignaciones()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [immutable]=false>
+        <p-header>
+          <div class="ui-table-title">Requisitos Habilitantes Obligatorios</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="crequisitohabilitante" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nfase" header="Fase" [style]="{'width':'50px'}"></p-column>
+        <p-column field="mdatos.nrequisito" header="Requisito"></p-column>
+        <p-column field="fechamaxentrega" header="F. máxima de entrega" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fechamaxentrega | date: 'yyyy-MM-dd hh:mm'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="fechaentrega" header="F. de entrega" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fechaentrega | date: 'yyyy-MM-dd hh:mm'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Entregado" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.entregado" binary="false"  [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Verificado" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.verificado" binary="false"  [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Obligatorio" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.mdatos.cobligatorio" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+              <span *ngIf="reg.crequisitohabilitante != undefined">
+                <button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload"></button>
+              </span>
+              <span *ngIf="reg.crequisitohabilitante != undefined && reg.cgesarchivo != undefined">
+                <button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download" style="margin-left:5px">
+                </button>
+              </span>
+              <span *ngIf="!(reg.crequisitohabilitante != undefined || reg.mdatos.cobligatorio)">
+                <button type="button" pButton (click)="RemoveFromList(reg)" icon="ui-icon-minus"></button>
+              </span>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistrosOpcional" [responsive]="true" scrollable="true" scrollHeight="350px" [immutable]=false>
+        <p-header>
+          <div class="ui-table-title">Requisitos Habilitantes Opcionales</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.nfase" header="Fase" [style]="{'width':'50px'}"></p-column>
+        <p-column field="mdatos.nrequisito" header="Requisito"></p-column>
+        <p-column [style]="{'width':'40px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <span>
+                <button type="button" pButton icon="ui-icon-add" (click)="AddToList(reg)"></button>
+              </span>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Requisito Habilitante" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="crequisitohabilitante" class="ui-outputlabel">Código</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+            <input type="text" pInputText id="crequisitohabilitante" name="crequisitohabilitante" [(ngModel)]="registro.crequisitohabilitante"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fechamaxentrega" class="ui-outputlabel required">Fecha máxima de entrega</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+
+
+            <p-calendar name="fechamaxentrega" [(ngModel)]="registro.fechamaxentrega" [showIcon]="true" [dateFormat]="formatofecha" [readonlyInput]="true"
+              appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required [disabled]="!editable"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fechaentrega" class="ui-outputlabel">Fecha de entrega</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+          
+              <p-calendar name="fechaentrega" [(ngModel)]="registro.fechaentrega" [showIcon]="true" [dateFormat]="formatofecha" [readonlyInput]="true"
+              appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required [disabled]="!editable"></p-calendar>
+    
+            </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="entregado" class="ui-outputlabel">Entregado</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+            <p-checkbox id="entregado" name="entregado" [(ngModel)]="registro.entregado" binary="true"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="verificado" class="ui-outputlabel">Verificado</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+            <p-checkbox id="verificado" name="verificado" [(ngModel)]="registro.verificado" binary="true" [disabled]="!registro.entregado"
+              (ngModelChange)="verificar()"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="descripcion" class="ui-outputlabel required">Comentario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="300"
+              rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,104 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcpersona" class="ui-outputlabel required">Persona</label>
+			</div>
+
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+				/>
+			</div>
+
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="false" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Observaciones</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ccodigo" header="Código" [style]="{'width':'60px'}"></p-column>
+				<p-column field="descripcion" header="Descripción"></p-column>
+				<p-column field="corden" header="Orden" [style]="{'width':'80px'}"></p-column>
+				<p-column header="Fecha Orden" styleClass="f-center" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					  {{reg.forden | SoloFechaPipe}}
+					</ng-template>
+				  </p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Observación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"  
+ [positionTop]="150">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="fcorden" class="ui-outputlabel required">Número Orden:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="corden" name="corden" [(ngModel)]="registro.corden" autofoco required [disabled]="!editable && !registro.esnuevo"
+						 entero maxlength="8" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+					  <label for="fforden" class="ui-outputlabel required">Fecha Orden:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+					  <p-calendar id="forden" name="forden" [maxDate]="fechaactual" [(ngModel)]="registro.forden" [showIcon]="true" [locale]="es"
+					  [disabled]="!editable && !registro.esnuevo" required [dateFormat]="formatofecha" [monthNavigator]="true" appendTo="body"
+						[yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+					</div>
+				  </div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="fdescripcion" class="ui-outputlabel required">Descripción:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+						 maxlength="250" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

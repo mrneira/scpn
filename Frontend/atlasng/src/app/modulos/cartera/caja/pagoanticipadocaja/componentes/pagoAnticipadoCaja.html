@@ -1,0 +1,39 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+
+
+
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="solicitud" class="ui-outputlabel">Operación:</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="solicitud" name="solicitud" maxlength="10" entero [(ngModel)]="mcampos.coperacion" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+  </div>
+</form>

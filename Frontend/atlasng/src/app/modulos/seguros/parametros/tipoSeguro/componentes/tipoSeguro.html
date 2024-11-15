@@ -1,0 +1,140 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcestatus" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcestatus" name="fcestado" [(ngModel)]="mfiltros.ctiposeguro" autofoco mayusculas maxlength="3" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Tipo Seguro</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="mdatos.nsaldo" header="Rubro"></p-column>
+        <p-column field="mdatos.nsaldocxc" header="Rubro"></p-column>
+        <p-column header="Prendario" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.seguroprendario" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Hipotecario" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.segurohipotecario" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Tasa" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.tasa | number:'1.6-6'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-saldo #saldoingreso (eventoCliente)=fijarLovSaldoSelec($event)></app-lov-saldo>
+<app-lov-saldo #saldoxcobrar (eventoCliente)=fijarLovSaldoSelecCxC($event)></app-lov-saldo>
+
+<p-dialog header="Tipo Seguro" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoTipo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="nombre " class="ui-outputlabel required ">Tipo Seguro</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-radioButton name="tiposeguro" value="true" label="Prendario" [(ngModel)]="mcampos.valorseguro" [disabled]="!editable || !registro.esnuevo"></p-radioButton>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-radioButton name="tiposeguro" value="false" label="Hipotecario" [(ngModel)]="mcampos.valorseguro" [disabled]="!editable || !registro.esnuevo"></p-radioButton>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="pkcsaldo " class="ui-outputlabel required ">Rubro ingreso</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="pkcsaldo " name="pkcsaldo " type="text " pInputText [(ngModel)]="registro.csaldo" required [disabled]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-6">
+            <input type="text " pInputText id="nsaldo" name="nsaldo" [(ngModel)]="registro.mdatos.nsaldo" [disabled]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type=" button" id="lovsaldo" name="lovsaldo" (click)="mostrarlovsaldo()" icon="ui-icon-directions" [disabled]="!registro.esnuevo"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="pkcsaldocxc" class="ui-outputlabel required">Rubro por cobrar</label>
+          </div>
+          <div class="ui-g-2 ui-md-2 ">
+            <input id="pkcsaldocxc" name="pkcsaldocxc" type="text" pInputText [(ngModel)]="registro.csaldocxc" required [disabled]="true"
+            />
+          </div>
+          <div class="ui-g-9 ui-md-6">
+            <input type="text" pInputText id="nsaldocxc" name="nsaldocxc" [(ngModel)]="registro.mdatos.nsaldocxc" [disabled]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovsaldocxc" name="lovsaldocxc" (click)="mostrarlovsaldoCxC()" icon="ui-icon-directions"
+              [disabled]="!registro.esnuevo"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="nombre " class="ui-outputlabel required ">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ">
+            <input type="text " pInputText id="nombre " name="nombre " [(ngModel)]="registro.nombre
+              " required mayusculas maxlength="60 " [disabled]="!editable && !registro.esnuevo " />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="nombre " class="ui-outputlabel required ">Tasa</label>
+          </div>
+          <div class="ui-g-12 ui-md-2 ">
+            <input type="text " pInputText id="clegal " name="clegal " [(ngModel)]="registro.tasa " numeroDecimal7 maxlength="10" required
+              [disabled]="!editable && !registro.esnuevo " />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoTipo " [componente]="componentehijo "></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

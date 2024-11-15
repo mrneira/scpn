@@ -1,0 +1,294 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+	
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+
+			<p-dataTable [value]="lregistros" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+				<p-header>
+					<div class="ui-table-title">Inversiones Enviadas</div>
+
+				</p-header>
+
+				<p-column field="femision" header="F.Emisión" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+				<p-column field="mdatos.nEmisor" header="Emisor" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nInstrumento" header="Instrumento" [style]="{'width':'60px'}"></p-column>
+
+				<p-column header="V.Efectivo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.valorefectivo | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Transcurrido" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.interestranscurrido | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Subtotal" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nsubtotal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="cinversion" header="Id. Inv." [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+				<p-column [style]="{'width':'40px'}">
+					<ng-template pTemplate="body" let-row="rowData" let-index="rowIndex">
+						<button pButton type="button" (click)="edit(row,index)" icon="ui-icon-add"></button>
+					</ng-template>
+				</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>DETALLE DEL PAGO</span>
+			</div>
+			<hr />
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="idinversion" class="ui-outputlabel">Id. Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="idinversion" name="idinversion" type="text" pInputText [(ngModel)]="this.mCinversion" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="vefectivo" class="ui-outputlabel">Valor Efectivo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="vefectivo" name="vefectivo" type="text" pInputText [(ngModel)]="this.mValorEfectivo" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="memisorNombre" class="ui-outputlabel">Emisor</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="memisorNombre" name="memisorNombre" type="text" pInputText [(ngModel)]="this.mEmisorNombre" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="interesinversion" class="ui-outputlabel">Interés</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="interesinversion" name="interesinversion" type="text" pInputText [(ngModel)]="this.mInteresInversion" numero readonly
+				 class="f-bold" style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="minstrumentoNombre" class="ui-outputlabel">Instrumento</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="minstrumentoNombre" name="minstrumentoNombre" type="text" pInputText [(ngModel)]="this.mInstrumentoNombre" readonly
+				 class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="totalinversion" class="ui-outputlabel">TOTAL DE DESEMBOLSO</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-2 ui-md-2">
+				<input id="totalinversion" name="totalinversion" type="text" pInputText [(ngModel)]="this.mSubtotal" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="femisioninversion" class="ui-outputlabel">Fecha de Emisión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="femisioninversion" name="femisioninversion" type="text" pInputText [(ngModel)]="this.mFEmisionNum" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="cbolsa" class="ui-outputlabel">Comisión Bolsa</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cbolsa" name="cbolsa" type="text" pInputText [(ngModel)]="this.mcomisionBolsa" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="coperador" class="ui-outputlabel">Comisión Operador</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="coperador" name="coperador" type="text" pInputText [(ngModel)]="this.mcomisionOperador" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="tcomisiones" class="ui-outputlabel">TOTAL DE COMISIONES</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-2 ui-md-2">
+				<input id="tcomisiones" name="tcomisiones" type="text" pInputText [(ngModel)]="this.mcomisionBolsa + this.mcomisionOperador"
+				 numero readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="cretencion" class="ui-outputlabel">Retención en la Fuente</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cretencion" name="cretencion" type="text" pInputText [(ngModel)]="this.mRetencion" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="tretencion" class="ui-outputlabel">TOTAL DE RETENCIONES</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-2 ui-md-2">
+				<input id="tretencion" name="tretencion" type="text" pInputText [(ngModel)]="this.mRetencion" numero readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="total" class="ui-outputlabel">TOTAL</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-2 ui-md-2">
+				<input id="total" name="total" type="text" pInputText [(ngModel)]="this.mSubtotal + this.mcomisionBolsa + this.mcomisionOperador - this.mRetencion"
+				 numero readonly class="f-bold" style="font-size:14px" />
+			</div>
+
+		</div>
+
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="comentariosing" class="ui-outputlabel">Comentarios de la solicitud de pago</label>
+			</div>
+
+			<div class="ui-g-2 ui-md-8">
+				<input id="comentariosing" name="comentariosing" type="text" pInputText [(ngModel)]="this.mComentarioPago" class="f-bold"
+				 style="font-size:13px" [disabled]="true" />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="comentariosapr" class="ui-outputlabel">Comentarios para el pago</label>
+			</div>
+
+			<div class="ui-g-2 ui-md-8">
+				<input id="comentariosapr" name="comentariosapr" type="text" pInputText [(ngModel)]="this.mComentario" class="f-bold" style="font-size:13px"
+				 [disabled]="estaVacio(this.mCinversion)" mayusculas />
+			</div>
+
+
+
+		</div>
+
+		
+
+
+
+
+	</form>
+
+
+
+
+</form>
+<div class="ui-helper-clearfix" style="width: 100%" *ngIf="!estaVacio(this.mCinversion)">
+
+	<button type="button" pButton icon="ui-icon-cancel" (click)="cancelarPago()" label="Cancelar" class="f-btn f-float-left orange-btn"
+	 [disabled]="false"></button>
+
+	<button type="button" pButton icon="ui-icon-directions" (click)="enviar()" label="Devolver" class="f-btn f-float-left orange-btn"
+	 [disabled]="false"></button>
+
+
+
+
+
+</div>
+
+<app-lov-comentarios (eventoCliente)=fijarLovComentario($event)></app-lov-comentarios>

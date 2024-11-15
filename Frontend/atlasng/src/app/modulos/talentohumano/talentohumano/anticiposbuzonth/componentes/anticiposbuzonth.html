@@ -1,0 +1,523 @@
+<div class="f-contenedor-transaccion">
+   <div class="f-acciones-cabecera ui-g ui-fluid">
+      <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+   
+   </div>
+   <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+      <div class="ui-g-12 ui-g-nopad">
+         <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel required">Fecha Desde:</label>
+         </div>
+         <div class="ui-g-12 ui-md-2">
+            <p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" required [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+         </div>
+         <div class="ui-g-12 ui-md-2">
+            <label for="ffin" class="ui-outputlabel required">Fecha Hasta:</label>
+         </div>
+         <div class="ui-g-12 ui-md-2">
+            <p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" required [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+         </div>
+
+      </div>
+
+ <div class="ui-g-12 ui-g-nopad">
+   <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel">Estado:</label>
+         </div>
+
+         <div class="ui-g-12 ui-md-2">
+         <p-dropdown id="fpkcestado" name="fpkcestado" [options]="lEstados" [(ngModel)]="mcampos.estado" [filter]="true"></p-dropdown>
+      </div>
+   </div>
+   <div class="ui-g-12 ui-g-nopad">
+         <div class="ui-g-6 ui-md-4">
+            <button pButton type="button" name="cargar" id="cargar" label="Buscar" class="f-btn orange-btn" icon="ui-icon-search"
+               (click)="consultarSolicitud()" [disabled]="!formFiltros.valid"></button>
+
+               <button pButton type="button" name="recargar" id="recargar" label="Limpiar" style="margin-bottom:10px" class="f-btn green-btn"
+               pTooltip="Limpiar" tooltipPosition="top" icon="ui-icon-update" (click)="recargarSolicitud()"> </button>
+
+         </div>
+      </div>
+   </form>
+   <p-fieldset legend="SOLICITUDES INGRESADAS" [toggleable]="false">
+      <div class="f-datacontent ui-g ui-fluid">
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="f-contenedor-transaccion">
+               <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-12">
+                     <p-dataTable #dtMB [(value)]="lSolicitudAnticipo" 
+                     [responsive]="true" [scrollable]="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+                     <p-header>
+                        <div class="ui-table-title ui-md-2">SOLICITUDES</div>
+                     </p-header>
+
+                     <p-column field="antfecha" header="N°. SOLICITUD"  [style]="{'text-align':'center','width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{reg.cantsolicitud }}
+                           </div>
+                        </ng-template>
+                     </p-column>
+
+                     <p-column field="antfecha" header="FECHA"  [style]="{'text-align':'center','width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{reg.antfecha | date: 'dd-MM-yyyy'}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="nfuncionario" header="SOLICITANTE" >
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.nfuncionario}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="monto" header="MONTO" styleClass="f-right"  [style]="{'width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.antmontosolicitado | number: '1.2-2'}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="antestado" header="ESTADO"  [style]="{'text-align':'center','width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <!--  <div class="ui-grid-row" [ngSwitch]="reg.antestado">
+                              <div *ngSwitchCase="'APR'">APROBADA</div>
+                              <div *ngSwitchCase="'NEG'">NEGADA</div>
+                              <div *ngSwitchDefault>INGRESADA</div>
+                              </div> -->
+                           <div class="ui-grid-row" [ngSwitch]="reg.antestado">
+                              <div *ngSwitchCase="'APR'"><span style="color: white; text-decoration:blink;background-color: green;padding: 2px;"><b>APROBADA</b></span></div>
+                              <div *ngSwitchCase="'NEG'"><span style="color: white; text-decoration:blink;background-color: red;padding: 2px;"><b>NEGADA</b></span></div>
+                              <div *ngSwitchDefault><span style="color: black; text-decoration:blink;background-color: orange;padding: 2px;"><b>INGRESADA</b></span></div>
+                           </div>
+                        </ng-template>
+                     </p-column>
+
+
+                     <p-column field="aprobar" header="IMPRIMIR"  [style]="{'text-align':'center','width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <button *ngIf="reg.antestado != 'NEG'" type="button"  pButton icon="ui-icon-print" name="btnpdf" (click)="ImprimirSolicitud(reg)"
+                           class="f-btn green-btn"     pTooltip="Imprimir Formularios" tooltipPosition="top"></button>  
+                                 
+                                 
+                                
+
+                        </ng-template>
+                     </p-column>
+
+
+
+                     <p-column field="aprobar" header="PROCESAR"  [style]="{'text-align':'center','width':'90px'}">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div *ngIf="reg.antestado == 'ING'; else divVista">
+                              <button type="button"  pButton icon="ui-icon-edit" name="btnpdf" (click)="verDialogoSolicitud(reg)"
+                                 pTooltip="Editar" tooltipPosition="top"></button>
+                           </div>
+                           <ng-template #divVista>
+                              <button type="button" class="orange-btn"  pButton icon="ui-icon-info" name="btnpdf" (click)="verDialogoSolicitud(reg)"
+                                 pTooltip="Ver" tooltipPosition="top"></button>
+                           </ng-template>
+                        </ng-template>
+                     </p-column>
+                                         <p-footerColumnGroup style="color:blue;" *ngIf="totalRegistros > 0">
+                        <p-row>
+                           <p-column footer="TOTAL REGISTROS" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                           <p-column [footer]="totalRegistros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                        </p-row>
+                        </p-footerColumnGroup> 
+                     </p-dataTable>
+
+
+               
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </p-fieldset>
+</div>
+<p-dialog  header="Solicitud No. {{cantsolicitud}}" [(visible)]="mostrarDialogoSolicitud" [modal]="true" showEffect="fade" [responsive]="true"
+[closable]="true" [positionTop]="120" (onHide)="cerrarDialogoSolicitud()" class="ui-outputlabel f-bold">
+<form #formDialogo="ngForm">
+   <div class="f-dialogo" style="max-width: 900px">
+      <p-fieldset legend="DATOS GENERALES" [toggleable]="false">
+         <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+               <div class="f-contenedor-transaccion">
+                  <div class="f-datacontent ui-g ui-fluid">
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="fsolicitud" class="ui-outputlabel">Fecha de Solicitud:</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{antfecha | date:'yyyy/MM/dd hh:MM'}} 
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="documento" class="ui-outputlabel">Estado</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           <div class="ui-grid-row" [ngSwitch]="antestado">
+                              <div *ngSwitchCase="'APROBADA'"><span style="color: white; text-decoration:blink;background-color: green;padding: 2px;"><b>{{ antestado }}</b></span></div>
+                              <div *ngSwitchCase="'NEGADA'"><span style="color: white; text-decoration:blink;background-color: red;padding: 2px;"><b>{{ antestado }}</b></span></div>
+                              <div *ngSwitchDefault><span style="color: black; text-decoration:blink;background-color: orange;padding: 2px;"><b>{{ antestado }}</b></span></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-6 ui-md-4">
+                           <label for="cfuncionario" class="ui-outputlabel">Funcionario</label>
+                        </div>
+                        <div class="ui-g-6 ui-md-8">
+                           {{ nfuncionario }}
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="documento" class="ui-outputlabel">Número de cédula</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{ documento }}
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-6 ui-md-4">
+                           <label for="ccargo" class="ui-outputlabel">Cargo</label>
+                        </div>
+                        <div class="ui-g-6 ui-md-8">
+                           {{ ncargo }} 
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="ctiporelacionlaboral" class="ui-outputlabel">Tipo de Relación Laboral</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{ntiporelacionlaboral}}
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="fvinculacion" class="ui-outputlabel">Fecha de Vinculación:</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{fvinculacion | date:'yyyy/MM/dd hh:MM'}} 
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="tiempovinculacion" class="ui-outputlabel">Tiempo de vinculación</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{tiempovinculacion}}
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-6 ui-md-4">
+                           <label for="cgrupo" class="ui-outputlabel ">Grupo Ocupacional:</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{ngrupo}}                     
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="remuneracion" class="ui-outputlabel">Remuneración</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           {{ remuneracion | number: '1.2-2'}}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+      <p-fieldset legend="ANÁLISIS ECONÓMICO" [toggleable]="false">
+         <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+               <div class="f-contenedor-transaccion">
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-12 ui-md-12">
+                        <p-dataTable #dtMB [(value)]="lCapacidadEndeudamiento" 
+                        [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+                        <p-column field="nombredescuento" header="DESCRIPCIÓN ENDEUDAMIENTO" >
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.nombredescuento}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="valor" header="VALOR" styleClass="f-right">
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.valor | number: '1.2-2'}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-footerColumnGroup style="color:blue;">
+                           <p-row>
+                              <p-column footer="TOTAL" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                              <p-column [footer]="totalEndeudamiento| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                           </p-row>
+                        </p-footerColumnGroup>
+                        </p-dataTable>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+      <p-fieldset legend="INFORMACIÓN DEL GARANTE" [toggleable]="false">
+         <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+               <div class="f-contenedor-transaccion">
+                  <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-6 ui-g-nopad">
+                    
+                        <div class="ui-g-6 ui-md-4">
+                           <label for="tiempovinculacion" class="ui-outputlabel">Garante</label>
+                        </div>
+                        <div class="ui-g-6 ui-md-8">
+                           {{garnfuncionario}}
+                        </div>
+                     </div>
+                  </div>
+                     
+                
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-6 ui-md-4">
+                        <label for="ccargogarante" class="ui-outputlabel">Cargo</label>
+                     </div>
+                     <div class="ui-g-6 ui-md-8">
+                        {{ncargogarante}}
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="ctiporelacionlaboralgarante" class="ui-outputlabel">Tipo de Relación Laboral</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">
+                        {{ntiporelacionlaboralgarante}}
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="fvinculaciongarante" class="ui-outputlabel">Fecha de Vinculación:</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">
+                        {{fvinculaciongarante | date:'yyyy/MM/dd hh:MM'}} 
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="tiempovinculaciongarante" class="ui-outputlabel">Tiempo de vinculación</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">
+                        {{tiempovinculaciongarante}}
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-6 ui-md-4">
+                        <label for="cgrupogarante" class="ui-outputlabel ">Grupo Ocupacional:</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">
+                        {{ngrupogarante}}
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="remuneraciongarante" class="ui-outputlabel">Remuneración</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">                  
+                        {{ remuneraciongarante | number: '1.2-2'}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+      <p-fieldset legend="DATOS DEL ANTICIPO" [toggleable]="false">
+         <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+               <div class="f-contenedor-transaccion">
+                  <div class="ui-g-4 ui-g-nopad">
+                     <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-7">
+                           <label for="montomaximo" class="ui-outputlabel f-bold">Monto máximo a otorgar</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-5" >
+                           {{ montomaximo | number: '1.2-2'}}
+                        </div>
+                     </div>
+                     <h3>
+                        <div class="ui-g-12 ui-g-nopad">
+                           <div class="ui-g-3 ui-md-7">
+                              <label for="montosolicitado" class="ui-outputlabel f-bold">Monto solicitado</label>
+                           </div>
+                           <div class="ui-g-3 ui-md-5 f-bold">
+                              {{ antmontosolicitado | number: '1.2-2'}}
+                           </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                           <div class="ui-g-3 ui-md-7">
+                              <label for="plazo" class="ui-outputlabel f-bold">Plazo (meses)</label>
+                           </div>
+                           <div class="ui-g-3 ui-md-5  f-bold">
+                              {{antplazo}}
+                           </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                           <div class="ui-g-12 ui-md-7">
+                              <label for="estado" class="ui-outputlabel f-bold">Diciembre cuota del 70% ?</label>
+                           </div>
+                           <div class="ui-g-12 ui-md-5 f-bold">
+                              <ng-template [ngIf]="anttipodescuento" [ngIfElse]="loggedOut">
+                              <div>
+                                 SI
+                              </div>
+                              </ng-template>
+                              <ng-template #loggedOut>
+                                 <div>
+                                    NO
+                                 </div>
+                              </ng-template>
+                           </div>
+                        </div>
+                     </h3>
+                  </div>
+                  <div class="ui-g-8 ui-g-nopad">
+                     <div class="ui-g-12 ui-md-12" >
+                        <p-dataTable #dtMB [(value)]="lTablaCuota"  
+                        [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+                       <!--  <p-header>
+                           <div class="ui-table-title ui-md-2">CUOTAS</div>
+                        </p-header> -->
+                        <p-column field="idcuota" header="# CUOTA" >
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.idcuota}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="finicio" header="INICIO" styleClass="f-right">
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.finicio }}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="fvencimiento" header="VENCIMIENTO" styleClass="f-right">
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.fvencimiento }}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="mescuota" header="MES" >
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.mescuota}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="valorcuota" header="VALOR" styleClass="f-right">
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.valorcuota | number: '1.2-2'}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="capitalreducido" header="CAP.REDUC." styleClass="f-right">
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.capitalreducido | number: '1.2-2'}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <p-column field="cestatus" header="ESTADO" >
+                           <ng-template pTemplate="body" let-reg="rowData">
+                              <div class="ui-grid-row">
+                                 {{ reg.cestatus}}
+                              </div>
+                           </ng-template>
+                        </p-column>
+                        <!-- <p-footerColumnGroup style="color:blue;">
+                           <p-row>
+                              <p-column footer="TOTAL" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                              <p-column [footer]="totalCuotas| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                           </p-row>
+                           </p-footerColumnGroup> -->
+                        </p-dataTable>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+      <p-fieldset legend="RESPUESTA" [toggleable]="false" *ngIf="antestado == 'INGRESADA'">
+      <div class="f-contenedor-transaccion">
+         <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+               <h3>
+                  <div class="ui-g-3 ui-md-3">
+                     <label for="fsolicitud" class="ui-outputlabel f-bold required">La solicitud será:</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-9">
+                     <p-radioButton name="group1" value="APR" label="APROBADA" [(ngModel)]="selectedvalue" inputId="opt1" required></p-radioButton>
+                     <p-radioButton name="group1" value="NEG" label="NEGADA" [(ngModel)]="selectedvalue" inputId="opt2" required></p-radioButton>                     
+                  </div>
+               </h3>
+            </div>
+         </div>
+      </div>
+      </p-fieldset>    
+      <p-fieldset legend="OBSERVACIONES" [toggleable]="false">
+         <div class="f-contenedor-transaccion">
+            <div class="f-datacontent ui-g ui-fluid">
+               <div class="ui-g-12 ui-g-nopad">
+
+                  <div class="ui-g-3 ui-md-3">
+                     <label for="fsolicitud" class="ui-outputlabel f-bold required">Ingrese las observaciones:</label>
+                  </div>
+
+                  <div class="ui-g-3 ui-md-9">
+                     <textarea pInputText id="antcomentario" name="antcomentario" [(ngModel)]="antcomentario" required mayusculas
+                     maxlength="500" rows="1" [disabled]="antestado != 'INGRESADA'"></textarea>
+                  </div>
+
+
+                 
+
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+      <footer>
+         <hr>
+         <div class="ui-g-6 ui-g-nopad">
+            <button type="button" [disabled]="!formDialogo.valid" *ngIf="antestado == 'INGRESADA'" pButton icon="ui-icon-save" (click)="guardarDialogoSolicitud()" label="Guardar" class="f-btn green-btn"
+            style="margin-left:5px">
+            </button>
+            <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoSolicitud()" label="Cerrar" class="orange-btn"
+               style="margin-left:5px">
+            </button>
+         </div>
+      </footer>
+   </div>
+</form>
+
+
+
+</p-dialog>
+
+<div class="ui-g-12" style='display:none'>
+   <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+</div>

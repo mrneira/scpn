@@ -1,0 +1,133 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-3 ui-md-3">
+			<label for="ccargoFiltro" class="ui-outputlabel">Código:</label>
+		</div>
+		<div class="ui-g-9 ui-md-9">
+			<input type="text" pInputText id="ccargoFiltro" name="ccargoFiltro" [(ngModel)]="mfiltros.ccargo" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-3 ui-md-3">
+			<label for="cdepartamento" class="ui-outputlabel">Nombre:</label>
+		</div>
+		<div class="ui-g-9 ui-md-9">
+			<input type="text" pInputText id="nombreFiltro" name="nombreFiltro" [(ngModel)]="mfiltros.nombre" />
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="cdepartamento" class="ui-outputlabel required">Departamento</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cdepartamento" name="cdepartamento" type="text" pInputText [(ngModel)]="mfiltros.cdepartamento" required [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-9 ui-md-7">
+				<input type="text" pInputText id="ndepartamento" name="ndepartamento" [(ngModel)]="mcampos.ndepartamento" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovDepartamentos" name="lovDepartamentos" (click)="mostrarLovDepartamentos()" icon="ui-icon-directions"></button>
+			</div>
+
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Cargos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ccargo" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="mdatos.nrol" header="Rol"></p-column>
+				<p-column field="mdatos.ndepartamento" header="Departamento"></p-column>
+				
+				<p-column header="Activo" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Cargo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="20"
+ width="900">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-1 ui-md-1">
+						<label for="ccargo" class="ui-outputlabel">Código</label>
+					</div>
+					<div class="ui-g-11 ui-md-11">
+						<input type="text" pInputText id="ccargo" name="ccargo" [(ngModel)]="registro.ccargo" [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-1 ui-md-1">
+						<label for="nombre" class="ui-outputlabel required">Nombre</label>
+					</div>
+					<div class="ui-g-11 ui-md-11">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" [disabled]="!editable" mayusculas maxlength="120"
+						 required/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+					  <label for="mescdetalle" class="ui-outputlabel required">Tipo Rol:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+					  <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lrol" [(ngModel)]="registro.rolcdetalle" required [filter]="true"
+						[disabled]="!editable" (onChange)="registrarEtiqueta(registro, lrol, 'rolcdetalle', 'nrol')"></p-dropdown>
+					</div>
+				  </div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-1 ui-md-1">
+						<label for="activo" class="ui-outputlabel">Activo?</label>
+					</div>
+					<div class="ui-g-11 ui-md-11">
+						<p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="true" [disabled]="!editable"></p-checkbox>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-1 ui-md-12">
+						<label for="funciones" class="ui-outputlabel required">Funciones</label>
+					</div>
+					<div class="ui-g-11 ui-md-12">
+						<p-editor id="funciones" name="funciones" [(ngModel)]="registro.funciones" [style]="{'height':'360px'}" maxlength="2000"
+						 required></p-editor>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>
+<app-lov-tth-departamentos (eventoCliente)=fijarLovDepartamentos($event)></app-lov-tth-departamentos>

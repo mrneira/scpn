@@ -1,0 +1,21 @@
+<p-dialog header="Lista de socios" [(visible)]="displayLov" width="600" showEffect="fade" [responsive]="true" [positionTop]="120" >
+	
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+	
+	</form>
+	
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true" scrollHeight="250px">
+		          <p-header>
+		          		<div class="ui-table-title">Socios</div>
+		          		<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		          </p-header>            
+		          <p-column field="cpersona" header="Código" [style]="{'width':'110px'}"></p-column>
+		          <p-column field="mdatos.npersona" header="Apellidos/Nombres"></p-column>
+			
+	        </p-dataTable>
+		</div>
+	</div>
+</p-dialog>
+

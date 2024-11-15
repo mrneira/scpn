@@ -1,0 +1,118 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="codigo" class="ui-outputlabel required">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mfiltros.codigo" [readOnly]="true"/>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input type="text" pInputText id="cproducto" name="cproducto" [(ngModel)]="mfiltros.cproducto" [readOnly]="true" hidden="true" />
+			</div>
+
+			<div class="ui-g-12 ui-md-5">
+				<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nproducto" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovproductos()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-productos (eventoCliente)=fijarLovProductosSelec($event)></app-lov-productos>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">Historial de Depreciación</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+							<div class="f-acciones-cab-tabla">
+								<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+								  style="text-align:center">
+								</button>
+								<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+								  style="text-align:center">
+								</button>
+							  </div>
+							<div class="f-acciones-cab-tabla" style='display:none'>
+								<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+							</div>
+						</p-header>
+						<p-column field="fingreso" header="Fecha" [style]="{'width':'50px'}">
+							<ng-template  pTemplate="body" let-reg="rowData">
+								<span>{{reg.fingreso | date: 'yyyy-MM-dd hh:mm:ss'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="anio" header="Año" [style]="{'width':'30px'}" styleClass="f-center"></p-column>
+						<p-column field="mes" header="Mes" [style]="{'width':'30px'}" styleClass="f-center"></p-column>
+						<p-column field="valordepreciable" header="V. Depreciación Anual" [style]="{'width':'40px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.valordepreciable | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="valorlibros" header="V. Libros" [style]="{'width':'40px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.valorlibros | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="infoadicional" header="Info Adicional" [style]="{'width':'50px'}" styleClass="f-right"></p-column>
+						<p-column field="comentario" header="Comentario" [style]="{'width':'50px'}" styleClass="f-right"></p-column>
+						<p-column field="infoadicional" header="Info Auditoria" [style]="{'width':'60px'}" styleClass="f-center">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<div class="f-table-actions">
+									<button type="button" pButton icon="ui-icon-delete-forever" (click)="consultarInfo(reg)" icon="ui-icon-search" style="margin-left:5px">
+						  			</button>
+								</div>
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</form>
+<p-dialog header="Información Auditoria" [(visible)]="comportamiento" modal="modal" width="300" [responsive]="true">
+
+	<div class="ui-g-12 ui-md-9 reg-details">
+			<div class="ui-g">
+					<div class="ui-g-2 ui-sm-6">Usuario Ingreso: </div>
+					<div class="ui-g-12 ui-sm-6">{{mcampos.cusuarioing}}</div>
+
+					<div class="ui-g-2 ui-sm-6">Fecha Ingreso: </div>
+					<div class="ui-g-12 ui-sm-6">{{mcampos.fingreso | date: 'yyyy-MM-dd hh:mm:ss'}}</div>
+
+					<div class="ui-g-2 ui-sm-6">Usuario Modificación: </div>
+					<div class="ui-g-12 ui-sm-6">{{mcampos.cusuariomod}}</div>
+
+					<div class="ui-g-2 ui-sm-6">Fecha Modificación: </div>
+					<div class="ui-g-12 ui-sm-6">{{mcampos.fmodificacion | date: 'yyyy-MM-dd hh:mm:ss'}}</div>
+					
+			</div>
+	</div>
+
+<p-footer>
+	<button type="button" pButton icon="fa-check" (click)="comportamiento=false" label="Aceptar"></button>
+</p-footer>
+</p-dialog>

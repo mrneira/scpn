@@ -1,0 +1,29 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fpk" class="ui-outputlabel required">Catálogo</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="fccatalogo" name="fccatalogo" type="text" pInputText [(ngModel)]="mcampos.ccatalogo" required [disabled]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="fncatalogo" name="fncatalogo" [(ngModel)]="mcampos.ncatalogo" [disabled]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <button pButton type="button" id="lovcatalogos" name="lovcatalogos" (click)="mostrarLovCatalogos()" icon="ui-icon-directions">
+      </button>
+    </div>
+    <app-lov-catalogos (eventoCliente)=fijarLovCatalogosSelec($event)></app-lov-catalogos>
+  </div>
+</form>
+
+<app-catalogo-padre></app-catalogo-padre>
+
+<div class="separador-linea"></div>
+
+<app-catalogo-detalle></app-catalogo-detalle>

@@ -1,0 +1,142 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px"  selectionMode="single" (onRowSelect)="seleccionaRegistro($event)">
+        <p-header>
+          <div class="ui-table-title">Experiencia Laboral</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cexperiencia" header="C&oacute;digo" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="empresa" header="Empresa" ></p-column>
+        <p-column field="puesto" header="Puesto" ></p-column>
+        <p-column header="F. Ingreso" [style]="{'width':'75px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData" styleClass="f-center">
+            {{reg.fingreso | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column header="F. Salida" [style]="{'width':'75px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fsalida | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column field="motivosalida" header="Motivo Salida" [style]="{'width':'100px'}"></p-column>
+        <p-column field="funciones" header="Funciones" [style]="{'width':'100px'}" styleClass="f-center"></p-column>
+        <p-column field="telefonoempresa" header="Teléfono" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+
+</div>
+
+
+
+<p-dialog header="Experiencia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cexperiencia" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="cexperiencia" name="cexperiencia" [(ngModel)]="registro.cexperiencia" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="empresa" class="ui-outputlabel required">Empresa:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="empresa" name="empresa" [(ngModel)]="registro.empresa" required mayusculas maxlength="120"
+              rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="puesto" class="ui-outputlabel required">Puesto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="nombre" name="puesto" [(ngModel)]="registro.puesto" required mayusculas maxlength="60"
+              rows="1" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-calendar name="finicio" [(ngModel)]="registro.fingreso" [showIcon]="true" [dateFormat]="formatofecha" (ngModelChange)="validarFecha()"
+              [readonlyInput]="true" appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required
+              [disabled]="!editable"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-calendar name="ffin" [(ngModel)]="registro.fechafin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="mcampos.fmin"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(registro.fingreso) || !editable"
+              [readonlyInput]="true" required></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="motivosalida" class="ui-outputlabel required">Motivo Salida:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="motivosalida" name="motivosalida" [(ngModel)]="registro.motivosalida" required mayusculas
+              maxlength="100" rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="funciones" class="ui-outputlabel required">Funciones:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="funciones" name="funciones" [(ngModel)]="registro.funciones" required mayusculas
+              maxlength="200" rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="telefonoempresa" class="ui-outputlabel ">Teléfono:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+                <p-inputMask id="telefonoempresa" name="telefonoempresa" [(ngModel)]="registro.telefonoempresa"
+                       mask="(09)-999-9999"[disabled]="!editable"></p-inputMask>
+              </div>
+
+          </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog header="Experiencia" [(visible)]="mostrarExperiencia" [modal]="true" showEffect="fade" [responsive]="true"
+[positionTop]="60">
+
+</p-dialog>
+

@@ -1,0 +1,78 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cfuncionarioFilter" class="ui-outputlabel">Funcionario</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario"	
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="mcampos.nfuncionario"
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="departamento" class="ui-outputlabel">Departamento : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="departamento" name="Departamento" [options]="ldepartamento" [(ngModel)]="this.mfiltros.departamento"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="proceso" class="ui-outputlabel">Area : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="proceso" name="proceso" [options]="lproceso" [(ngModel)]="this.mfiltros.proceso"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="genero" class="ui-outputlabel">Genero : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="genero" name="genero" [options]="lgenero" [(ngModel)]="this.mfiltros.genero"></p-dropdown>
+			</div>
+		</div>
+	
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="gocupacional" class="ui-outputlabel">Grupo Ocupacional : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="gocupacional" name="gocupacional" [options]="lgocupacional" [(ngModel)]="this.mfiltros.gOcupacional"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="regimen" class="ui-outputlabel">Régimen : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="regimen" name="regimen" [options]="lregimen" [(ngModel)]="this.mfiltros.regimen"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="vinculacion" class="ui-outputlabel">Tipo Contrato : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="vinculacion" name="vinculacion" [options]="lvinculacion" [(ngModel)]="this.mfiltros.tipoContrato"></p-dropdown>
+			</div>
+		</div>
+
+
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

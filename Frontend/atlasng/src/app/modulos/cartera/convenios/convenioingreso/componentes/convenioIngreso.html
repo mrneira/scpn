@@ -1,0 +1,124 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Convenios</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="identificacion" header="Identificación" [style]="{'width':'90px'}"></p-column>
+        <p-column field="razonsocial" header="Razón Social"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Convenio" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas
+              maxlength="50" [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <p-fieldset legend="Datos Empresa">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="cdetalleidentificacion" class="ui-outputlabel required">Tipo identificación</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-dropdown id="cdetalleidentificacion" name="cdetalleidentificacion" [options]="ltipoidentificacion"
+                  [(ngModel)]="registro.cdetalleidentificacion" required autofoco></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Identificación:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.identificacion"
+                  required documento entero maxlength="13" minlength="10" [tipodocumento]="registro.cdetalleidentificacion" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Razón social:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input type="text" pInputText id="razonsocial" name="razonsocial" [(ngModel)]="registro.razonsocial"
+                  maxlength="300" mayusculas required />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Institución financiera:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="cdetalleinstitucion" name="cdetalleinstitucion" [options]="ltipoinstitucion"
+                  [(ngModel)]="registro.cdetalleinstitucion" required [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoinstitucion, 'cdetalleinstitucion', 'ntipoinstitucion')"
+                  appendTo="body"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Tipo de cuenta:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-dropdown id="cdetallecuenta" name="cdetallecuenta" [options]="ltipocuenta" [(ngModel)]="registro.cdetallecuenta"
+                  required [filter]="true" (onChange)="registrarEtiqueta(registro, ltipocuenta, 'cdetallecuenta', 'ntipocuenta')"
+                  appendTo="body"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Número de cuenta:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="numerocuenta" name="numerocuenta" [(ngModel)]="registro.numerocuenta"
+                  required entero maxlength="20" />
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

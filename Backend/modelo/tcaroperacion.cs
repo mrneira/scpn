@@ -72,6 +72,8 @@ namespace modelo
         public string coperacionarreglopago { get; set; }
         public string coperacionmigrada { get; set; }
         public string cusuarioaprobacion { get; set; }
+        public Nullable<int> numcuotaprorrateo { get; set; }
+        public Nullable<decimal> montoarreglopago { get; set; }
     
     [JsonIgnore]
     [IgnoreDataMember]

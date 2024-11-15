@@ -1,0 +1,30 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fcparticioncob" class="ui-outputlabel required">Mes de recaudación</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="fcparticioncob" name="fcparticioncob" required [options]="lparticioncob" [(ngModel)]="mcampos.particioncob" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+        <div style="text-align: center; background-color: #328cc1; width: 130px; margin: 0 auto; padding: 2em 0; border-radius: 5px; margin-top: 3em;">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir()" class="f-btn f-excel" style="text-align:center; background-color: #328cc1;"></button>
+            <div class="ui-g-12" style='display:none'>
+                <app-jasper #descuentos [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fctipobaja" class="ui-outputlabel required">Proveedores:</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fctipobaja" name="fctipobaja" type="text" pInputText [(ngModel)]="mfiltros.cpersona" required
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnnproveedor" name="fnnproveedor" [(ngModel)]="mcampos.nproveedor"
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovProveedor()"
+					icon="ui-icon-directions">
+				</button>
+			</div>
+
+		</div>
+	
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Tipo De Novedad Proveedores</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="mdatos.ntiponovedad" header="Nombre Tipo Novedad" [style]="{'width':'420px'}">
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+							class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+<app-lov-proveedores (eventoCliente)=fijarLovProveedoresSelec($event)></app-lov-proveedores>
+<p-dialog header="Tipo De Novedad Proveedores" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+	[positionTop]="150">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 500px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="pk" class="ui-outputlabel required">Cod Proveedor:</label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<input type="text" pInputText id="pk" name="pk" [(ngModel)]="registro.cpersona" autofoco
+							required maxlength="10" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tiponovedad" class="ui-outputlabel required">Tipo de Novedad </label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-dropdown id="idtiponovedad" required name="tiponovedad" [options]="ltiponovedad"
+							(onChange)="registrarEtiqueta(registro,ltiponovedad,'cdetallenovedad','ntiponovedad')"
+							[filter]="true" [(ngModel)]="registro.cdetallenovedad" appendTo="body"></p-dropdown>
+					</div>
+
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>RUBROS CONTABLES</span>
+					</div>
+					<hr />
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tiponovedad" class="ui-outputlabel required">Rubro valor </label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-dropdown id="rubrovalorcdetalle" required name="rubrovalorcdetalle" [options]="ltiponovedadvalor"
+							(onChange)="registrarEtiqueta(registro,ltiponovedadvalor,'rubrovalorcdetalle','nrubrovalor')"
+							[filter]="true" [(ngModel)]="registro.rubrovalorcdetalle" appendTo="body"></p-dropdown>
+					</div>
+		
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tiponovedad" class="ui-outputlabel required">Rubro Pago </label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-dropdown id="rubropagocdetalle" required name="rubropagocdetalle" [options]="ltiponovedadpago"
+							(onChange)="registrarEtiqueta(registro,ltiponovedadpago,'rubropagocdetalle','nrubropago')"
+							[filter]="true" [(ngModel)]="registro.rubropagocdetalle" appendTo="body"></p-dropdown>
+					</div>
+		
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

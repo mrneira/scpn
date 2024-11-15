@@ -1,0 +1,66 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="pkcusuario" class="ui-outputlabel required">Usuario Asignado</label>
+      </div>
+      <div class="ui-g-6 ui-md-1">
+        <input id="pkcusuario" name="pkcusuario" type="text" pInputText [(ngModel)]="mfiltros.cusuarioasignado" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-6 ui-md-4">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="persona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <button pButton type="button" id="lovusuariosregistro" name="lovusuariosregistro" (click)="mostrarLovUsuarios()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-usuarios #lovusuariosregistro (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="pkcusuariore" class="ui-outputlabel ">Reasignar Usuario</label>
+      </div>
+      <div class="ui-g-6 ui-md-1">
+        <input id="pkcusuariore" name="pkcusuariore" type="text" pInputText [(ngModel)]="mcampos.cusuarioreasignado" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-6 ui-md-4">
+        <input type="text" pInputText id="fnpersonare" name="fnpersonare" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <button pButton type="button" id="lovusuariosreasignadoregistro" name="lovusuariosreasignadoregistro" (click)="mostrarLovUsuariosReasignado()"
+          icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-usuarios #lovusuariosreasignadoregistro (eventoCliente)=fijarLovUsuariosReasignadosSelec($event)></app-lov-usuarios>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="coperacion" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Reasignación Cobranza</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'3px'}" selectionMode="multiple"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'20px'}"></p-column>
+        <p-column field="mdatos.npersonacob" header="Nombre" [style]="{'width':'90px'}"></p-column>
+        <p-column field="mdatos.nproducto" header="Producto" [style]="{'width':'105px'}"></p-column>
+        <p-column field="cuotasvencidas" header="Cuotas V" [style]="{'width':'40px'}"></p-column>
+        <p-column field="montovencido" header="Monto V" [style]="{'width':'40px'}"></p-column>
+        <p-column field="diasvencidos" header="Días V" [style]="{'width':'40px'}"></p-column>
+        <p-column field="fecha" header="Fecha Ingreso" [style]="{'width':'40px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div hidden="true" class="ui-g-12 ui-g-nopad">
+	<div class="ui-g-12" style="clear:both;float:right;width:150px">
+		<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+	</div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fpartida" class="ui-outputlabel required">Policía</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="registro.cpersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="nidentificacion" name="nidentificacion" [(ngModel)]="registro.mdatos.nidentificacion"
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="registro.mdatos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarlovpersonas()" icon="ui-icon-directions"></button>
+			<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fdevaporte" class="ui-outputlabel required">Fecha devolución</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="fdevaporte" name="fdevaporte" [(ngModel)]="registro.fdevaporte" [readOnly]="true" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="numerooficio" class="ui-outputlabel required">No. oficio</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="numerooficio" name="numerooficio" [(ngModel)]="registro.numerooficio" maxlength="50" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="numeromemo" class="ui-outputlabel required">No. memo</label>
+		</div>
+
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="numeromemo" name="numeromemo" [(ngModel)]="registro.numeromemo" maxlength="50" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="comentario" class="ui-outputlabel required">Comentario</label>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-9">
+			<textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas
+			 maxlength="2000" rows="5"></textarea>
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="vaportepatronal" class="ui-outputlabel">Valor aporte patronal</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="vaportepatronal" name="vaportepatronal" [(ngModel)]="registro.vaportepatronal"
+			 numeroPositivo maxlength="15" style="text-align:right" (ngModelChange)="cambiarMonto()" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="vaportepersonal" class="ui-outputlabel">Valor aporte personal</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="vaportepersonal" name="vaportepersonal" [(ngModel)]="registro.vaportepersonal"
+			 numeroPositivo maxlength="15" style="text-align:right" (ngModelChange)="cambiarMonto()" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="valortotal" class="ui-outputlabel">Valor Total</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="valortotal" name="valortotal" [(ngModel)]="registro.mdatos.valortotal"
+			 numeroPositivo maxlength="15" style="text-align:right" [readOnly]="true" />
+		</div>
+	</div>
+</div>

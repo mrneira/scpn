@@ -1,0 +1,13 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="mdatos.ntipodireccion" header="Tipo Dirección" [style]="{'width':'80px'}"></p-column>
+        <p-column field="direccion" header="Dirección"></p-column>
+        <p-column field="referencia" header="Referencia"></p-column>
+        <p-column field="telefonofijo" header="Teléfono fijo" [style]="{'width':'80px'}"></p-column>
+        <p-column field="celular" header="Teléfono Celular" [style]="{'width':'80px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcompania" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fcompania" name="fcompania" [(ngModel)]="mfiltros.ccompania" entero autofoco maxlength="3" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Compañias</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="ccompania" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column> 
+				<p-column field="mdatos.npersona" header="Nombre"></p-column> 
+				<p-column header="Fecha Servidor" [style]="{'width':'180px'}">
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [ngModel]="reg.fechaservidor" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Compañia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="ccompania" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ccompania" name="ccompania"
+						[(ngModel)]="registro.ccompania" autofoco entero required maxlength="3" [disabled]="!registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+		            <label for="cpersona" class="ui-outputlabel required">Persona</label>
+		        </div>
+		        <div class="ui-g-12 ui-md-1">
+		            <input id="cpersona" name="cpersona" type="text" pInputText [(ngModel)]="registro.cpersona" required [readOnly]="true" />
+		        </div>
+			    <div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="registro.mdatos.npersona" [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+			    	</button>
+		    	</div>
+		    	<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3"><label>Fecha servidor:</label></div>
+				<div class="ui-g-12 ui-md-9">
+					<p-checkbox id="fechaservidor" name="fechaservidor" [(ngModel)]="registro.fechaservidor" binary="false" 
+								[disabled]="!editable && !registro.esnuevo"></p-checkbox>
+				</div>
+			</div>
+		
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

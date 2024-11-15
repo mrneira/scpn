@@ -1,0 +1,92 @@
+<app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+  
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>CARGA DE ARCHIVO PARA DESCUENTOS DEL PERSONAL</span>
+			</div>
+			<hr />
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="aniof" class="ui-outputlabel required">Año:</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+			  <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mcampos.anio" required [readOnly]="true" style="text-align:center;"
+			  />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+			  <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+				[disabled]="!editable"></button>
+			</div>
+		  </div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="mescdetalle" class="ui-outputlabel required ">Mes:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmes" [(ngModel)]="mcampos.mescdetalle" [filter]="true" required ></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+			</div>
+
+			<div class="ui-g-12">
+				<p-fileUpload id="archivocarga" name="archivo[]" (onSelect)="onSelectArchivoFirma($event)" accept=".xlsx" class="upload-hidden"
+				 [uploadLabel]="" [maxFileSize]="100000000" >
+				</p-fileUpload>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Resultado Carga</div>
+
+			</p-header>
+			<p-column field="cdescuentop" header="Código" [style]="{'width':'50px'}"></p-column>
+			<p-column field="mdatos.documento" header="Documento"styleClass="f-center"[style]="{'width':'150px'}"></p-column>
+			<p-column field="mdatos.nfuncionario" styleClass="f-center" header="Funcionario" ></p-column>
+			<p-column field="mdatos.ndescuento" styleClass="f-center" header="Descuento" [style]="{'width':'270px'}"></p-column>
+			<p-column header="Valor"  styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valor | number:'1.2-2'}}
+				</ng-template>
+			</p-column>
+			
+		</p-dataTable>
+	</div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistrosProb" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]=false>
+						<p-header>
+							<div class="ui-table-title">Registros con conflictos</div>
+							<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+						</p-header>
+						<p-column field="mdatos.documento" header="Documento" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.err" header="Conflictos encontrados"></p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

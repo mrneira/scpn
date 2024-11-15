@@ -1,0 +1,132 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Sucursales</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nciudad" header="Ciudad"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Sucursal" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoDir="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pksecuencia" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="pksecuencia" name="pksecuencia"
+						   [(ngModel)]="registro.secuencia" [disabled]="true" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nombre" name="nombre" maxlength="120" mayusculas
+						   [(ngModel)]="registro.nombre" [disabled]="!editable" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+		            <label for="cpais" class="ui-outputlabel required">País</label>
+		        </div>
+		        <div class="ui-g-12 ui-md-1">
+		            <input id="cpais" name="cpais" type="text" pInputText [(ngModel)]="registro.cpais" [disabled]="true" />
+		        </div>
+			    <div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="npais" name="npais" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<button pButton type="button" id="lovpaises" name="lovpaises" (click)="mostrarLovPaises()" icon="ui-icon-directions">
+			    	</button>
+		    	</div>
+		    	<app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+		            <label for="cprovincia" class="ui-outputlabel required">Provincia</label>
+		        </div>
+		        <div class="ui-g-12 ui-md-1">
+		            <input id="cprovincia" name="cprovincia" type="text" pInputText [(ngModel)]="registro.cpprovincia" required [disabled]="true" />
+		        </div>
+			    <div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nprovincia" name="nprovincia" [(ngModel)]="registro.mdatos.nprovincia" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<button pButton type="button" id="lovprovincias" name="lovprovincias" (click)="mostrarLovProvincias()" icon="ui-icon-directions">
+			    	</button>
+		    	</div>
+		    	<app-lov-provincias (eventoCliente)=fijarLovProvinciasSelec($event)></app-lov-provincias>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+		            <label for="ccanton" class="ui-outputlabel required">Cantón</label>
+		        </div>
+		        <div class="ui-g-12 ui-md-1">
+		            <input id="ccanton" name="ccanton" type="text" pInputText [(ngModel)]="registro.ccanton" required [disabled]="true" />
+		        </div>
+			    <div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="ncanton" name="ncanton" [(ngModel)]="registro.mdatos.ncanton" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<button pButton type="button" id="lovcantones" name="lovcantones" (click)="mostrarLovCantones()" icon="ui-icon-directions">
+			    	</button>
+		    	</div>
+		    	<app-lov-cantones (eventoCliente)=fijarLovCantonesSelec($event)></app-lov-cantones>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+		            <label for="cciudad" class="ui-outputlabel required">Ciudad</label>
+		        </div>
+		        <div class="ui-g-12 ui-md-1">
+		            <input id="cciudad" name="cciudad" type="text" pInputText [(ngModel)]="registro.cciudad" required [disabled]="true" />
+		        </div>
+			    <div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nciudad" name="nciudad" [(ngModel)]="registro.mdatos.nciudad" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<button pButton type="button" id="lovciudades" name="lovciudades" (click)="mostrarLovCiudades()" icon="ui-icon-directions">
+			    	</button>
+		    	</div>
+		    	<app-lov-ciudades (eventoCliente)=fijarLovCiudadesSelec($event)></app-lov-ciudades>
+			</div>
+
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

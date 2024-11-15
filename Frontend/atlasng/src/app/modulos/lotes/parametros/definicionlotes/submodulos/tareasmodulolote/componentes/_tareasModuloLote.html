@@ -1,0 +1,288 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" dataKey="cmodulo" scrollable="true" scrollHeight="500px">
+        <p-header>
+          <div class="ui-table-title">Tareas por módulo y lote</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Orden" field="orden" [style]="{'width':'50px'}"></p-column>
+        <p-column header="Módulo" field="mdatos.nmodulo" [style]="{'width':'120px'}"></p-column>
+        <p-column header="Cod.Tarea" field="ctarea" [style]="{'width':'200px'}"></p-column>
+        <p-column header="Nombre tarea" field="mdatos.ntarea"></p-column>
+        <p-column header="Activo?" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.activo == '1' ? true : false" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+<app-lov-modulo-tareas (eventoCliente)="fijarLovTareasSelect($event)"></app-lov-modulo-tareas>
+
+<p-dialog header="Tarea por lote" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="pkcmodulo" class="ui-outputlabel required">Tarea</label>
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <input name="pkcmodulo" type="text" pInputText [(ngModel)]="registro.cmodulo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <input type="text" pInputText id="pkctatra" name="pkctatra" [(ngModel)]="registro.ctarea" [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <input type="text" pInputText id="ntarea" name="ntarea" [(ngModel)]="registro.mdatos.ntarea" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTareas()"
+              icon="ui-icon-directions" [disabled]="!editable || !registro.esnuevo"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="activo" class="ui-outputlabel">Activo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ">
+            <label for="orden" class="ui-outputlabel required">Orden:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input pInputText id="orden" name="orden" [(ngModel)]="registro.orden" [disabled]="!editable" entero
+              maxlength="2" required />
+          </div>
+        </div>
+
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Permitir ejecución proceso previo</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida éxito proceso previo</span>
+          </div>
+        </div>
+        <div class="ui-g-4"></div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida éxito proceso fin</span>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="ptp" class="ui-outputlabel">Lote</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="ptpl" name="ptpl" [(ngModel)]="registro.tprevalerrtareaprevialote" binary="true" [disabled]="!editable"
+              (onChange)="preCambioPrevio('L')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad"></div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="ptp" class="ui-outputlabel">Lote</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="ptfl" name="ptfl" [(ngModel)]="registro.tprevalerrtareafinlote" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="ptpm" class="ui-outputlabel">Módulo</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="ptpm" name="ptpm" [(ngModel)]="registro.tprevalerrtareapreviamodulo" binary="true"
+              [disabled]="!editable" (onChange)="preCambioPrevio('M')"></p-checkbox>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Permitir ejecución proceso fin</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida éxito proceso previo</span>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida éxito proceso registros</span>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida éxito proceso fin</span>
+          </div>
+        </div>
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tp" class="ui-outputlabel">Lote</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="tpl" name="tpl" [(ngModel)]="registro.tfinvalerrtareaprevialote" binary="true" [disabled]="!editable"
+              (onChange)="finCambioPrevio('L')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tp" class="ui-outputlabel">Lote</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="trl" name="trl" [(ngModel)]="registro.tfinvalerrtarearegistroslote" binary="true"
+              [disabled]="!editable" (onChange)="finCambioRegistros('L')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tp" class="ui-outputlabel">Lote</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="tfl" name="tfl" [(ngModel)]="registro.tfinvalerrtareafinlote" binary="true" [disabled]="!editable"
+              (onChange)="finCambioFin('L')"></p-checkbox>
+          </div>
+        </div>
+
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tpm" class="ui-outputlabel">Módulo</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="tpm" name="tpm" [(ngModel)]="registro.tfinvalerrtareapreviamodulo" binary="true" [disabled]="!editable"
+              (onChange)="finCambioPrevio('M')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="trm" class="ui-outputlabel">Módulo</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="trm" name="trm" [(ngModel)]="registro.tfinvalerrtarearegistrosmodulo" binary="true"
+              [disabled]="!editable" (onChange)="finCambioRegistros('M')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tpm" class="ui-outputlabel">Módulo</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="tfm" name="tfm" [(ngModel)]="registro.tfinvalerrtareafinmodulo" binary="true" [disabled]="!editable"
+              (onChange)="finCambioFin('M')"></p-checkbox>
+          </div>
+        </div>
+
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="tpr" class="ui-outputlabel">Tarea</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="tpr" name="tpr" [(ngModel)]="registro.tfinvalerrtareaprevia" binary="true" [disabled]="!editable"
+              (onChange)="finCambioPrevio('T')"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="trr" class="ui-outputlabel">Tarea</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="trr" name="trr" [(ngModel)]="registro.tfinvalerrtarearegistros" binary="true" [disabled]="!editable"
+              (onChange)="finCambioRegistros('T')"></p-checkbox>
+          </div>
+        </div>
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Ejecución horizontal</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="title_separator_sub">
+            <span>Valida tarea antecesora</span>
+          </div>
+        </div>
+        <div class="ui-g-8 ui-g-nopad"></div>
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="valprev" class="ui-outputlabel">Valida éxito proceso previo?</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="valprev" name="valprev" [(ngModel)]="registro.valtareadepprev" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-8 ui-g-nopad"></div>
+
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="valreg" class="ui-outputlabel">Valida éxito proceso registro?</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="valreg" name="valreg" [(ngModel)]="registro.valtareadepregistros" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-8 ui-g-nopad"></div>
+
+        <div class="ui-g-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-10">
+            <label for="valfin" class="ui-outputlabel">Valida éxito proceso fin?</label>
+          </div>
+          <div class="ui-g-4 ui-md-2">
+            <p-checkbox id="valfin" name="fin" [(ngModel)]="registro.valtareadepfin" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

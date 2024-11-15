@@ -1,0 +1,118 @@
+
+<app-lov-titulo (eventoCliente)=fijarLovTitulo($event)></app-lov-titulo>
+<app-lov-establecimiento (eventoCliente)=fijarLovEstablecimientoSelec($event)></app-lov-establecimiento>
+
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Educación Formal</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+				<p-column field="titulo" header="Título"></p-column>
+				<p-column field="mdatos.nnivelacademico" header="Nivel Académico" [style]="{'width':'150px'}"></p-column>
+				<p-column field="mdatos.ninstitucion" header="Establecimiento"></p-column>
+					<p-column header="Fecha" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.fecha | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+				<p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+
+
+
+
+	<p-dialog header="Estudios Formales" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+	 [positionTop]="60">
+		<form #formDialogoDir="ngForm">
+			<div class="f-dialogo" style="max-width: 700px">
+				<div class="f-datacontent ui-g ui-fluid">
+					
+
+
+
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-2">
+							<label for="titulo" class="ui-outputlabel required">Título:</label>
+						</div>
+						<div class="ui-g-12 ui-md-9">
+							<textarea type="text" pInputText id="titulo" name="titulo" [(ngModel)]="registro.titulo" autofoco required mayusculas maxlength="50"
+							 rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" id="lovTitulo" name="lovTitulo" (click)="mostrarLovTitulo()" icon="ui-icon-directions"></button>
+							
+						</div>
+					</div>
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-2">
+							<label for="nivelacademicocdetalle" class="ui-outputlabel required">Nivel Académico:</label>
+						</div>
+						<div class="ui-g-12 ui-md-5">
+							<p-dropdown id="nivelacademicocdetalle" name="nivelacademicocdetalle" [options]="ltipoNivelAcademico" [(ngModel)]="registro.nivelacademicocdetalle"
+							appendTo="body" (onChange)="registrarEtiqueta(registro, ltipoNivelAcademico, 'nivelacademicocdetalle', 'nnivelacademico')" required></p-dropdown>
+						</div>
+					</div>
+
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-2">
+							<label for="nidioma" class="ui-outputlabel required">Institución:</label>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+							<input id="cinstitucion" required name="cinstitucion" type="text" pInputText [(ngModel)]="registro.cinstitucion" [readOnly]="true"
+							/>
+						</div>
+						<div class="ui-g-12 ui-md-7">
+							<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ninstitucion" [disabled]="true" />
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" id="lovidiomas" name="lovidiomas" (click)="mostrarLovEstablecimiento()" icon="ui-icon-directions">
+							</button>
+						</div>
+					</div>
+
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-2">
+						  <label for="fecha" class="ui-outputlabel required">Fecha:</label>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+						  <p-calendar id="fecha" name="fecha" [(ngModel)]="registro.fecha" [showIcon]="true"
+						  appendTo="body" [dateFormat]="formatofecha" required ></p-calendar>
+						</div>
+					  </div>
+
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-2">
+							<label for="numsenescyt" class="ui-outputlabel ">Número Sencescyt:</label>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+							<input type="text" pInputText id="numsenescyt" maxlength="50" name="numsenescyt" [(ngModel)]="registro.numsenescyt"   
+							  />
+						</div>
+					</div>
+
+				</div>
+				<footer>
+					<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+				</footer>
+			</div>
+		</form>
+	</p-dialog>
+</div>

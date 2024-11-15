@@ -1,0 +1,130 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioDatoSocio="ngForm">
+     <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-g-nopad">
+             <p>{{mcampos.mensajeSeguro}} </p>
+          </div>
+          <div class="ui-g-6 ui-g-nopad">
+            <div *ngIf="cesantia" class="ui-g-12 ui-g-nopad">
+               <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-5">
+                     <label for="total" class="ui-outputlabel ">Aplica tiempo Mixto:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                     <input type="text" pInputText id="tiempomixto" name="tiempomixto" [readOnly]="true" value = "{{valoresExpediente.regDatos.tiempomixto}}" />
+                  </div>
+              </div>
+         </div>
+         <div *ngIf="cesantia" class="ui-g-12 ui-g-nopad">
+           <div class="ui-g-12 ui-md-5">
+              <label for="totalaportes" class="ui-outputlabel">Valor Cuantia Basica</label>
+           </div>
+           <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="cuantiabasica" name="cuantiabasica" value="{{mcampos.cuantiaBasica | number:'1.2-2' }} "
+                [readOnly]="true" />
+           </div>
+         </div>
+         <div *ngIf="cesantia" class="ui-g-12 ui-g-nopad">
+             <div class="ui-g-12 ui-md-5">
+                <label for="totalaportes" class="ui-outputlabel">Bonificacion</label>
+             </div>
+             <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="bonificacion" name="bonificacion" value="{{mcampos.vbonificacion | number:'1.2-2' }} "
+                [readOnly]="true" />
+             </div>
+          </div>
+          <div *ngIf="devolucion" class="ui-g-12 ui-g-nopad">
+             <div class="ui-g-12 ui-md-5">
+               <label for="intereses" class="ui-outputlabel ">Intereses:</label>
+             </div>
+             <div class="ui-g-12 ui-md-6">
+               <input type="text" pInputText id="intereses" name="intereses" value="{{mcampos.valorinteres | number:'1.2-2' }}"
+               [readOnly]="true" />
+             </div>
+          </div>
+          <div *ngIf="devolucion" class="ui-g-12 ui-g-nopad">
+             <div class="ui-g-12 ui-md-5">
+                <label for="totalaportes" class="ui-outputlabel">Total Aportes</label>
+             </div>
+             <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="totalaportes" name="totalaportes" value="{{mcampos.aporteacumulado | number:'1.2-2' }} "
+                [readOnly]="true" />
+             </div>
+           </div>
+           <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-5">
+                <label for="total" class="ui-outputlabel ">Total Ingresos:</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="totalingresos" name="totalingresos" value="{{mcampos.subtotal| number:'1.2-2' }} "
+                [readOnly]="true" />
+              </div>
+           </div>
+           <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-5">
+                <label for="total" class="ui-outputlabel ">Total a Recibir:</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="total" name="total" value="{{mcampos.totalliquidacion| number:'1.2-2' }} " [readOnly]="true" />
+              </div>
+           </div>
+         </div>
+         <div class="ui-g-6 ui-g-nopad">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-5">
+                    <label for="valoranticipo" class="ui-outputlabel">Valor Anticipo</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <input type="text" pInputText id="anticipo" name="anticipo" value="{{mcampos.valoranticipo | number:'1.2-2' }}"
+                    [readOnly]="true" />
+                </div>
+             </div>
+             <div class="ui-g-12 ui-g-nopad">
+                 <div class="ui-g-12 ui-md-5">
+                    <label for="descuento" class="ui-outputlabel  ">Descuento Préstamos:</label>
+                 </div>
+             <div class="ui-g-12 ui-md-6">
+                    <input type="text" pInputText id="descuento" name="descuento" value=" {{mcampos.tprestamos| number:'1.2-2' }} "
+                   [readOnly]="true" />
+             </div>
+          </div>
+          <div   class="ui-g-12 ui-g-nopad">
+             <div class="ui-g-12 ui-md-5">
+                <label for="descuentonove" class="ui-outputlabel ">Descuento Novedades:</label>
+             </div>
+             <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="descuentonove" name="descuentonove" value=" {{mcampos.tnovedades| number:'1.2-2' }} "
+                [readOnly]="true" />
+             </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-5">
+                <label for="descuentorete" class="ui-outputlabel ">Descuento Retenciones:</label>
+              </div>
+          <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="descuentorete" name="descuentorete" value="{{mcampos.tretenciones| number:'1.2-2' }} "
+                [readOnly]="true" />
+          </div>
+       </div>
+       <div *ngIf="devolucion" class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-5">
+               <label for="descuentorete" class="ui-outputlabel ">Descuento Aportes 20%:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+               <input type="text" pInputText id="descuentoapor" name="descuentoapor" value="{{mcampos.daportes| number:'1.2-2' }} "
+               [readOnly]="true" />
+          </div>
+       </div>
+       <div class="ui-g-12 ui-g-nopad">
+           <div class="ui-g-12 ui-md-5">
+                <label for="total" class="ui-outputlabel ">Total Descuentos:</label>
+           </div>
+           <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="totalDescuentos" name="totalDescuentos" value="{{mcampos.valordescuentos | number:'1.2-2' }} "
+                [readOnly]="true" />
+           </div>
+        </div>
+     </div>
+  </div>
+</form>
+</div>

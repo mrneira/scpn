@@ -1,0 +1,80 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>CARGA DE ARCHIVO PARA MARCACIONES (SOLO SUCURSALES SIN BIOMETRICO)</span>
+			</div>
+			<hr />
+		</div>
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+			</div>
+
+			<div class="ui-g-12">
+				<p-fileUpload id="archivocarga" name="archivo[]" (onSelect)="onSelectArchivoFirma($event)" class="upload-hidden" [uploadLabel]=""
+				 [maxFileSize]="100000000">
+				</p-fileUpload>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Resultado Carga</div>
+
+			</p-header>
+			<p-column field="mdatos.documento" header="Identificación" [style]="{'width':'100px'}"></p-column>
+			<p-column field="mdatos.nfuncionario" header="Funcionario" ></p-column>
+			<p-column field="cusuario" header="Código" [style]="{'width':'100px'}"></p-column>
+			<p-column header="Fecha" [style]="{'width':'70px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fmarcacion | date:'yyyy-MM-dd'}}
+				</ng-template>
+			</p-column>
+			<p-column header="Hora" [style]="{'width':'70px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fmarcacion | date:'HH:mm:ss'}}
+				</ng-template>
+			</p-column>
+			<p-column header="Tipo" [style]="{'width':'150px'}">
+				<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+					<p-dropdown id="marcacion" name="marcacion" [filter]="true" [options]="ltipo" [(ngModel)]="reg.marcacion" appendTo="body"
+					 [filter]="true" [disabled]="true"></p-dropdown>
+				</ng-template>
+			</p-column>
+
+
+
+		</p-dataTable>
+	</div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistrosProb" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]=false>
+						<p-header>
+							<div class="ui-table-title">Registros con conflictos</div>
+							<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+						</p-header>
+						<p-column field="mdatos.documento" header="Documento" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.err" header="Conflictos encontrados"></p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,97 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+	<div class="ui-g-12 ui-g-nopad" >
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+		</div>
+
+		<div class="ui-g-2 ui-md-1">
+			<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true" />
+		</div>
+
+		<div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+		</div>
+	
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()" icon="ui-icon-directions">
+			</button>
+		</div>
+
+		<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+					<label for="fechainicial" class="ui-outputlabel required">Fecha Inicial:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+					<p-calendar id="fechainicial" name="fechainicial" [(ngModel)]="mcampos.fechainicial" (ngModelChange)="consultar()" [showIcon]="true" [locale]="es" [disabled]="false"
+							required [dateFormat]="formatofecha" ></p-calendar>
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+					<label for="fechafinal" class="ui-outputlabel required">Fecha Final:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+					<p-calendar id="fechafinal" name="fechafinal" [(ngModel)]="mcampos.fechafinal" (ngModelChange)="consultar()" [showIcon]="true" [locale]="es" [disabled]="false"
+							required [dateFormat]="formatofecha" ></p-calendar>
+			</div>
+		</div>
+
+</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad" >
+			<p-dataTable [value]="rqMantenimiento.lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Mayor</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+
+					<p-column header="Fecha contable" styleClass="f-center" [style]="{'width':'90px'}"> 
+						<ng-template pTemplate="body" let-reg="rowData"> 
+							{{ reg.fcontable }}
+						</ng-template>
+					</p-column> 
+		
+					<p-column header="Comprobante" styleClass="f-center" [style]="{'width':'100px'}"> 
+						<ng-template pTemplate="body" let-reg="rowData"> 
+							{{ reg.ccomprobante }}
+						</ng-template>
+					</p-column> 
+
+					<p-column header="Asiento" [style]="{'width':'80px'}" styleClass="f-center"> 
+							<ng-template pTemplate="body" let-reg="rowData"> 
+								{{ reg.secuencia }}
+							</ng-template>
+						</p-column> 
+						
+					<p-column field="mdatos.nfreal" header="Fecha real" styleClass="f-center" [style]="{'width':'90px'}" ></p-column>
+
+					<p-column field="mdatos.ncomentario" header="Comentario" [style]="{'width':'100px'}" ></p-column>
+
+					<p-column field="pk.ctipoarchivo" header="Débito" [style]="{'width':'90px'}" styleClass="f-right">
+						<ng-template let-reg="rowData" pTemplate="body" >
+							<span *ngIf="reg.debito == 1"> {{ reg.monto | number:'1.2-2' }} </span>
+						</ng-template>
+					</p-column>
+	
+					<p-column field="pk.ctipoarchivo" header="Crédito" [style]="{'width':'90px'}" styleClass="f-right">
+						<ng-template let-reg="rowData" pTemplate="body">
+							<span *ngIf="reg.debito == 0"> {{ reg.monto | number:'1.2-2' }} </span>
+						</ng-template>
+					</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>

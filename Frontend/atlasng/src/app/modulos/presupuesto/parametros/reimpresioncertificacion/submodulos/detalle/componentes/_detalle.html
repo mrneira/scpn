@@ -1,0 +1,19 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="ccompromiso" header="Cod. Compromiso" hidden="true"></p-column>
+        <p-column field="mdatos.cpartidagasto" header="Cod. Partida" [style]="{'width':'100px'}"></p-column>
+        <p-column field="mdatos.npartida" header="Partida Presupuestaria" [style]="{'width':'180px'}"></p-column>
+        <p-column field="mdatos.aniofiscal" header="Año fiscal" [style]="{'width':'100px'}"></p-column>
+        <p-column field="valor" header="Valor" [style]="{'text-align':'right','width':'100px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.valor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+               
+      </p-dataTable>
+    </div>
+
+  </div>
+</div>

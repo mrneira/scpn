@@ -1,0 +1,41 @@
+<div id="containerPolizaMasiva">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button pButton *ngIf="statusGrabar" type="button" name="recepcion" id="recepcion" label="Grabar Póliza Masiva"
+      style="position: absolute; right: 95px;" class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"></button>
+  </div>
+  <p-tabView>
+    <p-tabPanel header="Cargar Archivo Excel (.XLS) de Polizas Masivas" [selected]="true">
+      <p-fileUpload *ngIf="!statusGrabar" id="archivoPolizaSubir" name="archivoPolizaSubir" customUpload="true" accept=".xls"
+        [disabled]="false" (uploadHandler)="uploadHandler($event)" (onClear)="cancelarSubir()"
+        (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="f-contenedor-transaccion">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" selectionMode="single">
+            <p-header>
+              <div class="ui-table-title">Resultado de la carga</div>
+            </p-header>
+            <p-column field="nro" header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center"></p-column>
+            <p-column field="identificacion" header="Identificación" styleClass="f-right" [style]="{'width':'70px'}"></p-column>
+            <p-column field="valor_asegurado" header="Valor Asegurado" styleClass="f-right" [style]="{'width':'70px'}"></p-column>
+            <p-column field="nro_poliza" header="No Poliza" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+            <p-column field="nro_factura" header="No Factura" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+            <p-column field="monto_factura" header="Monto de Factura" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+            <p-column field="estado" header="Estado" [style]="{'width':'200px'}"></p-column>
+          </p-dataTable>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <h2>Indicaciones:</h2>
+          <h3>{{msgProccess}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

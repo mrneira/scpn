@@ -1,0 +1,151 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Información Empresa</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cinfoempresa" header="C&oacute;digo" ></p-column>
+        <p-column field="razonsocial" header="Razón Social"></p-column>
+        <p-column field="nombrecomercial" header="Nombre Comercial"></p-column>
+        <p-column field="ruc" header="Ruc"></p-column>
+        <p-column field="dirmatriz" header="Dirección Matriz"></p-column>
+        <p-column field="contribuyenteespecial" header="Contribuyente Especial"></p-column>
+        <p-column header="Obligado Llevar Contabilidad" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.obligadocontabilidad" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+
+        </p-column> 
+      
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false" ></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+     
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Información Empresa" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.esnuevo">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cinfoempresa" name="cinfoempresa" [(ngModel)]="registro.cinfoempresa" autofoco required numeric maxlength="10"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Razón Social:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+              <input pInputText required name="razonsocial" [(ngModel)]="registro.razonsocial" texto maxlength="300" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Nombre Comercial:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+              <input pInputText required name="nombrecomercial" [(ngModel)]="registro.nombrecomercial" texto maxlength="300" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Ruc:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText entero required name="ruc" [(ngModel)]="registro.ruc" texto maxlength="13" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Dirección Matriz:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+              <input pInputText required name="dirmatriz" [(ngModel)]="registro.dirmatriz" texto maxlength="300" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Contribuyente Especial:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText entero required name="contribuyenteespecial" [(ngModel)]="registro.contribuyenteespecial" texto maxlength="5" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-outputlabel">Obligado Llevar Contabilidad</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-checkbox name="obligadocontabilidad" [(ngModel)]="registro.obligadocontabilidad" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Url Web Service Recepción Sri Prueba:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="dirwsrecepcionprueba" name="dirwsrecepcionprueba" [(ngModel)]="registro.dirwsrecepcionprueba" mayusculas maxlength="300"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Url Web Service Autorización Sri Prueba:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="dirwsautorizacionprueba" name="dirwsautorizacionprueba" [(ngModel)]="registro.dirwsautorizacionprueba" mayusculas maxlength="300"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Url Web Service Recepción Sri Producción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="dirwsrecepcionproduc" name="dirwsrecepcionproduc" [(ngModel)]="registro.dirwsrecepcionproduc" mayusculas maxlength="300"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Url Web Service Autorización Sri Producción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="dirwsautorizacionproduc" name="dirwsautorizacionproduc" [(ngModel)]="registro.dirwsautorizacionproduc" mayusculas maxlength="300"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

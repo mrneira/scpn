@@ -1,0 +1,29 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader" resizableColumns="true"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Polizas de Seguro Por Incremento</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Secuancia" [style]="{'width':'50px'}"></p-column>
+        <p-column field="numeropoliza" header="N. Poliza" [style]="{'width':'150px'}"></p-column>        
+        <p-column field="mdatos.ntiposeguro" header="Tipo Seguro" [style]="{'width':'150px'}"></p-column>
+        <p-column field="mdatos.nestado" header="Estado" [style]="{'width':'100px'}"></p-column>
+        <p-column field="coperacioncarteraanterior" header="Cartera Anterior" [style]="{'width':'100px'}"></p-column>
+        <p-column header="F. Inicio" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.finicio | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="F. Vencimiento" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fvencimiento | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="valorprimaretenida" header="Valor Prima Retenida" [style]="{'width':'100px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

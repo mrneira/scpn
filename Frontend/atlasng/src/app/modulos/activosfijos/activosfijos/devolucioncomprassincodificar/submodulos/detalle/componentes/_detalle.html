@@ -1,0 +1,35 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+        <p-header>
+          <div class="ui-table-title">Detalle Compra</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column field="cantidad" header="Cantidad" [style]="{'width':'90px'} ">         
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" name="cantidad" pInputText [(ngModel)]="reg.cantidad" (ngModelChange)="cambiarCantidad(index,$event)"
+              style="text-align:right" entero autofoco/>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.cantidadoriginal" header="cantidadoriginal" hidden="true" [style]="{'width':'90px'} "></p-column>
+        <p-column field="mdatos.nproducto" header="Nombre"></p-column>
+        <p-column field="vunitario" header="V.Unitario" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.vunitario | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+          <div class="f-acciones-cabecera ui-g ui-fluid">
+                    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+          </div>
+          <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="fdesde" class="ui-outputlabel">Fecha de Oficio Desde:</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-4">
+                                        <p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+                              </div>
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="fhasta" class="ui-outputlabel">Fecha de Oficio Hasta:</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-4">
+                                        <p-calendar name="fhasta" [(ngModel)]="mcampos.ffin" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+                              </div>
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-6 ui-md-2">
+                                                  <label for="nombre" class="ui-outputlabel">Jerarquia</label>
+                                        </div>
+                                        <div class="ui-g-6 ui-md-5">
+                                                  <p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquia" [(ngModel)]="this.mcampos.jerarquia"></p-dropdown>
+                                        </div>
+                              </div>
+
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="grado" class="ui-outputlabel">Grado</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-5">
+                                        <p-dropdown id="grado" name="grado" [options]="lgrado" [(ngModel)]="this.mcampos.grado"></p-dropdown>
+                              </div>
+                    </div>
+                 
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-6 ui-md-2">
+                            <label for="grado" class="ui-outputlabel required">Estado del Policía</label>
+                        </div>
+                        <div class="ui-g-6 ui-md-5">
+                            <p-multiSelect name="estadopolicia" [(ngModel)]="this.mcampos.estadopolicia" required [options]="lestadopolicia"></p-multiSelect>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="tiponovedad" class="ui-outputlabel">Tipo de Novedad</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-5">
+                                        <p-dropdown id="tiponovedad" name="tiponovedad" [options]="ltiponovedad" [(ngModel)]="this.mcampos.tiponovedad"></p-dropdown>
+                              </div>
+                    </div>
+
+          </form>
+          <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+         </div>

@@ -1,0 +1,103 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+</form>
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+    	<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Tasa BCE</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+            <p-column field="interespasivo" header="Tasa Pasiva" ></p-column>
+	        <p-column field="interesactivo" header="Tasa Activa" ></p-column>
+			<p-column header="Fecha" >
+                <ng-template pTemplate="body" let-reg="rowData">
+                    {{reg.fecha | date:'yyyy/MM'}}
+                </ng-template>
+            </p-column>
+            <p-column header="Activo" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+		    </p-column>
+            <p-column [style]="{'width':'100px'}" >
+     			<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Tasa BCE" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="150" >
+   <form #formDialogoProv="ngForm">
+       <div class="f-dialogo" style="max-width: 500px">
+          <div class="f-datacontent ui-g ui-fluid">
+             <div *ngIf ="!registro.esnuevo">
+                 <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-12 ui-md-4">
+                         <label for="pk" class="ui-outputlabel required">Código:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-8">
+                         <input type="text" pInputText id="pk" name="pk"
+                         [(ngModel)]="registro.secuencia" autofoco required mayusculas maxlength="8" [disabled]="editable" />
+                     </div>
+                 </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="interespasivo" class="ui-outputlabel required">Interés pasivo:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <input type="text" pInputText id="interespasivo" name="interespasivo" [(ngModel)]="registro.interespasivo"
+                           required numero maxlength="5" [disabled]="!editable" />
+                  </div>
+               </div>
+               <div class="ui-g-12 ui-g-nopad">
+                   <div class="ui-g-12 ui-md-4">
+                       <label for="interesactivo" class="ui-outputlabel required">Interés Activo:</label>
+                   </div>
+               <div class="ui-g-12 ui-md-8">
+                       <input type="text" pInputText id="interesactivo" name="interesactivo" [(ngModel)]="registro.interesactivo"
+                            required numero maxlength="5" [disabled]="!editable" />
+               </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="fecha" class="ui-outputlabel required">Fecha:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                       <p-calendar name="fecha" [(ngModel)]="registro.fecha"
+                       required appendTo="body" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="!editable"></p-calendar>
+                  </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="" class="ui-outputlabel required">Estado:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-dropdown id="estado" name="estado" [options]="lestado"
+                      appendTo="body" [(ngModel)]="registro.activo" required [disabled]="!editable" [filter]="true"></p-dropdown>
+                  </div>
+              </div>
+          </div>
+        <footer>
+            <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+       </footer>
+     </div>
+  </form>
+ </p-dialog>
+
+
+

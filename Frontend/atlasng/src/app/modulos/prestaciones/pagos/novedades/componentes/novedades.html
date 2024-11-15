@@ -1,0 +1,195 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button pButton type="button" label="Generar pago" style="position: absolute; right: 100px;" class="f-btn teal-btn" icon="ui-icon-save"
+      (click)="aprobarEtapa()"></button>
+
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" [disabled]="bandeja" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovSociosSelec($event)></app-lov-personas>
+    </div>
+
+  
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="cnovedad">
+        <p-header>
+         
+
+          <div class="ui-table-title">Pagos Novedades</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'28px'}" selectionMode="multiple"></p-column>
+        <p-column field="mdatos.ntiponovedad" header="Tipo novedad" [style]="{'width':'105px'}"></p-column> 
+        <p-column field="novedad" header="Detalle" [style]="{'width':'200px'}"></p-column> 
+
+      	<p-column field="numerooficio" header="Oficio" [style]="{'width':'105px'}"></p-column> 
+				<p-column header="Fecha oficio" [style]="{'width':'75px'}"> 
+						<ng-template pTemplate="body" let-reg="rowData"> 
+							{{ reg.fechaoficio | date:'dd-MM-yyyy'}}
+						</ng-template>
+					</p-column> 
+					
+				<p-column header="Porcentaje" [style]="{'width':'50px'}"> 
+						<ng-template pTemplate="body" let-reg="rowData"> 
+							{{ reg.porcentajeretencion | number:'1.2-2'}}
+						</ng-template>
+        </p-column> 
+        <p-column header="Monto" [style]="{'width':'50px'}"> 
+          <ng-template pTemplate="body" let-reg="rowData"> 
+            {{ reg.valor | number:'1.2-2'}}
+          </ng-template>
+      </p-column> 
+			
+				
+				<p-column [style]="{'width':'30px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoPago" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario" required mayusculas
+              maxlength="2000" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="aprobarpago()" label="Confirmar" class="green-btn" [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog header="Pago Retenciones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="70">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div *ngIf="edited" class="ui-g-12 ui-g-nopad" style="  padding:3px;
+				background-color: #f44336;
+				color: white;
+				margin-bottom: 3px;">
+					<p>{{mensaje}}</p>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cuentasueldo" class="ui-outputlabel">Pago Supa?</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-checkbox id="cuentasueldo" name="cuentasueldo" [(ngModel)]="registro.supa" binary="false"
+              (onChange)="datossupa()"></p-checkbox>
+          </div>
+        </div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>Datos Cuenta Bancaria</span>
+					</div>
+					<hr />
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cuenta" class="ui-outputlabel required">identificación</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.identificacion" entero  maxlength="15" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+        </div>
+        
+        <div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cuenta" class="ui-outputlabel required">Nombre beneficiario (30 caracteres)</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<input type="text" pInputText id="novedad" name="novedad" [(ngModel)]="registro.beneficiario" mayusculas maxlength="30" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+        </div>
+
+       
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cdetallebanco" class="ui-outputlabel required">Institución</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="cdetallebanco" name="cdetallebanco"  [filter]="true" appendTo="body" [options]="lbancos" [(ngModel)]="registro.cdetallebanco"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cdetalletipocuenta" class="ui-outputlabel required">Tipo cuenta</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="cdetalletipocuenta"  appendTo="body"  [filter]="true" name="cdetalletipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.cdetalletipocuenta"></p-dropdown>
+					</div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cuenta" class="ui-outputlabel required">#cuenta</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="cuenta" name="cuenta" [(ngModel)]="registro.cuenta" entero maxlength="15" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

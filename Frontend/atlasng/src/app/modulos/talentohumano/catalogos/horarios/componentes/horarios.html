@@ -1,0 +1,29 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+            <label for="fpk" class="ui-outputlabel required">Horario</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input id="fcchorario" name="fcchorario" type="text" pInputText [(ngModel)]="mcampos.chorario" required [disabled]="true" />
+        </div>
+	    <div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="fncatalogo" name="fncatalogo" [(ngModel)]="mcampos.nombre" [disabled]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-3">
+			<button pButton type="button" id="lovhorarios" name="lovhorarios" (click)="mostrarLovHorarios()" icon="ui-icon-directions">
+	    	</button>
+    	</div>
+    	<app-lov-horario (eventoCliente)=fijarLovHorariosSelec($event)></app-lov-horario>
+	</div>
+</form>
+
+<app-horario-padre></app-horario-padre>
+
+<div class="separador-linea"></div>
+
+<app-horario-detalle></app-horario-detalle>

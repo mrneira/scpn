@@ -1,4 +1,5 @@
-﻿using cartera.saldo;
+﻿using cartera.enums;
+using cartera.saldo;
 using core.componente;
 using core.servicios;
 using core.servicios.mantenimiento;
@@ -18,10 +19,9 @@ namespace cartera.comp.mantenimiento.desembolso {
 
         public override void Ejecutar(RqMantenimiento rqmantenimiento)
         {
-            if (rqmantenimiento.GetDatos("OPERACIONESDESEMBOLSOMASIVO") == null) {
+            if (rqmantenimiento.GetDatos("OPERACIONESDESEMBOLSOMASIVO") == null && rqmantenimiento.GetDatos("OPERACIONESDESEMBOLSONEGOCIA") == null) {
                 return;
             }
-
             ValidaDesembolso(rqmantenimiento);
         }
 
@@ -31,12 +31,19 @@ namespace cartera.comp.mantenimiento.desembolso {
         /// <param name="rqmantenimiento">Datos del requet con los que se ejecuta la transaccion.</param>
         private void ValidaDesembolso(RqMantenimiento rqmantenimiento)
         {
-            List<tcaroperacion> loperaciones = JsonConvert.DeserializeObject<List<tcaroperacion>>(rqmantenimiento.Mdatos["OPERACIONESDESEMBOLSOMASIVO"].ToString());
-
+            List<tcaroperacion> loperaciones = null;
+            if (rqmantenimiento.GetDatos("OPERACIONESDESEMBOLSOMASIVO") != null)
+            {
+                loperaciones = JsonConvert.DeserializeObject<List<tcaroperacion>>(rqmantenimiento.Mdatos["OPERACIONESDESEMBOLSOMASIVO"].ToString());
+            }
+            else
+            {
+                loperaciones = JsonConvert.DeserializeObject<List<tcaroperacion>>(rqmantenimiento.Mdatos["OPERACIONESDESEMBOLSONEGOCIA"].ToString());
+            }
             foreach (tcaroperacion ope in loperaciones) {
                 //Saldos desembolso
-                SaldoDesembolso saldo = new SaldoDesembolso(ope, rqmantenimiento.Fconatable);
 
+                SaldoDesembolso saldo = new SaldoDesembolso(ope, rqmantenimiento.Fconatable);
                 // Ejecuta desembolso
                 RqMantenimiento rq = (RqMantenimiento)rqmantenimiento.Clone();
                 rq.Mensaje = Servicio.GetMensaje(rq.Cusuario);
@@ -44,7 +51,8 @@ namespace cartera.comp.mantenimiento.desembolso {
                 rq.EncerarRubros();
                 rq.Coperacion = ope.coperacion;
                 rq.Monto = saldo.MontoDesembolsar;
-                if (saldo.Absorcion > Constantes.CERO) {
+                if (saldo.Absorcion > Constantes.CERO)
+                {
                     rq.AddDatos("montoabsorcion", saldo.Absorcion);
                 }
                 Mantenimiento.ProcesarAnidado(rq, 7, 129);

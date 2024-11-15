@@ -1,0 +1,17 @@
+    <form #formotp="ngForm" style="margin: 0 auto; width: 200px; margin-top: 30px;">
+        <div class="ui-g">        	
+            <div class="ui-g-12">
+                <span class="md-inputfield">
+                <input type="password" pInputText name="cseg" [(ngModel)]="cseg" autocomplete="off" required maxlength="12" >
+                <label>Clave de seguridad</label>
+             </span>
+            </div>
+            
+            <div class="ui-g-6">
+                <button type="button" pButton label="Validar Clave" icon="ui-icon-person" [disabled]="!formotp.valid" (click)="ejecutaValidacionOtp()"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton label="Cancelar" icon="ui-icon-delete-forever" (click)="cancelar()" class="f-btn orange-btn"></button>
+            </div>
+        </div>
+    </form> 

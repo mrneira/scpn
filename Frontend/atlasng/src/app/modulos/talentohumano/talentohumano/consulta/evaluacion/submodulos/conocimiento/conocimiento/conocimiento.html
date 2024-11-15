@@ -1,0 +1,64 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">CONOCIMIENTOS</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+          <p-column header="Conocimiento" >
+            <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+              <input type="text" pInputText [(ngModel)]="reg.conocimiento"  maxlength="300" style="text-align:left"  disabled="true"/>
+            </ng-template>
+          </p-column>
+        
+        <p-column header="Nivel de Conocimiento" [style]="{'width':'115px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdetallenivel" name="cdetallenivel"  [filter]="true" [options]="lnivel" [(ngModel)]="reg.cdetallenivel" (onChange)="actualizarConocimiento()"
+            appendTo="body" required [filter]="true" disabled="true"></p-dropdown>
+          </ng-template>
+        </p-column>
+       
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="CONOCIMIENTOS" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="secuencia" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.secuencia" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="conocimiento" class="ui-outputlabel">Conocimiento:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="conocimiento" name="conocimiento" [(ngModel)]="registro.conocimiento" required mayusculas maxlength="300"
+						 rows="2" [disabled]="!editable"></textarea>
+
+					</div>
+				</div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

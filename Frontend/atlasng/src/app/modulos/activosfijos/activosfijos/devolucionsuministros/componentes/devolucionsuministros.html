@@ -1,0 +1,94 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!grabo" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="cegreso" class="ui-outputlabel required">Egreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input id="cegreso" name="cegreso" type="text" pInputText [(ngModel)]="cabeceraComponent.mcampos.cegreso" required [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <button pButton type="button" id="lovegresos" name="lovegresos" (click)="mostrarlovegresos()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-egresos (eventoCliente)=fijarLovEgresosSelec($event)></app-lov-egresos>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="memoautorizacion" class="ui-outputlabel required">Doc. Autorización</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="mcampos.memoautorizacion" name="mcampos.memoautorizacion" required maxlength="50" [(ngModel)]="mcampos.memoautorizacion"
+        mayusculas/>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="numerooficio" class="ui-outputlabel required">Doc. Requerimiento</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numerooficio" name="numerooficio" required maxlength="50" [(ngModel)]="mcampos.numerooficio"
+        mayusculas />
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="cingreso" class="ui-outputlabel ">Ingreso Registrado para Devoluci&oacute;n</label>
+    </div>
+    <div class="ui-g-2 ui-md-1">
+      <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="cabeceraComponent.mfiltros.cingreso" [readOnly]="true"
+      />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="comentario" class="ui-outputlabel">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <textarea pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario" required mayusculas
+        maxlength="500" rows="1" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="ccompcontable" class="ui-outputlabel">Comprobante Contable</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="ccompcontable" name="ks" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true" />
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel">Comprobante Cesantía</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+          [readOnly]="true" />
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Devoluci&oacute;n">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</form>

@@ -1,0 +1,154 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable:</label>
+      </div>
+
+      <div class="ui-g-2 ui-md-2">
+        <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText autofoco [(ngModel)]="mcampos.ccuenta" required (blur)="cuentaBlur($event)"
+        />
+      </div>
+
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" required [readOnly]="true" />
+      </div>
+
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+          icon="ui-icon-directions">
+        </button>
+      </div>
+
+      <div class="ui-g-12 ui-md-1">
+        <label for="tipo" class="ui-outputlabel">Tipo</label>
+      </div>
+
+      <div class="ui-g-2 ui-md-2">
+        <input id="tipo" name="tipo" type="text" pInputText  [(ngModel)]="mcampos.tipo" 
+        readonly="true"/>
+      </div>
+
+
+      <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="centrocostoscdetalle" class="ui-outputlabel">Centro de Costo</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="centrocostoscdetalle" name="centrocostoscdetalle" [options]="lCcostocdetalle" [(ngModel)]="registro.centrocostoscdetalle"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-outputlabel required">Año [Periodo]:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anioi"  required entero maxlength="4" minlength="4"
+        />
+
+      </div>
+
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-outputlabel required">Mes Inicio:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mesi" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+          appendTo="body"></p-dropdown>
+      </div>
+
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-outputlabel required">Mes Fin:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="mesf" name="mesf" [options]="lmeses" [(ngModel)]="mcampos.mesf" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+          appendTo="body"></p-dropdown>
+      </div>
+    </div>
+
+
+
+  </form>
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+      <p-dataTable [value]="loficinas" [responsive]="true">
+
+        <p-header>
+          <div class="f-acciones-cab-tabla">
+
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+            </button>
+
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable #dtLM [value]="lregistros" [immutable]="false" [responsive]="true" [resizableColumns]="false" scrollable="true" scrollHeight="250px" 
+      [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)">
+        <p-header>
+          <div class="ui-table-title">Libro Mayor</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column field="centrodecosto" header="Centro de Costo" [filter]="true" filterPlaceholder="Filtrar" styleClass="f-center"
+          [style]="{'width':'75px','padding':'1px'}"></p-column>
+        <p-column field="fcontable" header="F.Contable" [filter]="true" filterPlaceholder="Filtrar" styleClass="f-center" [style]="{'width':'75px','padding':'1px'}"></p-column>
+        <p-column field="freal" header="F.Real" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'110px','padding':'1px'}"></p-column>
+        <p-column header="LINK" [style]="{'width':'50px','padding':'1px'}" [filter]="false" filterPlaceholder="Filtrar" filterMatchMode="contains" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData" let-col>
+            <a [routerLink]="" (click)="IrAComprobanteContable(reg)"> {{ reg.secuencia }}</a>
+          </ng-template>
+     
+
+        </p-column>
+        <p-column field="secuencia" header="Secuencia" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'120px','padding':'1px'}"></p-column>
+        <p-column field="comprobante" header="Comprobante" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'120px','padding':'1px'}"></p-column>
+        <p-column field="modulo" header="Módulo" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'75px','padding':'1px'}"></p-column>
+        <p-column field="transaccion" header="Transacción" styleClass="f-center" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'75px','padding':'1px'}"></p-column>
+        <p-column field="beneficiario" header="Beneficiario" styleClass="f-center" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"
+          [style]="{'width':'95px','padding':'1px'}"></p-column>
+        <p-column field="descripcion" header="Descripción" [style]="{'width':'200px','padding':'1px'}" [filter]="true" filterPlaceholder="Contiene"
+          filterMatchMode="contains"></p-column>
+        <p-column field="numerodocumentobancario" header="Doc referencia" [style]="{'width':'40px','padding':'1px'}" [filter]="true"
+          filterPlaceholder="Contiene" filterMatchMode="contains"></p-column>
+        <p-column header="Débito" styleClass="f-right" [style]="{'width':'80px','padding':'1px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.debito | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Crédito" styleClass="f-right" [style]="{'width':'80px','padding':'1px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.credito | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo" styleClass="f-right" [style]="{'width':'80px','padding':'1px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.saldo | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+
+
+
+        <p-column field="usuario" header="Digitador" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'90px'}"></p-column>
+
+      </p-dataTable>
+    </div>

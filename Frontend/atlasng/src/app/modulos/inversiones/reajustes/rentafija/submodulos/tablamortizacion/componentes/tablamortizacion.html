@@ -1,0 +1,236 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]="false">
+
+
+				<p-header>
+					<div class="ui-table-title">Tabla de Amortización</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column header="Inicio" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfinicio | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Vencimiento" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfvencimiento | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="plazo" header="Plazo" styleClass="f-center" [style]="{'width':'90px'}" *ngIf="false"></p-column>
+
+			
+				<p-column header="Tasa" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.proyecciontasa * 100 | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Capital" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.proyeccioncapital | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.proyeccioninteres | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Total" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.total | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Saldo" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.saldo | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="PPV" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.ppv | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column header="V. Presente" [style]="{'width':'150px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vpresente | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+
+				<p-column field="mdatos.nestado" header="Estado" styleClass="f-center" [style]="{'width':'90px'}"></p-column>
+
+				<p-column [style]="{'width':'100px'}" disabled="true" *ngIf="pEditable != 0 && this.pTransaccion > 2000 && this.pTransaccion < 3000">
+
+					<ng-template pTemplate="body" let-reg="rowData" disabled="pEditable == 0">
+						<div class="f-table-actions" disabled="pEditable == 0">
+							<acciones-reg [componente]="componentehijo" [reg]="reg" disabled="pEditable == 0"></acciones-reg>
+						</div>
+					</ng-template>
+
+				</p-column>
+
+				<p-footer *ngIf="pEditable != 0 && 1 == 0">
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"
+						 [disabled]="pEditable == 0"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="rqMantenimiento.lregistrosTotales" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Totales</div>
+				</p-header>
+
+
+			
+
+				<p-column header="Capital" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ this.inversionesServicios.pCapital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ this.inversionesServicios.pInteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Total" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:20px">{{ this.inversionesServicios.pCapital + this.inversionesServicios.pInteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Cuota" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="60">
+	<form #formDialogoDir="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="finicio" class="ui-outputlabel required">Fecha de Inicio</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="finicio" name="finicio" [(ngModel)]="registro.nfinicio" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+						 required [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()">
+						</p-calendar>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fvencimiento" class="ui-outputlabel required">Fecha de Vencimiento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="registro.nfvencimiento" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+						 required [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()"></p-calendar>
+					</div>
+
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="taplazo" class="ui-outputlabel required">Plazo en días</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="taplazo" name="taplazo" [(ngModel)]="registro.plazo" maxlength="10" required entero [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="taproyecciontasa" class="ui-outputlabel ">Tasa</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="taproyecciontasa" name="taproyecciontasa" [(ngModel)]="registro.proyecciontasa" numeroDecimal16
+						 maxlength="20" [disabled]="pEditable == 0" [readOnly]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tareducido" class="ui-outputlabel ">Reducido</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="tareducido" name="tareducido" [(ngModel)]="registro.reducido" numero maxlength="14" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tfproyeccioncapital" class="ui-outputlabel ">Capital</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="tfproyeccioncapital" name="tfproyeccioncapital" [(ngModel)]="registro.proyeccioncapital"
+						 numeroDecimal10 maxlength="25" [disabled]="pEditable == 0" (ngModelChange)="totalizarLinea()" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="txproyeccioninteres" class="ui-outputlabel ">Interés</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="txproyeccioninteres" name="txproyeccioninteres" [(ngModel)]="registro.proyeccioninteres"
+						 numeroDecimal11 maxlength="25" [disabled]="pEditable == 0" (ngModelChange)="totalizarLinea()" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tatotal" class="ui-outputlabel ">Total</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="tatotal" name="tatotal" [(ngModel)]="registro.total" numero maxlength="14" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="estadocdetalle" class="ui-outputlabel">Estado</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lEstado" [(ngModel)]="registro.estadocdetalle" [disabled]="true"
+						 (onChange)="registrarEtiqueta(registro, lEstado, 'estadocdetalle', 'nestado')"></p-dropdown>
+					</div>
+				</div>
+
+			
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

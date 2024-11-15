@@ -1,0 +1,22 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+	  <div class="ui-g-12 ui-md-1">
+		<label for="aniofiscal" class="ui-outputlabel required">Año fiscal</label>
+	  </div>
+	  <div class="ui-g-12 ui-md-1">
+		<input pInputText name="aniofiscal" [(ngModel)]="mcampos.aniofiscal" entero maxlength="4" />
+	  </div>
+	  <div class="ui-g-12 ui-md-1">
+	  </div>
+	</div>
+  </form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+	</div>
+</div>
+

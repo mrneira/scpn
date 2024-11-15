@@ -1,0 +1,88 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px" [resizableColumns]="false" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Buzón de solicitudes</div>
+          <acciones-consulta [componente]="componentehijo"></acciones-consulta>
+        </p-header>
+        <p-column header="Solicitud" [style]="{'width':'60px'}" styleClass="f-center" [filter]="true">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <a [routerLink]="" (click)="cargarPagina(reg)">{{ reg.csolicitud }}</a>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.identificacion" header="Identificación" [filter]="true" [style]="{'width':'80px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Nombre" [filter]="true"></p-column>
+        <p-column header="Producto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.mdatos.nproducto}} - {{reg.mdatos.ntipoproducto}}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.nestadooperacion" header="Tipo" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Fecha Ingreso" styleClass="f-center" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto" styleClass="f-center" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{((reg.cestadooperacion != 'N') ? reg.montoarreglopago : reg.montooriginal) | number:'1.2-2'}}
+            <!--{{reg.montooriginal | number:'1.2-2'}}-->
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-delete-forever" (click)="selectRegistro(reg)" icon="ui-icon-comment" style="margin-left:5px">
+              </button>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: center"> {{lregistros ? lregistros.length : '0'}} <br /> SOLICITUDES</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-solicitud-etapa></app-solicitud-etapa>
+
+<p-dialog header="" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 800px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="solicitudEtapa.lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">Flujo de solicitud</div>
+          </p-header>
+          <p-column field="cetapa" header="Secuencia" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+          <p-column field="mdatos.nestatus" header="Etapa" [style]="{'width':'150px'}"></p-column>
+          <p-column field="cusuariomod" header="Usuario" [style]="{'width':'100px'}"></p-column>
+          <p-column header="Fecha" styleClass="f-center" [style]="{'width':'70px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.fmodificacion | SoloFechaPipe}}
+            </ng-template>
+          </p-column>
+          <p-column header="Rechazo" [style]="{'width':'55px'}" styleClass="f-center">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <span *ngIf="!reg.aprobado && reg.aprobado!=null">SI</span>
+            </ng-template>
+          </p-column>
+          <p-column field="comentario" header="Comentario"></p-column>
+        </p-dataTable>
+      </div>
+      <footer>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

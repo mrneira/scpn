@@ -1,0 +1,16 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Garantías Personales</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.identificacion" header="Identificación" styleClass="f-center" [style]="{'width':'150px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Nombre"></p-column>
+        <p-column field="mdatos.nrelacion" header="Relación" styleClass="f-center" [style]="{'width':'150px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

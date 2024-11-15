@@ -1,0 +1,73 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">COMPETENCIAS TÉCNICAS DEL PUESTO</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Destreza" [style]="{'width':'200px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdestreza" name="cdestreza" [filter]="true" [options]="ldetreza" [(ngModel)]="reg.cdestreza" appendTo="body"
+              required [filter]="true" disabled="true"></p-dropdown>
+          </ng-template>
+        </p-column>
+      
+        <p-column header="Relevancia" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdetallerelevancia" name="cdetallerelevancia" [filter]="true" [options]="lrelevancia" [(ngModel)]="reg.cdetallerelevancia"
+              (onChange)="actualizarComportamiento(i,reg)" appendTo="body" disabled="true"></p-dropdown>
+          </ng-template>
+          
+        </p-column>
+       <p-column field="comportamiento" header="Comportamiento" >
+        </p-column>
+        <p-column header="Nivel de Desarrollo" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-dropdown id="cdetalleniveldesarrollo" name="cdetalleniveldesarrollo" [filter]="true" [options]="lniveldesarrollo" [(ngModel)]="reg.cdetalleniveldesarrollo"
+              (onChange)="actualizarComportamiento(index,reg);actualizarTotal()" appendTo="body" required [filter]="true" disabled="true"></p-dropdown>
+          </ng-template>
+        </p-column>
+   
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="COMPETENCIAS TÉCNICAS DEL PUESTO" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="fjerarquias" class="ui-outputlabel">Destreza:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <p-dropdown id="cdestreza" name="cdestreza" [options]="ldetreza" [(ngModel)]="registro.cdestreza" (onChange)="registrarEtiqueta(registro, ldetreza, 'cdestreza', 'ndestreza')"
+              required></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog header="Comportamiento" [(visible)]="comportamiento" modal="modal" width="300" [responsive]="true">
+
+            <div class="ui-g-12 ui-md-9 reg-details">
+                <div class="ui-g">
+                    <div class="ui-g-2 ui-sm-6">ALTA: </div>
+                    <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].alta}}</div>
+                    <div class="ui-g-2 ui-sm-6">MEDIA: </div>
+                    <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].media}}</div>
+                    <div class="ui-g-2 ui-sm-6">BAJA: </div>
+                    <div class="ui-g-10 ui-sm-6">{{lcomportamiento[0].baja}}</div>
+                </div>
+            </div>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="comportamiento=false" label="Aceptar"></button>
+        </p-footer>
+</p-dialog>

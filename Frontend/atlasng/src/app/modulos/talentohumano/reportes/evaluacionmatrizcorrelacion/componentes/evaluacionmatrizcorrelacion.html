@@ -1,0 +1,25 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="cmatriz" class="ui-outputlabel required">Matriz Correlaci&oacute;n</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cmatriz" name="cmatriz" type="text" pInputText [(ngModel)]="registro.cmatriz" required [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovMatrizCorrelacion" name="lovMatrizCorrelacion" (click)="mostrarlovMatrizCorrelacion()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+	
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>
+<app-lov-matrizcorrelacion (eventoCliente)=fijarlovMatrizCorrelacionSelec($event)>
+</app-lov-matrizcorrelacion>

@@ -1,0 +1,32 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel">Estructura:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-dropdown id="tipoEstructura" name="tipoEstructura" [options]="ltipoArchivo"
+					[(ngModel)]="mcampos.tipoEstructura" [filter]="true" required onchange="LimpiarRegistros()">
+				</p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.tipoEstructura === 'g02'">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel">Fecha Corte:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar name="fcorte" [(ngModel)]="mcampos.fcorte" [showIcon]="true" required
+					[dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+					[locale]="es"></p-calendar>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="ui-g-12" style='display:none'>
+	<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+</div>

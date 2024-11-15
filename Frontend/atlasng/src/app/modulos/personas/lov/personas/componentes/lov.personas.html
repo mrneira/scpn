@@ -1,0 +1,68 @@
+<p-dialog header="Lista de personas" [(visible)]="displayLov" width="600" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="identificacion" class="ui-outputlabel"> C&eacute;dula:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="identificacion" [(ngModel)]="mcampos.identificacion" autofoco mayusculas maxlength="15" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12 ui-md-4">
+          <label for="papellido" class="ui-outputlabel">Primer Apellido:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input pInputText name="papellido" [(ngModel)]="mcampos.apellidopaterno" mayusculas maxlength="80" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12 ui-md-4">
+          <label for="pnombre" class="ui-outputlabel">Primer Nombre:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input pInputText name="pnombre" [(ngModel)]="mcampos.pnombre" mayusculas maxlength="80" />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="nombre" class="ui-outputlabel"> Apellidos/Nombres:</label>
+      </div>
+      <div class="ui-g-12 ui-md-10">
+        <input pInputText name="nombre" [(ngModel)]="mcampos.nombre" mayusculas maxlength="80" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Personas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          <button type="button" pButton icon="ui-icon-refresh" (click)="limpiar()" class="green-btn"
+          style="position: absolute; right: 100px;margin-left:10px">
+        </button>
+        </p-header>
+        <p-column field="identificacion" header="Cédula" [style]="{'width':'110px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="mdatos.ngrado" header="Grado" [style]="{'width':'110px'}"></p-column>
+        <p-column header="Es Socio" [style]="{'width':'55px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            <span *ngIf="reg.regimen == false">SI</span>
+            <span *ngIf="reg.regimen == true || reg.regimen == null">NO</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Régimen" [style]="{'width':'60px'}">
+		 	<ng-template pTemplate="body" let-reg="rowData"> 
+				<p-checkbox [(ngModel)]="reg.regimen" binary="false" [disabled]="true"></p-checkbox>
+			</ng-template>
+		</p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

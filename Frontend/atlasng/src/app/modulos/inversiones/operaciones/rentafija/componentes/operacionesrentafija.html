@@ -1,0 +1,219 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+
+		<div class="ui-g-12 ui-md-2">
+			<label for="operacion" class="ui-outputlabel required">Operación</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="operacion" name="operacion" [options]="lOperacion" [(ngModel)]="mcampos.procesocdetalle" required (ngModelChange)="consultar()"></p-dropdown>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkccuenta" class="ui-outputlabel required">Inversiones de Renta Fija</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.cinversion" required readonly />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.codigotitulo" [disabled]="true" />
+			</div>
+
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" [disabled]="false"
+				 icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcinvtablaamortizacion" class="ui-outputlabel required">Cuota</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkcinvtablaamortizacion" name="fpkcinvtablaamortizacion" type="text" pInputText [(ngModel)]="mcampos.cinvtablaamortizacion"
+				 required readonly />
+			</div>
+
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fvencimiento" name="fvencimiento" [(ngModel)]="mcampos.fvencimiento" [disabled]="true"
+				/>
+			</div>
+
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovtablaamortizacion" name="lovtablaamortizacion" (click)="mostrarLovTablaAmortizacion()"
+				 [disabled]="false" icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-tablaamortizacion (eventoCliente)=fijarLovTablaamortizacionSelec($event)></app-lov-tablaamortizacion>
+		</div>
+
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+
+			<p-dataTable [value]="lregistros" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+				<p-header>
+					<div class="ui-table-title">Contabilización Proyectada</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column field="mdatos.nRubro" header="Rubro" [style]="{'width':'180px'}"></p-column>
+
+				<p-column field="ccuenta" header="Cód.Cta." styleClass="f-center" [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="mdatos.ncuentacon" header="Nombre" [style]="{'width':'350px'}"></p-column>
+
+				<p-column header="Débito" styleClass="f-right" [style]="{'width':'90px'}">
+
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span *ngIf="reg.debito && reg.valor != 0">{{ reg.valor | number:'1.2-2' }}</span>
+						<span *ngIf="!reg.debito">{{ 0 | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Crédito" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span *ngIf="!reg.debito && reg.valor != 0">{{ reg.valor | number:'1.2-2' }}</span>
+						<span *ngIf="reg.debito">{{ 0 | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="mdatos.nccomprobante" header="# Comp. Cont." [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="rqMantenimiento.lregistrosTotales" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+			<p-header>
+				<div class="ui-table-title">Totales</div>
+			</p-header>
+
+			<p-column header="Débito" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<span>{{ reg.debe | number:'1.2-2' }}</span>
+				</ng-template>
+			</p-column>
+
+			<p-column header="Crédito" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<span>{{ reg.haber | number:'1.2-2' }}</span>
+				</ng-template>
+			</p-column>
+
+		</p-dataTable>
+	</div>
+</div>
+
+<p-dialog header="Transacción Contable" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="70">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>Datos Transacción</span>
+					</div>
+					<hr />
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="rubrocdetalle" class="ui-outputlabel required">Rubro</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="rubrocdetalle" name="rubrocdetalle" [options]="lRubros" [(ngModel)]="registro.rubrocdetalle" required [filter]="true"
+						 (onChange)="registrarEtiqueta(registro, lRubros, 'rubrocdetalle', 'nRubro')"></p-dropdown>
+					</div>
+				</div>
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fpkccuentacon" class="ui-outputlabel required">Cuenta Contable</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input id="fpkccuentacon" name="fpkccuentacon" type="text" pInputText [(ngModel)]="mcampos.ccuentacon" [readOnly]="true"
+						/>
+					</div>
+					<div class="ui-g-9 ui-md-4">
+						<input type="text" pInputText id="fnomcuenta" name="fnomcuenta" [(ngModel)]="mcampos.ncuentacon" required [readOnly]="true"
+						/>
+					</div>
+					<div class="ui-g-1 ui-md-1">
+						<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+						 icon="ui-icon-directions">
+						</button>
+					</div>
+
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="estado" class="ui-outputlabel required">Afectación</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="afectacion" name="afectacion" [options]="lAfectacion" [disabled]="!editable" [(ngModel)]="mcampos.afectacion"
+						 required (ngModelChange)="afectacionContable()"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel">Valor</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" numeroPositivo maxlength="19" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="ccomprobante" class="ui-outputlabel"># Comprobante Contable</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="registro.mdatos.nccomprobante"
+							   [disabled]="true" />
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+
+	</form>
+</p-dialog>
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>

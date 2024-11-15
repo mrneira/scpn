@@ -1,0 +1,156 @@
+<p-dialog header="Seguro de Garantía: {{registro.coperacion}}" [(visible)]="displayLov" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="50">
+  <form #formularioCotizador="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>Datos garantía</span>
+            </div>
+            <hr />
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad" [hidden]="true">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fcoperaciongar" class="ui-outputlabel ">Garantía</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="fcoperaciongar" name="fcoperaciongar" [(ngModel)]="registro.coperacion" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fctipogar" class="ui-outputlabel ">Tipo garantía</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="fctipogar" name="fctipogar" [(ngModel)]="registro.mdatos.ntipogar"
+                [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fctiposeguro" class="ui-outputlabel">Tipo Seguro</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="fctiposeguro" name="fctiposeguro" [(ngModel)]="mcampos.ntiposeguro"
+                [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fctipobien" class="ui-outputlabel">Tipo bien</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="fctipobien" name="fctipobien" [(ngModel)]="registro.mdatos.ntipobien"
+                [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-3">
+              <label for="ftasa" class="ui-outputlabel">Tasa</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="ftasa" name="ftasa" numeroDecimal7 [(ngModel)]="mcampos.tasa"
+                [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-3">
+              <label for="fvalorcomercial" class="ui-outputlabel">Valor Comercial</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="fvalorcomercial" name="fvalorcomercial" numero [(ngModel)]="registro.mdatos.monto"
+                [disabled]="true" />
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Datos seguro</span>
+          </div>
+          <hr />
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12">
+          <div class="f-datacontent ui-g ui-fluid f-center-items">
+            <div class="ui-g-12 ui-md-5">
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="primaanual" class="ui-outputlabel">PRIMA ANUAL</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="primaanual" name="primaanual" numero [(ngModel)]="mcampos.primaanual"
+                    [disabled]="true" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="primaprorrata" class="ui-outputlabel">PRIMA PRORRATA</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="primaprorrata" name="primaprorrata" numero [(ngModel)]="mcampos.primaprorrata"
+                    [disabled]="true" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad" *ngFor="let reg of lrubros">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="{{'rubro_'+reg.secuencia}}" class="ui-outputlabel">{{reg.nombre}}</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="{{'campo_'+reg.secuencia}}" name="{{'campo_'+reg.secuencia}}"
+                    [(ngModel)]="reg.mdatos.valorrubro" [disabled]="true" numero />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="emision" class="ui-outputlabel">EMISIÓN</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="emision" name="emision" numero [(ngModel)]="mcampos.emision"
+                    [disabled]="true" numero />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="subtotal" class="ui-outputlabel">SUBTOTAL</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="subtotal" name="subtotal" numero [(ngModel)]="mcampos.subtotal"
+                    [disabled]="true" numero />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="iva" class="ui-outputlabel">I.V.A. ({{ivaporcentaje}} %)</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" pInputText id="iva" name="iva" numero [(ngModel)]="mcampos.iva" [disabled]="true"
+                    numero />
+                </div>
+              </div>
+
+              <div class="ui-g-12"></div>
+              <hr />
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-8">
+                  <label for="total" class="f-bold">TOTAL</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <input type="text" class="f-bold" pInputText id="total" name="total" numero [(ngModel)]="registro.mdatos.total"
+                    [disabled]="true" numero />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formularioCotizador" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

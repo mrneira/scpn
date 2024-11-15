@@ -1,0 +1,61 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">LIQUIDACIÓN</div>
+        </p-header>
+        <p-column field="mdatos.ntipo" header="Liquidación"></p-column>
+        <p-column [style]="{'width':'100px'}" header="Opciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+
+              <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+                <button type="button" pButton icon="ui-icon-add" (click)="seleccionaRegistro(reg)" label="Generar" class="f-btn"></button>
+              </div>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Liquidación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipocdetalle" class="ui-outputlabel required">Tipo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <p-dropdown id="ctipocdetalle" name="ctipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipoliquidacion" required [filter]="true"
+              appendTo="body" [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipo, 'tipoliquidacion', 'ntipo')"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.tipoliquidacion==='IENP'">
+          <div class="ui-g-12 ui-md-2">
+            <label for="honorario" class="ui-outputlabel required">Honorarios:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input id="honorario" name="honorario" type="text" pInputText [(ngModel)]="registro.honorario" required [disabled]="!editable"
+            />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

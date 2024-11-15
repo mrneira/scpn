@@ -1,0 +1,41 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="anio" class="ui-outputlabel required">Ingrese el Año:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input id="anio" name="anio" type="text" pInputText [(ngModel)]="mfiltros.anio" required entero maxlength="4" />
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g-12" style='display:none'>
+		<app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+	</div>
+
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable>
+				<p-header>
+
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')"
+							class="f-btn green-btn f-excel" style="text-align:center">
+						</button>
+					</div>
+				
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+		
+</div>

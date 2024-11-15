@@ -1,0 +1,75 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+        required [readOnly]="true" />
+    </div>
+    <div class="ui-g-10 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-12">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        <button pButton type="button" id="lovpersonavista" name="lovpersonavista" (click)="mostrarLovPersonaVista()"
+          icon="ui-icon-person" *ngIf="!estaVacio(mcampos.cpersona)"></button>
+      </div>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    <app-lov-persona-vista #vistadeudor></app-lov-persona-vista>
+  </div>
+
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcoperacion" class="ui-outputlabel required">Operación</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion" (keyup.enter)="consultarDatosOperacion()"
+        required />
+    </div>
+    <div class="ui-g-10 ui-md-6">
+      <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-12">
+        <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions">
+        </button>
+      </div>
+    </div>
+    <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-g-nopad" style="text-align: right">
+    <button pButton type="button" id="lovestadotransaccion" name="lovestadotransaccion" (click)="mostrarLovEstadoTransaccion()" style="width: 35px; height: 35px"
+      icon="ui-icon-attach-money" class="green-btn topbar-icon material-icons" pTooltip="Detalle Pago" tooltipPosition="top" *ngIf="!estaVacio(mcampos.coperacion)">
+    </button>
+  </div>
+  <app-lov-estado-transaccion></app-lov-estado-transaccion>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Datos generales" [selected]="true">
+    <app-solicitud></app-solicitud>
+    <app-datos-generales [solicitud]="solicitudComponent"></app-datos-generales>
+  </p-tabPanel>
+  <p-tabPanel header="Tabla de amortización">
+    <app-tabla-amortizacion></app-tabla-amortizacion>
+  </p-tabPanel>
+  <p-tabPanel header="Valores a la fecha">
+    <app-rubros-operacion></app-rubros-operacion>
+  </p-tabPanel>
+  <p-tabPanel header="Proyección de valores">
+    <app-val-vencidos></app-val-vencidos>
+  </p-tabPanel>
+  <p-tabPanel header="Garantías">
+    <app-garantias-operacion></app-garantias-operacion>
+  </p-tabPanel>
+  <p-tabPanel header="Transacciones">
+    <app-transacciones></app-transacciones>
+  </p-tabPanel>
+</p-tabView>

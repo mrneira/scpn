@@ -1,0 +1,120 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fingresoini" [style]="{'text-align':'right'}" class="ui-outputlabel ">Fecha liquidación inicio</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fliquidacionini" name="fliquidacionini" [(ngModel)]="mcampos.fliquidacionini" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="fliquidacionfin" [style]="{'text-align':'right'}" class="ui-outputlabel ">Fecha liquidación fin</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fliquidacionfin" name="fliquidacionfin" [(ngModel)]="mcampos.fliquidacionfin" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+      </div>
+    </div>
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div hidden="true" class="ui-g-12 ui-md-2">
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+      </div>
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollHeight="250px" scrollable="true" [(selection)]="selectedRegistros"
+        (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+        <p-header>
+          <div class="ui-table-title">Autorizaci&oacute;n de pago de liquidaciones de viáticos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="C. liquidación" field="cliquidaciongastos"> </p-column>
+        <p-column header="Sec. contable" field="ccomprobante"> </p-column>
+        <p-column header="Comp. cesantía" field="mdatos.numerocomprobantecesantia" hidden="true"> </p-column>
+        <p-column header="Nombre" field="mdatos.npersona"> </p-column>
+        <p-column header="Institución financiera" field="mdatos.nbancocdetalle"> </p-column>
+        <p-column header="Tipo cuenta" field="mdatos.ntipocuentacdetalle"> </p-column>
+        <p-column header="Número cuenta" field="numerocuenta"> </p-column>
+        <p-column header="Cédula" field="cedula"> </p-column>
+        <p-column header="Valor" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData"  >
+            <span>{{reg.valorliquidacion | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="F.liquidación" field="fliquidacion">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fliquidacion | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column selectionMode="single"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Datos Beneficiario" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+  [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 500px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Int.Financiera</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="tipoinstitucioncdetalle" name="tipoinstitucioncdetalle" [options]="linstfinanciera"
+              [(ngModel)]="selectedRegistros.tipoinstitucioncdetalle" required [filter]="true" [appendTo]="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipocuentacdetalle" class="ui-outputlabel required">Tipo cuenta</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="tipocuentacdetalle" name="tipocuentacdetalle" [options]="ltipocuenta" [(ngModel)]="selectedRegistros.tipocuentacdetalle"
+              required [filter]="true" [appendTo]="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="numero" class="ui-outputlabel required">No cuenta</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numero" name="numero" [(ngModel)]="selectedRegistros.numerocuenta"
+              maxlength="19" required entero />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cedula" class="ui-outputlabel required">Cédula</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cedula" name="cedula" [(ngModel)]="selectedRegistros.cedula" maxlength="10"
+              required />
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <div>
+          <button type="button" pButton icon="ui-icon-check" (click)="cerrarDialogo()" label="Confirmar" class="green-btn">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelarDialogo()" label="Cancelar" class="orange-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

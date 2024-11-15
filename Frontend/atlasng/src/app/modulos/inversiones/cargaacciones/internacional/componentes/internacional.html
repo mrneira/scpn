@@ -1,0 +1,82 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">	<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+		<button pButton type="button" label="Grabar" style="position: absolute; right: 105px;" class="f-btn teal-btn" icon="ui-icon-save"
+      (click)="aprobarEtapa()"></button>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel required">Fecha:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar name="fdesde" [(ngModel)]="mcampos.fecha" [showIcon]="true" [dateFormat]="formatofecha" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-calendar>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+			</div>
+			<div class="ui-g-12 ui-md-4">
+
+				<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".xlsx" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+				(onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carga></app-resultado-carga>
+	</div>
+</div>
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+	  <div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		  <div class="separador-linea"></div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12">
+			  <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12">
+			  <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+			</div>
+			<div class="ui-g-12">
+			  <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario"
+				required mayusculas maxlength="2000" rows="3"></textarea>
+			</div>
+		  </div>
+		</div>
+		<footer>
+		  <div align="right">
+			<button type="button" pButton icon="ui-icon-check" (click)="aprobarpago()" label="Confirmar" class="green-btn"
+			  [disabled]="!formDialogo.valid">
+			</button>
+			<button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+			  style="margin-left:5px">
+			</button>
+		  </div>
+		</footer>
+	  </div>
+	</form>
+  </p-dialog>
+  

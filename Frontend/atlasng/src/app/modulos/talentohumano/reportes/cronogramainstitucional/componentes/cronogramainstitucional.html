@@ -1,0 +1,268 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<div class="container">
+		<p-schedule [events]="events" [locale]="escal" [header]="header" [editable]="false" (onEventClick)="onClikCalendar($event)"></p-schedule>
+	</div>
+</div>
+<p-dialog header="Detalle Evento" [(visible)]="mostrarVacacion" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+	  <div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+			  <i class="fa ui-icon-adjust"></i>
+			  <span>Datos Vacación</span>
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="fcdeudor" class="ui-outputlabel ">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-9">
+			  <input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.ncfuncionario" disabled="disabled" />
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="fcproducto" class="ui-outputlabel ">Proceso</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.nproceso" disabled="disabled" />
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="fctipoproducto" class="ui-outputlabel ">Departamento</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.mdatos.ndepartamento" disabled="disabled"
+				/>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="montooriginal" class="ui-outputlabel ">Cargo</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="montooriginal" name="montooriginal" [(ngModel)]="registro.mdatos.ncargo" disabled="disabled"
+				/>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel ">Fecha Inicio</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<p-calendar id="finicio" name="finicio" [(ngModel)]="registro.mdatos.finicio" [showIcon]="true" [dateFormat]="formatofecha"
+				  [disabled]="true"></p-calendar>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel ">Fecha Fin</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<p-calendar id="ffin" name="ffin" [(ngModel)]="registro.mdatos.ffin" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+			  </div>
+			</div>			
+  		  </div>
+		</div>
+		<footer>
+		  <HR>
+		  <div class="ui-g-12 ui-g-nopad">
+			<button type="button" pButton icon="ui-icon-cancel" (click)="salir()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+			</button>
+		  </div>
+		</footer>
+	  </div>
+	</form>
+  </p-dialog>
+
+  <p-dialog header="Detalle Evento" [(visible)]="mostrarFeriado" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+	  <div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+			  <i class="fa ui-icon-adjust"></i>
+			  <span>Datos Generales</span>
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="finicio" class="ui-outputlabel ">Fecha Inicio</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			  <p-calendar id="finicio" name="finicio" [(ngModel)]="registro.mdatos.finicio" [showIcon]="true" [dateFormat]="formatofecha"
+				[disabled]="true"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			  <label for="finicio" class="ui-outputlabel ">Fecha Fin</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			  <p-calendar id="ffin" name="ffin" [(ngModel)]="registro.mdatos.ffin" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+			</div>
+		  </div>
+		  
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="fcdeudor" class="ui-outputlabel ">Descripción</label>
+			</div>
+			<div class="ui-g-12 ui-md-9">
+			  <input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.ndescripcion" disabled="disabled" />
+			</div>
+		  </div>
+
+		</div>
+		<footer>
+		  <HR>
+		  <div class="ui-g-12 ui-g-nopad">
+			<button type="button" pButton icon="ui-icon-cancel" (click)="salir()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+			</button>
+		  </div>
+		</footer>
+	  </div>
+	</form>
+  </p-dialog>
+
+  <p-dialog header="Detalle Solicitud" [(visible)]="mostrarPermiso" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+	  <div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+			  <i class="fa ui-icon-adjust"></i>
+			  <span>Datos Solicitud</span>
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="fcdeudor" class="ui-outputlabel ">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-9">
+			  <input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.ncfuncionario" disabled="disabled" />
+			</div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="fcproducto" class="ui-outputlabel ">Proceso</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.nproceso" disabled="disabled" />
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="fctipoproducto" class="ui-outputlabel ">Departamento</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.mdatos.ndepartamento" disabled="disabled"
+				/>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="montooriginal" class="ui-outputlabel ">Cargo</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="montooriginal" name="montooriginal" [(ngModel)]="registro.mdatos.ncargo" disabled="disabled"
+				/>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="estado" class="ui-outputlabel ">Estado</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="estado" name="estado" [(ngModel)]="registro.mdatos.nestado" disabled="disabled" />
+			  </div>
+			</div>
+			<div class="ui-g-12"></div>
+			<div class="ui-g-12 ui-g-nopad">
+			  <div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>Datos Permiso</span>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel ">Fecha Inicio</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<p-calendar id="finicio" name="finicio" [(ngModel)]="registro.mdatos.finicio" [showIcon]="true" [dateFormat]="formatofecha"
+				  [disabled]="true"></p-calendar>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel ">Fecha Fin</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<p-calendar id="ffin" name="ffin" [(ngModel)]="registro.mdatos.ffin" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="ntipoper" class="ui-outputlabel required">Tipo:</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="ntipoper" name="ntipoper" [(ngModel)]="registro.mdatos.ntipoper" disabled="disabled" />
+			  </div>
+			</div>
+  
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-4">
+				<label for="motivo" class="ui-outputlabel required">Motivo:</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="motivo" name="motivo" [(ngModel)]="registro.mdatos.motivo" required disabled="disabled"
+				/>
+			  </div>
+			</div>
+  
+  
+			<div class="ui-g-12 ui-g-nopad">
+			  <div class="ui-g-12 ui-md-2">
+				<label for="diacompleto" class="ui-outputlabel">Día completo?</label>
+			  </div>
+			  <div class="ui-g-12 ui-md-1">
+				<p-checkbox id="diacompleto" name="diacompleto" [(ngModel)]="registro.mdatos.diacompleto" binary="false" disabled="true"></p-checkbox>
+			  </div>
+			  <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.mdatos.diacompleto">
+				<div class="ui-g-12 ui-md-2">
+				  <label for="aprendizajeanios" class="ui-outputlabel required">Horario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+				  <label for="horaentrada" class="ui-outputlabel required">Hora Inicio:</label>
+				  <p-calendar name="hinicio" [(ngModel)]="registro.mdatos.hinicio" [timeOnly]="true" required="true" [showIcon]="true" showTime="true"
+					hourFormat="24"></p-calendar>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+				  <label for="hfin" class="ui-outputlabel required">Hora Fin:</label>
+				  <p-calendar name="hfin" [(ngModel)]="registro.mdatos.hfin" [timeOnly]="true" required="true" [showIcon]="true" showTime="true"
+					hourFormat="24"></p-calendar>
+				</div>
+			  </div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.archivo">
+			  <div class="ui-g-12 ui-md-4">
+			  </div>
+			  <div class="ui-g-12 ui-md-2">
+				<label for="motivo" class="ui-outputlabel required">Documento de respaldo:</label>
+			  </div>
+			  <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultarDatos(registro.mdatos)" icon="ui-icon-print"
+				style="margin-left:5px">
+			  </button>
+			</div>
+		  </div>
+		</div>
+		<footer>
+		  <HR>
+		  <div class="ui-g-12 ui-g-nopad">
+			<button type="button" pButton icon="ui-icon-cancel" (click)="salir()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+			</button>
+		  </div>
+		</footer>
+	  </div>
+	</form>
+  </p-dialog>

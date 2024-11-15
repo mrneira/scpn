@@ -1,0 +1,160 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctipogar" class="ui-outputlabel required">Campos por tipo de bien</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <p-dropdown id="fctipogar" name="fctipogar" [options]="ltipogarantia" [(ngModel)]="mfiltros.ctipogarantia" required (onChange)="cambiaTipoGarantia()"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctipobien" class="ui-outputlabel required">Tipo bien</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <p-dropdown id="fctipobien" name="fctipobien" [options]="ltipobien" [(ngModel)]="mfiltros.ctipobien" required (onChange)="consultar()"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Campos por tipo de bien</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="orden" header="Orden"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="mdatos.ntipodato" header="Tipo de dato"></p-column>
+        <p-column field="longitud" header="Longitud"></p-column>
+        <p-column header="Requerido?" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.requerido" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-catalogos (eventoCliente)=fijarLovCatalogosSelec($event)></app-lov-catalogos>
+<app-lov-catalogos-detalle (eventoCliente)=fijarLovTipodatoSelec($event)></app-lov-catalogos-detalle>
+
+<p-dialog header="Campo tipo de bien" [(visible)]="mostrarDialogoGenerico" [modal]="true" [width]="600" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipogarantia" class="ui-outputlabel required">Tipo garantía</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ctipogarantia" name="ctipogarantia" [(ngModel)]="registro.mdatos.ntipogar" [disabled]="true"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipobien" class="ui-outputlabel required">Tipo de bien</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ctipobien" name="ctipobien" [(ngModel)]="registro.mdatos.ntipobien" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" autofoco required mayusculas maxlength="60"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipodato" class="ui-outputlabel required">Tipo de dato</label>
+          </div>
+          <div class="ui-g-10 ui-md-2">
+            <input id="ctipodato" name="ctipodato" type="text" pInputText [ngModel]="registro.tipodatocdetalle" [disabled]="true" />
+          </div>
+          <div class="ui-g-11 ui-md-7">
+            <input type="text" pInputText id="ntipodato" name="ntipodato" [(ngModel)]="registro.mdatos.ntipodato" required [disabled]="true"
+            />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovtipodato" name="lovtipodato" (click)="mostrarLovTipodato()" *ngIf="editable && registro.esnuevo"
+              class="f-float-right" icon="ui-icon-directions">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.tipodatocdetalle==5">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipodato" class="ui-outputlabel required">Catálogo</label>
+          </div>
+          <div class="ui-g-10 ui-md-2">
+            <input id="ccatalogo" name="ccatalogo" type="text" pInputText [ngModel]="registro.ccatalogo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-11 ui-md-7">
+            <input type="text" pInputText id="ncatalogo" name="ncatalogo" [(ngModel)]="registro.mdatos.ncatalogo" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovcatalogo" name="lovcatalogo" (click)="mostrarLovCatalogos()" class="f-float-right" icon="ui-icon-directions">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.tipodatocdetalle!=5 && registro.tipodatocdetalle!=4">
+          <div class="ui-g-12 ui-md-2">
+            <label for="longitud" class="ui-outputlabel required">Longitud</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="longitud" name="longitud" [(ngModel)]="registro.longitud" required entero maxlength="4"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="requerido" class="ui-outputlabel">Requerido?</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="requerido" [(ngModel)]="registro.requerido" binary="true" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="orden" class="ui-outputlabel required">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden" required entero maxlength="3" [disabled]="!editable"
+            />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

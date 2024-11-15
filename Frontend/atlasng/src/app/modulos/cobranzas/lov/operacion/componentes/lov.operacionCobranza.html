@@ -1,0 +1,41 @@
+<p-dialog header="Operaciones Cobranza" [(visible)]="displayLov" width="800" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Código:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.ccobranza" autofoco entero maxlength="15" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Número operación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.coperacion" autofoco entero maxlength="15" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="200px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Operaciones de cobranza</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"> </acciones-consulta>
+        </p-header>
+        <p-column field="ccobranza" header="Código" [style]="{'width':'100px'}"> </p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'100px'}"> </p-column>
+        <p-column field="mdatos.nestatus" header="Estatus" [style]="{'width':'100px'}"> </p-column>
+        <p-column field="cusuarioasignado" header="Usuario" [style]="{'width':'100px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

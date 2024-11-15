@@ -1,0 +1,47 @@
+<div class="f-contenedor-transaccion">
+   <form #formularioDatoSocio="ngForm">
+      <div class="f-datacontent ui-g ui-fluid">
+                  <p-fieldset *ngIf="true" legend="Datos Expediente">
+                     <div class="ui-g-6 ui-g-nopad">
+                         <div class="ui-g-12 ui-md-3">
+                             <label for="nosistema" class="ui-outputlabel ">Número de sistema</label>
+                         </div>
+                        <div class="ui-g-12 ui-md-8">
+                             <input type="text" pInputText id="nosistema" name="nosistema" [readOnly]="true" [(ngModel)]="expediente.registro.secuencia"
+                               />
+                        </div>
+                     </div>
+                     <div class="ui-g-6 ui-g-nopad">
+                         <div class="ui-g-12 ui-g-nopad">
+                             <div class="ui-g-12 ui-md-3">
+                                 <label for="noexpediente" class="ui-outputlabel required">{{expediente.lblnoexpediente}}</label>
+                             </div>
+                             <div class="ui-g-12 ui-md-8">
+                                <input type="text" pInputText id="noexpediente" name="noexpediente" [readOnly]="true" [ngModel]="cexpediente"/><!--MNE 20231024-->
+                             </div>
+                         </div>
+                       </div>
+                       <div class="ui-g-6 ui-g-nopad">
+                          <div class="ui-g-12 ui-md-3">
+                                 <label for="fechaliquidacion" class="ui-outputlabel">Fecha de liquidación</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                                  <p-calendar id="fechaliquidacion" name="fechaliquidacion" [(ngModel)]="expediente.registro.fechaliquidacion" [showIcon]="true" [locale]="es"
+                                        [disabled]="!editable" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+                          </div>
+                        </div>
+                        <div *ngIf="expediente.mcampos.cdetalletipoexp !== 'ANT'" class="ui-g-6 ui-g-nopad">
+                             <div class="ui-g-12 ui-md-3">
+                                  <label for="numerocarpeta" class="ui-outputlabel required ">Número Carpeta: </label>
+                             </div>
+                        <div class="ui-g-12 ui-md-8">
+                                   <input type="text" pInputText id="numerocarpeta" required name="numerocarpeta" [(ngModel)]="expediente.registro.numerocarpeta" maxlength="6"
+                                     [disabled]="!desEditar" />
+                         </div>
+                      </div>
+            </p-fieldset>
+                <br>
+              <br>
+        </div>
+   </form>
+</div>

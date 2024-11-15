@@ -1,0 +1,41 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="pago" id="pago" label="Procesar Pago" style="position: absolute; right: 95px;"
+      class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()" [disabled]="!polizaComponent.habilitagrabar"></button>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ftiposeguro" class="ui-outputlabel required">Aseguradora</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="ftiposeguro" [options]="laseguradora" [(ngModel)]="mcampos.caseguradora"
+          autofoco required [filter]="true"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+      <div class="ui-g-1 ui-md-2">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel required">Comprobante Cesantia</label>
+      </div>
+      <div class="ui-g-11 ui-md-6">
+        <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+          [readOnly]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante != undefined">
+      <div class="ui-g-1 ui-md-2">
+        <label for="ccomprobante" class="ui-outputlabel required">Comprobante Contable</label>
+      </div>
+      <div class="ui-g-11 ui-md-6">
+        <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccomprobante"
+          [readOnly]="true" />
+      </div>
+    </div>
+  </form>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <app-poliza></app-poliza>
+  </div>
+</div>

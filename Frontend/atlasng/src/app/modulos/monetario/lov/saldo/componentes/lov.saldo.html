@@ -1,0 +1,53 @@
+<p-dialog header="Saldos" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctiposaldo" class="ui-outputlabel">Tipo de Rubro</label>
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <p-dropdown id="fctiposaldo" name="fctiposaldo" [options]="ltiposaldo" [(ngModel)]="mfiltros.ctiposaldo" [filter]="true"
+          autofoco appendTo="body"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcsaldo" class="ui-outputlabel">Rubro</label>
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <input pInputText name="fcsaldo" [(ngModel)]="mfiltros.csaldo" mayusculas maxlength="12" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <input pInputText name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Saldos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+          </acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.nmodulo" header="Módulo" [style]="{'width':'150px'}">
+        </p-column>
+        <p-column field="csaldo" header="Rubro" [style]="{'width':'90px'}">
+        </p-column>
+        <p-column field="mdatos.nnombre" header="Tipo de rubro">
+        </p-column>
+        <p-column field="siglas" header="Siglas" [style]="{'width':'90px'}">
+        </p-column>
+        <p-column field="nombre" header="Nombre">
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

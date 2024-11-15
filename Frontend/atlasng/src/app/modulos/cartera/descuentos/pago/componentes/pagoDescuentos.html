@@ -1,0 +1,54 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="pago" id="pago" label="Procesar Pago" style="position: absolute; right: 95px;" class="f-btn green-btn"
+      icon="ui-icon-save" (click)="grabar()"></button>
+  </div>
+
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-3">
+        <label for="fcparticion" class="ui-outputlabel required">Fecha generación</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="fcparticion" name="fcparticion" required [options]="lparticion" [(ngModel)]="mfiltros.particion" (onChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Archivos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.narchivo" header="Archivo"></p-column>
+        <p-column field="mdatos.nestado" header="Estado"></p-column>
+        <p-column header="Monto descuento" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto recuperado" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montorespuesta | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="" [style]="{'width':'50px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.cdetalleestado==='RES'">
+              <button pButton icon="fa-check" class="ui-button-success" disabled="true"></button>
+            </span>
+            <span *ngIf="reg.cdetalleestado!=='RES'">
+              <button pButton icon="fa-close" class="ui-button-danger" disabled="true"></button>
+            </span>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

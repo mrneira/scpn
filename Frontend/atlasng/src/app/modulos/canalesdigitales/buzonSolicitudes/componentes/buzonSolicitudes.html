@@ -1,0 +1,253 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g ui-fluid">
+        <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    </div>
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px"
+                [resizableColumns]="false" columnResizeMode="expand">
+                <p-header>
+                    <div class="ui-table-title">
+                        Buzón de Solicitudes de Crédito Digital - <em>{{hoy | date: 'yyyy-MM-dd'}}</em>
+                    </div>
+                    <acciones-consulta [componente]="componentehijo"></acciones-consulta>
+                </p-header>
+                <p-column field="hagendamiento" header="Hora" styleClass="f-center"></p-column>
+                <!-- <p-column header="Fecha" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{ reg.mdatos.fecha | fechaenteroformato }}
+                    </ng-template>
+                </p-column> -->
+                <p-column field="mdatos.identificacion" header="Identificación" styleClass="f-center"></p-column>
+                <p-column field="mdatos.npersona" header="Nombre" styleClass="f-center"></p-column>
+                <p-column field="mdatos.nproducto" header="Producto" styleClass="f-center"></p-column>
+                <p-column header="Monto Solicitado" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{ reg.mdatos.montosolicitado | currency:'USD':'symbol-narrow' }}
+                    </ng-template>
+                </p-column>
+                <!-- <p-column field="mdatos.montosolicitado" header="Monto Solicitado" styleClass="f-center"></p-column> -->
+                <p-column header="Otros Ingresos" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{ reg.mdatos.otrosingresos | currency:'USD':'symbol-narrow' }}
+                    </ng-template>
+                </p-column>
+                <p-column field="mdatos.plazosolicitado" header="Plazo" styleClass="f-center"></p-column>
+                <p-column [style]="{'width':'50px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <div class="f-table-actions">
+                            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-footer>
+                    <div style="text-align: center"> {{lregistros ? lregistros.length : '0'}} <br /> SOLICITUDES</div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="titleDialogo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+    [responsive]="true" [positionTop]="120">
+    <form #formDialogoProv="ngForm" autocomplete="off">
+        <div class="f-dialogo" style="width: 700px">
+            <p-tabView>
+                <p-tabPanel header="Datos generales" [selected]="true">
+                    <div class="f-datacontent ui-g ui-fluid">
+                        <!-- <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="fecha" class="ui-outputlabel">Fecha: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="fecha" name="fecha"
+                                    [ngModel]="registro.mdatos.fecha | fechaenteroformato" pInputText readOnly="true" />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="hora" class="ui-outputlabel">Hora: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="hora" name="hora" [(ngModel)]="registro.hagendamiento" pInputText
+                                    readOnly="true" />
+                            </div>
+                        </div> -->
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="identificacion" class="ui-outputlabel">Identificación: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="identificacion" name="identificacion"
+                                    [(ngModel)]="registro.mdatos.identificacion" pInputText readOnly="true" />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="nombre" class="ui-outputlabel">Nombre:</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <input type="text" id="nombre" name="nombre" [(ngModel)]="registro.mdatos.npersona"
+                                    pInputText readOnly="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="f-datacontent ui-g ui-fluid" *ngIf="registro.csolicitud && registro.csolicitud > 0">
+                        
+                        <p-fieldset legend="Ingresos" class="ui-g-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="sueldo" class="ui-outputlabel">Sueldo:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="sueldo" name="sueldo"
+                                        [ngModel]="registro.mdatos.sueldo | currency:'USD':'symbol-narrow'" pInputText
+                                        readOnly="true" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="rancho" class="ui-outputlabel">Rancho:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="rancho" name="rancho"
+                                        [ngModel]="registro.mdatos.rancho | currency:'USD':'symbol-narrow'" pInputText
+                                        readOnly="true" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="otrosingresos" class="ui-outputlabel">Otros Ingresos:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="otrosingresos" name="otrosingresos"
+                                        [ngModel]="registro.mdatos.otrosingresos | currency:'USD':'symbol-narrow'"
+                                        pInputText readOnly="true" />
+                                </div>
+                            </div>
+                        </p-fieldset>
+                        <p-fieldset legend="Egresos" class="ui-g-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="cesantia" class="ui-outputlabel">Cesantía:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="cesantia" name="cesantia"
+                                        [ngModel]="registro.mdatos.cesantia | currency:'USD':'symbol-narrow'" pInputText
+                                        readOnly="true" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="isspol" class="ui-outputlabel">ISSPOL:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="isspol" name="isspol"
+                                        [ngModel]="registro.mdatos.isspol | currency:'USD':'symbol-narrow'" pInputText
+                                        readOnly="true" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="retenciones" class="ui-outputlabel">Retenciones:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="retenciones" name="retenciones"
+                                        [ngModel]="registro.mdatos.retenciones | currency:'USD':'symbol-narrow'"
+                                        pInputText readOnly="true" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-12 ui-md-5">
+                                    <label for="buro" class="ui-outputlabel">Buró:</label>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <input type="text" id="buro" name="buro"
+                                        [ngModel]="registro.mdatos.buro | currency:'USD':'symbol-narrow'" pInputText
+                                        readOnly="true" />
+                                </div>
+                            </div>
+                        </p-fieldset>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="producto" class="ui-outputlabel">Producto: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <input type="text" id="producto" name="producto" [(ngModel)]="registro.mdatos.nproducto"
+                                    pInputText readOnly="true" />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="monto" class="ui-outputlabel">Monto Solicitado:</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="monto" name="monto"
+                                    [ngModel]="registro.mdatos.montosolicitado | currency:'USD':'symbol-narrow'"
+                                    pInputText readOnly="true" />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="plazo" class="ui-outputlabel">Plazo:</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="plazo" name="plazo" [(ngModel)]="registro.mdatos.plazosolicitado"
+                                    pInputText readOnly="true" />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="capacidadpago" class="ui-outputlabel">Capacidad de Pago:</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <input type="text" id="capacidadpago" name="capacidadpago" [ngModel]="registro.mdatos.capacidadpago | currency:'USD':'symbol-narrow'"
+                                    pInputText readOnly="true" />
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Cónyuge"
+                    *ngIf="registro.mdatos.identificacionconyuge && registro.mdatos.identificacionconyuge.length > 0">
+                    <div class="f-datacontent ui-g ui-fluid">
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="identificacionconyuge" class="ui-outputlabel">Identificación: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-3">
+                                <input type="text" id="identificacionconyuge" name="identificacionconyuge"
+                                    [(ngModel)]="registro.mdatos.identificacionconyuge" pInputText readOnly="true" />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="nombreconyuge" class="ui-outputlabel">Nombre: </label>
+                            </div>
+                            <div class="ui-g-12 ui-md-5">
+                                <input type="text" id="nombreconyuge" name="nombreconyuge"
+                                    [(ngModel)]="registro.mdatos.nombreconyuge" pInputText readOnly="true" />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="espolicia" class="ui-outputlabel">Es Policía:</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <p-checkbox id="espolicia" name="espolicia" binary="false"
+                                    [(ngModel)]="registro.mdatos.espolicia"> </p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+            <footer>
+                <p-fieldset legend="Acciones">
+                    <div class="ui-g" *ngIf="!registro.atendido">
+                        <button type="button" class="green-btn" pButton icon="ui-icon-check" label="Atendido" (click)="gestionar()" pTooltip="Atendido" tooltipPosition="top" *ngIf="!registro.csolicitud"></button>
+                        <button type="button" class="green-btn" pButton icon="ui-icon-check" label="Aprobar" (click)="gestionar(true)" pTooltip="Aprobar" tooltipPosition="top" *ngIf="registro.csolicitud && registro.csolicitud > 0"></button>
+                        <button type="button" class="blue-grey-btn" pButton icon="ui-icon-delete-forever" label="Rechazar" (click)="gestionar(false)" pTooltip="Rechazar" tooltipPosition="top" *ngIf="registro.csolicitud && registro.csolicitud > 0" style="margin-left:5px"></button>
+                        <button type="button" class="orange-btn" pButton icon="ui-icon-cancel" label="Cerrar" (click)="cancelar()" pTooltip="Cerrar" tooltipPosition="top" style="margin-left:5px"></button> 
+                    </div>
+                    <div class="ui-g" *ngIf="registro.atendido">
+                        <button type="button" class="orange-btn" pButton icon="ui-icon-cancel" label="Cerrar" (click)="cancelar()" pTooltip="Cerrar" tooltipPosition="top"></button> 
+                        <span style="margin-top: 5px; margin-left:5px"><em>La solicitud ya ha sido atendida.</em></span>
+                    </div>
+                </p-fieldset>
+                <!-- <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo> -->
+            </footer>
+        </div>
+    </form>
+</p-dialog>

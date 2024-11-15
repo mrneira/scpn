@@ -1,0 +1,109 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo,juridica.componentehijo,detalle.componentehijo]"
+        class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="nombre" class="ui-outputlabel required">Nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="detalle.registro.nombre" maxlength="100" required mayusculas
+            [disabled]="!editable" autofoco />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad"></div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="crepresentante" class="ui-outputlabel required">Representante legal</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="crepresentante" name="crepresentante" type="text" pInputText [(ngModel)]="juridica.registro.cpersonarepresentantelegal"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="representante" name="representante" [(ngModel)]="juridica.registro.mdatos.nrepresentantelegal"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovreplegal" name="lovreplegal" (click)="juridica.componentehijo.mostrarLovRepresentanteLegal()"
+            [disabled]="!editable" icon="ui-icon-directions">
+          </button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="email" class="ui-outputlabel required">Email</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input type="text" pInputText id="email" name="email" [(ngModel)]="detalle.registro.email" required maxlength="120" [disabled]="!editable"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="tipoidentificacdetalle" class="ui-outputlabel required">Tipo de identificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="tipoidentificacdetalle" name="tipoidentificacdetalle" [options]="detalle.componentehijo.ltipoidentificacion"
+            [(ngModel)]="detalle.registro.tipoidentificacdetalle" required [disabled]="!editable"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="identificacion" class="ui-outputlabel required">Ruc</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="detalle.registro.identificacion" maxlength="13"
+            required entero [disabled]="!editable" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fconstitucion" class="ui-outputlabel">F.Constitucion</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fconstitucion" name="fconstitucion" [(ngModel)]="juridica.registro.fconstitucion" [showIcon]="true" [disabled]="!editable"
+            [dateFormat]="formatofecha" [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcaducidad" class="ui-outputlabel">F.Caducidad</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fcaducidad" name="fcaducidad" [(ngModel)]="juridica.registro.fcaducidad" [showIcon]="true" [disabled]="!editable"
+            [dateFormat]="formatofecha" [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cactividad" class="ui-outputlabel">Actividad persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="cactividad" name="cactividad" type="text" pInputText [(ngModel)]="detalle.registro.cactividad" [disabled]="true"
+          />
+        </div>
+        <div class="ui-g-9 ui-md-7">
+          <input type="text" pInputText id="nactividadpersona" name="nactividadpersona" [(ngModel)]="detalle.registro.mdatos.nactividadpersona"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1 f-right">
+          <button pButton type="button" id="lovactividadpersona" name="lovactividadpersona" (click)="detalle.componentehijo.mostrarLovActividadPersona()"
+            [disabled]="!editable" icon="ui-icon-directions">
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

@@ -1,0 +1,160 @@
+<div class="f-contenedor-transaccion">
+
+  <form #formularioUsuario="ngForm">
+    <div class="f-dialogo" style="max-width: 900px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="anio" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+              [disabled]="!editable" />
+          </div>
+
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+          </div>
+          <div class="ui-g-6 ui-md-3">
+            <p-calendar name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true" [dateFormat]="formatofecha" (ngModelChange)="validarFecha()"
+              [readonlyInput]="true" appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required
+              [disabled]="!editable"></p-calendar>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+          </div>
+          <div class="ui-g-6 ui-md-3">
+            <p-calendar name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="fmin"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(registro.finicio) || !editable "
+              [readonlyInput]="true" required></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="sbu" class="ui-outputlabel">Remuneración Básica Unificada (RMU)</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="sbu" name="sbu" [(ngModel)]="registro.sbu" maxlength="9" numeroPositivo [disabled]="!editable"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="bimponiblegp" class="ui-outputlabel">Máximo a deducir:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="bimponiblegp" name="bimponiblegp" [(ngModel)]="registro.bimponiblegp" maxlength="15" numeroPositivo
+              [disabled]="!editable" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="mesdccdetalle" class="ui-outputlabel required">Mes de pago Décimo Tercero:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="mesdccdetalle" name="mesdccdetalle" [options]="lmes" [(ngModel)]="registro.mesdccdetalle" required [filter]="true"
+              [disabled]="!editable"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="estado" class="ui-outputlabel ">Activo?:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+            </div>
+            <div class="ui-g-12 ui-md-10">
+              <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+                rows="2" [disabled]="!editable"></textarea>
+            </div>
+          </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>IESS PERSONAL</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pperiesslosep" class="ui-outputlabel required">% LOSEP</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="pperiesslosep" name="pperiesslosep" [(ngModel)]="registro.pperiesslosep" maxlength="15"
+              numeroPositivo [disabled]="!editable" required />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pperiesscod" class="ui-outputlabel required ">% Código Trabajo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="pperiesscod" name="pperiesscod" [(ngModel)]="registro.pperiesscod" maxlength="15" numeroPositivo
+              [disabled]="!editable" required />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>IESS PATRONAL</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ppaiesslosep" class="ui-outputlabel required">% LOSEP </label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ppaiesslosep" name="ppaiesslosep" [(ngModel)]="registro.ppaiesslosep" maxlength="15" numeroPositivo
+              [disabled]="!editable" required />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ppaiesscod" class="ui-outputlabel required">% Código Trabajo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ppaiesscod" name="ppaiesscod" [(ngModel)]="registro.ppaiesscod" maxlength="15" numeroPositivo
+              [disabled]="!editable" required/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>CONTRIBUCIÓN PARA EL FOMENTO DE LAS CAPACIDADES Y CONOCIMIENTOS CIUDADANOS</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pcccl" class="ui-outputlabel required">% LOSEP </label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="pcccl" name="pcccl" [(ngModel)]="registro.pcccl" maxlength="15" numeroPositivo [disabled]="!editable"
+              required />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pcccc" class="ui-outputlabel required">% Código Trabajo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="pcccc" name="pcccc" [(ngModel)]="registro.pcccc" maxlength="15" numeroPositivo [disabled]="!editable"
+              required/>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </form>

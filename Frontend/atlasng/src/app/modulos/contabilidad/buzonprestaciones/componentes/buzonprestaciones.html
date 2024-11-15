@@ -1,0 +1,86 @@
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+      <p-header>
+        <div class="ui-table-title">Buzón Talento Humano</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="ctestransaccion" header="Transacción">
+        <!--<ng-template pTemplate="body" let-reg="rowData">
+          <a [routerLink]="" (click)="cargarPagina(reg)">{{ reg.cfuncionario }}</a>
+        </ng-template>-->
+      </p-column>
+      <p-column field="identificacionbeneficiario" header="Ident. Benefec."></p-column>
+      <p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+      <p-column field="referenciainterna" header="Referencia"></p-column>
+      <p-column field="valorpago" header="Valor a Pagar" [style]="{'text-align':'center'}"></p-column>
+      <p-column field="cusuarioing" header="Usuario Ingreso"></p-column>
+      <p-column field="fingreso" header="Fecha Ingreso"></p-column>
+      
+      
+      <p-column [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+        <!--  <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>-->
+            <!--<button type="button" pButton (click)="mostrarLovGestorDocumental(reg)"
+              icon="ui-icon-file-upload"></button>-->
+              <!--<button (click)="obtenerDatos(reg)">obtener</button>
+          </div>-->
+          <button type="button" pButton icon="ui-icon-forward" (click)="IrAComprobanteContable()" icon="ui-icon-forward" tooltipPosition="top"></button>
+        </ng-template>
+        <div>
+          
+        </div>
+        
+      </p-column>
+
+      <p-footer>
+
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog id='cca'>
+  <p>como estas</p>
+
+</p-dialog>
+
+<p-dialog header="Flujo Documento" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+	[responsive]="true" [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px; width:500px;">
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="direccion" class="ui-outputlabel required">Direccion</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="direccion" name="direccion" [(ngModel)]="registro.direccion" maxlength="20" />
+					</div>
+        </div>
+        <table>
+          <tr>
+            <td>{{registro.cproductocodificado}} </td>
+          </tr>
+        </table>
+      </div>
+      
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+        <p-column header="Cod. Persona">
+          
+              <input type="text" pInputText id="direccion" name="direccion" [(ngModel)]="registro.direccion" maxlength="20" />
+            
+  
+        </p-column>
+        <p-column field="direccion" header="Documento"></p-column>
+        <p-column field="primerapellido" header="Primer Apellido"></p-column>
+      </p-dataTable>
+			
+    </div>
+
+	</form>
+</p-dialog>

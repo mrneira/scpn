@@ -1,0 +1,116 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Referencias Bancarias</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="numero" header="No cuenta"></p-column>
+				<p-column header="Institución">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-dropdown [options]="linstfinanciera" [disabled]="true" [ngModel]="reg.tipoinstitucioncdetalle"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column header="Tipo">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-dropdown [options]="ltipocuenta" [disabled]="true" [ngModel]="reg.tipocuentacdetalle"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column header="Estado">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-dropdown [options]="lestado" [disabled]="true" [ngModel]="reg.estado"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column header="Cuenta Princilal" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.cuentaprincipal" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Referencia bancaria" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoRefPersonal="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad" hidden="true">
+					<div class="ui-g-12 ui-md-3">
+						<label for="secuenciaRefBan" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="secuenciaRefBan" name="secuenciaRefBan" [(ngModel)]="registro.secuencia" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Int.Financiera</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="tipoinstitucioncdetalle" name="tipoinstitucioncdetalle" [options]="linstfinanciera" [(ngModel)]="registro.tipoinstitucioncdetalle"
+						 required [disabled]="!editable" [filter]="true" appendTo="body"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipocuentacdetalle" class="ui-outputlabel required">Tipo cuenta</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="tipocuentacdetalle" name="tipocuentacdetalle" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"
+						 required [disabled]="!editable" [filter]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="numero" class="ui-outputlabel required">No cuenta</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="numero" name="numero" [(ngModel)]="registro.numero" maxlength="19" required entero [disabled]="!editable"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="estado" class="ui-outputlabel required">Estado</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="estado" name="estado" appendTo="body" [options]="lestado" [(ngModel)]="registro.estado" required [disabled]="!editable" [filter]="true"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="cuentaprincipal" class="ui-outputlabel">Es cuenta Principal?</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-checkbox id="cuentaprincipal" name="cuentaprincipal" [(ngModel)]="registro.cuentaprincipal" binary="true"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoRefPersonal" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

@@ -1,0 +1,134 @@
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcestatus" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcestatus" name="fcestado" [(ngModel)]="mfiltros.ctiposeguro" autofoco mayusculas maxlength="3" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+      </div>
+    </div>
+  </form>
+  <div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+          <p-header>
+            <div class="ui-table-title">Aseguradora</div>
+            <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          </p-header>
+          <p-column field="nombre" header="Nombre"></p-column>
+          <p-column field="ruc" header="RUC"></p-column>
+          <p-column field="mdatos.ninstitucion" header="Institucion financiera"></p-column>
+          <p-column field="mdatos.ntipocuenta" header="Tipo cuenta"></p-column>
+          <p-column field="numerocuentabancaria" header="Tipo cuenta"></p-column>
+          <p-column header="Activo" [style]="{'width':'100px'}" styleClass="f-center">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <p-checkbox [(ngModel)]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+            </ng-template>
+          </p-column>
+          <p-column [style]="{'width':'150px'}" header="Acciones">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <div class="f-table-actions">
+                <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+                <span *ngIf="reg.cgesarchivo == undefined">
+                  <button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload"></button>
+                </span>
+                <span *ngIf="reg.cgesarchivo != undefined">
+                  <button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download">
+                  </button>
+                </span>
+              </div>
+            </ng-template>
+          </p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+              <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+            </div>
+          </p-footer>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Aseguradora" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoTipo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad ">
+          <div class="ui-g-12 ui-md-3 ">
+            <label for="nombre " class="ui-outputlabel required ">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ">
+            <input type="text " pInputText id="nombre " name="nombre " [(ngModel)]="registro.nombre
+              " required mayusculas maxlength="100" [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ">
+          <div class="ui-g-12 ui-md-3 ">
+            <label for="ruc " class="ui-outputlabel required ">RUC</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ">
+            <input type="text " pInputText id="ruc" name="ruc" [(ngModel)]="registro.ruc" required mayusculas maxlength="20" [disabled]="!editable && !registro.esnuevo"
+              documento [tipodocumento]=tipodocumento />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cbanco" class="ui-outputlabel required">Institución financiera:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="cbanco" name="cbanco" [options]="lbancos" [(ngModel)]="registro.tipoinstitucioncdetalle" required [filter]="true"
+              (onChange)="registrarEtiqueta(registro, lbancos, 'tipoinstitucioncdetalle', 'ninstitucion')" [disabled]="!editable && !registro.esnuevo"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="ctipocuenta" class="ui-outputlabel required">Tipo de cuenta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="ctipocuenta" name="ctipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle" required
+              (onChange)="registrarEtiqueta(registro, ltipocuenta, 'tipocuentacdetalle', 'ntipocuenta')" [filter]="true" [disabled]="!editable && !registro.esnuevo"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="numerocuentabancaria" class="ui-outputlabel required">Número de cuenta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="numerocuentabancaria" name="numerocuentabancaria" [(ngModel)]="registro.numerocuentabancaria"
+              required entero maxlength="20" [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="activo" class="ui-outputlabel">Activo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoTipo " [componente]="componentehijo "></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

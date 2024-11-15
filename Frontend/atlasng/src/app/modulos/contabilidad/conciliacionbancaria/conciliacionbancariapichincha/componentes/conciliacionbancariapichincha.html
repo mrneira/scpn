@@ -1,0 +1,449 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+				 icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-bancos (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-bancos>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" required [dateFormat]="formatofecha"
+				 [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="ffin" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" required [dateFormat]="formatofecha"
+				 [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-6 ui-md-4">
+				<button pButton type="button" name="cargar" id="cargar" label="Cargar" class="f-btn orange-btn" icon="ui-icon-add"
+				 (click)="ConsultarDatos()"></button>
+			</div>
+		</div>
+	</form>
+
+	<p-fieldset legend="DETALLE" [toggleable]="true">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-6">
+				<button pButton type="button" name="pasaextractohoja" id="pasaextractohoja" label="Pasar a Hoja" class="f-btn green-btn"
+				 icon="ui-icon-add" (click)="PasarExtractoHojaTrabajo()"></button>
+				<p-dataTable #dtEB [(value)]="lregistrosextracto" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)"
+				 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+				 (onFilter)="calcularTotalesExtracto($event.filteredValue)" [(selection)]="selectedExtracto">
+					<p-header>
+						<div class="ui-g-12 ui-md-2">
+							<label class="ui-cell-total"> {{totalExtractoDebito()| number:'1.2-2'}}</label>
+						</div>
+						<div class="ui-table-title">Extracto Bancario</div>
+						<div class="ui-g-12 ui-md-2">
+							<label class="ui-cell-total"> {{totalExtractoCredito()| number:'1.2-2'}}</label>
+						</div>
+					</p-header>
+
+					<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+
+					<p-column field="fecha" header="Fecha" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (click)="clickBorrarCash()">
+								{{ reg.fecha}}
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="numerodocumentobancario" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar"
+					 [sortable]="true" filterMatchMode="contains"></p-column>
+
+					<p-column field="valordebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true"
+					 filterPlaceholder="Filtrar">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (dblclick)="clickDebitoExtracto(reg)">
+								{{ reg.valordebito | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="valorcredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true"
+					 filterPlaceholder="Filtrar">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (dblclick)="clickCreditoExtracto(reg)">
+								{{ reg.valorcredito | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="concepto" header="Concepto" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"
+					 filterMatchMode="contains">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="row" pTooltip="{{reg.concepto}}" tooltipPosition="top">
+								<div>{{reg.concepto}}</div>
+							</div>
+						</ng-template>
+					</p-column>
+					<p-column header="Con." hidden="hidden">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<p-checkbox [ngModel]="reg.conciliado" binary="false" [disabled]="true"></p-checkbox>
+						</ng-template>
+					</p-column>
+
+					<p-column field="encash" header="Cash" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"
+					 filterMatchMode="contains"></p-column>
+
+					<p-column field="ccomprobante" header="# Comprobante" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+					<p-column [style]="{'width':'40px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<button pButton type="button" (click)="agregarhojatrabajoextracto(reg)" icon="ui-icon-add"></button>
+						</ng-template>
+					</p-column>
+					<p-footerColumnGroup style="color:blue;">
+						<p-row>
+							<p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+							<p-column footer="Débito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalDebitoExtracto| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalCreditoExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalRegistrosExtracto | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+						</p-row>
+					</p-footerColumnGroup>
+				</p-dataTable>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<button pButton type="button" name="pasaextractohoja" id="pasaextractohoja" label="Pasar a Hoja" class="f-btn green-btn"
+				 icon="ui-icon-add" (click)="PasarCashHojaTrabajo()"></button>
+				<p-dataTable #dtCA [(value)]="lregistroscash" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)"
+				 [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand"
+				 (onFilter)="calcularTotalesCash($event.filteredValue)" [(selection)]="selectedCash">
+					<p-header>
+						<div class="ui-table-title">Movimientos</div>
+						<div class="ui-g-12 ui-md-2">
+							<label class="ui-cell-total"> {{totalCashCredito()| number:'1.2-2'}}</label>
+						</div>
+					</p-header>
+
+					<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+
+					<p-column field="fcontable" header="Fecha" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (click)="clickBorrarExtracto()">
+								{{ reg.fcontable}}
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="numerodocumdtCAento" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"
+					 filterMatchMode="contains"></p-column>
+
+					<p-column field="valorprocesado" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true"
+					 filterPlaceholder="Filtrar">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (dblclick)="clickCreditoCash(reg)">
+								{{ reg.valorprocesado | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="nombrecliente" header="Cliente" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"
+					 filterMatchMode="contains" hidden="hidden">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="row" pTooltip="{{reg.nombrecliente}}" tooltipPosition="top">
+								<div>{{reg.nombrecliente}}</div>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="referencia" header="Referencia" styleClass="f-right" [sortable]="true" [filter]="true"
+					 filterPlaceholder="Filtrar" filterMatchMode="contains">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (dblclick)="clickReferenciaCash(reg)">
+								{{ reg.referencia}}
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="ccomprobante" header="Comprobante" styleClass="f-right" [sortable]="true" [filter]="true"
+					filterPlaceholder="Filtrar" filterMatchMode="contains">
+					 <ng-template pTemplate="body" let-reg="rowData">
+						<div class="ui-grid-row" (dblclick)="clickComprobanteCash(reg)">
+							{{ reg.ccomprobante}}
+						</div>
+					</ng-template>
+					
+					</p-column>
+
+					<p-column header="Con." hidden="hidden">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<p-checkbox [ngModel]="reg.conciliado" binary="false" [disabled]="true"></p-checkbox>
+						</ng-template>
+					</p-column>
+
+					<p-column field="enextracto" header="Cash" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"
+					 filterMatchMode="contains"></p-column>
+
+					<p-column [style]="{'width':'40px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<button pButton type="button" (click)="agregarhojatrabajocash(reg)" icon="ui-icon-add"></button>
+						</ng-template>
+					</p-column>
+					<p-footerColumnGroup style="color:blue;">
+						<p-row>
+							<p-column footer="Total" colspan="2" [style]="{'width':'30%','font-size':'9px'}"></p-column>
+							<p-column footer="Crédito" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalCreditoCash | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column footer="Registros" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalRegistrosCash | number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+						</p-row>
+					</p-footerColumnGroup>
+				</p-dataTable>
+			</div>
+		</div>
+	</p-fieldset>
+
+
+	<p-fieldset legend="HOJA DE TRABAJO">
+
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataTable [(value)]="lhojatrabajo" [responsive]="true" scrollable="true" scrollHeight="250px">
+					<p-header>
+						<div class="ui-table-title">Hoja de trabajo</div>
+					</p-header>
+
+					<p-column field="numerodocumentobancario" header="# Doc. Bancario Extracto"></p-column>
+
+					<p-column field="valordebito" header="Débito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row">
+								{{ reg.valordebito | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="valorcredito" header="Crédito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row">
+								{{ reg.valorcredito | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="numerodocumento" header="# Doc. Bancario Cash"></p-column>
+
+					<p-column field="valorprocesado" header="Crédito Cash" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row">
+								{{ reg.valorprocesado | number: '1.2-2'}}
+							</div>
+
+						</ng-template>
+					</p-column>
+
+					<p-column field="ccomprobante" header="Comprobante Cash"></p-column>
+
+					<p-column field="mccomprobante" header="# Comprobante Mayor"></p-column>
+
+					<p-column field="msecuencia" header="Secuencia Mayor"></p-column>
+
+					<p-column field="mnumerodocumentobancario" header="# Doc. Bancario Mayor"></p-column>
+
+					<p-column field="mvalordebito" header="Débito Mayor" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="ui-grid-row" (dblclick)="clickDebitoMayor(reg)">
+								{{ reg.mvalordebito | number: '1.2-2'}}
+							</div>
+						</ng-template>
+					</p-column>
+
+				</p-dataTable>
+			</div>
+		</div>
+
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataTable [(value)]="lregistrosTotales" [responsive]="true" scrollable="true" scrollHeight="250px">
+					<p-header>
+						<div class="ui-table-title">Totales</div>
+					</p-header>
+
+					<p-column header="Débito Mayor" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span style="color:red">{{ reg.mvalordebito | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Crédito Mayor" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span style="color:red">{{ reg.mvalorcredito | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Débito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span style="color:blue">{{ reg.valordebito | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Crédito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span style="color:blue">{{ reg.valorcredito | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Crédito Cash" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span style="color:blue">{{ reg.valorcreditoC | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Saldo" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span class="f-bold" style="font-size:20px">{{ reg.saldo | number:'1.2-2' }}</span>
+						</ng-template>
+					</p-column>
+
+					<p-footer>
+						<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+							<button type="button" pButton icon="ui-icon-add" (click)="conciliar()" label="Conciliar" class="f-btn f-float-left orange-btn"></button>
+							<button type="button" pButton icon="ui-icon-cancel" (click)="conciliacionCancelar()" label="Cancelar" class="f-btn f-float-left orange-btn"></button>
+						</div>
+					</p-footer>
+
+				</p-dataTable>
+			</div>
+		</div>
+
+	</p-fieldset>
+
+	<p-fieldset legend="CONCILIACIÓN BANCARIA">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataTable [(value)]="lregistrosconciliado" [responsive]="true" scrollable="true" scrollHeight="250px">
+					<p-header>
+						<div class="ui-table-title">Conciliación Bancaria</div>
+					</p-header>
+
+					<p-column header="Id." field="rconciliacionbancariaid">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.rconciliacionbancariaid }}
+						</ng-template>
+					</p-column>
+
+					<p-column header="Código Único" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.rcodigounico }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column header="# Comprobante" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.mccomprobante }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Secuencia" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.msecuencia }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Fecha Contable" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.mfcontable }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column header="Fecha Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.fecha }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="mvalordebito" header="Valor Débito Mayor" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mvalordebito | number: '1.2-2'}}
+						</ng-template>
+					</p-column>
+
+					<p-column field="mvalorcredito" header="Valor Crédito Mayor" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mvalorcredito | number: '1.2-2'}}
+						</ng-template>
+					</p-column>
+
+					<p-column header="Código Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:blue">{{ reg.conconciliacionbancariaextracto }}</span>
+							</div>
+						</ng-template>
+					</p-column>
+
+					<p-column field="valordebito" header="Valor Débito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.valordebito | number: '1.2-2'}}
+						</ng-template>
+					</p-column>
+
+					<p-column field="valorcredito" header="Valor Crédito Extracto" styleClass="f-right">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.valorcredito | number: '1.2-2'}}
+						</ng-template>
+					</p-column>
+
+					<p-column header="Aut.">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<p-checkbox [ngModel]="reg.rautomatico" binary="false" [disabled]="true"></p-checkbox>
+						</ng-template>
+					</p-column>
+
+
+					<p-column [style]="{'width':'40px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<button pButton type="button" icon="ui-icon-delete" (click)="eliminarConciliado(reg)"></button>
+						</ng-template>
+					</p-column>
+				</p-dataTable>
+			</div>
+		</div>
+	</p-fieldset>
+
+</div>

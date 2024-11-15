@@ -1,0 +1,155 @@
+<app-jasper [componente]="componentehijo" style="position: absolute; right: 460px" [pdf]="false" [excel]="false" [impr]="false" [formulario]="formFiltros"></app-jasper>
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">PRÉSTAMOS</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column header="F. Apertura" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fapertura | date:'dd-MM-yyyy'}}
+          </ng-template>
+        </p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'80px'}"></p-column>
+        <p-column header="Producto" [style]="{'width':'160px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.operacion}} <br /> {{reg.tipo}}
+          </ng-template>
+        </p-column>
+        <p-column field="estatus" header="Estatus" [style]="{'width':'120px'}"></p-column>
+        <p-column header="% Pagado" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.porcentaje | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor vencido" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valorvencido | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo total" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.saldo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'50px'}"> 
+          <ng-template pTemplate="body" let-reg="rowData">
+              <div *ngIf="!hipotecario" class="f-table-actions">
+              <button type="button" pButton 
+              pTooltip="Descarga reporte Hipotecario"
+        tooltipPosition="top"
+              (click)="descargaReporteHipotecario(reg)" class="f-btn blue-btn" icon="ui-icon-print"></button>
+            </div>
+          </ng-template> 
+        </p-column> 
+        <p-column [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton (click)="selectRegistro(reg)" class="f-btn orange-btn" icon="ui-icon-save"></button>
+            </div>
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter" *ngIf="true">
+          <td colspan="6" style="text-align:right">TOTAL</td>
+          <td style="text-align:right">{{totalvencido | number:'1.2-2' }}</td>
+          <td style="text-align:right">{{totalmonto | number:'1.2-2' }}</td>
+          <td style="text-align:right"></td>
+          <td style="text-align:right"></td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="!estaVacio(OPERACIONESGARANTE)">
+      <br />
+      <br />
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="OPERACIONESGARANTE" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px">
+          <p-header>
+            <div class="ui-table-title">GARANTE</div>
+          </p-header>
+          <p-column field="coperacion" header="Operación" [style]="{'width':'65px'}"></p-column>
+          <p-column field="mdatos.identificacion" header="Identificación" [style]="{'width':'60px'}"></p-column>
+          <p-column field="mdatos.nombre" header="Deudor"  [style]="{'width':'100px'}"></p-column>
+          <p-column header="Producto" [style]="{'width':'100px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.mdatos.nproducto}}
+              <br /> {{reg.mdatos.ntipoproducto}}
+            </ng-template>
+          </p-column>
+          <p-column field="mdatos.nestatus" header="Estatus" [style]="{'width':'50px'}"></p-column>
+          <p-column [style]="{'width':'20px'}"> 
+            <ng-template pTemplate="body" let-reg="rowData">
+                <div class="f-table-actions">
+                <button type="button" pButton 
+                pTooltip="Descarga reporte Garante"
+                tooltipPosition="top"
+                (click)="descargaReporte(reg)" class="f-btn blue-btn" icon="ui-icon-print"></button>
+              </div>
+            </ng-template> 
+          </p-column> 
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog header="Pago de Préstamos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="montoprecancela" class="ui-outputlabel">Monto precancelación: </label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="montoprecancela" name="montoprecancela" [(ngModel)]="registro.saldo"
+              autofoco required numero maxlength="20" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="montominimo" class="ui-outputlabel">Monto mínimo de pago: </label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="montominimo" name="montominimo" [(ngModel)]="registro.valorpagominimo"
+              autofoco required numero maxlength="20" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <br />
+          <br />
+          <br />
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="montopago" class="ui-outputlabel required">Monto pago</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="montopago" name="montopago" [(ngModel)]="mcampos.montopago" autofoco
+              required numero maxlength="20" [disabled]="registro.pagototal" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="comentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario" required
+              mayusculas maxlength="60" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

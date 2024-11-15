@@ -1,0 +1,156 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+    </div>
+  </div>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" dataKey="cmodulo" scrollable="true" scrollHeight="500px">
+        <p-header>
+          <div class="ui-table-title">Módulos por lote</div>
+        </p-header>
+        <p-column header="Módulo" field="cmodulo" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Nombre módulo" field="mdatos.nombreModulo"></p-column>
+        <p-column header="Activo?" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.activo == '1' ? true : false" binary="true" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Orden" field="orden" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Número de hilos" field="numerohilos" [style]="{'width':'120px'}"></p-column>
+        <p-column header="Responsable" field="mdatos.npersonaresponsable"></p-column>
+
+        <p-column header="Acciones" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+<app-lov-modulo (eventoCliente)=fijarModuloDialog($event) [modelCombo]="comboSelect" [disabled]="!editable || !registro.esnuevo"></app-lov-modulo>
+
+<p-dialog header="Modulo por lote" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+	        <div class="ui-g-12 ui-g-nopad">
+	          <div class="ui-g-12 ui-md-2">
+	            <label class="ui-outputlabel required">Modulo</label>
+	          </div>
+	          <div class="ui-g-12 ui-md-4">
+							<p-dropdown id="modulo" name="modulo" [options]="lmodulo" [(ngModel)]="registro.cmodulo" ></p-dropdown>
+	          </div>
+	        </div>
+	        <div class="ui-g-12 ui-g-nopad">
+	          <div class="ui-g-12 ui-md-2 ">
+	            <label for="activo" class="ui-outputlabel">Activo:</label>
+	          </div>
+	          <div class="ui-g-12 ui-md-3">
+	            <p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="true" [disabled]="!editable"></p-checkbox>
+	          </div>
+	        </div>
+	        <div class="ui-g-12 ui-g-nopad">
+	          <div class="ui-g-12 ui-md-2">
+	            <label for="orden" class="ui-outputlabel required">Orden:</label>
+	          </div>
+	          <div class="ui-g-12 ui-md-4">
+	            <input pInputText id="orden" name="orden" [(ngModel)]="registro.orden" entero maxlength="2" />
+	          </div>
+	        </div>
+	        <div class="ui-g-12 ui-g-nopad">
+	          <div class="ui-g-12 ui-md-2">
+	            <label for="numerohilos" class="ui-outputlabel required">Número de hilos:</label>
+	          </div>
+	          <div class="ui-g-12 ui-md-4">
+	            <input pInputText id="numerohilos" name="numerohilos" [(ngModel)]="registro.numerohilos" entero maxlength="3" />
+	          </div>
+	        </div>
+	
+	        <div class="ui-g-12 ui-g-nopad">
+	          <div class="ui-g-12 ui-md-2">
+	            <label for="cpersonaresp" class="ui-outputlabel required">Responsable</label>
+	          </div>
+	          <div class="ui-g-2 ui-md-1">
+	            <input id="cpersonaresp" name="cpersonaresp" type="text" pInputText [(ngModel)]="registro.cpersonaresponsable" [readOnly]="true"
+	            />
+	          </div>
+	          <div class="ui-g-9 ui-md-7">
+	            <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="registro.mdatos.npersonaresponsable" [readOnly]="true"
+	            />
+	          </div>
+	          <div class="ui-g-1 ui-md-1">
+	            <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions"
+	              [disabled]="!editable">
+	            </button>
+	          </div>
+	        </div>
+	        
+	        <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="modo" class="ui-outputlabel required">Modo de ejecución:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<p-dropdown id="modo" name="modo" [options]="lmodo" [(ngModel)]="registro.modoejecucion" required></p-dropdown>
+				</div>
+			</div>
+	        
+	        
+	        
+	        <div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Permitir ejecución módulo</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator_sub">
+					<span>Valida módulo antecesor</span>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-10 ui-md-4">
+					<label for="valprev" class="ui-outputlabel">Valida éxito procesos previos?</label>
+				</div>
+				<div class="ui-g-2 ui-md-8">
+					<p-checkbox id="valprev" name="valprev" [(ngModel)]="registro.valprocesoantprev" binary="true" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-10 ui-md-4">
+					<label for="valreg" class="ui-outputlabel">Valida éxito procesos registro?</label>
+				</div>
+				<div class="ui-g-2 ui-md-8">
+					<p-checkbox id="valreg" name="valreg" [(ngModel)]="registro.valprocesoantregistros" binary="true" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-10 ui-md-4">
+					<label for="valfin" class="ui-outputlabel">Valida éxito procesos fin?</label>
+				</div>
+				<div class="ui-g-2 ui-md-8">
+					<p-checkbox id="valfin" name="fin" [(ngModel)]="registro.valprocesoantfin" binary="true" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

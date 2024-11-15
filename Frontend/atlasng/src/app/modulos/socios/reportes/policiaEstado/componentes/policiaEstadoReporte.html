@@ -1,0 +1,61 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+          <div class="f-acciones-cabecera ui-g ui-fluid">
+                    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+          </div>
+          <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="fInicio" class="ui-outputlabel">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fInicio" [(ngModel)]="mcampos.fInicio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<label for="fFin" class="ui-outputlabel">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fFin" [(ngModel)]="mcampos.fFin" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+	   </div>
+		<div class="ui-g-12 ui-g-nopad">
+	    	<div class="ui-g-6 ui-md-2">
+				<label for="jerarquia" class="ui-outputlabel">Jerarquía</label>
+			</div>
+				<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquias" [(ngModel)]="this.mcampos.jerarquia"></p-dropdown>
+			</div>
+	   </div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="grado" class="ui-outputlabel required">Estado Policía</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-multiSelect name="estadopolicia" [(ngModel)]="this.mcampos.estadopolicia" required [options]="lestadopolicias"></p-multiSelect>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="grado" class="ui-outputlabel">Grados</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="grado" name="grado" [options]="lgrados" [(ngModel)]="this.mcampos.grado"></p-dropdown>
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="historicopolicia" class="ui-outputlabel required">Histórico Policía</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="historicopolicia" name="historicopolicia" [options]="lhistorico" required [(ngModel)]="this.mcampos.historicopolicia"></p-dropdown>
+			</div>
+		</div>
+
+   </div>
+
+</form>
+<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

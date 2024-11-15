@@ -1,0 +1,72 @@
+<p-dialog header="Lista de Cuentas por Cobrar" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120" >
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 ui-md-4">
+		  		<label for="ccodfacturaF" class="ui-outputlabel">Código de la factura</label>
+			</div>
+			<div class="ui-g-7 ui-md-7">
+				<input type="text" pInputText id="ccodfacturaF" name="ccodfacturaF" [(ngModel)]="mcampos.ccodfactura"/>
+			</div>
+		</div>
+		  
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 ui-md-4">
+		  		<label for="cctaporcobrarF" class="ui-outputlabel">Código de la cuenta por cobrar</label>
+			</div>
+		  	<div class="ui-g-7 ui-md-7">
+				<input type="text" pInputText id="cctaporcobrarF" name="cctaporcobrarF" [(ngModel)]="mcampos.cctaporcobrar"/>
+			</div>
+	  	</div>
+	  
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="fdocumentoF" class="ui-outputlabel">F.Documento</label>
+			</div>
+			<div class="ui-g-7 ui-md-7">
+				<p-calendar id="fdocumentoF	" name="fdocumentoF" [(ngModel)]="mcampos.fdocumento" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-2 ui-md-2">
+				<label for="cpersonaFiltro" class="ui-outputlabel">Cliente</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input type="text" pInputText id="cpersonaFiltro" name="cpersonaFiltro" [(ngModel)]="mcampos.cpersonaFiltro" [readOnly]="true" />
+			</div>
+			<div class="ui-g-3 ui-md-3">
+				<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacionFiltro" [readOnly]="true" />
+			</div>
+			<div class="ui-g-4 ui-md-4">
+				<input type="text" pInputText id="nombreFiltro" name="nombreFiltro" [(ngModel)]="mcampos.npersonaFiltro" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovclientesFiltro" name="lovclientesFiltro" (click)="mostrarLovClientesFiltro()" icon="ui-icon-directions"></button>
+			</div>
+
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true" scrollHeight="250px">
+		          <p-header>
+		          		<div class="ui-table-title">Cuentas por Cobrar</div>
+		          		<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		          </p-header>
+		          <p-column field="cctaporcobrar" header="Cuenta por Cobrar"></p-column>
+		          <p-column field="mdatos.nombreCliente" header="Cliente"></p-column>
+				  <p-column header="F.Documento">
+						<ng-template  pTemplate="body" let-reg="rowData">
+							<span>{{reg.fdocumento | date: 'yyyy-MM-dd'}}</span>
+						 </ng-template>
+					</p-column>
+		          <p-column field="ccodfactura" header="Factura"></p-column>
+		          <p-column field="total" header="Monto total"></p-column>
+				  <p-column field="mdatos.estadocxccdetalle" header="Estado"></p-column>
+				</p-dataTable>
+		</div>
+	</div>
+</p-dialog>
+<app-lov-clientes (eventoCliente)=fijarLovClientesFiltroSelect($event)></app-lov-clientes>
+

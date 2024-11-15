@@ -5,6 +5,7 @@ using dal.cartera;
 using dal.generales;
 using modelo;
 using System;
+using System.Collections.Generic;
 using util;
 using util.dto.interfaces.lote;
 using util.dto.mantenimiento;
@@ -41,6 +42,7 @@ namespace cartera.lote.operacion
             this.CompletaCalificacion(operacion, saldo);
         }
 
+
         /// <summary>
         /// Crea historia de calificacion ejecuta el nuevo calculo de acuerdo al porcentaje.
         /// </summary>
@@ -55,6 +57,104 @@ namespace cartera.lote.operacion
             Decimal monto = Constantes.CERO;
             Decimal saldooperacion = saldo.Capitalporvencer + saldo.Capitalvencido;
             int diasmorosidad = saldo.GetDiasMorosidad();//GetDiasMorosidad360(); // cca homologacion 20210701
+            
+            bool modDiasMorosidadRestructurado = false;
+            if (tcarOperacion.cestadooperacion.Equals("E"))
+            {
+                int dias_mor_restructurado_ope_negociada = 0;
+                //VERIFICA SI UNA OPERACIÓN RESTRUCTURADA A UN NO LLEGA A LA CALIFICACIÓN A-1; SI YA EXISTE UNA CALIFICACIÓN A-1, LA OPERACIÓN SE EMPIEZA A CALIFICAR COMO UNA OPERACIÓN NORMAL 
+                if (TcarOperacionCalificacionDal.FindCalA1OpeRest(tcarOperacion) == null)
+                {
+                    modDiasMorosidadRestructurado = true;
+                    //VERIFICAR SI SI LA OPERACIÓN YA FUE CALIFICADA O SE ESTA CREANDO EN ESTE MOMENTO PARA OBTENER LOS DÍAS DE MOROSIDAD CONJ LA QUE SE VA ACREAR ON SE CREO
+                    tcaroperacioncalificahistoria calhis = TcarOperacionCalificaHistoriaDal.GetPrimeCalificacion(Int32.Parse(tcarOperacion.coperacion));
+                    if (calhis != null)
+                    {
+                        dias_mor_restructurado_ope_negociada = (int)calhis.diasmorosidad;
+                    }
+                    else
+                    {
+                        //Se va a registra por primera vez en tcarOperacionCalificacion de una operación restructurada
+                        IList<tcarsolicitudabsorcion> solicitudesabs = TcarSolicitudAbsorcionDal.Find((long)tcarOperacion.csolicitud);
+                        //OBTENGO EL TOTAL DE DIAS CON LA QUE SE APERTURÓ UNA OPERACIÓN RESTRUCTURADA
+                        foreach (tcarsolicitudabsorcion solab in solicitudesabs)
+                        {
+                            tcaroperacion opantigua = TcarOperacionDal.FindSinBloqueoAndSinfinalizarProceso(solab.coperacion);
+                            if (opantigua != null)
+                            {
+                                tcaroperacioncalificacion calantigua = TcarOperacionCalificacionDal.FindFromDatabase(opantigua);
+                                if (calantigua != null)
+                                {
+                                    dias_mor_restructurado_ope_negociada = dias_mor_restructurado_ope_negociada + (int)calantigua.diasmorosidad;
+                                }
+                            }
+                        }
+                    }
+                    //VERIFICAR QUE AYA PAGADO TODOS LOS RUBROS DE 3 CUOTAS CONSECUTIVAS PARA PODER MEJORAR SU CALIFICACIÓN
+                    IList<tcaroperacioncuota> cuotas = TcarOperacionCuotaDal.FindCuotasHastaFecha(tcarOperacion.coperacion, (int)this.fcalificacion);
+                    int consecutivas = 0;
+                    int totalCalificarestar = 0;
+                    foreach (tcaroperacioncuota cuo in cuotas)
+                    {
+                        if (cuo.fpago != null && cuo.fpago >= cuo.finicio && cuo.fpago <= cuo.fvencimiento)
+                        {
+                            consecutivas = consecutivas + 1;
+                            if (consecutivas == 3)
+                            {
+                                totalCalificarestar = totalCalificarestar + 1;
+                                consecutivas = 0;
+                            }
+                        }
+                        else
+                        {
+                            consecutivas = 0;
+                        }
+                    }
+                    if (totalCalificarestar > 0)
+                    {
+                        //MEJORAR LA CALIFICCION
+                        // SE OBTIENE LA CALIFICACIÓN CON LA QUE FUE O SE VA A CREAR LA OPERAQCIÓN RESTRUCTURADA
+                        string auxCal = null;
+                        if (tcarOperacion.cmodulo == 7 && tcarOperacion.cproducto == 1 && (tcarOperacion.ctipoproducto == 4 || tcarOperacion.ctipoproducto == 14 || tcarOperacion.ctipoproducto == 23))
+                        {
+                            auxCal = TcarCalificacionRangosDal.GetCcalificacion("12", dias_mor_restructurado_ope_negociada);
+                        }
+                        else
+                        {
+                            auxCal = TcarCalificacionRangosDal.GetCcalificacion(tcarOperacion.csegmento, dias_mor_restructurado_ope_negociada);
+                        }
+                        //BUSCAR EN QUE POSICIÓN SE ENUENTRA LA CALIFICACIÓN CON LA QUE SE APERTURÓ UNA OPERACIÓN RESTRUCTURADA, PARA POSTERIORMENTE RESTARLE EL totalCalificarestar
+                        IList<tcarcalificacionrangos> calrangos = TcarCalificacionRangosDal.Find(tcarOperacion.csegmento);
+                        int posnuevacal = 0;
+                        for (int i = 0; i < calrangos.Count; i++)
+                        {
+                            if (calrangos[i].ccalificacion.Equals(auxCal))
+                            {
+                                posnuevacal = i - totalCalificarestar;
+                                if (posnuevacal < 0)
+                                {
+                                    posnuevacal = 0;
+                                }
+                                break;
+                            }
+                        }
+                        //ACTUALIZO LOS DÍAS DE MOROSIDAD UNICAMNETE CUANDO EL VALOR DESDE SEA MAYOR A CERO
+                        if (calrangos[posnuevacal].diasdesde > 0)
+                        {
+                            dias_mor_restructurado_ope_negociada = (int)calrangos[posnuevacal].diasdesde;
+                        }
+                        else
+                        {
+                            dias_mor_restructurado_ope_negociada = 0;
+                        }
+                    }
+                }
+                if (modDiasMorosidadRestructurado)
+                {
+                    diasmorosidad = diasmorosidad + dias_mor_restructurado_ope_negociada;
+                }
+            }
+            
             string segmentonew = "";
             String ccalificacion;
             if (tcarOperacion.cmodulo == 7 && tcarOperacion.cproducto == 1 && (tcarOperacion.ctipoproducto == 4 || tcarOperacion.ctipoproducto == 14 || tcarOperacion.ctipoproducto == 23))//cca hipotec 20220504
@@ -70,8 +170,7 @@ namespace cartera.lote.operacion
             //String ccalificacion = TcarCalificacionRangosDal.GetCcalificacion(tcarOperacion.csegmento, diasmorosidad);
             tgencalificacion tgenCalificacion = TgenCalificacionDal.Find(ccalificacion);
 
-            // En los creditos restructurados no regresa a una calificacion menor si no ha pagado 3 cuotas
-            if (cambiarCalificacion || tcarOperacionCalificacion.ccalificacion.CompareTo(tgenCalificacion.ccalificacion) < 0)
+            if (cambiarCalificacion || tcarOperacionCalificacion.ccalificacion.CompareTo(tgenCalificacion.ccalificacion) < 0 || modDiasMorosidadRestructurado)
             {
                 tcarOperacionCalificacion.ccalificacion = tgenCalificacion.ccalificacion;
                 tcarOperacionCalificacion.ccalificacionlegal = tgenCalificacion.ccalificacionlegal;
@@ -177,7 +276,5 @@ namespace cartera.lote.operacion
                 cambiarCalificacion = false;
             }
         }
-
-
     }
 }

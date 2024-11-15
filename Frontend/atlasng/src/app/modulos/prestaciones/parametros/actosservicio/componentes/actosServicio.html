@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+    	<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Actos del Servicio</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="mdatos.ntipobaja" header="Tipo Baja" ></p-column>
+            <p-column field="aportemin" header="Aporte Mínimo" ></p-column>
+			<p-column field="aportemax" header="Aporte Máximo" ></p-column>
+			<p-column header="Porcentaje %" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+					   {{reg.porcentaje | number:'1.2-2'}}
+				   </ng-template>
+			   </p-column>
+            <p-column [style]="{'width':'100px'}" >
+     			<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+<app-lov-tipo-baja (eventoCliente)=fijarLovTipoBajaSelec($event)></app-lov-tipo-baja>
+<p-dialog header="Actos del Servicio" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="150" >
+   <form #formDialogoProv="ngForm">
+       <div class="f-dialogo" style="max-width: 500px">
+          <div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fctipobaja" class="ui-outputlabel required">Tipo Baja:</label>
+				</div>
+				<div class="ui-g-2 ui-md-1">
+					<input id="fctipobaja" name="fctipobaja" type="text" pInputText [(ngModel)]="registro.ctipobaja" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-9 ui-md-4">
+					<input type="text" pInputText id="fntipobaja" name="fntipobaja" [(ngModel)]="mcampos.ntipobaja" [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-3">
+					<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovTipoBaja()"
+					 icon="ui-icon-directions">
+					</button>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="aportemin" class="ui-outputlabel required">Aporte Mínimo</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="aportemin" name="aportemin" [(ngModel)]="registro.aportemin"
+					 required entero maxlength="3" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="aportemax" class="ui-outputlabel required">Aporte Máximo</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="aportemax" name="aportemax" [(ngModel)]="registro.aportemax"
+					   required entero maxlength="19" [disabled]="registro.esnuevo && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="porcentaje" class="ui-outputlabel required">Porcentaje %</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="porcentaje" name="porcentaje" [(ngModel)]="registro.porcentaje"
+						   required numero maxlength="5" [disabled]="registro.esnuevo && !registro.esnuevo" />
+					</div>
+				</div>
+		  </div>
+	   <footer>
+            <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+       </footer>
+     </div>
+  </form>
+ </p-dialog>
+
+
+

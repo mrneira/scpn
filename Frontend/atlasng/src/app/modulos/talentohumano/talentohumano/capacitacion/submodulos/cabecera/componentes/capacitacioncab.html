@@ -1,0 +1,100 @@
+<div class="f-contenedor-transaccion">
+  
+  <form #formularioUsuario="ngForm">
+    <div class="f-dialogo" style="max-width: 900px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+     	
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cinstruccion" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cinstruccion" name="cinstruccion" [(ngModel)]="registro.cinstruccion" autofoco required
+              numeric maxlength="10" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <textarea pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="200" rows="2"
+            [disabled]="!editable"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+              rows="2"[disabled]="!editable" ></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nidioma" class="ui-outputlabel required">Establecimiento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="cinstitucion" name="cinstitucion" type="text" pInputText [(ngModel)]="registro.cinstitucion" [readOnly]="true"
+              required />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="ninstitucion" name="ninstitucion" [(ngModel)]="registro.mdatos.ninstitucion" [disabled]="true"
+              required />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button autofoco pButton type="button" id="lovestablecimiento" name="lovestablecimiento" (click)="mostrarLovEstablecimiento()"
+              icon="ui-icon-directions" [disabled]="!editable">
+            </button>
+          </div>
+          <app-lov-establecimiento (eventoCliente)=fijarLovEstablecimientoSelec($event)></app-lov-establecimiento>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true"  [dateFormat]="formatofecha"
+              (ngModelChange)="validarFecha()" [readonlyInput]="true"  appendTo="body" [monthNavigator]="true"
+              [yearNavigator]="true" yearRange="1900:5000" required [disabled]="!editable" ></p-calendar>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="fmin"
+               [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(registro.finicio) || !editable "
+              [readonlyInput]="true" required></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="horas" class="ui-outputlabel required">Horas:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <input type="text" pInputText id="horas" name="horas" [(ngModel)]="registro.horas" maxlength="10" entero required [disabled]="!editable"/>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="costo" class="ui-outputlabel">Costo:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <input type="text" pInputText id="costo" name="costo" [(ngModel)]="registro.costo" maxlength="10" numeroPositivo [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="plananual" class="ui-outputlabel ">Plan Anual?:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-checkbox id="plananual" name="plananual" [(ngModel)]="registro.plananual" binary="false" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </form>

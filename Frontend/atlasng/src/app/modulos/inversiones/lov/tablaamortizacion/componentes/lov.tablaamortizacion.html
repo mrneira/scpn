@@ -1,0 +1,81 @@
+<p-dialog header="Tablas de amortización" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Id.:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.cinversion" autofoco maxlength="10" />
+      </div>
+
+    </div>
+
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fvencimientoinicial" class="ui-outputlabel">Fechas Vencimiento: Inicial</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fvencimientoinicial" name="fvencimientoinicial" [(ngModel)]=this.pfvencimientoInicial [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fvencimientofinal" class="ui-outputlabel">Final</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fvencimientofinal" name="fvencimientofinal" [(ngModel)]=this.pfvencimientoFinal [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+
+    </div>
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" [immutable]="false"
+        scrollable="true" scrollHeight="250px">
+
+
+        <p-header>
+          <div class="ui-table-title">Cuotas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+          </acciones-consulta>
+        </p-header>
+
+        <p-column field="finicio" header="F.Inicio" [style]="{'width':'90px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.finicio | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+
+        <p-column field="fvencimiento" header="F.Vencimiento" [style]="{'width':'90px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fvencimiento | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+
+        <p-column field="plazo" header="Plazo" [style]="{'width':'90px'}" styleClass="f-center" *ngIf="false"></p-column>
+
+        <p-column header="Capital" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.proyeccioncapital | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Interés" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.proyeccioninteres | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+       
+
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,49 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+		<button pButton type="button" label="Crear Nómina" style="position: absolute; right: 105px;" class="f-btn teal-btn" icon="ui-icon-add"
+		 (click)="nuevaNomina()"></button>
+	</div>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [(selection)]="selectedRegistros"
+			 dataKey="cfuncionario">
+				<p-header>
+					<div class="ui-table-title">FUNCIONARIOS EN NÓMINA</div>
+				</p-header>
+				<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+				<p-column field="cfuncionario" header="Código" [style]="{'width':'50px'}"></p-column>
+				<p-column field="documento" header="Documento" [style]="{'width':'100px'}"></p-column>
+				<p-column field="nombre" header="Funcionario"></p-column>
+				<p-column field="cargo" header="Cargo"></p-column>
+				<p-column field="centrocosto" header="Centro Costos"></p-column>
+
+				<p-column header="Aplíca?" [style]="{'width':'65px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.avisoentrada" binary="true" disabled="false"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-footerColumnGroup>
+					<p-row>
+						<p-column footer="En nómina" [style]="{'font-size':'12px'}" styleClass="f-right"></p-column>
+						<p-column [footer]="getTotal() | number : '1.0-0'" [style]="{'text-align':'center','font-size':'12px','width':'75'}" [style]="{'width':'50px'}"></p-column>
+					</p-row>
+					<p-row>
+						<p-row>
+							<p-column footer="Sin aviso de entrada" [style]="{'font-size':'12px'}" styleClass="f-right"></p-column>
+							<p-column [footer]="totalinvalidos | number : '1.0-0'" [style]="{'text-align':'center','font-size':'12px','width':'75'}"
+							 [style]="{'width':'50px'}"></p-column>
+						</p-row>
+
+						<p-column footer="Total General" [style]="{'font-size':'12px'}" styleClass="f-right"></p-column>
+						<p-column [footer]="total | number : '1.0-0'" [style]="{'text-align':'center','font-size':'12px','width':'75'}" [style]="{'width':'50px'}"></p-column>
+					</p-row>
+				</p-footerColumnGroup>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins"> </div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

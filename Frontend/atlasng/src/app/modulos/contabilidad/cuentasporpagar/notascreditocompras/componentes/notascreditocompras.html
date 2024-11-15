@@ -1,0 +1,206 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel required">Proveedor</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input type="text" pInputText required id="cpersona" name="cpersona" [(ngModel)]="mcampos.cpersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">Identificaci&oacute;n</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">Raz&oacute;n social</label>
+		</div>
+		<div class="ui-g-12 ui-md-3">
+			<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nproveedor" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarlovproveedores()" icon="ui-icon-directions"
+			 hidden="!nuevo"></button>
+		</div>
+		<app-lov-proveedores (eventoCliente)=fijarLovProveedores($event)></app-lov-proveedores>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="cruzadas" class="ui-outputlabel">Desplegar notas crédito cruzadas?</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<p-checkbox id="notascreditocruzadas" name="tienekardex" [(ngModel)]="mcampos.notascruzadas" binary="false" (onChange)="desplegarNotasCruzadas($event)"></p-checkbox>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" [resizableColumns]="false" scrollable="true" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Notas crédito por proveedor</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+
+			<p-column field="ccomprobante" header="Secuencial Contable"></p-column>
+			<p-column field="numdocumento" header="N. documento"></p-column>
+			<p-column field="fdocumento" header="F. documento">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fdocumento | date: 'yyyy-MM-dd' }}
+				</ng-template>
+			</p-column>
+			<p-column field="autorizacion" header="N. autorización"></p-column>
+			<p-column field="subtotal" header="Subtotal" [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.subtotal | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="valoriva" header="I.V.A." [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valoriva | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="total" header="Total" [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.total | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="numdocsustento" header="Doc. sustento"></p-column>
+			<p-column field="fdocsustento" header="F. sustento">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fdocsustento | date: 'yyyy-MM-dd' }}
+				</ng-template>
+			</p-column>
+
+			<p-column field="cctaporpagar" header="Cta por pagar cruzada"></p-column>
+
+			<p-column [style]="{'width':'100px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="eliminarRegistro(reg)" class="red-btn" style="margin-left:5px">
+						</button>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+		</p-dataTable>
+	</div>
+</div>
+
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+<p-dialog header="Notas crédito" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fpnombre" class="ui-outputlabel required">Cuenta afectación</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText required id="ccuentaafectacion" name="ccuentaafectacion" [(ngModel)]="registro.ccuentaafectacion"
+						 [readOnly]="true" />
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarlovcuentascontables()"
+						 icon="ui-icon-directions"></button>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="numdocumento" class="ui-outputlabel required">No. documento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-inputMask id="numdocumento" name="numdocumento" [(ngModel)]="registro.numdocumento" mask="999-999-999999999" [disabled]="!editable"></p-inputMask>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fdocumento" class="ui-outputlabel required">F. documento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="fdocumento" name="fdocumento" [(ngModel)]="registro.fdocumento" [showIcon]="true" [dateFormat]="formatofecha"
+						 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es" required></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="autorizacion" class="ui-outputlabel required">Autorizaci&oacute;n</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="autorizacion" name="autorizacion" entero required maxlength="50" [(ngModel)]="registro.autorizacion"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="subtotal" class="ui-outputlabel required">Subtotal</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="subtotal" name="subtotal" [(ngModel)]="registro.subtotal" required numeroPositivo />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valoriva" class="ui-outputlabel required">I.V.A.</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="valoriva" name="valoriva" [(ngModel)]="registro.valoriva" required numeroPositivo />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="total" class="ui-outputlabel required">Total</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="total" name="total" [(ngModel)]="registro.total" required numeroPositivo />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="numdocsustento" class="ui-outputlabel required">No. documento sustento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-inputMask id="numdocsustento" name="numdocsustento" [(ngModel)]="registro.numdocsustento" mask="999-999-999999999" [disabled]="!editable"></p-inputMask>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fdocsustento" class="ui-outputlabel required">F. documento sustento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="fdocsustento" name="fdocsustento" [(ngModel)]="registro.fdocsustento" [showIcon]="true" [dateFormat]="formatofecha"
+						 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es" appendTo="body" required></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="comentario" class="ui-outputlabel">Comentario</label>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-12">
+						<textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas
+						 maxlength="500" rows="2" [disabled]="!editable"></textarea>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

@@ -61,6 +61,8 @@ namespace modelo
         public Nullable<bool> mantieneplazo { get; set; }
         public decimal tasa { get; set; }
         public Nullable<int> mesnogeneracuota { get; set; }
+        public Nullable<int> numcuotaprorrateo { get; set; }
+        public Nullable<decimal> montoarreglopago { get; set; }
     
     [JsonIgnore]
     [IgnoreDataMember]

@@ -1,0 +1,120 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ftiposeguro" class="ui-outputlabel required">Tipo Seguro</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="ftiposeguro" [options]="ltiposeguro" [(ngModel)]="mfiltros.ctiposeguro" autofoco required
+          [filter]="true" (onChange)="cambiarTipoSeguro($event)"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Rubros por Seguro</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="orden" header="Orden" [style]="{'width':'100px'}" styleClass="f-center"></p-column>
+        <p-column header="Porcentaje" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.esporcentaje" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Valor" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.esvalor" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Activo" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Rubros" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoRubros="ngForm">
+    <div class="f-dialogo" style="max-width: 500px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="dctiposeguro" class="ui-outputlabel required">Tipo de Seguro</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input pInputText id="dctiposeguro" name="dctiposeguro" [(ngModel)]="mcampos.ntiposeguro" [disabled]="true" required />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="dnombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input pInputText id="dnombre" name="dnombre" [(ngModel)]="registro.nombre" mayusculas required maxlength="100" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="dorden" class="ui-outputlabel required">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText id="dorden" name="dorden" [(ngModel)]="registro.orden" entero required maxlength="3" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3 ">
+            <label for="dtiporubro " class="ui-outputlabel required ">Tipo Rubro</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-radioButton name="porcentajevalor" value="true" label="Porcentaje" [(ngModel)]="mcampos.porcentajevalor"></p-radioButton>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-radioButton name="porcentajevalor" value="false" label="Valor" [(ngModel)]="mcampos.porcentajevalor"></p-radioButton>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="desporcentaje" class="ui-outputlabel required">Porcentaje/Valor</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input pInputText id="dvalor" name="dvalor" [(ngModel)]="mcampos.valor" numeroDecimal7 required maxlength="10" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="estatus" class="ui-outputlabel">Activo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-checkbox name="estatus" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoRubros" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

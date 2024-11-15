@@ -1,0 +1,34 @@
+<div class="ui-g-12 ">
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+                    <div class="ui-table-title">EXPEDIENTE</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+				<p-column field="mdatos.netapa" [style]="{'width':'35px'}" header="Departamento"></p-column> 
+				<p-column field="mdatos.ntipo" [style]="{'width':'35px'}" header="Tipo Expediente"></p-column> 
+				<p-column field="cexpediente" [style]="{'width':'35px'}" header="Expediente"></p-column> 
+				<p-column header="Fecha ingreso" [style]="{'width':'40px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fechainicio | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+				<p-column header="Fecha Liquidación" [style]="{'width':'40px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fechaliquidacion | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+                <p-column header="Fecha Pago" [style]="{'width':'40px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fechafin | date:'dd-MM-yyyy'}}
+					</ng-template>
+					</p-column> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>			
+
+

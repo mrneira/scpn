@@ -1,0 +1,116 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="simular" id="simular" label="Simular" style="position: absolute; right: 95px;"
+    class="f-btn green-btn" icon="fa-check" (click)="grabarSimulacion()"> </button>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpk" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Simulación" [selected]="true">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12"></div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad ui-md-6">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-4">
+            <label for="fcobro" class="ui-outputlabel">Fecha</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="fcobro" name="fcobro" value="{{mcampos.fcobro | fechaenteroformato}}"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ui-md-6">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-4">
+            <label for="monto" class="ui-outputlabel">Monto descuento</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input id="monto" name="monto" type="text" pInputText [ngModel]="mcampos.monto" numero [readOnly]="true"
+              numero disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ui-md-6">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-4">
+            <label for="cuotasvencido" class="ui-outputlabel">Cuotas vencido</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input id="cuotasvencido" name="cuotasvencido" type="text" pInputText [ngModel]="mcampos.cuotasvencido"
+              entero [readOnly]="true" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad ui-md-6">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-4">
+            <label for="diasvencido" class="ui-outputlabel">Días vencido</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input id="diasvencido" name="diasvencido" type="text" pInputText [ngModel]="mcampos.diasvencido" entero
+              [readOnly]="true" disabled="disabled" />
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12"></div>
+      <div class="ui-g-12"></div>
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistros" [responsive]="true" rowGroupMode="subheader">
+          <p-header>
+            <div class="ui-table-title">Descuentos</div>
+          </p-header>
+          <p-column field="mdatos.narchivo" header="Archivo" [style]="{'width':'150px'}"></p-column>
+          <p-column field="mdatos.ntipopersona" header="Tipo" [style]="{'width':'120px'}"></p-column>
+          <p-column field="mdatos.npersona" header="Nombre"></p-column>
+          <p-column field="mdatos.nestadosocio" header="Estado Socio" [style]="{'width':'150px'}"></p-column>
+          <p-column header="Monto" [style]="{'width':'120px'}" styleClass="f-right">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.monto | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td colspan="4" style="text-align:left">TOTAL</td>
+            <td style="text-align:right">{{mcampos.montoDescuentos | number:'1.2-2' }}</td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>

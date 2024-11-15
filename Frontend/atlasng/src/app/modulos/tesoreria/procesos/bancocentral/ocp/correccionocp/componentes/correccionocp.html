@@ -1,0 +1,130 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel ">Módulos:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fdesde" class="ui-outputlabel required">Fecha Generación:</label>
+		</div>
+		<div class="ui-g-6 ui-md-4">
+			<p-calendar name="fdesde" [(ngModel)]="mfiltros.fingreso" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+			 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+				<p-header>
+					<div class="ui-table-title">Corrección de Información Cobros</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ctestransaccion" header="Id"></p-column>
+				<p-column field="mdatos.modulo" header="Módulo"></p-column>
+				<p-column field="identificacionbeneficiario" header="Identificación Beneficiario"></p-column>
+				<p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+				<p-column field="mdatos.tipocuenta" header="Tipo Cuenta"></p-column>
+				<p-column field="mdatos.institucion" header="Institución"></p-column>
+				<p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+				<p-column field="valorpago" header="Valor Pago"></p-column>
+				<p-column field="subcuenta" header="Concepto"></p-column>
+				<p-column field="detalle" header="Detalle"></p-column>
+				<p-column field="referenciainterna" header="Referencia Interna"></p-column>
+				<p-column field="numeroreferencia" header="N° Referencia"></p-column>
+				<p-column field="numeroreferenciapago" header="Referencia Pago"></p-column>
+				<p-column field="mdatos.nombre" header="Motivo Rechazo"></p-column>
+				<p-column>
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false" [mostrarEditar]="reg.mdatos.modificable"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Editar Información Cobros" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label class="ui-outputlabel required">Identificación Propietario Debito:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="identificacionbeneficiario" name="identificacionbeneficiario" [(ngModel)]="registro.identificacionbeneficiario"
+						 required/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label class="ui-outputlabel required">Nombre Propietario:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="Nombre Beneficiario" name="Nombre Beneficiario" [(ngModel)]="registro.nombrebeneficiario"
+						 mayusculas required/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label class="ui-outputlabel required">Número Cuenta Debitar:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="numerocuentabeneficiario" name="numerocuentabeneficiario" [(ngModel)]="registro.numerocuentabeneficiario"
+						 required entero/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="ncatalogoestado" class="ui-outputlabel">Tipo Cuenta:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="tipocuenta" name="tipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle" [filter]="true"
+						 (onChange)="cambiarEtiquetaDropdownSinMdatos($event, ltipocuenta, 'tipocuenta')"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="ncatalogoestado" class="ui-outputlabel">Institución:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="institucion" name="institucion" [options]="linstitucion" [(ngModel)]="registro.institucioncdetalle" [filter]="true"
+						 (onChange)="cambiarEtiquetaDropdownSinMdatos($event, linstitucion, 'institucion')"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label class="ui-outputlabel required">Observación:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" minlength="20" required
+						 mayusculas/>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

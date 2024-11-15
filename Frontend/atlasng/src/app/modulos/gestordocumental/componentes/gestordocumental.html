@@ -1,0 +1,13 @@
+<p-dialog header="Selección de Archivos" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-2 ui-md-2">
+				<label for="archivo" class="ui-outputlabel required">Archivo</label>
+			</div>
+			<div class="ui-g-10 ui-md-10">
+				<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+				 chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+			</div>
+		</div>
+	</div>
+</p-dialog>

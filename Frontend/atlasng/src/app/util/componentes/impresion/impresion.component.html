@@ -1,0 +1,19 @@
+
+<button pButton type="button" name="impresora" id="impresora"
+	style="margin-bottom:10px" [ngClass]="(servidorconectado)?'green-btn' : 'red-btn'" icon="ui-icon-print" (click)="mostrarDialogo()"> </button>
+
+<p-dialog header="Servidor de Impresión" [(visible)]="display" width="400">
+	<div [hidden]="servidorconectado">
+		<button pButton type="button" name="conectar" id="conectar" label="Conectar"
+				style="margin-bottom:10px" class="green-btn" icon="ui-icon-print" (click)="conectarServidorImpresion()"> </button>
+	</div>
+	
+	<div class="ui-g ui-fluid">
+         <div class="ui-g-12 ui-md-4">Estado servidor:</div>
+         <div class="ui-g-12 ui-md-8">{{servidorconectado}}</div>
+     </div>
+     <div class="ui-g ui-fluid">
+         <div class="ui-g-12 ui-md-4">Ultimo mensaje:</div>
+         <div class="ui-g-12 ui-md-8">{{ultimomsgservidor}}</div>
+     </div>
+</p-dialog>

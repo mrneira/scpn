@@ -1,0 +1,36 @@
+<p-dialog header="Impuestos" [(visible)]="displayLov" width="700" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<div class="f-dialogo" style="max-height: 550px; overflow: auto;">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+                <p-treeTable [value]="root" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="seleccionaNodo($event)">
+                    <p-column field="reg.cimpuesto" header="Código" styleClass="f-right"></p-column>
+                    <p-column header="Nombre" styleClass="f-left">
+                        <ng-template pTemplate="body" let-node="rowData">
+                            {{node.data.nombre}}
+                        </ng-template>
+                    </p-column>
+                    <p-column header="Acciones" styleClass="f-right">
+                        <ng-template pTemplate="body" let-node="rowData">
+                            <div class="f-table-actions">
+                                <acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+                            </div>
+                        </ng-template>
+                    </p-column>
+                </p-treeTable>
+			</div>
+		</div>
+	</div>
+	<p-footer>
+		<div class="ui-g f-acciones-footer">
+			<div> 
+	            <button type="button" pButton icon="ui-icon-check" (click)="confirmar()" label="Confirmar">
+	            </button>            
+	        </div>
+            <div> 
+	            <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" style="margin-left:5px">
+	            </button> 
+	        </div>
+		</div>
+	</p-footer>
+</p-dialog>
+

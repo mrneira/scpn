@@ -1,0 +1,107 @@
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [immutable]=false>
+          <p-header>
+            <div class="ui-table-title">Novedades</div>
+            <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          </p-header>
+          <p-column field="cnovedad" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+          <p-column field="mdatos.nfuncionario" header="Funcionario"></p-column>
+          <p-column field="mdatos.ntipo" header="Tipo"></p-column>
+
+          <p-column field="novedad" header="Novedad" [style]="{'width':'100px'}"></p-column>
+
+          <p-column [style]="{'width':'120px'}" header="Acciones">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <div class="f-table-actions">
+                <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+                
+                  <button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload"></button>
+               
+                <span *ngIf="reg.cgesarchivo != undefined">
+                  <button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download">
+                  </button>
+                </span>
+              </div>
+            </ng-template>
+          </p-column>
+          <p-footer>
+            <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+              <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+            </div>
+          </p-footer>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+
+<p-dialog header="Novedades" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cinstruccion" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cinstruccion" name="cnovedad" [(ngModel)]="registro.cnovedad" autofoco required numeric
+              maxlength="10" [disabled]="registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-1">
+            <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="registro.mdatos.nfuncionario"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="tipocdetalle" class="ui-outputlabel">Tipo:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipocdetalle" (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo')"
+            required></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="novedad" class="ui-outputlabel required">Novedad:</label>
+        </div>
+       
+        <div class="ui-g-12 ui-md-2">
+          <input id="novedad" name="novedad" type="text" pInputText [(ngModel)]="registro.novedad" required entero maxlength="9"
+          [readOnly]="false" />
+      </div>
+        
+      </div>
+    </div>
+    <footer>
+      <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+    </footer>
+  </form>
+</p-dialog>

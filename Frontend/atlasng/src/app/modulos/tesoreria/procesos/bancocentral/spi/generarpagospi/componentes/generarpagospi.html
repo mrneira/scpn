@@ -1,0 +1,173 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="generararchivo" id="generararchivo" label="Generar Archivo" style="position: absolute; right: 105px;"
+      class="f-btn green-btn" icon="ui-icon-save" (click)="GenerarArchivo()" [hidden]="generar"></button>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel required">Institución Origen de generación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown (onChange)="seleccionarEmpresa($event)" id="detallempresa" name="detallempresa" [options]="lempresa"
+            [(ngModel)]="mcampos.cempresa" [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel required">Tipo de Archivo:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown id="tipoArchivo" name="tipoArchivo" [options]="ltipoArchivo" [(ngModel)]="mcampos.tipoArchivo"
+            [filter]="true" required onchange="LimpiarRegistros()"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-accordion [multiple]="true">
+  <p-accordionTab header="Información Institución Origen">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-8">
+            <label class="ui-outputlabel">INSTITUCIÓN PÚBLICA ORDENANTE (IP)</label>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Cta.Cte. en BCE:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.cuentaorigen}}
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Nombre Institución:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.nombre}}
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Localidad:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.localidad}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<br>
+
+<div class="f-datacontent ui-g ui-fluid" >
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12" *ngIf="mcampos.tipoArchivo === 'spi'">
+      <div>
+        <br>
+      </div>
+      <p-dataTable [(value)]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        columnResizeMode="expand">
+        <p-header>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-12">
+                <label class="ui-table-title">Registros a Generar</label>
+              </div>
+            </div>
+          </div>
+        </p-header>
+        <p-column field="mdatos.modulo" header="Módulo" ></p-column>
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" [filter]="true"
+          filterPlaceholder="Filtrar"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column header="Valor" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="referenciainterna" header="Referencia Interna"></p-column>
+        <p-column header="Acciones" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-comment" name="btnHistorial" (click)="Historico(reg)"
+                pTooltip="Historial Pago" tooltipPosition="top"></button>
+              <button type="button" pButton icon="ui-icon-delete-forever" name="btneliminarpago" (click)="eliminarpago(reg)"
+                pTooltip="Eliminar Pago" tooltipPosition="top"></button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid" >
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12" *ngIf="mcampos.tipoArchivo === 'ocp'">
+      <div>
+        <br>
+      </div>
+      <p-dataTable [(value)]="lregistrosocp" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+      columnResizeMode="expand">
+      <p-header>
+        <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <label class="ui-table-title">Resumen OCP</label>
+            </div>
+          </div>
+        </div>
+      </p-header>
+      <p-column field="institucion" header="Institución" [style]="{'width':'38px'}" styleClass="f-right"></p-column>
+      <p-column field="nombreInstitucion" header="Nombre Institución" [style]="{'width':'180px'}" styleClass="f-left"></p-column>
+      <p-column field="registros" header="Registros" [style]="{'width':'38px'}" styleClass="f-right"></p-column>
+      <p-column field="total" header="Total" [style]="{'width':'38px'}" styleClass="f-right"></p-column>
+      <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column footer="Totales" colspan="2" [style]="{'width':'74%','font-size':'9px'}"></p-column>
+            <p-column [footer]="totalRegistros| number : '1.2-2'" [style]="{'width':'13%','font-size':'9px'}"  styleClass="f-right"></p-column>
+            <p-column [footer]="totalOcp | number : '1.2-2'" [style]="{'width':'13%','font-size':'9px'}"  styleClass="f-right"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+    </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoHistorial="ngForm">
+    <p-dataTable [value]="lhistoricopagos" [responsive]="true" scrollable="true" [resizableColumns]="false"
+      scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Historial de Transacción</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="referenciainterna" header="Referencia Interna"></p-column>
+      <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" scrollable="true"></p-column>
+      <p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+      <p-column field="institucion" header="Institución"></p-column>
+      <p-column field="tipocuenta" header="Tipo Cuenta"></p-column>
+      <p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+      <p-column header="Valor" [style]="{'width':'80px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.valorpago | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column field="cusuariomod" header="Usuario"></p-column>
+      <p-column field="descripcionestado" header="Estado"></p-column>
+
+    </p-dataTable>
+  </form>
+</p-dialog>

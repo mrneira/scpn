@@ -1,0 +1,83 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="grabar" id="grabar" label="Aplicar Cobros" style="position: absolute; right: 105px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="autorizaraplicacion()"> </button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label class="ui-outputlabel required">Fecha Contable:</label>
+    </div>
+    <div class="ui-g-6 ui-md-2">
+      <p-calendar name="fdesde" [(ngModel)]="mcampos.fgeneracion" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+        [yearNavigator]="true" yearRange="2000:2050" [locale]="es" [disabled]="true"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad" [hidden]="true">
+    <div class="ui-g-12 ui-md-2">
+      <label class="ui-outputlabel ">Módulos:</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+      selectionMode="single" (onRowSelect)="seleccionaRegistro($event)">
+      <p-header>
+        <div class="ui-table-title">Cobros</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+      </p-header>
+      <p-column field="mdatos.nmodulo" header="Módulo"></p-column>
+      <p-column field="mdatos.ntransaccion" header="Transacción"></p-column>
+      <p-column header="Fecha Contable" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fcontable | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha Generación" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fgeneracion | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column field="registrosenviado" header="R. Enviados" styleClass="f-center"></p-column>
+      <p-column field="registrosrecibido" header="R. Respuesta" styleClass="f-center"></p-column>
+      <p-column header="Valor" [style]="{'width':'120px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.totalcobro | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column field="cusuarioing" header="Usuario Ingreso" styleClass="f-center"></p-column>
+    </p-dataTable>
+  </div>
+</div>
+<br/>
+<br/>
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad" [hidden]="!habilitaDetalle">
+    <p-dataTable [value]="ldetalle" [responsive]="true" scrollable="true" scrollHeight="250px">
+      <p-header>
+        <div class="ui-table-title">Detalle de Cobros</div>
+      </p-header>
+      <p-column field="referencia" header="Referencia" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'120px'}"
+        styleClass="f-center"></p-column>
+      <p-column field="identificacioncliente" header="Identificación" [filter]="true" filterPlaceholder="Filtrar" styleClass="f-center"
+        [style]="{'width':'120px'}"></p-column>
+      <p-column field="nombrecliente" header="Nombre" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+      <p-column header="Valor" [style]="{'width':'120px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.valor | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha Contable" [style]="{'width':'120px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fcontable | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

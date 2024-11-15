@@ -1,0 +1,62 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cusuariorecibe" class="ui-outputlabel">Usuario</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cavala" name="cavala" type="text" pInputText [(ngModel)]="registro.cusuarioavala" [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-7">
+				<input id="uavala" name="uavala" type="text" pInputText [(ngModel)]="registro.mdatos.nfuncionarioavala" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+		
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="codigo" class="ui-outputlabel">Código</label>
+				</div>
+				<div class="ui-g-6 ui-md-2">
+					<input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mfiltros.codigo" mayusculas maxlength="50" />
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="nombre" class="ui-outputlabel">Nombre:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="nombre" name="nombre" type="text" pInputText [(ngModel)]="mfiltros.nombre" mayusculas maxlength="100" />
+				</div>
+			</div>
+	
+			
+		</div>
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formFiltros" [mostrarcaja]="true" [pdf]="false"
+	 [excel]="false"></app-jasper>
+</div>

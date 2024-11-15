@@ -1,0 +1,32 @@
+<div class="f-contenedor-transaccion" >
+	<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad" >
+					
+		
+		<p-dataTable [(value)]="lregistros" [sortField]="sortF" [sortOrder]="sortO" (onSort)="changeSort($event)"
+		[responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+				<p-header>
+					<div class="ui-table-title">Extracto Bancario</div>
+
+				</p-header>
+				<p-column field="fecha" header="Fecha" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"></p-column> 
+
+				<p-column field="numerodocumentobancario" header="# Doc. Bancario" [filter]="true" filterPlaceholder="Filtrar" [sortable]="true"></p-column> 
+
+				<p-column field="valordebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column> 
+
+				<p-column field="valorcredito" header="Crédito" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column> 
+
+				<p-column field="concepto" header="Concepto" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column> 
+
+				<p-column field="cuentabancaria" header="Cta. Bancaria" [sortable]="true"></p-column> 
+
+				<p-column [style]="{'width':'40px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<button pButton type="button" (click)="agregarhojatrabajo(reg)" icon="ui-icon-add" ></button>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

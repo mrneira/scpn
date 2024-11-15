@@ -1,0 +1,159 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]="false">
+				<p-header>
+					<div class="ui-table-title">Tabla de amortización</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column header="Inicio" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfinicio | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Vencimiento" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfvencimiento | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="plazo" header="Plazo" styleClass="f-center" [style]="{'width':'90px'}" *ngIf="false"></p-column>
+
+				<p-column header="Tasa" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyecciontasa | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+			
+
+				<p-column header="Capital" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioncapital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioninteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+			
+
+				<p-column header="Total" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.total | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+			
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Cuota" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="60">
+	<form #formDialogoDir="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="finicio" class="ui-outputlabel required">Fecha de Inicio</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="finicio" name="finicio" [(ngModel)]="registro.nfinicio" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+						 required [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()">
+						</p-calendar>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fvencimiento" class="ui-outputlabel required">Fecha de Vencimiento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="registro.nfvencimiento" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+						 required [dateFormat]="formatofecha" (ngModelChange)="calcularPlazo()"></p-calendar>
+					</div>
+
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="plazo" class="ui-outputlabel required">Plazo en días</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="plazo" name="plazo" [(ngModel)]="registro.plazo" maxlength="10" required entero [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="proyecciontasa" class="ui-outputlabel ">Tasa</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id=proyecciontasa name="proyecciontasa" [(ngModel)]="registro.proyecciontasa" numero maxlength="14"
+						 [disabled]="pEditable == 0" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="reducido" class="ui-outputlabel ">Reducido</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id=reducido name="reducido" [(ngModel)]="registro.reducido" numero maxlength="14" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="proyeccioncapital" class="ui-outputlabel ">Capital</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id=proyeccioncapital name="proyeccioncapital" [(ngModel)]="registro.proyeccioncapital" numero
+						 maxlength="14" [disabled]="pEditable == 0" (ngModelChange)="totalizarLinea()" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="proyeccioninteres" class="ui-outputlabel ">Interés</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id=proyeccioninteres name="proyeccioninteres" [(ngModel)]="registro.proyeccioninteres" numero
+						 maxlength="14" [disabled]="pEditable == 0" (ngModelChange)="totalizarLinea()" />
+					</div>
+				</div>
+
+			
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="total" class="ui-outputlabel ">Total</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id=total name="total" [(ngModel)]="registro.total" numero maxlength="14" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="ui-g ui-fluid">
+    <div class="f-datacontent f-filtros ui-g ui-fluid  shadow-box ui-shadow-1">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" required [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fccobranza" class="ui-outputlabel required">Cobranza</label>
+        </div>
+        <div class="ui-g-2">
+          <input id="fccobranza" name="fccobranza" type="text" pInputText [(ngModel)]="registro.ccobranza" [readOnly]="true" />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input id="ncobranza" name="ncobranza" type="text" pInputText [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions">
+          </button>
+        </div>
+        <app-lov-operacion-cobranza (eventoOperCobranza)=fijarLovOperacionSelec($event)></app-lov-operacion-cobranza>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="pkcsaldo" class="ui-outputlabel required">Rubro</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="pkcsaldo" name="pkcsaldo" type="text" pInputText [(ngModel)]="mcampos.csaldo" required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nsaldo" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovsaldo" name="lovsaldo" (click)="mostrarlovsaldo()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-saldo (eventoCliente)=fijarLovSaldoSelec($event)></app-lov-saldo>
+      </div>
+    </div>
+
+    <div class="f-datacontent ui-g ui-fluid f-center-items">
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="monto" class="ui-outputlabel required">Monto</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input pInputText id="monto" name="monto" [(ngModel)]="mcampos.monto" required numero autofoco maxlength="15" />
+        </div>
+      </div>
+
+      <div class="ui-g-12"></div>
+
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="numcuotas" class="ui-outputlabel required">Num.Cuotas</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input pInputText id="numcuotas" name="numcuotas" [(ngModel)]="mcampos.numcuotas" required entero maxlength="3" />
+        </div>
+      </div>
+
+      <div class="ui-g-12"></div>
+
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cuotainicio" class="ui-outputlabel required">Cuota inicio</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input pInputText id="cuotainicio" name="cuotainicio" [(ngModel)]="mcampos.cuotainicio" required entero maxlength="3" />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12"></div>
+    <div class="ui-g-12">
+      <app-tabla-amortizacion></app-tabla-amortizacion>
+    </div>
+  </form>
+</div>

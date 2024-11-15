@@ -1,0 +1,231 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="permiteEliminarLiq" pButton type="button" label="Eliminar Liquidación" style="position: absolute; right: 515px;"
+    class="f-btn green-btn" icon="ui-icon-trash" (click)="eliminarliquidacion()"></button>
+  <button *ngIf="!nuevo && !tieneComprobante && !eliminado" pButton type="button" label="Finalizar" style="position: absolute; right: 275px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="generarComprobante()">
+  </button>
+  <button *ngIf="!tieneComprobante && !eliminado" pButton type="button" label="Guardar cambios" style="position: absolute; right: 115px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()">
+  </button>
+
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="cliquidaciongastos" class="ui-outputlabel required">Liquidación:</label>
+    </div>
+    <div class="ui-g-12 ui-md-5">
+      <input type="text" pInputText id="cliquidaciongastos" name="cliquidaciongastos" [(ngModel)]="comprobanteComponent.registro.cliquidaciongastos"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovliquidaciones" name="lovliquidaciones" (click)="mostrarlovliquidaciones()"
+        icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-liquidaciones (eventoCliente)=fijarLovLiquidaciones($event)></app-lov-liquidaciones>
+    <div class="ui-g-12 ui-md-3"></div>
+    <div class="ui-g-12 ui-md-2">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">Comprobante Contable</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="comprobanteComponent.registro.ccomprobante"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">No.Comprobante Cesantía</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="comprobanteComponent.registro.mdatos.numerocomprobantecesantia"
+        [readOnly]="true" />
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpartida" class="ui-outputlabel">Beneficiario</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="comprobanteComponent.registro.cpersona"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="nidentificacionbeneficiario" name="nidentificacionbeneficiario" [(ngModel)]="comprobanteComponent.registro.mdatos.nidentificacionbeneficiario"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="nbeneficiario" name="nbeneficiario" [(ngModel)]="comprobanteComponent.registro.mdatos.nbeneficiario"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarlovpersonas()" icon="ui-icon-directions"></button>
+      <app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="estadocdetalle" class="ui-outputlabel required">Estado</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText required id="estadocdetalle" name="estadocdetalle" [(ngModel)]="comprobanteComponent.registro.estadocdetalle"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="centrocostoscdetalle" class="ui-outputlabel required">Centro de Costos:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="centrocostoscdetalle" required name="centrocostoscdetalle" [options]="lcentrocostoscdetalle"
+          [(ngModel)]="comprobanteComponent.registro.centrocostoscdetalle" [filter]="true" appendTo='body'></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="docpagoviaticos" class="ui-outputlabel required">Doc. pago viáticos</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText required id="docpagoviaticos" name="docpagoviaticos" 
+        [(ngModel)]="comprobanteComponent.registro.docpagoviaticos" maxlength="100" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="docsalidacomision" class="ui-outputlabel required">Doc. salida comisión</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText required id="docsalidacomision" name="docsalidacomision" 
+          [(ngModel)]="comprobanteComponent.registro.docsalidacomision" maxlength="100" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+          <label for="docinformecomision" class="ui-outputlabel required">Doc. informe comisión</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText required id="docinformecomision" name="docinformecomision" 
+            [(ngModel)]="comprobanteComponent.registro.docinformecomision" maxlength="100" />
+        </div> 
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="docsolicitudautorizacion" class="ui-outputlabel required">Anexos</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText required id="docsolicitudautorizacion" name="docsolicitudautorizacion" 
+        [(ngModel)]="comprobanteComponent.registro.docsolicitudautorizacion" maxlength="100" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="docinformeservicios" class="ui-outputlabel required">Telegramas</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+          <input type="text" pInputText required id="docinformeservicios" name="docinformeservicios" 
+          [(ngModel)]="comprobanteComponent.registro.docinformeservicios" maxlength="100" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+          <label for="docmovilizacion" class="ui-outputlabel required">Movilización</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText required id="docmovilizacion" name="docmovilizacion" 
+            [(ngModel)]="comprobanteComponent.registro.docmovilizacion" maxlength="100" />
+        </div> 
+    </div>    
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+          <label for="numeroviaticos" class="ui-outputlabel required">Número de viáticos</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText required id="numeroviaticos" name="numeroviaticos" numeroPositivo
+          [(ngModel)]="comprobanteComponent.registro.numeroviaticos" maxlength="2" (ngModelChange)="setvalortotal()" />
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-1">
+          <label for="valorpordia" class="ui-outputlabel required">Valor por día</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText required id="valorpordia" name="valorpordia" numeroPositivo
+            [(ngModel)]="comprobanteComponent.registro.valorpordia" maxlength="10" (ngModelChange)="setvalortotal()"/>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="valortotal" class="ui-outputlabel required">Valor total</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText required id="valortotal" name="valortotal" numeroPositivo
+              [(ngModel)]="comprobanteComponent.registro.valortotal" [readonly]="true" />
+          </div> 
+      </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="comentario" class="ui-outputlabel">Comentario</label>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-11">
+        <textarea pInputText id="comentario" name="comentario" [(ngModel)]="comprobanteComponent.registro.comentario"
+          required maxlength="500" rows="3" [disabled]="!editable"></textarea>
+      </div>
+    </div>
+   
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="fliquidacion" class="ui-outputlabel required">Fecha liquidación</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-calendar id="fliquidacion" name="fliquidacion" [(ngModel)]="comprobanteComponent.registro.fliquidacion"
+          [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"
+          [locale]="es" required></p-calendar>
+      </div>
+    </div>
+  </div>
+
+  <app-comprobante></app-comprobante>
+  <app-detalle></app-detalle>
+  <button pButton type="button" label="Calcular viáticos" 
+    class="f-btn teal-btn" icon="ui-icon-calculator" (click)="calcularViaticos()">
+  </button>
+  <div class="ui-g-12 ui-g-nopad">
+    <br><br>
+    <label for="fliquidacion" class="ui-outputlabel ">Número de viáticos y valores a pagar</label>
+    <div>
+      <table border="1" frame="border" rules="rows" style="width: 100%; text-align: right">
+        <tr>
+          <th style="text-align: left">Concepto</th>
+          <th>Número de viáticos</th>
+          <th>Valor por día</th>
+          <th>Valor total</th>
+          <th>Valor <br>(justificar)</th>
+          <th>Valor <br>(no justificar)</th>
+          <th>Valor documentos de respaldo</th>
+          <th>Total a pagar</th>
+        </tr>
+        <tr>
+          <td style="text-align: left">Viáticos</td>
+          <td>{{ comprobanteComponent.registro.numeroviaticos | number:'1.2-2' }}</td>
+          <td>{{ comprobanteComponent.registro.valorpordia | number:'1.2-2'}}</td>
+          <td>{{ comprobanteComponent.registro.valortotal | number:'1.2-2'}}</td>
+          <td>{{ comprobanteComponent.registro.valor70 | number:'1.2-2'}}</td>
+          <td>{{ comprobanteComponent.registro.valor30 | number:'1.2-2'}}</td>
+          <td>{{ comprobanteComponent.registro.valordocrespaldo | number:'1.2-2'}}</td>
+          <td>{{ comprobanteComponent.registro.valorpagar | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">Gasto de transporte y movilización</td>
+          <td style="text-align: left" colspan="5">La reposición se realiza en base a lo establecido en el Art. 5 de la
+            <br>
+            norma técnica de pago de viáticos a servidores, obreros del sector público</td>
+          <td>{{ comprobanteComponent.registro.valortransporte | number:'1.2-2' }}</td>
+          <td>{{ comprobanteComponent.registro.valortransporte | number:'1.2-2' }}</td>
+        </tr>
+        <tr>
+          <td colspan="7">TOTAL A PAGAR</td>
+          <td>{{ comprobanteComponent.registro.valorliquidacion | number:'1.2-2' }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,332 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="identificacion" class="ui-outputlabel">Id.</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input pInputText id="identificacion" name="identificacion" [(ngModel)]="mfiltros.emisorcdetalle"  autofoco maxlength="6"
+        />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Detalle de Emisores</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column field="mdatos.nEmisor" header="Institución Financiera"></p-column>
+
+        <p-column field="mdatos.nSector" header="Sector"></p-column>
+
+        <p-column field="mdatos.nCalificacion" header="Calificación Riesgo Actual"></p-column>
+
+        <p-column header="Porcentaje Máximo Inversión" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.porcentajemaximoinversion | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column field="nombrescontacto1" header="Contacto 01"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Emisor" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px; width:600px;">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Emisor</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="emisor" name="emisor" [options]="lEmisor" [(ngModel)]="registro.emisorcdetalle" (onChange)="registrarEtiqueta(registro, lEmisor, 'emisorcdetalle', 'nEmisor')"
+              required [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Sector</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="sector" name="sector" [options]="lSector" [(ngModel)]="registro.sectorcdetalle"
+              (onChange)="registrarEtiqueta(registro, lSector, 'sectorcdetalle', 'nSector')"
+              required [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Calificación Riesgo Actual</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="calificacon" name="calificacion" [options]="lCalificacion" [(ngModel)]="registro.calificacionriesgoactualcdetalle"
+              (onChange)="registrarEtiqueta(registro, lCalificacion, 'calificacionriesgoactualcdetalle', 'nCalificacion')"
+              required [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="porcentajemaximo" class="ui-outputlabel required">Porcentaje Máximo para Invertir</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id=porcentajemaximo name="porcentajemaximo" 
+            [(ngModel)]="registro.porcentajemaximoinversion" numero
+              maxlength="6" [disabled]="false" />
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <label for="banco" class="ui-outputlabel">Banco:</label>
+          </div>
+          <div class="ui-g-6 ui-md-1">
+            <p-checkbox id="banco" name="banco" [(ngModel)]="registro.banco" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombresc1" class="ui-outputlabel required">Nombres 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="nombresc1" name="nombresc1" [(ngModel)]="registro.nombrescontacto1" required maxlength="80" 
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cargoc1" class="ui-outputlabel">Cargo 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="cargoc1" name="cargoc1" [(ngModel)]="registro.cargocontacto1" maxlength="50"  />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="direccionc1" class="ui-outputlabel">Dirección 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="direccionc1" name="direccionc1" 
+            [(ngModel)]="registro.direccioncontacto1" maxlength="80"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="telefonoc1" class="ui-outputlabel">Teléfono 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="telefonoc1" name="telefonoc1" 
+            [(ngModel)]="registro.telefonocontacto1" maxlength="40"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="celularc1" class="ui-outputlabel">Celular 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="celularc1" name="celularc1" 
+            [(ngModel)]="registro.celularcontacto1" maxlength="40"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="correoc1" class="ui-outputlabel">Correo 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="correoc1" name="correoc1" 
+            [(ngModel)]="registro.correocontacto1" maxlength="50"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="faxc1" class="ui-outputlabel">Fax 1er. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="faxc1" name="faxc1" 
+            [(ngModel)]="registro.faxcontacto1" maxlength="20"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombresc2" class="ui-outputlabel">Nombres 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="nombresc2" name="nombresc2" 
+            [(ngModel)]="registro.nombrescontacto2" maxlength="80" 
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cargoc2" class="ui-outputlabel">Cargo 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="cargoc2" name="cargoc2" [(ngModel)]="registro.cargocontacto2" maxlength="50"  />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="direccionc2" class="ui-outputlabel">Dirección 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="direccionc2" name="direccionc2" 
+            [(ngModel)]="registro.direccioncontacto2" maxlength="80"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="telefonoc2" class="ui-outputlabel">Teléfono 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="telefonoc2" name="telefonoc2" 
+            [(ngModel)]="registro.telefonocontacto2" maxlength="40"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="celularc2" class="ui-outputlabel">Celular 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="celularc2" name="celularc2" 
+            [(ngModel)]="registro.celularcontacto2" maxlength="40"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="correoc2" class="ui-outputlabel">Correo 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="correoc2" name="correoc2" 
+            [(ngModel)]="registro.correocontacto2" maxlength="50"  />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="faxc2" class="ui-outputlabel">Fax 2do. Contacto</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="faxc2" name="faxc2" 
+            [(ngModel)]="registro.faxcontacto2" maxlength="20"  />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="identificacion" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="identificacion" name="identificacion" 
+            [(ngModel)]="registro.identificacion" maxlength="30"  />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+                  <label for="cpais" class="ui-outputlabel required">País</label>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                  <input id="cpais" name="cpais" type="text" pInputText [(ngModel)]="registro.cpais" [readOnly]="true" />
+              </div>
+            <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="npais" name="npais" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovpaises" name="lovpaises" (click)="mostrarLovPaises()" icon="ui-icon-directions">
+              </button>
+            </div>
+            <app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Tipo Emisor</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="sector" name="sector" [options]="lTipoEmisor" [(ngModel)]="registro.tipoemcdetalle"
+              (onChange)="registrarEtiqueta(registro, lTipoEmisor, 'tipoemcdetalle', 'ntipoemisor')"
+              required [filter]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Calificadora de riesgo</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="sector" name="sector" [options]="lEntidadCalif" [(ngModel)]="registro.enticalificadoracdetalle"
+              (onChange)="registrarEtiqueta(registro, lEntidadCalif, 'enticalificadoracdetalle', 'ncalificadora')"
+              required [filter]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="patrimonio" class="ui-outputlabel ">Patrimonio</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id=patrimonio name="patrimonio" 
+            [(ngModel)]="registro.patrimonio" numero
+              maxlength="6" [disabled]="false" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="capitalsocial" class="ui-outputlabel ">Capital Social</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id=capitalsocial name="capitalsocial" 
+            [(ngModel)]="registro.capitalsocial" numero
+              maxlength="6" [disabled]="false" />
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+
+</p-dialog>

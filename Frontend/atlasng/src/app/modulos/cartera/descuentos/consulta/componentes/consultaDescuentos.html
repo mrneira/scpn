@@ -1,0 +1,160 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-6 ui-md-4">
+          <label for="fcparticiondesde" class="ui-outputlabel required">Fecha desde</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="fcparticiondesde" name="fcparticiondesde" required [options]="lparticion" [(ngModel)]="mcampos.particiondesde"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-6 ui-md-4">
+          <label for="fcparticionhasta" class="ui-outputlabel required">Fecha hasta</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="fcparticionhasta" name="fcparticionhasta" required [options]="lparticion" [(ngModel)]="mcampos.particionhasta"
+            [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12"></div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpk" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-3">
+          <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Descuentos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column header="Fecha" [style]="{'width':'120px'}" styleClass="f-left">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ fijarParticion(reg.particion) }}
+          </ng-template>
+        </p-column>
+        <p-column header="Nombre">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <a [routerLink]="" (click)="mostrarLovPersonaVista(reg)">{{ reg.mdatos.npersona }}</a>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.nrelacion" header="Tipo persona" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.narchivo" header="Archivo" [style]="{'width':'90px'}"></p-column>
+        <p-column header="Monto descuento" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto recuperado" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montorespuesta | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto pagado" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montopago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto devolución" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montodevolucion | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="mostrarDialogoRubros(reg)" icon="ui-icon-document">
+            </button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-persona-vista #vistadescuentos></app-lov-persona-vista>
+
+<p-dialog header="Rubros de Descuentos" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 700px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lrubros" [responsive]="true" scrollable="true" [resizableColumns]="false"
+          columnResizeMode="expand" scrollHeight="250px" rowGroupMode="subheader">
+          <p-header>
+            <div class="ui-table-title">Detalle de Descuentos</div>
+          </p-header>
+          <p-column field="numcuota" header="Cuota" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+          <p-column header="F. Vencimiento" [style]="{'width':'100px'}" styleClass="f-center">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.mdatos.fvencimiento | fechaenteroformato}}
+            </ng-template>
+          </p-column>
+          <p-column field="mdatos.nsaldo" header="Rubro"></p-column>
+          <p-column header="Monto" [style]="{'width':'100px'}" styleClass="f-right">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.monto | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td colspan="3" style="text-align:left">TOTAL</td>
+            <td style="text-align:right">{{ total | number:'1.2-2' }}</td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoRubros()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px">
+        </button>
+      </div>
+    </footer>
+  </div>
+
+</p-dialog>

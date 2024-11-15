@@ -1,0 +1,165 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g ui-fluid">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+    
+    <p-confirmDialog #cd icon="fa fa-question-circle" width="425" key="cd">
+        <p-footer>
+            <button type="button" pButton icon="fa-check" label="Si" (click)="cd.accept()"></button>
+            <button type="button" pButton icon="fa-close" label="No" (click)="cd.reject()"></button>
+        </p-footer>
+    </p-confirmDialog>
+
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1" autocomplete="off">
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="fagencia" class="ui-outputlabel">Agencia</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="fagencia" name="fagencia" [options]="lagencias" [(ngModel)]="mfiltros.cagencia"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="ffatencion" class="ui-outputlabel">Fecha de Atención</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <p-calendar id="ffatencion" name="ffatencion" [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [(ngModel)]="ffatencion"></p-calendar>
+            </div>
+        </div>
+    </form>
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Horarios de Atención</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+                    </acciones-consulta>
+                </p-header>
+                <p-column field="mdatos.nagencia" header="Agencia" [style]="{'width':'200px'}"></p-column>
+                <p-column header="Fecha de Atención" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                      {{ reg.fatencion | fechaenteroformato }}
+                    </ng-template>
+                </p-column>
+                <p-column field="hinicio" header="Hora de inicio" styleClass="f-center"></p-column>
+                <p-column field="hfin" header="Hora Fin" styleClass="f-center"></p-column>
+                <p-column field="intervalo" header="Intervalo" styleClass="f-center"></p-column>
+                <p-column field="agentes" header="# Agentes" styleClass="f-center"></p-column>
+                <!-- <p-column field="activo" header="Activo"></p-column> -->
+                <p-column header="Activo" styleClass="f-center" [style]="{'width':'50px'}">
+                  <ng-template pTemplate="body" let-reg="rowData">
+                    <p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+                  </ng-template>
+                </p-column>
+                <p-column [style]="{'width':'50px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <div class="f-table-actions">
+                            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width: 100%">
+                        <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+                            class="f-btn f-float-left orange-btn"></button>
+                    </div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="titleDialogo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+    [responsive]="true" [positionTop]="120">
+    <form #formDialogoProv="ngForm" autocomplete="off">
+        <div class="f-dialogo" style="width: 700px">
+            <div class="f-datacontent ui-g ui-fluid">
+                <div class="ui-g-12 ui-g-nopad" *ngIf="registro.esnuevo">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="finicio" class="ui-outputlabel required">Fecha de Inicio</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <p-calendar id="finicio" name="finicio" [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [(ngModel)]="registro.finicio" autocomplete="off" required></p-calendar>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad" *ngIf="registro.esnuevo">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="ffin" class="ui-outputlabel required">Fecha Fin</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <p-calendar id="ffin" name="ffin" [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [(ngModel)]="registro.ffin" autocomplete="off" required></p-calendar>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="hinicio" class="ui-outputlabel required">Hora de Inicio</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <p-calendar id="hinicio" name="hinicio" [timeOnly]="true" hourFormat="24"  [showIcon]="true"  [(ngModel)]="registro.hinicio" autocomplete="off" required></p-calendar>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="hfin" class="ui-outputlabel required">Hora Fin</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <p-calendar id="hfin" name="hfin" [timeOnly]="true" hourFormat="24"  [showIcon]="true" [(ngModel)]="registro.hfin" autocomplete="off" required></p-calendar>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="intervalo" class="ui-outputlabel required">Intervalo (min)</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" id="intervalo" name="intervalo" pInputText [(ngModel)]="registro.intervalo" pTooltip="Valor mínimo {{minIntervalo}} - Valor máximo {{maxIntervalo}}" [maxlength]="maxIntervalo.toString().length" entero required/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="nagentes" class="ui-outputlabel required"># de Agentes</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" id="nagentes" name="nagentes" pInputText [(ngModel)]="registro.agentes" pTooltip="Valor máximo {{numMaxAgentes}}" [maxlength]="numMaxAgentes.toString().length" entero required/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="ncitas" class="ui-outputlabel required"># de Citas Reservadas</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <input type="text" id="ncitas" name="ncitas" pInputText [(ngModel)]="registro.citasreservadas" pTooltip="Valor máximo {{numMaxReservaciones}}" [maxlength]="numMaxReservaciones.toString().length" entero required/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="descando" class="ui-outputlabel">Descanso</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p-checkbox id="descanso" name="descanso" binary="false" [(ngModel)]="registro.descanso"> </p-checkbox>
+                    </div>
+                </div>
+                <div *ngIf="registro.descanso" class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="hiniciodescanso" class="ui-outputlabel">Hora de Inicio Descanso</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                        <p-calendar id="hiniciodescanso" name="hiniciodescanso" [timeOnly]="true" hourFormat="24"  [showIcon]="true"  [(ngModel)]="registro.hiniciodescanso" autocomplete="off" required></p-calendar>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-2">
+                        <label for="activo" class="ui-outputlabel">Activo</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <p-checkbox id="activo" name="activo" binary="false" [(ngModel)]="registro.activo" [disabled]="registro.esnuevo"> </p-checkbox>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+            </footer>
+        </div>
+    </form>
+</p-dialog>

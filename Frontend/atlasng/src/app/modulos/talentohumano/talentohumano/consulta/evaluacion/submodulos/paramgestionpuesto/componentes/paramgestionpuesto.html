@@ -1,0 +1,66 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">INDICADORES DE GESTIÓN DE PUESTO</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				
+				<p-column header="Actividad">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.actividad" required mayusculas maxlength="300" style="text-align:left"  disabled="true" />
+					</ng-template>
+				</p-column>
+				<p-column header="Indicador">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.indicador" required mayusculas maxlength="300" style="text-align:left"  disabled="true"/>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Meta del Período Evaluado" [style]="{'width':'60px'}">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.metaperiodo" required numeroPositivo maxlength="14" style="text-align:right" disabled="true"
+						/>
+					</ng-template>
+				</p-column>
+				<p-column header="Cumplidos" [style]="{'width':'65px'}">
+					<ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.cumplido" required numeroPositivo maxlength="14" style="text-align:right" disabled="true"
+						(ngModelChange)="actualizarPorcentaje(index)" />
+					</ng-template>
+				</p-column>
+				<p-column header="% de Cumplimiento" styleClass="f-center" [style]="{'width':'75px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.porcentaje | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Nivel de Cumplimiento" styleClass="f-center" [style]="{'width':'75px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nivelcumplimiento | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				
+				<p-footer>
+
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins" >
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+			<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-8">
+					  <label for="adelantometascab" class="ui-outputlabel">¿ A más del cumplimiento de la totalidad de metas y objetivos se adelantó y cumplió con objetivos y metas previstas
+						para el siguiente período de evaluación ? </label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+					  <label for="aplica" class="ui-outputlabel">Aplica el +4%</label>
+					</div>
+					<div class="ui-g-12 ui-md-1" style="font-size:small;">
+					  <p-checkbox id="adelantometas" name="adelantometas" [(ngModel)]="mcampos.adelantometas" binary="false" (onChange)="aplicaAdelanto()" disabled="true"></p-checkbox>
+					</div>
+				  </div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" rowGroupMode="subheader">
+                <p-header>
+                    <div class="ui-table-title">PRESTAMOS</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta> 
+                </p-header>
+                <p-column field="fapertura" header="FECHA SOLICITUD"></p-column>
+                <p-column field="coperacion" header="OPERACION"></p-column>
+                <p-column field="operacion" header="PRODUCTO"></p-column>
+                <p-column field="tipo" header="TIPO"></p-column>
+                <p-column field="saldo" header="SALDO"></p-column> 
+                <p-column field="estatus" header="ESTATUS"></p-column>
+                <ng-template pTemplate="rowgroupfooter" *ngIf="true">
+					<td colspan="4" style="text-align:right">TOTAL</td>
+                    <td style="text-align:right">{{totalmonto | number:'1.2-2' }}</td>
+                    <td colspan="1" style="text-align:right"></td>
+				</ng-template>	
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+
+

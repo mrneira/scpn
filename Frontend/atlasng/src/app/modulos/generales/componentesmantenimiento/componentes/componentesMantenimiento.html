@@ -1,0 +1,183 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fccanal" class="ui-outputlabel required">Tipo</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="fccanal" name="fccanal" [options]="lcanales" [(ngModel)]="mfiltros.ccanal" required></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkcmodulo" name="fpkcmodulo" type="text" pInputText [(ngModel)]="mfiltros.cmodulo" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnmodulo" name="fnmodulo" [(ngModel)]="mcampos.nmodulo" [readOnly]="true" />
+			</div>
+
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Transacción</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkctransaccion" name="fpkctransaccion" type="text" pInputText [(ngModel)]="mfiltros.ctransaccion" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fntransaccion" name="fntransaccion" [(ngModel)]="mcampos.ntransaccion" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+		</div>
+
+
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Componentes de Mantenimiento</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ccanal" header="Canal" [style]="{'width':'60px'}"></p-column>
+				<p-column field="cmodulo" header="Mod" [style]="{'width':'50px'}"></p-column>
+				<p-column field="ctransaccion" header="Tran" [style]="{'width':'50px'}"></p-column>
+				<p-column field="orden" header="Orden" [style]="{'width':'50px'}"></p-column>
+				<p-column field="ccomponente" header="Componente"></p-column>
+				<p-column field="secuencia" header="Secuencia" [style]="{'width':'70px'}"></p-column>
+				<p-column header="Activo" [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Reverso" [style]="{'width':'60px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.reverso" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Componente de Mantenimiento" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="pkccanal" class="ui-outputlabel required">Canal</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="pkccanal" name="pkccanal" [options]="lcanales" [(ngModel)]="registro.ccanal" required [disabled]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="pkcmodulo" class="ui-outputlabel required">Módulo</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="pkcmodulo" name="pkcmodulo" [options]="lmodulos" [(ngModel)]="registro.cmodulo" required [disabled]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="pkctransaccion" class="ui-outputlabel required">Transacción</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="pkctransaccion" name="pkctransaccion" [(ngModel)]="registro.ctransaccion" entero required maxlength="4" [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="ccomponente" class="ui-outputlabel required">Componente</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea type="text" pInputText id="ccomponente" name="ccomponente" [(ngModel)]="registro.ccomponente" required maxlength="150" rows="3" [disabled]="!editable && !registro.esnuevo"></textarea>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="orden" class="ui-outputlabel required">Orden</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden" required entero maxlength="2" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="activo" class="ui-outputlabel">Activo</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="false" [disabled]="!editable && !registro.esnuevo"></p-checkbox>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="reverso" class="ui-outputlabel">Reverso</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-checkbox id="reverso" name="reverso" [(ngModel)]="registro.reverso" binary="false" [disabled]="!editable && !registro.esnuevo"></p-checkbox>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cflujo" class="ui-outputlabel">Cod. Flujo</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cflujo" name="cflujo" [(ngModel)]="registro.cflujo" maxlength="30" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cbaseconocimiento" class="ui-outputlabel">Cod.
+						base conocimiento</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cbaseconocimiento" name="cbaseconocimiento" [(ngModel)]="registro.cbaseconocimiento" maxlength="80" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

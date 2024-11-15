@@ -1,0 +1,96 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="codigo" class="ui-outputlabel required">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mfiltros.codigo" [readOnly]="true"/>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input type="text" pInputText id="cproducto" name="cproducto" [(ngModel)]="mfiltros.cproducto" [readOnly]="true" hidden="true" />
+			</div>
+
+			<div class="ui-g-12 ui-md-5">
+				<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nproducto" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovproductos()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-productos (eventoCliente)=fijarLovProductosSelec($event)></app-lov-productos>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">Cronología Valores por Bien</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+							<div class="f-acciones-cab-tabla">
+								<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+								  style="text-align:center">
+								</button>
+								<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+								  style="text-align:center">
+								</button>
+							  </div>
+							<div class="f-acciones-cab-tabla" style='display:none'>
+								<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+							</div>
+						</p-header>
+						<p-column field="fingreso" header="Fecha" [style]="{'width':'60px'}">
+							<ng-template  pTemplate="body" let-reg="rowData">
+								<span>{{reg.fingreso | date: 'yyyy-MM-dd hh:mm:ss'}}</span>
+							</ng-template>
+						</p-column>	
+						<p-column field="cusuario" header="Usuario" [style]="{'width':'70px'}"></p-column>
+					
+						<p-column field="cmovimiento" header="Movimiento" [style]="{'width':'50px'}" styleClass="f-right"></p-column>
+						<p-column field="cantidad" header="Cantidad" [style]="{'width':'60px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.cantidad | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="stock" header="Stock" [style]="{'width':'60px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.stock | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="vunitario" header="V. Unitario" [style]="{'width':'60px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.vunitario | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+						<p-column field="costopromedio" header="Costo Promedio" [style]="{'width':'60px'}" styleClass="f-right">
+							<ng-template pTemplate="body" let-reg="rowData">
+							  {{ reg.costopromedio | number:'1.2-2'}}
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</form>

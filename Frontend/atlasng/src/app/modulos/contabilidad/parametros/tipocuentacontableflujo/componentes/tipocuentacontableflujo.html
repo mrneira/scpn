@@ -1,0 +1,82 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-6 ui-md-4">
+      <label for="tipoplancuenta" class="ui-outputlabel required">Tipo de Plan de Cuentas:</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="tipoplancuenta" name="tipoplancuenta" required [options]="ltipoplancuentas" [(ngModel)]="this.mcampos.tipoplancuenta"></p-dropdown>
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+        <p-header>
+            <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+            <div class="f-datacontent ui-g ui-fluid">
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-12">
+                  <label class="ui-table-title">Cuentas contables con Tipo Efectivo</label>
+                </div>
+              </div>
+            </div>
+          </p-header>
+      <p-column field="ccuenta" header="Cuenta"></p-column>
+      <p-column field="nombre" header="Nombre"></p-column>
+      <p-column field="tipoplancdetalle" header="Tipo Plan Cuenta"></p-column>
+      <p-column field="tipoefectivo" header="Tipo Flujo"></p-column>
+      <p-column>
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Tipo Efectivo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad" >
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Cuenta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ccuenta" name="ccuenta" [(ngModel)]="registro.ccuenta" [disabled]="!registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" >
+            <div class="ui-g-12 ui-md-3">
+              <label class="ui-outputlabel">Nombre:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" [disabled]="!registro.esnuevo"
+              />
+            </div>
+          </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoefectivo" class="ui-outputlabel">Tipo Efectivo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipoefectivo" name="tipoefectivo" [options]="ltipoefectivo" [(ngModel)]="registro.tipoefectivo" [filter]="true"
+              (onChange)="cambiarEtiquetaDropdown($event, ltipoefectivo, 'tipoefectivo')"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

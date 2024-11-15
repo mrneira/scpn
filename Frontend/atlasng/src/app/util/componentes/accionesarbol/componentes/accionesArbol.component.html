@@ -1,0 +1,14 @@
+
+<span *ngIf="componente.ins && !(nodo.data.reg.mdatos.eshoja || nodo.data.reg.eshoja)">
+    <button type="button" pButton icon="ui-icon-add" (click)="componente.nodoSeleccionado = nodo; componente.crearNuevo();" class="orange-btn"></button>
+</span>
+<span *ngIf="!componente.editable && nodo.data.nombre!=='ROOT'">
+	<button type="button" pButton (click)="componente.selectRegistro(nodo)" icon="ui-icon-search"></button>
+</span>
+<span *ngIf="componente.editable && mostrarEditar && nodo.data.nombre!=='ROOT'">
+	<button type="button" pButton (click)="componente.selectRegistro(nodo)" icon="ui-icon-edit"></button>
+</span>
+<span *ngIf="componente.del && mostrarEliminar && nodo.data.nombre!=='ROOT'">
+    <button type="button" pButton icon="ui-icon-delete-forever" (click)="eliminarRegistro(nodo)" class="red-btn" style="margin-left:5px">
+    </button>
+</span>

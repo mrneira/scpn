@@ -1,0 +1,46 @@
+<p-dialog header="Operaciones Garantía" [(visible)]="displayLov" width="800" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Número operación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.coperacion" autofoco entero maxlength="15" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Operaciones de garantías</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"> </acciones-consulta>
+        </p-header>
+        <p-column field="coperacion" header="Garantía" [style]="{'width':'80px'}"> </p-column>
+        <p-column field="mdatos.ntipogar" header="Tipo"></p-column>
+        <p-column field="mdatos.ntipobien" header="Bien"></p-column>
+        <p-column field="mdatos.nestatus" header="Estado"></p-column>
+        <p-column header="Valor avalúo" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.montoavaluo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor comercial" styleClass="f-right" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Aplica seguro" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.mdatos.aplicaseguro" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

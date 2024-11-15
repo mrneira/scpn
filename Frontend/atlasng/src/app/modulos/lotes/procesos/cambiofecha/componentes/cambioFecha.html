@@ -1,0 +1,48 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"[grabar]="false"></acciones-cabecera>
+	</div>
+	
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-5 ui-md-3 ui-g-nopad">
+			<button pButton type="button" name="grabar" id="grabar" label="Cambiar fecha" style="margin-bottom:10px" class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"> </button>
+		</div>
+	</div>
+	
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+				<p-header>
+					<div class="ui-table-title">Fechas</div>
+				</p-header> 
+				<p-column header="F.Contable" styleClass="f-center">
+					<ng-template let-col let-reg="rowData" pTemplate="body">
+						<span>{{integerToFormatoFecha(reg.fcontable)}}</span>
+					</ng-template>
+				</p-column>
+				
+				<p-column header="F.Trabajo" styleClass="f-center">
+					<ng-template let-col let-reg="rowData" pTemplate="body">
+						<span>{{integerToFormatoFecha(reg.ftrabajo)}}</span>
+					</ng-template>
+				</p-column>
+				
+				<p-column header="F.Anterior" styleClass="f-center">
+					<ng-template let-col let-reg="rowData" pTemplate="body">
+						<span>{{integerToFormatoFecha(reg.fanterior)}}</span>
+					</ng-template>
+				</p-column>
+				
+				<p-column header="F.Próxima" styleClass="f-center">
+					<ng-template let-col let-reg="rowData" pTemplate="body">
+						<span>{{integerToFormatoFecha(reg.fproxima)}}</span>
+					</ng-template>
+				</p-column>
+				
+				<p-footer>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+
+</div>

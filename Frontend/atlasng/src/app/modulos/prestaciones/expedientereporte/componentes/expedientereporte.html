@@ -1,0 +1,28 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <button pButton type="button" name="cargar" id="cargar" label='Recargar' style="position: absolute; right: 2px" class="f-btn green-btn" icon="ui-icon-update" (click)="recargar()" pTooltip="Recargar la pantalla" tooltipPosition="top"> </button>
+</div>
+<p-fieldset legend="FILTRAR EXPEDIENTES ASIGNADOS" [toggleable]="false">
+  <form #formFiltrosExpedientesCreados="ngForm" class="f-filtros ui-g ui-fluid" style="background-color: #e9e9e9;">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-6 ui-md-4">
+          <label for="fanioexpediente" class="ui-outputlabel required">Tipo:</label>
+        </div>
+        <div class="ui-g-6 ui-md-6">
+          <p-dropdown id="tipoexpediente" name="tipoexpediente" [options]="ltiposexpediente" (onChange)="eventSelectTipoExpediente($event)"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</p-fieldset>
+<p-fieldset legend="EXPEDIENTES ACTUALES" [toggleable]="false">
+  <div class="f-datacontent ui-g ui-fluid">
+    <p-dataTable [value]="listExpedientes" [responsive]="true" scrollable="true" scrollHeight="250px" selectionMode="single">
+      <p-header>
+        <div class="ui-table-title">REPORTE DE EXPEDIENTES {{titleActual}}</div>
+      </p-header>
+      <p-column field="anio" header ="Año" [sortable]="true"></p-column>
+      <p-column field="valor" header="Número de expediente actual" [sortable]="true"></p-column>    
+    </p-dataTable>
+  </div>
+</p-fieldset>

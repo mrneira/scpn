@@ -1,0 +1,142 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="anio" class="ui-outputlabel required">Código:</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>INGRESOS GRAVADOS PROYECTADOS </span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-5">
+          <label for="sbu" class="ui-outputlabel required">TOTAL INGRESOS GRAVADOS CON ESTE EMPLEADOR:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="totingresoempresa" required name="totingresoempresa" [(ngModel)]="registro.totingresoempresa"
+            maxlength="15" numeroPositivo [disabled]="!editable" (ngModelChange)="totalIngresosGravados()" />
+        </div>
+      </div>
+      <div class="ui-g-3  ui-g-nopad">
+        <div class="ui-g-3 ui-md-6">
+          <label for="totingresoexternos" class="ui-outputlabel">TOTAL INGRESOS CON OTROS EMPLEADORES:</label>
+        </div>
+        <div class="ui-g-3 ui-md-6">
+          <input type="text" pInputText id="totingresoexternos" name="totingresoexternos" [(ngModel)]="registro.totingresoexternos"
+            maxlength="15" numeroPositivo [disabled]="!editable" (ngModelChange)="totalIngresosGravados()" />
+        </div>
+      </div>
+      <div class="ui-g-3  ui-g-nopad">
+        <div class="ui-g-3 ui-md-6">
+          <label for="totingresoexternos" class="ui-outputlabel">%IESS OTROS EMPLEADORES:</label>
+        </div>
+        <div class="ui-g-3 ui-md-6">
+          <input type="text" pInputText id="viess" name="viess" [(ngModel)]="registro.viess"
+            maxlength="15" numeroPositivo [disabled]="!editable" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-5">
+          <label for="totingresos" class="ui-outputlabel">(=) TOTAL INGRESOS PROYECTADOS</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="totingresos" name="totingresos" [(ngModel)]="registro.totingresos" maxlength="15" numeroPositivo
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-3  ui-g-nopad">
+          <div class="ui-g-3 ui-md-6">
+            <label for="fpagada" class="ui-outputlabel">PAGADO:</label>
+          </div>
+          <div class="ui-g-3 ui-md-6">
+            <input type="text" pInputText id="cpagado" name="cpagado" [(ngModel)]="registro.cpagado"
+              maxlength="15" numeroPositivo [disabled]="!editable"/>
+          </div>
+        </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>GASTOS PROYECTADOS</span>
+        </div>
+        <hr />
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="sbu" class="ui-outputlabel">$ Vivienda:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="vvivienda" name="vvivienda" [(ngModel)]="registro.vvivienda" maxlength="15" numeroPositivo
+            [disabled]="!editable" (ngModelChange)="valVivienda()" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="veducacion" class="ui-outputlabel">$ Educación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="veducacion" name="veducacion" [(ngModel)]="registro.veducacion" maxlength="15" numeroPositivo
+            [disabled]="!editable" (ngModelChange)="valEducacion()" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="vsalud" class="ui-outputlabel required">$ Salud</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="vsalud" name="vsalud" [(ngModel)]="registro.vsalud" maxlength="15" numeroPositivo [disabled]="!editable"
+            required (ngModelChange)="valSalud()" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="vvestimenta" class="ui-outputlabel required">$ Vestimenta</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="vvestimenta" name="vvestimenta" [(ngModel)]="registro.vvestimenta" maxlength="15" numeroPositivo
+            [disabled]="!editable" required (ngModelChange)="valVestimenta()" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="valimentacion" class="ui-outputlabel required">$ Alimentación</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="valimentacion" name="valimentacion" [(ngModel)]="registro.valimentacion" maxlength="15"
+            numeroPositivo [disabled]="!editable" required (ngModelChange)="valAlimentacion()" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+        </div>
+        <div class="ui-g-12 ui-md-4">
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-5">
+          <label for="vtotal" class="ui-outputlabel">(=) TOTAL GASTOS PROYECTADOS</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="vtotal" name="vtotal" [(ngModel)]="registro.vtotal" maxlength="15" numeroPositivo [disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

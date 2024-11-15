@@ -1,0 +1,36 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+
+          <div class="f-acciones-cabecera ui-g ui-fluid">
+                    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+          </div>
+          <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="jerarquia" class="ui-outputlabel">Jerarquia</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-5">
+                                        <p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquia" [(ngModel)]="mcampos.jerarquia"></p-dropdown>
+                              </div>
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="pkcnivel" class="ui-outputlabel">Año de Alta:</label>
+                              </div>
+                              <div class="ui-g-6 ui-md-5">
+                                        <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.fperiodo" entero maxlength="4" minlength="4" />
+                              </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-g-nopad">
+                              <div class="ui-g-6 ui-md-2">
+                                        <label for="pkcnivel" class="ui-outputlabel">Años de Servicio:</label>
+                              </div>
+                              <div class="ui-g-12 ui-md-5">
+                                        <input type="text" pInputText id="anioS" name="anioS" [(ngModel)]="mcampos.fanio" entero maxlength="2" minlength="1" />
+                              </div>
+                    </div>
+
+          </form>
+          <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+</div>

@@ -1,0 +1,38 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g ui-fluid">
+        <acciones-cabecera [grabar]="estaVacio(registro.mdatos.activo)" [componente]="componentehijo">
+        </acciones-cabecera>
+    </div>
+    <form #formularioDisponibilidad="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="title_separator">
+                    <i class="fa ui-icon-adjust"></i>
+                    <span>Informaci&oacute;n</span>
+                </div>
+                <hr />
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-2">
+                    <label for="finicio" class="ui-outputlabel required">Fecha de Inicio</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <p-calendar id="finicio" name="finicio" [showIcon]="true" [dateFormat]="formatofecha"
+                        [monthNavigator]="true" [yearNavigator]="true" [(ngModel)]="registro.mdatos.finicio" autocomplete="off"
+                        required></p-calendar>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-2">
+                    <label for="ffin" class="ui-outputlabel required">Fecha Fin</label>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <p-calendar id="ffin" name="ffin" [showIcon]="true" [dateFormat]="formatofecha"
+                        [monthNavigator]="true" [yearNavigator]="true" [(ngModel)]="registro.mdatos.ffin" autocomplete="off"
+                        required></p-calendar>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

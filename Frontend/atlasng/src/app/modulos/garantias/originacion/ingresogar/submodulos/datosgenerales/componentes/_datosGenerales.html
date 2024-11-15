@@ -1,0 +1,196 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioSolicitud" [componentes]="[componentehijo,operaciongar.componentehijo,campos.componentehijo]"
+        class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="renovacion" class="ui-outputlabel required">Renovación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="renovacion" name="renovacion" [(ngModel)]="operaciongar.registro.renovacion" binary="false" [disabled]="!editable || !operaciongar.registro.esnuevo"
+            (onChange)="operaciongar.cambiaRenovacion($event);"></p-checkbox>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="coperacionanterior" class="ui-outputlabel required">Garantía Original</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="coperacionanterior" name="coperacionanterior" required [(ngModel)]="operaciongar.registro.coperacionanterior"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovoperacionanterior" name="lovoperacionanterior" (click)="operaciongar.mostrarLovOperacion()"
+            icon="ui-icon-directions" *ngIf="editable && operaciongar.registro.esnuevo && operaciongar.registro.renovacion"></button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ctipogar" class="ui-outputlabel required">Tipo de garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="ctipogar" name="ctipogar" [options]="operaciongar.ltipogarantia" [(ngModel)]="operaciongar.registro.ctipogarantia"
+            required (onChange)="cambiaTipoGarantia()" [disabled]="!editable || !operaciongar.registro.esnuevo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ctipobien" class="ui-outputlabel required">Tipo bien</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="ctipobien" name="ctipobien" [options]="operaciongar.ltipobien" [(ngModel)]="operaciongar.registro.ctipobien"
+            required (onChange)="cambiaTipoBien()" [disabled]="!editable || !operaciongar.registro.esnuevo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="cclasif" class="ui-outputlabel required">Clasificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="cclasif" name="cclasif" [options]="operaciongar.lclasificacion" [(ngModel)]="operaciongar.registro.cclasificacion"
+            required [disabled]="!editable" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Localización</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="cpais" class="ui-outputlabel required">País</label>
+        </div>
+        <div class="ui-g-1">
+          <input id="cpais" name="cpais" type="text" pInputText [(ngModel)]="operaciongar.registro.cpais" [readOnly]="true" />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input type="text" pInputText id="npais" name="npais" [(ngModel)]="operaciongar.registro.mdatos.npais" [disabled]="true"
+          />
+        </div>
+        <div class="ui-g-1">
+          <button pButton type="button" id="lovpaises" name="lovpaises" (click)="operaciongar.mostrarLovPaises()" icon="ui-icon-directions"
+            class="f-float-right" *ngIf="editable">
+          </button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="cprovincia" class="ui-outputlabel required">Provincia</label>
+        </div>
+        <div class="ui-g-1">
+          <input id="cprovincia" name="cprovincia" type="text" pInputText [(ngModel)]="operaciongar.registro.cpprovincia" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input type="text" pInputText id="nprovincia" name="nprovincia" [(ngModel)]="operaciongar.registro.mdatos.nprovincia" [disabled]="true"
+          />
+        </div>
+        <div class="ui-g-1">
+          <button pButton type="button" id="lovprovincias" name="lovprovincias" (click)="operaciongar.mostrarLovProvincias()" icon="ui-icon-directions"
+            class="f-float-right" *ngIf="editable">
+          </button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ccanton" class="ui-outputlabel required">Cantón</label>
+        </div>
+        <div class="ui-g-1">
+          <input id="ccanton" name="ccanton" type="text" pInputText [(ngModel)]="operaciongar.registro.ccanton" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input type="text" pInputText id="ncanton" name="ncanton" [(ngModel)]="operaciongar.registro.mdatos.ncanton" [disabled]="true"
+          />
+        </div>
+        <div class="ui-g-1">
+          <button pButton type="button" id="lovcantones" name="lovcantones" (click)="operaciongar.mostrarLovCantones()" icon="ui-icon-directions"
+            class="f-float-right" *ngIf="editable">
+          </button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="dir" class="ui-outputlabel required">Dirección</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <textarea style="width: 100%" id="dir" name="dir" maxlength="500" rows="4" mayusculas required [(ngModel)]="operaciongar.registro.direccion"
+            [disabled]="!editable">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="caract" class="ui-outputlabel ">Características</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <textarea style="width: 100%" id="caract" name="caract" maxlength="400" rows="4" mayusculas [(ngModel)]="operaciongar.registro.caracteristicas"
+            [disabled]="!editable">
+          </textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Información adicional</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngFor="let reg of campos.lregistros">
+        <div class="ui-g-12 ui-md-4">
+          <label for="{{'campo_'+reg.ccampo}}" class="ui-outputlabel {{reg.requerido?'required':''}}">{{reg.nombre}}</label>
+        </div>
+        <div class="ui-g-12 ui-md-8" *ngIf="reg.tipodatocdetalle!='5'">
+          <input type="text" pInputText id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" maxlength="{{reg.longitud}}" [(ngModel)]="reg.valor"
+            [disabled]="!editable" [required]="reg.requerido" *ngIf="reg.tipodatocdetalle=='1'" mayusculas />
+
+          <input type="text" pInputText id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" maxlength="{{reg.longitud}}" [(ngModel)]="reg.valor"
+            [disabled]="!editable" [required]="reg.requerido" *ngIf="reg.tipodatocdetalle=='2'" entero />
+
+          <input type="text" pInputText id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" maxlength="{{reg.longitud}}" [(ngModel)]="reg.valor"
+            [disabled]="!editable" [required]="reg.requerido" *ngIf="reg.tipodatocdetalle=='3'" numero />
+
+          <p-calendar id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" [showIcon]="true" [dateFormat]="formatofecha" [(ngModel)]="reg.mdatos.valor"
+            [disabled]="!editable" [required]="reg.requerido" *ngIf="reg.tipodatocdetalle=='4'"></p-calendar>
+
+          <textarea pInputText id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" maxlength="{{reg.longitud}}" [(ngModel)]="reg.valor"
+            [disabled]="!editable" [required]="reg.requerido" *ngIf="reg.tipodatocdetalle=='6'" mayusculas rows="4"></textarea>
+        </div>
+
+        <div class="ui-g-10 ui-md-1" *ngIf="reg.tipodatocdetalle=='5'">
+          <input id="{{'campo_'+reg.ccampo}}" name="{{'campo_'+reg.ccampo}}" type="text" pInputText [ngModel]="reg.valorcdetalle" [required]="reg.requerido"
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-11 ui-md-6" *ngIf="reg.tipodatocdetalle=='5'">
+          <input type="text" pInputText id="{{'ncatalogo_'+reg.ccampo}}" name="{{'ncatalogo_'+reg.ccampo}}" [(ngModel)]="reg.mdatos.ncatalogo"
+            [required]="reg.requerido" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1" *ngIf="reg.tipodatocdetalle=='5'">
+          <button pButton type="button" (click)="campos.mostrarLovCatalogos(reg)" *ngIf="editable" class="f-float-right" icon="ui-icon-directions">
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

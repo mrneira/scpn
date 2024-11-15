@@ -1,0 +1,105 @@
+<p-messages [value]="msgs"></p-messages>
+
+<p-growl [value]="msgsglow"></p-growl>
+
+<p-dialog header="Información de Sesión" [(visible)]="muestraAlerta.mostrarlogout" width="300" [closable]="false">
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">{{muestraAlerta.msg}}</div>
+	</div>
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<button pButton type="button" name="salir" id="salir" label="Ok" class="f-btn green-btn" icon="ui-icon-arrow-forward" (click)="recargar()">
+			</button>
+		</div>
+	</div>
+</p-dialog>
+
+<p-dialog header="Mensaje" [(visible)]="muestraAlerta.mostrar" width="300">
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">{{muestraAlerta.msg}}</div>
+	</div>
+</p-dialog>
+
+<p-dialog header="Perfiles de Usuario" [(visible)]="appService.muestraRoles" [style]="{'max-width':'900px'}" [closable]="true"
+ [responsive]="true">
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-6 ui-md-3" id="{{item.value}}" *ngFor="let item of appService.lrolesusuario;" (click)="appService.cargarRol(item)">
+			<div class="card card-w-title" style="height:100px;margin-bottom: 0px !important;min-width:150px;" [ngClass]="{'f-dash-selected': appService.crol === item.value}">
+				<i class="topbar-icon material-icons">dashboard</i>
+				<span class="topbar-item-name">{{item.label}}</span>
+			</div>
+		</div>
+	</div>
+</p-dialog>
+
+<p-dialog header="Información del usuario" [(visible)]="appService.muestraUserInfo" [style]="{'max-width':'500px'}" [responsive]="true"
+ [positionTop]="120">
+	<div class="ui-g ui-fluid" *ngIf="!(!appService.login || appService.validarotp || appService.cambiopassword)">
+	
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">NOMBRE:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel">{{dtoServicios.mradicacion.np}}</label>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">SUCURSAL:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel">{{dtoServicios.mradicacion.nsucursal}}</label>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">AGENCIA:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel">{{dtoServicios.mradicacion.nagencia}}</label>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">FECHA DE TRABAJO:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel">{{integerToFormatoFecha(dtoServicios.mradicacion.ftrabajo)}}</label>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">FECHA CONTABLE:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel-left">{{integerToFormatoFecha(dtoServicios.mradicacion.fcontable)}}</label>
+			</div>
+		</div>
+
+		<!-- <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 f-left">
+				<label class="ui-outputlabel f-bold">TIEMPO DE SESIÓN:</label>
+			</div>
+			<div class="ui-g-8 f-left">
+				<label class="ui-outputlabel">{{dtoServicios.mradicacion.timeoutminutos}} (min)</label>
+			</div>
+		</div> -->
+	</div>
+</p-dialog>
+
+<p-dialog header="Manual de Usuario" [(visible)]="appService.muestraAyuda" [style]="{'max-width':'900px'}" [responsive]="true">
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-6 ui-md-3" id="{{item.value}}" *ngFor="let item of appService.lmodulosusuario;" (click)="appService.cargarAyuda(item)">
+			<div class="card card-w-title" style="height:100px;margin-bottom: 0px !important;min-width:150px;" [ngClass]="{'f-dash-selected': appService.cmodulo === item.value}">
+				<i class="topbar-icon material-icons">find_in_page</i>
+				<span class="topbar-item-name">{{item.label}}</span>
+			</div>
+		</div>
+	</div>
+</p-dialog>

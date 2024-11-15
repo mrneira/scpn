@@ -1,0 +1,102 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-etapa [componente]="componentehijo"></acciones-etapa>
+  <button pButton type="button" name="anularsolicitud" id="anularsolicitud" label="Anular solicitud" class="f-btn orange-btn"
+    style="position: absolute; right: 140px;" icon="ui-icon-cancel" (click)="anularSolicitud()" [disabled]="!habilitaanular"></button>
+  <button pButton type="button" name="grabarsolicitud" id="grabarsolicitud" label="Grabar solicitud" class="f-btn green-btn"
+    style="position: absolute; right: 280px;" icon="ui-icon-save" (click)="grabar()" [disabled]="!habilitagrabar" *ngIf="ins"></button>
+</div>
+
+<p-steps [model]="itemsPasos" [readonly]="true" [(activeIndex)]="idpaso" styleClass="steps-custom"></p-steps>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fpersona" class="ui-outputlabel required">Persona</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+        required [readOnly]="true" />
+    </div>
+    <div class="ui-g-10 ui-md-8">
+      <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+  </div>
+
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fsolicitud" class="ui-outputlabel required">Solicitud</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fsolicitud" name="fsolicitud" type="text" pInputText [(ngModel)]="mcampos.csolicitud" required
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-10 ui-md-8">
+      <input type="text" pInputText id="fnsolicitud" name="fnsolicitud" [(ngModel)]="mcampos.nsolicitud" [readOnly]="true" />
+    </div>
+    <app-lov-solicitudes (eventoCliente)=fijarLovSolicitudSelec($event)></app-lov-solicitudes>
+  </div>
+</form>
+
+
+<p-tabView>
+  <p-tabPanel header="Datos generales" [selected]="true">
+    <app-datos></app-datos>
+  </p-tabPanel>
+  <p-tabPanel header="Tabla de amortización" lazy=true>
+    <app-tabla-amortizacion></app-tabla-amortizacion>
+  </p-tabPanel>
+  <p-tabPanel header="Descuentos" lazy=true>
+    <app-descuentos></app-descuentos>
+  </p-tabPanel>
+  <p-tabPanel header="Personas" lazy=true>
+    <app-personas-relacion></app-personas-relacion>
+  </p-tabPanel>
+  <p-tabPanel header="Garantías" [disabled]="!datosComponent.habilitagarantias" lazy=true>
+    <app-garantias-car></app-garantias-car>
+  </p-tabPanel>
+  <p-tabPanel header="Requisitos" lazy=true>
+    <app-requisitos></app-requisitos>
+  </p-tabPanel>
+  <p-tabPanel header="Desembolso" lazy=true>
+    <app-desembolso></app-desembolso>
+  </p-tabPanel>
+  <p-tabPanel header="Documentos" lazy=true>
+    <app-reportes></app-reportes>
+  </p-tabPanel>
+</p-tabView>
+
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario"
+              required mayusculas maxlength="255" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="confirmarEtapa()" label="Confirmar" class="green-btn"
+            [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

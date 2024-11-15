@@ -1,0 +1,142 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcmodulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="mfiltros.cmodulo" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="fcmodulo" name="fcmodulo" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" (onChange)="cambiarModulo($event)"
+				 required [filter]="true"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ltarchivos" class="ui-outputlabel required">Archivos</label>
+			</div>
+			<div class="ui-g-12 ui-md-5">
+				<p-dropdown id="ltarchivos" name="ltarchivos" [options]="ltarchivos" [(ngModel)]="mfiltros.ctipoarchivo" [filter]="true"
+				 required></p-dropdown>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+				<p-header>
+					<div class="ui-table-title">Campos Archivo</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ccampo" header="Campo" [style]="{'width':'50px'}"></p-column>
+				<p-column field="nombre" header="Nombre" [style]="{'width':'150px'}"></p-column>
+				<p-column field="atributo" header="Atributo" [style]="{'width':'150px'}"></p-column>
+				<p-column header="Obligatorio" [style]="{'width':'60px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [(ngModel)]="reg.requerido" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column field="tipodato" header="Tipo de Dato" [style]="{'width':'80px'}"></p-column>
+				<p-column field="longitud" header="Longitud del Campo" [style]="{'width':'80px'}"></p-column>
+				<p-column field="formatofecha" header="Formato Fecha" [style]="{'width':'80px'}"></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Añadir Campo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Campos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="ccampo" class="ui-outputlabel required">Orden Campo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="ccampo" name="ccampo" [disabled]="!registro.esnuevo" [(ngModel)]="registro.ccampo" required entero maxlength="2" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="nombre" class="ui-outputlabel required">Nombre Campo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="30"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="atributo" class="ui-outputlabel required">Atributo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="atributo" name="atributo" [(ngModel)]="registro.atributo" required maxlength="30" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="requerido" class="ui-outputlabel">Requerido:</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-checkbox name="requerido" [(ngModel)]="registro.requerido" binary="false"></p-checkbox>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipodato" class="ui-outputlabel required">Tipo Dato</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="tipodato" appendTo="body" name="tipodato" [options]="ltipodato" [(ngModel)]="registro.tipodato" [filter]="true" required
+						 [disabled]="!editable"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="longitud" class="ui-outputlabel required">Longitud</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="longitud" name="longitud" [(ngModel)]="registro.longitud" required entero maxlength="2"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad" *ngIf="registro.tipodato == 'Date'">
+					<div class="ui-g-12 ui-md-3">
+						<label for="formatofecha" class="ui-outputlabel">Formato Fecha</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="formatofecha" appendTo="body" name="formatofecha" [options]="lformatofecha" [(ngModel)]="registro.formatofecha" [filter]="true"
+						 [disabled]="!editable"></p-dropdown>
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

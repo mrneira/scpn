@@ -1,0 +1,88 @@
+
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+
+          <div class="f-acciones-cabecera ui-g ui-fluid">
+                    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+          </div>
+          <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="f-filtros ui-g ui-fluid">
+	   <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="fIniAlta" class="ui-outputlabel">Fecha de Alta Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fIniAlta" [(ngModel)]="mcampos.fIniAlta" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<label for="fFinAlta" class="ui-outputlabel">Fecha de Alta Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fFinAlta" [(ngModel)]="mcampos.fFinAlta" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="fIniBaja" class="ui-outputlabel">Fecha de Baja Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fIniBaja" [(ngModel)]="mcampos.fIniBaja"  [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<label for="fFinBaja" class="ui-outputlabel">Fecha de Baja Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fFinBaja" [(ngModel)]="mcampos.fFinBaja" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="fIniNacimiento" class="ui-outputlabel">Fecha de Nacimiento Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fIniNacimiento" [(ngModel)]="mcampos.fIniNacimiento" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<label for="fFinNacimiento" class="ui-outputlabel">Fecha de Nacimiento Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar  name="fFinNacimiento" [(ngModel)]="mcampos.fFinNacimiento" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+			<label for="jerarquia" class="ui-outputlabel">Jerarquia</label>
+		</div>
+		<div class="ui-g-6 ui-md-5">
+			<p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquia" [(ngModel)]="this.mcampos.jerarquia"></p-dropdown>
+		</div>
+   		</div>
+	   <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="tbaja" class="ui-outputlabel">Tipo de Baja</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="tbaja" name="tbaja" [options]="ltbaja" [(ngModel)]="this.mcampos.tbaja"></p-dropdown>
+			</div>
+		</div>
+	  	<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="grado" class="ui-outputlabel required">Estado</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-multiSelect name="estado" [(ngModel)]="this.mcampos.estadopolicia" required [options]="lestadopolicia"></p-multiSelect>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="grado" class="ui-outputlabel">Grado</label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="grado" name="grado" [options]="lgrado" [(ngModel)]="this.mcampos.grado"></p-dropdown>
+			</div>
+		</div>
+   </div>
+
+</form>
+<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+</div>

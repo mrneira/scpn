@@ -1,0 +1,148 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Gastos de liquidación</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cmoneda" header="Moneda" [style]="{'width':'60px'}"></p-column>
+				<p-column field="csaldo" header="Saldo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nsaldo" header="Nombre" [style]="{'width':'60px'}"></p-column>
+				<p-column field="montohasta" header="Monto Hasta" [style]="{'width':'60px'}"></p-column>
+				<p-column field="monto" header="Activo" [style]="{'width':'60px'}"></p-column>
+
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Gastos de liquidación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cmoneda" class="ui-outputlabel required">Moneda</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="cmoneda" name="cmoneda" [options]="lmoneda" [(ngModel)]="registro.cmoneda" required></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="csaldo" class="ui-outputlabel required">Saldo</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="csaldo" name="csaldo" [options]="lsaldo" [(ngModel)]="registro.csaldo" required></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="montodesde" class="ui-outputlabel">Monto desde</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=montodesde name="montodesde" [(ngModel)]="registro.montodesde" numero maxlength="19" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="montohasta" class="ui-outputlabel">Monto hasta</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=montohasta name="montohasta" [(ngModel)]="registro.montohasta" numero maxlength="19" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="clase" class="ui-outputlabel">Clase</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=clase name="clase" [(ngModel)]="registro.clase" numero maxlength="19" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="porcentaje" class="ui-outputlabel">Porcentaje</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=porcentaje name="porcentaje" [(ngModel)]="registro.porcentaje" numero maxlength="19" [disabled]="!editable && !registro.esnuevo"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="valorminimo" class="ui-outputlabel">Valor Mínimo</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=valorminimo name="valorminimo" [(ngModel)]="registro.valorminimo" numero maxlength="19"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="valormaximo" class="ui-outputlabel">Valor Máximo</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id=valormaximo name="valormaximo" [(ngModel)]="registro.valormaximo" numero maxlength="19"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="activo" class="ui-outputlabel">Activo</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="automatico" class="ui-outputlabel">Automático</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="automatico" [(ngModel)]="registro.automatico" binary="false"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="financiar" class="ui-outputlabel">Financiar</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="financiar" [(ngModel)]="registro.financiar" binary="false"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="modificable" class="ui-outputlabel">Modificable</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="modificable" [(ngModel)]="registro.modificable" binary="false"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

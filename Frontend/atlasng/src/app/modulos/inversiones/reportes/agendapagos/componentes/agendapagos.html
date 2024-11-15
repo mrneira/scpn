@@ -1,0 +1,15 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<div class="container">
+		<p-schedule [events]="events" [locale]="escal" [header]="header" [editable]="false" (onEventClick)="onClikCalendar($event)"></p-schedule>
+	</div>
+
+
+</div>
+
+<div class="ui-g-12" style='display:none'>
+	<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+</div>
+

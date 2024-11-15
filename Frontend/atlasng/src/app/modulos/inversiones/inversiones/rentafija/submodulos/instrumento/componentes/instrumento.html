@@ -1,0 +1,975 @@
+﻿<form #formularioUsuario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <p-accordion [multiple]="true">
+    <p-accordionTab header="Instrumento">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="codigotitulo" class="ui-outputlabel f-bold"
+                style="font-size:11px">{{this.pCodigoTitulo}}</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="codigotitulo" name="codigotitulo" [(ngModel)]="registro.codigotitulo"
+                maxlength="30"
+                [disabled]="pEditable == 0 && this.pActualizarNumeroInstrumento == 0 && this.pActualizaTituloContrato == 0"
+                class="f-bold" style="font-size:11px" mayusculas />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="mercadotipocdetalle" class="ui-outputlabel required">Mercado</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="mercadotipocdetalle" name="mercadotipocdetalle"
+                [options]="this.inversionesServicios.ptMercado"
+                [(ngModel)]="this.inversionesServicios.pMercadotipocdetalle" required [disabled]="true"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1"
+              *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && this.inversionesServicios.pMercadotipocdetalle == 'BURSAT'">
+              <label for="numerocontrato" class="ui-outputlabel">Número Contrato</label>
+            </div>
+            <div class="ui-g-12 ui-md-3"
+              *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && this.inversionesServicios.pMercadotipocdetalle == 'BURSAT'">
+              <input type="text" pInputText id="numerocontrato" name="numerocontrato"
+                [(ngModel)]="registro.numerocontrato" maxlength="20"
+                [disabled]="pEditable == 0 && this.pActualizaTituloContrato == 0" mayusculas />
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="sistemacolocacioncdetalle" class="ui-outputlabel required">Sistema de Colocación</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="sistemacolocacioncdetalle" name="sistemacolocacioncdetalle"
+                [options]="this.inversionesServicios.ptSistemaColocacion"
+                [(ngModel)]="this.inversionesServicios.pSistemacolocacioncdetalle" required [disabled]="pEditable == 0">
+              </p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="emisorcdetalle" class="ui-outputlabel required">{{mcampos.nemisor}}</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="emisorcdetalle" name="emisorcdetalle" [options]="this.inversionesServicios.ptEmisor"
+                [(ngModel)]="this.inversionesServicios.pEmisorcdetalle" required [disabled]="pEditable == 0"
+                [filter]="true" (ngModelChange)="this.contabilizaEmisor()"></p-dropdown>
+            </div>
+
+            <span *ngIf="this.inversionesServicios.pInstrumentocdetalle == 'FACCO'">
+            <div class="ui-g-12 ui-md-1">
+              <label for="emisorNuevocdetalle" class="ui-outputlabel required">Emisor</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="aceptantecdetalle" name="aceptantecdetalle" [options]="this.inversionesServicios.ptEmisor"
+                [(ngModel)]="this.inversionesServicios.pEmisorcdetalleNuevo" required [disabled]="pEditable == 0"
+                [filter]="true" ></p-dropdown>
+            </div>
+            </span>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="instrumentocdetalle" class="ui-outputlabel required"
+                *ngIf="this.pTasaclasificacioncdetalle != 'FIJA'">Instrumento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="instrumentocdetalle" name="instrumentocdetalle"
+                [options]="this.inversionesServicios.ptInstrumento"
+                [(ngModel)]="inversionesServicios.pInstrumentocdetalle" required [disabled]="pEditable == 0"
+                *ngIf="this.pTasaclasificacioncdetalle != 'FIJA'"></p-dropdown>
+            </div>
+
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="monedacdetalle" class="ui-outputlabel required">Moneda</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="monedacdetalle" name="monedacdetalle" [options]="this.inversionesServicios.ptMoneda"
+                [(ngModel)]="this.inversionesServicios.pMonedacdetalle" required [disabled]="pEditable == 0">
+              </p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="cotizacion" class="ui-outputlabel ">Cotización</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=cotizacion name="cotizacion"
+                [(ngModel)]="this.inversionesServicios.pCotizacion" numeroDecimal7 maxlength="14"
+                [disabled]="pEditable == 0" />
+            </div>
+
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="clasificacioninversioncdetalle" class="ui-outputlabel">Clasificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="clasificacioninversioncdetalle" name="clasificacioninversioncdetalle"
+                [options]="this.inversionesServicios.ptClasificacion"
+                [(ngModel)]="registro.clasificacioninversioncdetalle" [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <label for="bolsavalorescdetalle" class="ui-outputlabel">Bolsa de Valores</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <p-dropdown id="bolsavalorescdetalle" name="bolsavalorescdetalle"
+                [options]="this.inversionesServicios.ptBolsaValores"
+                [(ngModel)]="this.inversionesServicios.pBolsavalorescdetalle"
+                (ngModelChange)="this.contabilizaBolsaValores()" required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1"
+              *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && !this.inversionesServicios.escash()">
+              <label for="calificacionriesgoinicialcdetalle" class="ui-outputlabel">Calificación de Riesgo
+                Inicial</label>
+            </div>
+            <div class="ui-g-12 ui-md-3"
+              *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && !this.inversionesServicios.escash()">
+              <p-dropdown id="calificacionriesgoinicialcdetalle" name="calificacionriesgoinicialcdetalle"
+                [options]="this.inversionesServicios.ptRiesgo" [(ngModel)]="registro.calificacionriesgoinicialcdetalle"
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="casavalorescdetalle" class="ui-outputlabel required">Casa de Valores</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="casavalorescdetalle" name="casavalorescdetalle"
+                [options]="this.inversionesServicios.ptCasaValores" [(ngModel)]="registro.casavalorescdetalle" required
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="fpkccuenta" class="ui-outputlabel required">Contacto Casa de Valores</label>
+            </div>
+
+            <div class="ui-g-2 ui-md-1">
+              <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText
+                [(ngModel)]="this.inversionesServicios.pCinvagentebolsa" required readonly />
+            </div>
+
+            <div class="ui-g-9 ui-md-2">
+              <input type="text" pInputText id="fncuenta" name="fncuenta"
+                [(ngModel)]="this.inversionesServicios.pRazonSocialAgente" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovagentebolsa" name="lovagentebolsa" (click)="mostrarLovAgentesBolsa()"
+                [disabled]="pEditable == 0" icon="ui-icon-directions">
+              </button>
+            </div>
+
+            <app-lov-agentesbolsa (eventoCliente)=fijarLovAgentesBolsaSelect($event)></app-lov-agentesbolsa>
+
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="fpkoperadorinst" class="ui-outputlabel required">Operador Institucional</label>
+            </div>
+
+            <div class="ui-g-2 ui-md-1">
+              <input id="fpkoperadorinst" name="fpkoperadorinst" type="text" pInputText
+                [(ngModel)]="this.inversionesServicios.pCinvoperadorinstitucional" required readonly />
+            </div>
+
+            <div class="ui-g-9 ui-md-2">
+              <input type="text" pInputText id="fnoperadorinst" name="fnoperadorinst"
+                [(ngModel)]="this.inversionesServicios.pOperadorInstNombre" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovoperadorinst" name="lovoperadorinst"
+                (click)="mostrarLovOperadorInst()" [disabled]="pEditable == 0" icon="ui-icon-directions">
+              </button>
+            </div>
+
+            <app-lov-operadorinst (eventoCliente)=fijarLovOperadorInst($event)></app-lov-operadorinst>
+
+          </div>
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <label for="femision" class="ui-outputlabel required">Fecha de Emisión</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <p-calendar id="femision" name="femision" [(ngModel)]="this.inversionesServicios.pFemision"
+                [showIcon]="true" [locale]="es"
+                [disabled]="pEditable == 0 || (this.inversionesServicios.tieneTablaPagos() && this.inversionesServicios.pEstadocdetalle != 'ING')"
+                required [dateFormat]="formatofecha" (ngModelChange)="this.fechaVencimiento()"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-1"
+              *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR' && this.inversionesServicios.pstrInstrumentoCLegal != 'PC'">
+              <label for="fcompra" class="ui-outputlabel required">Fecha de Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-3"
+              *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR' && this.inversionesServicios.pstrInstrumentoCLegal != 'PC'">
+              <p-calendar id="fcompra" name="fcompra" [(ngModel)]="this.inversionesServicios.pFcompra" [showIcon]="true"
+                [locale]="es"
+                [disabled]="pEditable == 0 || (this.inversionesServicios.tieneTablaPagos() && this.inversionesServicios.pEstadocdetalle != 'ING')"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-1"
+              *ngIf="this.pTasaclasificacioncdetalle == 'VAR' && this.inversionesServicios.pEstadocdetalle == 'PAG'">
+              <label for="fpago" class="ui-outputlabel required">Fecha de Pago (T+3)</label>
+            </div>
+            <div class="ui-g-12 ui-md-3"
+              *ngIf="this.pTasaclasificacioncdetalle == 'VAR' && this.inversionesServicios.pEstadocdetalle == 'PAG'">
+              <p-calendar id="fpago" name="fpago" [(ngModel)]="this.inversionesServicios.pFpago" [showIcon]="true"
+                [locale]="es" [disabled]="pEditable == 0" [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.escash()">
+              <label for="fultimacompra" class="ui-outputlabel">Fecha Última Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.escash()">
+              <p-calendar id="fultimacompra" name="fultimacompra" [(ngModel)]="registro.fultimacompra" [showIcon]="true"
+                [locale]="es" [disabled]="pEditable == 0" [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="bancocdetalle" class="ui-outputlabel required">Transferencia</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="bancocdetalle" name="bancocdetalle" [options]="this.inversionesServicios.ptBancoPago"
+                [(ngModel)]="this.inversionesServicios.pBancopagocdetalle" [filter]="true" required
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <label for="diasinteres" class="ui-outputlabel required">Base para Días de Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <p-dropdown id="diasinteres" name="diasinteres" required
+                [options]="this.inversionesServicios.ptBaseDiasInteres"
+                [(ngModel)]="this.inversionesServicios.pBasediasinterescdetalle" [disabled]="pEditable == 0">
+              </p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="estadocdetalle" class="ui-outputlabel required">Estado</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="this.inversionesServicios.ptEstado"
+                [(ngModel)]="this.inversionesServicios.pEstadocdetalle" required [disabled]="true"></p-dropdown>
+            </div>
+
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <label for="periodicidadpagoscapitalcdetalle" class="ui-outputlabel required">Periodicidad</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="periodicidadpagoscapitalcdetalle" name="periodicidadpagoscapitalcdetalle"
+              [options]="this.inversionesServicios.ptPeriodos" [(ngModel)]="registro.periodicidadpagoscapitalcdetalle"
+              required [disabled]="pEditable == 0"></p-dropdown>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.tieneTablaPagos()">
+
+
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="periodicidadpagosinterescdetalle" class="ui-outputlabel required">Periodicidad Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="periodicidadpagosinterescdetalle" name="periodicidadpagosinterescdetalle" [options]="this.inversionesServicios.ptPeriodosInteres"
+                [(ngModel)]="registro.periodicidadpagosinterescdetalle" required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+         
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="observacionesX" class="ui-outputlabel">Observaciones Forma de Pago</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="observacionesX" name="observacionesX"
+                [(ngModel)]="registro.observacionespagos" [disabled]="pEditable == 0" mayusculas />
+            </div>
+
+
+          </div>
+
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="observacionesA" class="ui-outputlabel  required">Observaciones</label>
+            </div>
+            <div class="ui-g-12 ui-md-7">
+              <input type="text" pInputText id="observacionesA" name="observacionesA"
+                [(ngModel)]="registro.observaciones" [disabled]="pEditable == 0" mayusculas />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Datos de la operación">
+
+      <div class="f-contenedor-transaccion" *ngIf="this.pTasaclasificacioncdetalle == 'VAR'">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="preciounitarioaccion" class="ui-outputlabel  required">Precio Unitario</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=preciounitarioaccion name="preciounitarioaccion"
+                [(ngModel)]="registro.preciounitarioaccion" numeroDecimal7 maxlength="20" [disabled]="pEditable == 0"
+                (ngModelChange)="this.valorAcciones()" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="numeroacciones" class="ui-outputlabel required">Número de Acciones</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=numeroacciones name="numeroacciones"
+                [(ngModel)]="registro.numeroacciones" numero maxlength="14" [disabled]="pEditable == 0"
+                (ngModelChange)="this.valorAcciones()" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="valoracciones" class="ui-outputlabel required">Valor Acciones</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=valoracciones name="valoracciones" [(ngModel)]="registro.valoracciones"
+                numeroDecimal7 maxlength="20" [disabled]="true" />
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+
+     
+      <div class="f-contenedor-transaccion" *ngIf="this.inversionesServicios.pstrInstrumentoCLegal == 'PC'">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="valornominalA" class="ui-outputlabel required">Valor Nominal</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=valornominalA name="valornominalA"
+                [(ngModel)]="this.inversionesServicios.pCapital" numero maxlength="14" [disabled]="pEditable == 0"
+                (blur)="maximoPorcentaje()" />
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="iplazo" class="ui-outputlabel required">Plazo</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="iplazo" name="iplazo" [(ngModel)]="registro.plazo" maxlength="10" entero
+                [disabled]="pEditable == 0" (ngModelChange)="fechaVencimiento()" />
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="iplazo" class="ui-outputlabel">días</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <label for="porcentajecalculoprecioB" class="ui-outputlabel required">% Cálculo en Base al Precio</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <input type="text" pInputText id=porcentajecalculoprecioB name="porcentajecalculoprecioB"
+                [(ngModel)]="this.inversionesServicios.pPorcentajecalculoprecio" numeroDecimal15 maxlength="19"
+                [disabled]="pEditable == 0" (ngModelChange)="calcularvalorNegociacion()" />
+            </div>
+
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <label for="valornegociacionX" class="ui-outputlabel required">Valor Compra</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id=valornegociacionX name="valornegociacionX"
+              [(ngModel)]="this.inversionesServicios.pValornegociacion" numero maxlength="14"
+              (ngModelChange)="calcularInteresFijo()" />
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+              <label for="rendimiento" class="ui-outputlabel">Rendimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=rendimiento name="rendimiento"
+                [(ngModel)]="this.inversionesServicios.pCapital - this.inversionesServicios.pValornegociacion" numero
+                maxlength="14" [disabled]="" readonly />
+            </div>
+
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="fvencimientoA" class="ui-outputlabel">Fecha Vencimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-calendar id="fvencimientoA" name="fvencimientoA" [(ngModel)]="this.inversionesServicios.pFvencimiento"
+                [showIcon]="true" [locale]="es" [disabled]="false" [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="f-contenedor-transaccion"
+          *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && (this.inversionesServicios.tieneTablaPagos() || (this.inversionesServicios.pstrInstrumentoCLegal == 'CDP' || this.inversionesServicios.pInstrumentocdetalle == 'BONO' || this.inversionesServicios.pInstrumentocdetalle == 'BONEST' || this.inversionesServicios.pInstrumentocdetalle == 'CASHEQ' || this.inversionesServicios.pInstrumentocdetalle == 'CASHFP' || this.inversionesServicios.pInstrumentocdetalle == 'CASHFS'))">
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion < 4000">
+            <div class="ui-g-12 ui-md-1">
+              <label for="valornominalB" class="ui-outputlabel required">Valor Nominal</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=valornominalB name="valornominalB"
+                [(ngModel)]="this.inversionesServicios.pCapital" numero maxlength="14" [disabled]="pEditable == 0"
+                (blur)="calcularSinTabla()" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <label for="fultimopagoB" class="ui-outputlabel required">Fecha Valor</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <p-calendar id="fultimopagoB" name="fultimopagoB" [(ngModel)]="this.inversionesServicios.pFultimopago"
+                [showIcon]="true" [locale]="es" [disabled]="pEditable == 0" required [dateFormat]="formatofecha"
+                (ngModelChange)="calcularSinTabla()"></p-calendar>
+            </div>
+
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.escash()">
+              <label for="plazorealxvencerB" class="ui-outputlabel required">Plazo</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.escash()">
+              <input type="text" pInputText id="plazorealxvencerB" name="plazorealxvencerB"
+                [(ngModel)]="this.inversionesServicios.pPlazoxvencer" maxlength="10" entero [disabled]="pEditable == 0"
+                (blur)="calcularSinTabla()" />
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion < 4000">
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.escash()">
+              <label for="yieldB" class="ui-outputlabel required">Yield (Rendimiento)</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.escash()">
+              <input type="text" pInputText id=yieldB name="yieldB" [(ngModel)]="this.inversionesServicios.pYield"
+                numeroDecimal7 maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.escash()">
+              <label for="fvencimientoB" class="ui-outputlabel">Fecha Vencimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.escash()">
+              <p-calendar id="fvencimientoB" name="fvencimientoB" [(ngModel)]="this.inversionesServicios.pFvencimiento"
+                [showIcon]="true" [locale]="es" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.escash()">
+              <label for="tasaB" class="ui-outputlabel required">Tasa</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.escash()">
+              <input type="text" pInputText id="tasaB" name="tasaB" [(ngModel)]="this.inversionesServicios.pTasa"
+                numeroDecimal7 maxlength="14" [disabled]="pEditable == 0" (blur)="calcularSinTabla()" required />
+            </div>
+
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion < 4000">
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="calendarizacioncdetalleB" class="ui-outputlabel required">Base para Tasa de Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="calendarizacioncdetalleB" name="calendarizacioncdetalleB"
+                [options]="this.inversionesServicios.ptCalendarizacion"
+                [(ngModel)]="this.inversionesServicios.pCalendarizacioncdetalle" [disabled]="pEditable == 0"
+                (ngModelChange)="calcularSinTabla()"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <label for="porcentajecalculoprecioB" class="ui-outputlabel required">% Cálculo en Base al Precio</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.pTasaclasificacioncdetalle == 'FIJA'">
+              <input type="text" pInputText id=porcentajecalculoprecioB name="porcentajecalculoprecioB"
+                [(ngModel)]="this.inversionesServicios.pPorcentajecalculoprecio" numeroDecimal15 maxlength="19"
+                [disabled]="pEditable == 0" (blur)="calcularSinTabla()" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="valornegociacionB" class="ui-outputlabel ">Valor Negociación</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=valornegociacionB name="valornegociacionB"
+                [(ngModel)]="this.inversionesServicios.pValornegociacion" numero maxlength="14" [disabled]="true" />
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.pTransaccion < 4000">
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.escash()">
+              <label for="diasporvencerafechacompraB" class="ui-outputlabel ">Días por Vencer a la Fecha de
+                Compra</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.esBono()">
+              <label for="valorefectivoB" class="ui-outputlabel required">Valor Efectivo</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.esBono()">
+              <input type="text" pInputText id=valorefectivoB name="valorefectivoB" [(ngModel)]="registro.valorefectivo"
+                numero maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.escash()">
+              <label for="diasporvencerafechacompraB" class="ui-outputlabel ">Días por Vencer a la Fecha de
+                Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.escash()">
+              <input type="text" pInputText id=diasporvencerafechacompraB name="diasporvencerafechacompraB"
+                [(ngModel)]="registro.diasporvencerafechacompra" entero maxlength="7" [disabled]="true" />
+            </div>
+
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>Intereses</span>
+            </div>
+            <hr />
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+              <label for="interesnominaldiasB" class="ui-outputlabel ">Días Valor Nominal para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=interesnominaldiasB name="interesnominaldiasB"
+                [(ngModel)]="this.inversionesServicios.pInteresnominaldias" entero maxlength="7" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.tieneTablaPagos()">
+              <label for="interesnominalvalorB" class="ui-outputlabel ">Interés en Base al Valor Nominal</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.tieneTablaPagos()">
+              <input type="text" pInputText id=interesnominalvalorB name="interesnominalvalorB"
+                [(ngModel)]="this.inversionesServicios.pInteres" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <label for="interestranscurridodiasB" class="ui-outputlabel ">Días Transcurridos para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <input type="text" pInputText id=interestranscurridodiasB name="interestranscurridodiasB"
+                [(ngModel)]="this.inversionesServicios.pInterestranscurridodias" entero maxlength="7"
+                [disabled]="true" />
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <label for="interestranscurridoB" class="ui-outputlabel ">Interés Transcurrido</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <input type="text" pInputText id=interestranscurridoB name="interestranscurridoB"
+                [(ngModel)]="this.inversionesServicios.pinterestranscurrido" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="diasporvencerB" class="ui-outputlabel ">Días por Vencer</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=diasporvencerB name="diasporvencerB"
+                [(ngModel)]="this.inversionesServicios.pDiasporvencer" entero maxlength="7" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.tieneTablaPagos()">
+              <label for="valorporvencerB" class="ui-outputlabel ">Interés por Vencer</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.tieneTablaPagos()">
+              <input type="text" pInputText id=valorporvencerB name="valorporvencerB"
+                [(ngModel)]="this.inversionesServicios.pInteresporvencer" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pstrInstrumentoCLegal == 'CDP'">
+              <label for="totalven" class="ui-outputlabel ">Total al Vencimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pstrInstrumentoCLegal == 'CDP'">
+              <input type="text" pInputText id=totalven name="totalven"
+                [(ngModel)]="this.inversionesServicios.pEfectivonegociado + this.inversionesServicios.pInteresporvencer"
+                numero maxlength="14" [disabled]="true" />
+            </div>
+
+
+          </div>
+
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-1" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <label for="valordescuentoB" class="ui-outputlabel ">Valor Descuento</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+              <input type="text" pInputText id=valordescuentoB name="valordescuentoB"
+                [(ngModel)]="this.inversionesServicios.pValordescuento" numero maxlength="14" [disabled]="true" />
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="f-contenedor-transaccion" *ngIf="this.pEsReajuste">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>Reajuste</span>
+            </div>
+            <hr />
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+              <label for="interesanterior" class="ui-outputlabel">Interés Anterior</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=interesanterior name="interesanterior"
+                [(ngModel)]="registro.interesanterior" numero maxlength="20" [disabled]="true" readonly />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="nuevointeres" class="ui-outputlabel">Nuevo Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=nuevointeres name="nuevointeres" [(ngModel)]="registro.interesnuevo"
+                numero maxlength="20" [disabled]="true" readonly />
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="diferenciaintereses" class="ui-outputlabel">Diferencia</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id=diferenciaintereses name="diferenciaintereses"
+                [(ngModel)]="registro.interesnuevo - registro.interesanterior" numero maxlength="20" [disabled]="true"
+                readonly />
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+    </p-accordionTab>
+
+    <p-accordionTab header="Totales" *ngIf="!this.pEsReajuste && this.pTransaccion < 4000">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>DESEMBOLSO</span>
+            </div>
+            <hr />
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pstrInstrumentoCLegal != 'CDP'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="efectivonegociado" class="ui-outputlabel ">(A) VALOR EFECTIVO</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=efectivonegociado name="efectivonegociado"
+                [(ngModel)]="this.inversionesServicios.pEfectivonegociado" numero maxlength="14"
+                (ngModelChange)="calcularTotalAPagar()" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pstrInstrumentoCLegal == 'CDP'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="efectivonegociado" class="ui-outputlabel ">TOTAL A PAGAR</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=efectivonegociado name="efectivonegociado"
+                [(ngModel)]="this.inversionesServicios.pEfectivonegociado" numero maxlength="14"
+                (ngModelChange)="calcularTotalAPagar()" [disabled]="true" />
+            </div>
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad"
+            *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && this.inversionesServicios.pstrInstrumentoCLegal != 'CDP'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="interesesnegociacion" class="ui-outputlabel ">(B) VALOR INTERÉS</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=interesesnegociacion name="interesesnegociacion"
+                [(ngModel)]="this.inversionesServicios.pInteresesnegociacion" numero maxlength="14"
+                (ngModelChange)="calcularTotalAPagar()" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad f-bold" style="font-size:10px"
+            *ngIf="this.pTasaclasificacioncdetalle == 'FIJA' && this.inversionesServicios.pstrInstrumentoCLegal != 'CDP'">
+            <div class="ui-g-12 ui-md-5">
+              <label for="totaldesembolso" class="ui-outputlabel">TOTAL DE DESEMBOLSO</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=totaldesembolso name="totaldesembolso"
+                [(ngModel)]="this.inversionesServicios.pInteresesnegociacion + this.inversionesServicios.pEfectivonegociado"
+                numero maxlength="14" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>COMISIONES</span>
+            </div>
+            <hr />
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionbolsavalores" class="ui-outputlabel ">(C) BOLSA</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="comisionbolsavalores"
+                class="ui-outputlabel ">{{this.inversionesServicios.pstrPorcentajeBolsa}}</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionbolsavalores name="comisionbolsavalores"
+                [(ngModel)]="this.inversionesServicios.pComisionBolsa" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-4" *ngIf="pEditable != 0">
+              <p-checkbox name="clncomisionbolsa" [(ngModel)]="this.inversionesServicios.pblnComisionBolsa"
+                binary="false" (ngModelChange)="asignarBolsaValores()"></p-checkbox>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionoperador" class="ui-outputlabel ">(D) OPERADOR</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="comisionbolsavalores"
+                class="ui-outputlabel ">{{this.inversionesServicios.pstrPorcentajeAgente}}</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionoperador name="comisionoperador"
+                [(ngModel)]="this.inversionesServicios.pComisionOperador" numero maxlength="14" [disabled]="true"
+                (ngModelChange)="comisionOperadorContabiliza()" />
+            </div>
+
+            <div class="ui-g-12 ui-md-4" *ngIf="pEditable != 0">
+              <p-checkbox name="clncomisionope" [(ngModel)]="this.inversionesServicios.pblnComisionOperador"
+                binary="false" (ngModelChange)="asignarOperador()"></p-checkbox>
+            </div>
+
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad f-bold" style="font-size:10px"
+            *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-5">
+              <label for="totalcomisiones" class="ui-outputlabel">TOTAL DE COMISIONES</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=totalcomisiones name="totalcomisiones"
+                [(ngModel)]="this.inversionesServicios.pComisiontotal" numero maxlength="14" [disabled]="true" />
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>RETENCIONES</span>
+            </div>
+            <hr />
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionretencion" class="ui-outputlabel ">(E) RETENCIÓN EN LA FUENTE BVG</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-1">
+              <label for="comisionretencion"
+                class="ui-outputlabel ">{{this.inversionesServicios.pstrPorcentajeRetencion}}</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionretencion name="comisionretencion"
+                [(ngModel)]="this.inversionesServicios.pRetencion" numero maxlength="14" [disabled]="true" />
+            </div>
+
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionfuente" class="ui-outputlabel ">(F) RETENCIÓN EN LA FUENTE CV</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="comisionretencion"
+                class="ui-outputlabel ">{{this.inversionesServicios.pstrPorcentajeRetencion}}</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionretencion2 name="comisionretencion2"
+                [(ngModel)]="this.inversionesServicios.pRetencion3" numero maxlength="14" [disabled]="true" />
+            </div>
+
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad f-bold" style="font-size:10px"
+            *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-5">
+              <label for="totalretencion" class="ui-outputlabel">TOTAL DE RETENCIONES</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=totalretencion name="totalretencion"
+                [(ngModel)]="this.inversionesServicios.pRetencion" numero maxlength="14" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="subtotales" class="ui-outputlabel"></label>
+            </div>
+            <div class="ui-g-12 ui-md-2 f-bold">
+              <label for="subtotales" class="ui-outputlabel"
+                [style]="{'text-align':'right','font-size':'10px'}">SUBTOTALES:</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=subtotales name="subtotales"
+                [(ngModel)]="this.inversionesServicios.pSubtotal" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="subtotales" class="ui-outputlabel">(A+B+C+D-E-F)</label>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad f-bold" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="iva" class="ui-outputlabel"></label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="iva" class="ui-outputlabel" [style]="{'text-align':'right','font-size':'10px'}">IVA:</label>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="totalcomprador" class="ui-outputlabel"></label>
+            </div>
+            <div class="ui-g-12 ui-md-2 f-bold">
+              <label for="totalcomprador" class="ui-outputlabel"
+                [style]="{'text-align':'right','font-size':'10px'}">TOTAL COMPRADOR:</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=totalcomprador name="totalcomprador"
+                [(ngModel)]="this.inversionesServicios.pSubtotal" numero maxlength="14" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad"
+            *ngIf="this.inversionesServicios.pBolsavalorescdetalle != 'UIO' && this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="precioneto" class="ui-outputlabel"></label>
+            </div>
+            <div class="ui-g-12 ui-md-2 f-bold">
+              <label for="precioneto" class="ui-outputlabel" [style]="{'text-align':'right','font-size':'10px'}">PRECIO
+                NETO:</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=precioneto name="precioneto"
+                [(ngModel)]="this.inversionesServicios.pPrecioNeto" numeroDecimal4 maxlength="17" [disabled]="true" />
+            </div>
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad"
+            *ngIf="this.inversionesServicios.pBolsavalorescdetalle != 'UIO' && this.inversionesServicios.pMercadotipocdetalle != 'EXTBUR'">
+            <div class="ui-g-12 ui-md-3">
+              <label for="valorcompensar" class="ui-outputlabel"></label>
+            </div>
+            <div class="ui-g-12 ui-md-2 f-bold">
+              <label for="valorcompensar" class="ui-outputlabel"
+                [style]="{'text-align':'right','font-size':'10px'}">VALOR A COMPENSAR:</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=valorcompensar name="valorcompensar"
+                [(ngModel)]="this.inversionesServicios.pValorACompensar" numero maxlength="14" [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="subtotales" class="ui-outputlabel">(A+B+C-E)</label>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</form>

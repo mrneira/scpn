@@ -1,0 +1,128 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+      dataKey="coperacioncartera" [resizableColumns]="true" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Pólizas Ingresadas Nuevas</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+      <p-column field="mdatos.identificacion" header="Identificación" [style]="{'width':'80px'}" [filter]="true"
+        filterPlaceholder="Filtrar"></p-column>
+      <p-column field="mdatos.npersona" header="Nombre" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'200px'}"></p-column>
+      <p-column field="numeropoliza" header="Póliza" [style]="{'width':'75px'}"></p-column>
+      <p-column header="Tipo" [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <span *ngIf="!reg.renovacion">NUEVO</span>
+        </ng-template>
+      </p-column>
+      <p-column field="numerofactura" header="Factura" [style]="{'width':'75px'}"></p-column>
+      <p-column field="coperacioncartera" header="Préstamo" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+      <p-column field="coperaciongarantia" header="Garantía" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+      <p-column field="mdatos.ntiposeguro" header="Tipo Seguro" [style]="{'width':'120px'}"></p-column>
+      <p-column header="Fecha Inicio" [style]="{'width':'75px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.finicio | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha vencimiento" [style]="{'width':'100px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fvencimiento | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column header="Prima Retenida" [style]="{'width':'90px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.valorprimaretenida | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Valor Prima" [style]="{'width':'75px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.valorprima | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha Ingreso" [style]="{'width':'80px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fingreso | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column header="Acciones" styleClass="f-center" [style]="{'width':'70px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-comment" name="btnModificar" (click)="modificarPoliza(reg)"
+              pTooltip="Modificar Póliza" tooltipPosition="top"></button>
+            <button type="button" pButton icon="ui-icon-delete-forever" name="btneliminar" (click)="eliminarPoliza(reg)"
+              pTooltip="Eliminar Póliza" tooltipPosition="top" class="ui-button-danger"></button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+
+
+<p-dialog header="Modificación de Poliza" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel ">Número Factura:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numerofactura" name="numerofactura" [(ngModel)]="registro.numerofactura"
+              maxlength="20" minlength="3" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel ">Número Poliza:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numeropoliza" name="numeropoliza" [(ngModel)]="registro.numeropoliza"
+              maxlength="20" minlength="3" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel ">Prima Retenida:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="valorprimaretenida" name="valorprimaretenida" [(ngModel)]="registro.valorprimaretenida"
+              maxlength="20" minlength="3" [readOnly]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel ">Valor Factura:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="valorfactura" name="valorfactura" [(ngModel)]="registro.valorfactura"
+              maxlength="20" minlength="1" />
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <HR>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <button type="button" pButton icon="ui-icon-check" (click)="actualizar()" label="Actualizar" class="ui-button-success"
+              style="margin-left:5px"> </button>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogo()" label="Cerrar" class="orange-btn"
+              style="margin-left:5px"> </button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

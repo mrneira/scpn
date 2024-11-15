@@ -1,0 +1,108 @@
+<div class="f-contenedor-transaccion">
+
+  <form #formulariodatosgenerales="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-10">
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-splitButton *ngIf="registro.tipocdetalle==='GEN' && !estaVacio(registro.cplan)" label="&emsp;Reportes&emsp;" icon="ui-icon-list"
+            [model]="itemsReporte" class="f-btn blue-btn"></p-splitButton>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <acciones-editar [formAcciones]="formulariodatosgenerales" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+        </acciones-editar>
+
+      </div>
+
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="aniof" class="ui-outputlabel required">Año:</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input id="aniof" name="aniof" type="text" pInputText [ngModel]="registro.anio" required style="text-align:center;" [disabled]="!editable"
+          />
+        </div>
+
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4 ">
+          <label for="ntipo" class="ui-outputlabel required">Tipo</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input pInputText id="ntipo" name="ntipo" [(ngModel)]="registro.mdatos.ntipo" [readOnly]="true" />
+        </div>
+
+      </div>
+
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4 ">
+          <label for="fcmodulo" class="ui-outputlabel required">Módulo</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="registro.mdatos.nmodulo" [readOnly]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">Monto Total:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" required name="monto" pInputText [(ngModel)]="registro.monto" numeroPositivo maxlength="25" style="text-align:right"
+            [disabled]="!editable" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">% Monto:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" required name="pmontototal" pInputText [(ngModel)]="registro.pmontototal" numeroPositivo maxlength="25"
+            style="text-align:right" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">% Tasa inflación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" name="pparticipacion" required pInputText [(ngModel)]="registro.pparticipacion" numeroDecimal4 maxlength="25"
+            style="text-align:right" [disabled]="!editable" (ngModelChange)="cambiarAsignado()" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">% Asignado:</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" name="pparticipaciontotal" pInputText [(ngModel)]="registro.pparticipaciontotal" numeroPositivo maxlength="25"
+            style="text-align:right;font-size:18px" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadocdetalle" class="ui-outputlabel required">Estado:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false" [disabled]="true"></p-checkbox>
+
+        </div>
+      </div>
+      <div class="ui-g-12  ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+          <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+            rows="2" [disabled]="!editable"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>

@@ -1,0 +1,37 @@
+<body>
+  <div class="logosLogin">
+  </div>
+  <div>
+    <p><br></p>
+    <p><br></p>
+    <p><br></p>
+  </div>
+  <form #formlogin="ngForm">
+    <div class="card login-panel ui-fluid">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <img src="assets/imagenes/login/atlaslogofinalfinal.png" width="145px" height="150px" />
+        </div>
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+            <input type="text" pInputText name="cu" [(ngModel)]="appService.modelo.u" autocomplete="off" autofocus
+              required mayusculas maxlength="20">
+            <label>Usuario</label>
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+            <input type="password" pInputText name="pp" [(ngModel)]="appService.modelo.p" autocomplete="off" required
+              maxlength="50" (keyup.enter)="ejecutalogin()">
+            <label>Clave</label>
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <button type="button" pButton label="Ingresar" icon="ui-icon-person" [disabled]="!formlogin.valid" (click)="ejecutalogin()"></button>
+          <a (click)="ejecutaolvidocontrasenia()" class="linkLogin">Olvidó su contraseña? </a>
+          <p><br></p>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>

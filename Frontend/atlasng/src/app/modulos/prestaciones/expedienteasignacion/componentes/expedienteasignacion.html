@@ -1,0 +1,145 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <button *ngIf="registerAsignacionExpediente" pButton type="button" name="crearexpediente" id="crearexpediente" label="Asignar expediente" pTooltip="Reservar un expediente" tooltipPosition="top" style="position: absolute; right: 100px;" class="f-btn teal-btn" icon="ui-icon-save" (click)="asignarExpediente()"></button>
+  <button *ngIf="statusPrint" pButton type="button" name="print" id="print" label="Imprimir" pTooltip="Imprimir asignación de expediente" tooltipPosition="top" style="position: absolute; right: 100px; background-color: #0B3C5D;" class="f-btn teal-btn" icon="ui-icon-print" (click)="print()"></button>
+  <button *ngIf="existInfo" pButton type="button" name="cargar" id="cargar" label='Limpiar' style="position: absolute; right: 2px" class="f-btn green-btn" icon="ui-icon-update" (click)="recargar()" pTooltip="Recargar la pantalla" tooltipPosition="top"> </button>
+</div>
+<p-fieldset legend="BUSCAR SOCIO" [toggleable]="false">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid" style="background-color: #e9e9e9;">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true" placeholder="..." />
+      </div>
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" placeholder="..." />
+      </div>
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovSociosSelec($event)></app-lov-personas>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="tipoliquidacion" class="ui-outputlabel">Tipo de liquidación </label>
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <input type="text" class="inputcolorred" pInputText id="tipoliquidacion" name="tipoliquidacion" [readOnly]="true" value="{{nombrecdetalletipoexp}}" placeholder="..." />
+      </div>
+    </div>
+  </form>
+</p-fieldset>
+<p-fieldset legend="DATOS GENERALES" [toggleable]="false">
+  <form #formularioDatoSocio="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="estadosolicitante" class="ui-outputlabel ">Estado de Solicitante:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="estadosolicitante" name="estadosolicitante" [readOnly]="true" [(ngModel)]="mcampos.estadoSocio" placeholder="..." />
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cedula" class="ui-outputlabel ">Cédula:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="cedula" name="cedula" [readOnly]="true" [ngModel]="mcampos.identificacion" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fechaalta" class="ui-outputlabel ">Fecha Alta:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fechalta" name="fechaalta" [readOnly]="true" [ngModel]="mcampos.fechaAlta | date:'dd-MM-yyyy'" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="grado" class="ui-outputlabel">Grado: </label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="grado" name="grado" [readOnly]="true" [(ngModel)]="mcampos.grado" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fechabaja" class="ui-outputlabel ">Fecha de Baja:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fechabaja" name="fechabaja" [ngModel]="mcampos.fechaBaja  | date:'dd-MM-yyyy'" [readOnly]="true" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fechanacimiento" class="ui-outputlabel ">Fecha de Nacimiento</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fechanacimiento" name="fechanacimiento" [ngModel]="mcampos.fnacimiento | date:'dd-MM-yyyy'" [readOnly]="true" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="tiemposervicio" class="ui-outputlabel ">Tiempo Servicio:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="tiemposervicio" name="tiemposervicio" [(ngModel)]="mcampos.tiemposervicio" [readOnly]="true" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="edad" class="ui-outputlabel ">Edad:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="edad" name="edad" [readOnly]="true" [(ngModel)]="mcampos.edad" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="tipobaja" class="ui-outputlabel ">Tipo de Baja:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="tipobaja" name="tipobaja" [readOnly]="true" [(ngModel)]="mcampos.tipobaja" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="sexo" class="ui-outputlabel ">Sexo:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="sexo" name="sexo" [readOnly]="true" [(ngModel)]="mcampos.genero" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="aportes" class="ui-outputlabel ">Total Aportes:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="aportes" name="aportes" [readOnly]="true" [ngModel]="mcampos.numaportaciones" placeholder="..." />
+        </div>
+      </div>
+      <div class="ui-g-6 ui-g-nopad"></div>
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="acumuladoaporte" class="ui-outputlabel ">Acumulado Aportes:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="acumuladoaporte" name="acumuladoaporte" [readOnly]="true" value="{{mcampos.aporteacumuladoCabecera | number:'1.2-2' }}" placeholder="..." />
+        </div>
+      </div>
+    </div>
+  </form>
+</p-fieldset>
+<p-fieldset legend="EXPEDIENTE" [toggleable]="false">
+  <h2 style="font-size: 20px;">{{mcampos.numberexpediente}}</h2>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros" [pdf]="false" [excel]="false"></app-jasper>
+    </div>
+  </div>
+</p-fieldset>

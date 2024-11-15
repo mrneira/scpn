@@ -1,0 +1,121 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Componentes de Consulta</div>
+					<acciones-consulta [componente]="componentehijo" [consulta]="false"></acciones-consulta>
+				</p-header> 
+				<p-column field="ccanal" header="Canal" [style]="{'width':'60px'}"></p-column>
+				<p-column field="cconsulta" header="C&oacute;digo consulta" [style]="{'width':'200px'}"></p-column>
+				<p-column field="orden" header="Orden" [style]="{'width':'50px'}"></p-column>
+				<p-column field="ccomponente" header="Componente"></p-column>
+				<p-column header="Activo" [style]="{'width':'50px'}">
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Componente de Consulta" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 1000px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkccanal" class="ui-outputlabel required">Canal</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="pkccanal" name="pkccanal" [(ngModel)]="registro.ccanal" 
+						   autofoco mayusculas required maxlength="30" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+	                <label for="pkcconculta" class="ui-outputlabel required">Código consulta</label>
+	            </div>
+	            <div class="ui-g-12 ui-md-3">
+	                <input id="pkcconculta" name="pkcconculta" type="text" pInputText required [ngModel]="registro.cconsulta" [readOnly]="true" />
+	            </div>
+	            <div class="ui-g-12 ui-md-5">
+	                <input id="ncodigoconsulta" name="ncodigoconsulta" type="text" pInputText [ngModel]="registro.mdatos.ncodigoconsulta" [readOnly]="true" />
+	            </div>
+				<div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovcodigoconsulta" name="lovcodigoconsulta" (click)="mostrarLovCodigosConsulta()" 
+							icon="ui-icon-directions" [disabled]="!registro.esnuevo">
+			    	</button>
+		    	</div>
+		    	<app-lov-cod-consultas #lovcodconsultacodigos (eventoCodigoConsulta)=fijarLovCodigosConsultaSelec($event)></app-lov-cod-consultas>
+	        </div>
+	        
+	        <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+	                <label for="ccomponente" class="ui-outputlabel required">Componente</label>
+	            </div>
+	            <div class="ui-g-12 ui-md-8">
+	                <input id="ccomponente" name="ccomponente" type="text" pInputText required [ngModel]="registro.ccomponente" [readOnly]="true" />
+	            </div>
+	            <div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovcomponente" name="lovcomponente" (click)="mostrarLovCompNegocio()" 
+							icon="ui-icon-directions" [disabled]="!editable && !registro.esnuevo">
+			    	</button>
+		    	</div>
+	            
+	            <div class="ui-g-12 ui-md-3"></div>
+	            <div class="ui-g-12 ui-md-8">
+	                <input id="ncomponente" name="ncomponente" type="text" pInputText [ngModel]="registro.mdatos.ncomponente" [readOnly]="true" />
+	            </div>
+		    	<app-lov-comp-negocio (eventoComponenteNegocio)=fijarLovCompNegocioSelec($event)></app-lov-comp-negocio>
+	        </div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="orden" class="ui-outputlabel required">Orden</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden" 
+						   required entero maxlength="2" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="activo" class="ui-outputlabel required">Activo</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="false" 
+								[disabled]="!editable && !registro.esnuevo"></p-checkbox>
+				</div>
+			</div>
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

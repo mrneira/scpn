@@ -1,0 +1,45 @@
+<span *ngIf="pdf">
+	<button pButton type="button" 
+	pTooltip="Descargar PDF" tooltipPosition="top"
+	name="reporte" id="reporte" class="f-btn green-btn f-pdf" (click)="descargaPdf()">
+	</button>
+</span>
+<span *ngIf="excel">
+	<button pButton 
+	pTooltip="Descarga EXCEL" tooltipPosition="top"type="button" name="reporte" id="reporte" class="f-btn green-btn f-excel" (click)="descargaExcel()">
+	</button>
+</span>
+<span *ngIf="impr">
+	<button type="button"
+	pTooltip="Descargar PDF" tooltipPosition="top"
+	 pButton icon="ui-icon-print" id="reporte" (click)="descargaPdf()" style="text-align:center">
+	</button>
+</span>
+<span *ngIf="boton">
+	<button pButton type="button" name="imprimir" pTooltip="Descarga PDF" id="imprimir" label="Imprimir" style="margin-bottom:10px" class="f-btn green-btn"
+	 icon="ui-icon-print" (click)="descargaPdf()"> </button>
+</span>
+
+<div *ngIf="mostrarcaja">
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="ldatos" [responsive]="true">
+				<p-header>
+					<div class="ui-table-title">{{tituloReporte}}</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="submit" pButton icon="ui-icon-delete-forever" 
+						pTooltip="Descargar PDF" tooltipPosition="top"
+						(click)="descargaPdf()" class="f-btn green-btn f-pdf" style="text-align:center"
+						 *ngIf="cajapdf">
+						</button>
+						<button type="submit" 
+						pTooltip="Descargar EXCEL" tooltipPosition="top"
+						pButton icon="ui-icon-delete-forever" (click)="descargaExcel()" class="f-btn green-btn f-excel" style="text-align:center"
+						 *ngIf="cajaexcel">
+						</button>
+					</div>
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

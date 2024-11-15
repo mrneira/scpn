@@ -55,6 +55,17 @@ namespace dal.cartera {
         }
 
         /// <summary>
+        /// Entrega las Cuotas hasta una fecha en específico
+        /// </summary>
+        /// <param name="coperacion">Numero de operacion de cartera a buscar.</param>
+        /// <returns>IList<TcarOperacionCuota></TcarOperacionCuota></returns>
+        public static IList<tcaroperacioncuota> FindCuotasHastaFecha(String coperacion, int fvencimiento)
+        {
+            AtlasContexto contexto = Sessionef.GetAtlasContexto();
+            return contexto.tcaroperacioncuota.Where(x => x.coperacion == coperacion && x.fvencimiento <= fvencimiento).OrderBy(x => x.fvencimiento).ToList(); 
+        }
+
+        /// <summary>
         /// Adiciona rubros a la cuota.
         /// </summary>
         /// <param name="cuota">Datos de la cuota a adicionar rubros.</param>

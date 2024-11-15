@@ -1,0 +1,157 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1 required">
+			<label for="cbarras" class="ui-outputlabel">Cod. Barras</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input pInputText id="cbarras" name="cbarras" required [(ngModel)]="mcampos.cbarras" autofoco maxlength="30" />
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input pInputText id="nproducto" name="nproducto" [(ngModel)]="mcampos.nproducto" mayusculas maxlength="80" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovcodificados" name="lovcodificados" (click)="mostrarlovcodificados()" icon="ui-icon-directions"></button>
+		</div>
+		
+		<app-lov-codificados (eventoCliente)=fijarlovcodificadosSelec($event)></app-lov-codificados  >
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="title_separator">
+			<i class="fa ui-icon-adjust"></i>
+			<span>VALORES ACTUALES</span>
+		</div>
+		<hr />
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="vunitario" class="ui-outputlabel">Valor unitario</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input pInputText id="vunitario" name="vunitario"  [(ngModel)]="mcampos.vunitario"  
+			readonly="true" entero/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="valorlibros" class="ui-outputlabel">Valor libros</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input pInputText id="valorlibros" name="valorlibros"  [(ngModel)]="mcampos.valorlibros"  
+			readonly="true" entero/>
+		</div>		
+		<div class="ui-g-12 ui-md-1">
+			<label for="valorresidual" class="ui-outputlabel">Valor residual</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input pInputText id="valorresidual" name="valorresidual"  [(ngModel)]="mcampos.valorresidual"  
+			readonly="true" entero/>
+		</div>		
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true">
+			<p-header>
+				<div class="ui-table-title">Revalorización activos fijos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="cproducto" header="cproducto" [style]="{'width':'5%'}" hidden= "true"></p-column>
+			<p-column  header="Fecha" [style]="{'width':'10%'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fingreso | fechaentero }}
+				</ng-template>
+			</p-column>
+			<p-column field="valorunitario" header="V.unitario" [style]="{'text-align':'right','width':'8%'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valorunitario | number:'1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column header="V.libros" [style]="{'text-align':'right','width':'8%'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valorlibros | number:'1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="valoravaluo" header="V.avalúo" [style]="{'text-align':'right','width':'8%'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valoravaluo | number:'1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="mdatos.numerocomprobantecesantia" header="Comprobante contable" [style]="{'width':'8%'}"></p-column>			
+			<p-column field="infoadicional" header="Info adicional" [style]="{'width':'40%'}"></p-column>
+			<p-column field="comentario" header="Comentarios" [style]="{'width':'40%'}"></p-column>
+			<p-column  [style]="{'width':'8%'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div *ngIf="reg.esnuevo" class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<p-dialog header="Revalorización activos fijos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120" (onHide)="cerrarDialogo()">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="valoravaluo" class="ui-outputlabel required">Valor avalúo</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="valoravaluo" name="valoravaluo" [(ngModel)]="registro.valoravaluo" autofoco required entero
+						 maxlength="15" [disabled]="!registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="vunitario" class="ui-outputlabel required">Valor unitario</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="vunitario" name="vunitario" [(ngModel)]="mcampos.vunitario" [disabled]="true"
+						/>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<label for="valorlibros" class="ui-outputlabel required">Valor libros</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="valorlibros" name="valorlibros" [(ngModel)]="mcampos.valorlibros" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="infoadicional" class="ui-outputlabel required">Info adicional</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="registro.infoadicional" required mayusculas maxlength="1000"
+						 rows="2" [disabled]="!editable"></textarea>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="comentario" class="ui-outputlabel">Comentario</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" mayusculas maxlength="500" rows="2"
+						 [disabled]="!editable"></textarea>
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

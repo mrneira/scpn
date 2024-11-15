@@ -1,0 +1,143 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fctiposaldo" class="ui-outputlabel">Tipo de saldo
+        </label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <p-dropdown id="fctiposaldo" name="fctiposaldo" [options]="ltiposaldo" [filter]="true" [(ngModel)]="mfiltros.ctiposaldo"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fnombre" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas autofoco maxlength="60" />
+      </div>
+    </div>
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Rubros</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.nmodulo" header="M&oacute;dulo" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.ntiposaldo" header="Tipo de Rubro" [style]="{'width':'120px'}"></p-column>
+        <p-column field="csaldo" header="Rubro" [style]="{'width':'120px'}"></p-column>
+        <p-column field="siglas" header="Siglas" [style]="{'width':'120px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Rubros" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="pk" class="ui-outputlabel required">Rubro</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="pk" name="pk" [(ngModel)]="registro.csaldo" autofoco required mayusculas maxlength="12"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fclase" class="ui-outputlabel">Clase</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fclase" name="fclase" [options]="lclase" [filter]="true" [(ngModel)]="registro.cclase" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcmodulo" class="ui-outputlabel">Módulo</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fcmodulo" name="fcmodulo" [options]="lmodulo" [filter]="true" [(ngModel)]="registro.cmodulo" (onChange)="registrarEtiqueta(registro, lmodulo, 'cmodulo', 'nmodulo')" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="60"
+              [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="siglas" class="ui-outputlabel required">Siglas</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="siglas" name="siglas" [(ngModel)]="registro.siglas" required mayusculas maxlength="8" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="regmovimiento" class="ui-outputlabel">Reg. Movimiento</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="regmovimiento" [(ngModel)]="registro.registramovimiento" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="acrual" class="ui-outputlabel">Acrual</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="acrual" [(ngModel)]="registro.esaccrual" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="actsaldo" class="ui-outputlabel">Act. Saldo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="actsaldo" [(ngModel)]="registro.actualizasaldo" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="codcontable" class="ui-outputlabel">Código Contable</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="codcontable" name="codcontable" [(ngModel)]="registro.codigocontable" mayusculas maxlength="20"
+            />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

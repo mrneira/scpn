@@ -1,0 +1,126 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkccuenta" class="ui-outputlabel required">Cuenta</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta"
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovPartidaGasto" name="lovPartidaGasto"
+					(click)="mostrarLovPartidaGasto()" icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-partidagasto (eventoCliente)=fijarLovPartidaGastoSelec($event)>
+			</app-lov-partidagasto>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 ui-md-2">
+				<label for="fecha" class="ui-outputlabel required">Fecha: </label>
+			</div>
+			<div class="ui-g-8 ui-md-4">
+				<p-calendar name="fecha" [(ngModel)]="mcampos.fecha" [showIcon]="true" [dateFormat]="formatofecha" required   [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fmax"></p-calendar>
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g-12" style='display:none'>
+		<app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+	</div>
+
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable>
+				<p-header>
+
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')"
+							class="f-btn green-btn f-pdf" style="text-align:center">
+						</button>
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')"
+							class="f-btn green-btn f-excel" style="text-align:center">
+						</button>
+					</div>
+				
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+
+	<!--RRO 20220114----------------------------------------------------------------->	
+	 
+	<hr>
+  
+	 <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+		   <div class="ui-g-12 ui-md-12">
+			  <label for="fpkccuenta" class="ui-outputlabel"><b>REPORTE CONCILIACIÓN PRESUPUESTO-CONTABILIDAD</b></label>
+		   </div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+		   <div class="ui-g-2 ui-md-3">	
+			  <p-radioButton name="groupname" [value]="1" [(ngModel)]="cGeneral" label="General" (onClick)="seleccionar(1)"></p-radioButton>
+		   </div>
+		   <!--CCA 20240716<div class="ui-g-2 ui-md-3">		
+			  <p-radioButton name="groupname"  [value]="2" [(ngModel)]="cDetalle" label="Detalle" (onClick)="seleccionar(2)"></p-radioButton>
+		   </div>-->
+		</div>
+		<div class="ui-g-12 ui-g-nopad" *ngIf="verReporte > 0">
+		   <!--<div class="ui-g-2 ui-md-1">
+			  <label for="fpkccuenta" class="ui-outputlabel required">{{ tipoReporte }}</label>
+		   </div>
+		   <div class="ui-g-2 ui-md-3">
+			  <input id="fpkcpartidagasto" name="fpkcpartidagasto" type="text" pInputText [(ngModel)]="mcampos.cpartidagasto" required
+			  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"	 />
+		   </div>-->
+		   <div class="ui-g-2 ui-md-1">
+			  <label for="fpkccuenta" class="ui-outputlabel required">Año fiscal</label>
+		   </div>
+		   <div class="ui-g-2 ui-md-3">
+			  <input id="fpkaniofiscal" name="fpkaniofiscal" type="text" pInputText [(ngModel)]="mcampos.aniofiscal" required
+			  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"	 />
+		   </div>
+		   <div class="ui-g-2 ui-md-1">
+			  <label for="fpkccuenta" class="ui-outputlabel required">Mes</label>
+		   </div>
+		   <div class="ui-g-2 ui-md-3">
+			  <p-dropdown id="fpkmes" name="fpkmes" [options]="lmesesini" [(ngModel)]="mcampos.mes" 
+			  required [filter]="true"></p-dropdown>
+		   </div>
+		</div>
+	 </form>
+  
+	 <div class="f-datacontent ui-g ui-fluid f-center-items" *ngIf="verReporte > 0">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		   <p-dataTable>
+			  <p-header>
+				 <div class="ui-table-title">Generar Reporte</div>
+				 <div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimirReporteConcialiacion('pdf')"
+					   class="f-btn green-btn f-pdf" style="text-align:center">
+					</button>
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimirReporteConcialiacion('xls')"
+					   class="f-btn green-btn f-excel" style="text-align:center">
+					</button>
+				 </div>
+			  </p-header>
+		   </p-dataTable>
+		</div>
+	 </div>
+	 <!--RRO 20220114----------------------------------------------------------------->	
+		
+</div>

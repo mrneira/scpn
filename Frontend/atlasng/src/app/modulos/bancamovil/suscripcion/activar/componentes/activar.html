@@ -1,0 +1,103 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Usuarios</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" required [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovUsuarios()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+      <app-lov-sus-movil (eventoCliente)=fijarLovSusMovilSelec($event)></app-lov-sus-movil>
+    </div>
+  </form>
+
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+	      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+	
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="title_separator">
+	          <i class="fa ui-icon-adjust"></i>
+	          <span>Informaci&oacute;n del Usuario</span>
+	        </div>
+	        <hr />
+	      </div>
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="cusuario" class="ui-outputlabel required">Secuencia:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <input type="text" pInputText name="csecuencia" [(ngModel)]="registro.secuencia" maxlength="20" [disabled]="true" />
+	        </div>
+	      </div>
+	      
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="cusuario" class="ui-outputlabel required">Usuario:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <input type="text" pInputText id="cusuario" name="cusuario" [(ngModel)]="registro.cusuario" autofoco required mayusculas
+	            maxlength="20" [disabled]="true" />
+	        </div>
+	      </div>
+	      
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="cusuario" class="ui-outputlabel required">Celular:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <input type="text" pInputText name="celular" [(ngModel)]="registro.celular" [disabled]="true" />
+	        </div>
+	      </div>
+	      
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="cusuario" class="ui-outputlabel required">Nombre Celular:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <input type="text" pInputText name="nombrecelular" [(ngModel)]="registro.nombrecelular" [disabled]="true" />
+	        </div>
+	      </div>
+	
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="fregistro" class="ui-outputlabel required">Fecha de registro:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <p-calendar name="fingreso" [(ngModel)]="mcampos.fingreso" [showIcon]="true" [dateFormat]="formatofecha" [disabled]="true"></p-calendar>
+	        </div>
+	      </div>
+	      
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="cusuario" class="ui-outputlabel required">Estado:</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-2">
+	          <input type="text" pInputText name="estado" [(ngModel)]="registro.mdatos.nestado" [disabled]="true" />
+	        </div>
+	      </div>
+	
+	      <div class="ui-g-12 ui-g-nopad">
+	        <div class="ui-g-12 ui-md-3">
+	          <label for="observacion" class="ui-outputlabel required">Observaci&oacute;n de activaci&oacute;n</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-4">
+	          <textarea type="text" pInputText id="observacion" name="observacion" [(ngModel)]="registro.observacion" maxlength="100" autofoco
+	            mayusculas required rows="5" [disabled]="!editable"></textarea>
+	        </div>
+	      </div>
+    </div>
+  </form>
+</div>

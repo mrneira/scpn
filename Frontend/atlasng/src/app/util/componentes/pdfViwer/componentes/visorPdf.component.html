@@ -1,0 +1,23 @@
+<button pButton type="submit" name="reporte" id="reporte" class="" 
+		(click)="mostrarPdf()"> 
+</button>
+
+<p-dialog header="Visor" [(visible)]="mostrarDialogoVisor" [modal]="esmodal" [responsive]="true" styleClass="f-dialog-viewer" [positionTop]="80">
+ <div class="f-dialogo" style="max-width: 700px">
+  <div class="f-datacontent ui-g ui-fluid">
+   <div class="ui-g-12">
+    <i class="fa ui-icon-rotate-left f-docs-icons-viewer" style="margin-right: 3px;" (click)="previous()"></i>
+    
+    <i class="fa ui-icon-rotate-right f-docs-icons-viewer" style="margin-right: 3px;" (click)="next()"></i>
+   </div>
+  </div>
+  <div class="f-datacontent ui-g ui-fluid" style="max-width: 700px; max-height: 700px; overflow: scroll;">
+   <pdf-viewer   [src]="pdfSrc" 
+                 [original-size]="true" 
+                 [show-all]="true"
+                 [render-text]="true"
+                 style="display: block;">
+    </pdf-viewer>
+  </div>
+ </div>
+</p-dialog>

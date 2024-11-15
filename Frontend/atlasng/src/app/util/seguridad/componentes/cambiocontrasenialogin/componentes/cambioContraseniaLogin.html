@@ -1,0 +1,100 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>POLÍTICA DE SEGURIDAD</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<ol>
+  					<li>La contraseña debe tener mínimo [{{ politica.longitud }}] caracter(es)</li>
+  					<li>La contraseña debe tener mínimo [{{ politica.especiales}}] caracter(es) especial(es)</li>
+  					<li>La contraseña debe tener mínimo [{{ politica.numeros }}] número(s)</li>
+  					<li>La contraseña debe tener mínimo [{{ politica.mayusculas }}] mayúscula(s)</li>
+  					<li>La contraseña debe tener mínimo [{{ politica.minusculas }}] minúscula(s)</li>
+  					<li>No debe ser igual a las últimas [{{ politica.repeticiones }}] contraseñas</li>
+  					<li>No use los siguientes caracteres (tildes, Ñ-ñ)</li>
+  				</ol>
+			</div>
+			
+			
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Credenciales</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cusuario" class="ui-outputlabel required">Username:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="cusuario" name="cusuario" 
+						[(ngModel)]="registro.cusuario" required mayusculas maxlength="20" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="sobrenombre" class="ui-outputlabel required">Alias:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="sobrenombre" name="sobrenombre" 
+						[(ngModel)]="registro.sobrenombre" maxlength="30" [disabled]="true" required />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="anteriorcon" class="ui-outputlabel required">Password Anterior</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='anteriorcon' name='anteriorcon' type="password" pInputText [(ngModel)]="mcampos.anteriorcon" 
+						   autocomplete="off" required maxlength="50" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="nuevacon" class="ui-outputlabel required">Nuevo password</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='nuevacon' name='nuevacon' type="password" pInputText [(ngModel)]="mcampos.nuevacon" 
+						   autocomplete="off" required maxlength="50" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="confirmarcon" class="ui-outputlabel required">Confirmar nuevo password</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='confirmarcon' name='confirmarcon' type="password" pInputText [(ngModel)]="mcampos.confirmarcon" 
+						   autocomplete="off" required maxlength="50" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-6">
+					<button pButton type="button" name="grabar" id="grabar" label="Cambiar" style="margin-bottom:10px" class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"></button>
+				</div>
+				<div class="ui-g-6">
+					<button pButton type="button" name="cancelar" id="cancelar" label="Cancelar" style="margin-bottom:10px" icon="ui-icon-delete-forever" (click)="cancelarCambio()" class="f-btn orange-btn"></button>
+				</div>
+			</div>
+			
+	        
+		</div>
+	</form>
+</div>

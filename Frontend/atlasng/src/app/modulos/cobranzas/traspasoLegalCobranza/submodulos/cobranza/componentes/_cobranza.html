@@ -1,0 +1,58 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcnstatus" class="ui-outputlabel ">Judicial</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="nstatus" name="nstatus" [(ngModel)]="registro.mdatos.nstatus" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcusuario" class="ui-outputlabel">Usuario Asignado</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="usuario" name="usuario" [(ngModel)]="registro.cusuarioasignado" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcingreso" class="ui-outputlabel">Fecha de Ingreso</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="fingreso" name="finigreso" [(ngModel)]="mcampos.fingreso" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcasignacion" class="ui-outputlabel">Fecha de Asignación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="fasignacion" name="fasignacion" [(ngModel)]="mcampos.fasignacion" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fdesde" class="ui-outputlabel required">Fecha de Traspaso</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fcdesde" name="fdesde" [(ngModel)]="mcampos.flegal" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad"></div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+          <label for="observacion" class="ui-outputlabel required">Observación</label>
+        </div>
+        <div class="ui-g-12 ui-md-11 ui-g-nopad">
+          <textarea pInputText type="text" id="observacion" name="observacion" [(ngModel)]="registro.observacion" required mayusculas
+            maxlength="255" rows="3"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

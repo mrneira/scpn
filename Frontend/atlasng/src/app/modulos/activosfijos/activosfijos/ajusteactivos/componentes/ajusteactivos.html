@@ -1,0 +1,126 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!tienekardex && !nuevo && !eliminado" pButton type="button" label="Eliminar Ajuste" style="position: absolute; right: 375px;"
+  class="f-btn green-btn" icon="ui-icon-trash" (click)="eliminarAjuste()"></button>
+
+  <button *ngIf="!tienekardex && !nuevo && !eliminado" pButton type="button" label="Finalizar Ajuste" style="position: absolute; right: 240px;" class="f-btn green-btn"
+    icon="ui-icon-save" (click)="finalizarAjuste()"></button>
+
+  <button *ngIf="!tienekardex && !eliminado" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cajuste" class="ui-outputlabel ">Ajuste</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cajuste" name="cajuste" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cajuste" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovajustes" name="lovajustes" (click)="mostrarlovajustes()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-ajustes (eventoCliente)=fijarLovAjustesSelec($event)></app-lov-ajustes>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fechaingreso" class="ui-outputlabel required">Fecha de Ajuste</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fechaingreso" name="fechaingreso" [(ngModel)]="cabeceraComponent.registro.fechaingreso" [showIcon]="true"
+        [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050" required></p-calendar>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="memoautorizacion" class="ui-outputlabel">Doc. Requerimiento</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="memoautorizacion" name="memoautorizacion" maxlength="30" [(ngModel)]="cabeceraComponent.registro.memoautorizacion"
+      [disabled]="!nuevo" mayusculas/>
+    </div>
+  </div>
+  
+    <div class="ui-g-12 ui-md-1">
+      <label for="uavala" class="ui-outputlabel required">U. Avala</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+     
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <input id="uavala" name="uavala" type="text" pInputText 
+        [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionarioavala" [readOnly]="true"/>  
+    </div>
+    <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovFuncionarioAvala" name="lovFuncionarioAvala" (click)="mostrarLovFuncionarioAvala()" 
+        icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-funcionarios #lov1 (eventoCliente)=fijarLovFuncionarioAvala($event)></app-lov-funcionarios>
+    
+    <div class="ui-g-12 ui-md-1">
+      <label for="uautoriza" class="ui-outputlabel required">U. Autoriza</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+     
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <input id="uautoriza" name="uautoriza" type="text" pInputText 
+        [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionarioautoriza" [readOnly]="true"
+        />  
+    </div>
+    <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovFuncionarioAutoriza" name="lovFuncionarioAutoriza" (click)="mostrarLovFuncionarioAutoriza()" 
+        icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-funcionarios #lov2 (eventoCliente)=fijarLovFuncionarioAutoriza($event)></app-lov-funcionarios>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="tienekardex" class="ui-outputlabel">Tiene Kardex</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-checkbox id="tienekardex" name="tienekardex" [(ngModel)]="cabeceraComponent.registro.tienekardex" binary="false" disabled="true"></p-checkbox>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="eliminado" class="ui-outputlabel">Eliminado</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-checkbox id="eliminado" name="eliminado" [(ngModel)]="cabeceraComponent.registro.eliminado" binary="false" disabled="true"></p-checkbox>
+      </div>
+    </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="comentario" class="ui-outputlabel">Comentario</label>
+      </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-12">
+          <textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario" required mayusculas
+          maxlength="500" rows="1" [disabled]="!nuevo"></textarea>
+      </div>
+  </div>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>

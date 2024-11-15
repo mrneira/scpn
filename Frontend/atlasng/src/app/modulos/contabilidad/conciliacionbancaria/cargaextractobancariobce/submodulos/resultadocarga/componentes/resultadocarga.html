@@ -1,0 +1,70 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" 
+            columnResizeMode="expand">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga - BCE</div>
+                </p-header>
+
+                <p-column header="No. Línea" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numeroLinea }}
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Fecha" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{ reg.fecha }}
+                    </ng-template>
+                </p-column>
+
+                <p-column field="numeroComprobante" header="# Comprobante" ></p-column>
+
+                <p-column field="numeroDocumento" header="# Documento" ></p-column>
+
+                <p-column header="Crédito" styleClass="f-right" >
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valorCredito | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Débito" styleClass="f-right" >
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valorDebito | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="concepto" header="Concepto" ></p-column>
+
+                <p-column header="Estado" styleClass="f-center" >
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <div class="f-datacontent ui-g ui-fluid" *ngIf="reg.estado == 'Ok'">
+                            <span>{{ reg.estado }}</span>
+                        </div>
+                        <div class="f-datacontent ui-g ui-fluid" *ngIf="reg.estado != 'Ok'">
+                            <span class="f-bold" style="color:red">{{ reg.estado }}</span>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <!--  RRO 20221216 ---------------------------------------------------------- -->
+                <p-footerColumnGroup style="color:blue;">
+                    <p-row>
+                       <p-column footer="Registros" [style]="{'color':'blue','font-size':'12px'}"></p-column>
+                       <p-column [footer]="lregistros.length" [style]="{'color':'blue','text-align':'right','font-size':'12px'}"></p-column>
+                       <p-column ></p-column>
+                       <p-column footer="Totales" [style]="{'color':'blue','font-size':'12px'}"></p-column>
+                       <p-column [footer]="totalDebito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px'}"></p-column>
+                       <p-column [footer]="totalCredito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px'}"></p-column>                      
+                       <p-column ></p-column>
+                       <p-column ></p-column>
+                    </p-row>
+                 </p-footerColumnGroup>
+                <!--  RRO 20221216 ---------------------------------------------------------- -->
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

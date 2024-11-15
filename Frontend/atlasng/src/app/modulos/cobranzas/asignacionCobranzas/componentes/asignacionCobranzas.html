@@ -1,0 +1,83 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="pkcusuario" class="ui-outputlabel required">Usuario</label>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <input id="pkcusuario" name="pkcusuario" type="text" pInputText [(ngModel)]="mcampos.cusuario" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-6">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <button pButton type="button" id="lovusuariosregistro" name="lovusuariosregistro" (click)="mostrarLovUsuarios()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-g-nopad"></div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdesde" class="ui-outputlabel">Fecha Desde</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-calendar id="fcdesde" name="fdesde" [(ngModel)]="mcampos.finicio" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label for="fhasta" class="ui-outputlabel">Fecha Hasta</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-calendar id="fchasta" name="fhasta" [(ngModel)]="mcampos.ffin" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-g-nopad"></div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdiasdesde" class="ui-outputlabel">Días Desde:</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <input type="number" pInputText id="diasdesde" name="dias" [(ngModel)]="mcampos.diasinicio" min="1" />
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdiashasta" class="ui-outputlabel">Días Hasta:</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <input type="number" pInputText id="diashasta" name="dias" [(ngModel)]="mcampos.diasfin" min="1" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-g-nopad"></div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="280px" [(selection)]="selectedRegistros"
+        dataKey="coperacion" resizableColumns="true" columnResizeMode="expand"><!--NCH 20220810-->
+        <p-header>
+          <div class="ui-table-title">Asignación Cobranza</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column selectionMode="multiple" [style]="{'width':'1px'}"></p-column><!--NCH 20220810-->
+        <p-column field="coperacion" header="Operación" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'20px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Nombre" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'80px'}"></p-column>
+        <p-column field="mdatos.ncategoria" header="Categoria" [style]="{'width':'20px'}"></p-column>  
+        <p-column field="mdatos.nproducto" header="Producto" [style]="{'width':'120px'}"></p-column>
+        <p-column field="cuotasvencidas" header="Cuotas V" [style]="{'width':'30px'}"></p-column>
+        <p-column field="montovencido" header="Monto V" [style]="{'width':'30px'}"></p-column>
+        <p-column field="diasvencidos" header="Días V" [style]="{'width':'30px'}"></p-column>
+        <p-column field="mdatos.nagencia" header="Agencia" [style]="{'width':'55px'}"></p-column>
+        <p-column field="fecha" header="Fecha Ingreso" [style]="{'width':'35px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

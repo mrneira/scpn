@@ -1,0 +1,61 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="anio" class="ui-outputlabel required">Código:</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco required numeric maxlength="10"
+          required [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="sbu" class="ui-outputlabel required">$ Vivienda:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="vvivienda" name="vvivienda" [(ngModel)]="registro.vvivienda" maxlength="15" numeroPositivo
+          required [disabled]="!editable" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="veducacion" class="ui-outputlabel required">$ Educación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="veducacion" name="veducacion" [(ngModel)]="registro.veducacion" maxlength="15" numeroPositivo
+          required [disabled]="!editable" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="vsalud" class="ui-outputlabel required">$ Salud</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="vsalud" name="vsalud" [(ngModel)]="registro.vsalud" maxlength="15" numeroPositivo [disabled]="!editable"
+            required />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="vvestimenta" class="ui-outputlabel required">$ Vestimenta</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="vvestimenta" name="vvestimenta" [(ngModel)]="registro.vvestimenta" maxlength="15" numeroPositivo
+          required [disabled]="!editable" required />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="valimentacion" class="ui-outputlabel required">$ Alimentación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="valimentacion" name="valimentacion" [(ngModel)]="registro.valimentacion" maxlength="15"
+          required numeroPositivo [disabled]="!editable" required />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

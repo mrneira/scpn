@@ -1,0 +1,25 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="codigosri" header="Cod.Impuesto"></p-column>
+        <p-column field="mdatos.descripcion" header="Descripción"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="baseimpair" header="Base Imponible"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="porcentaje" header="Porcentaje"></p-column>
+        <p-column [style]="{'text-align':'right'}" field="valretair" header="Valor Retenido"></p-column>
+      </p-dataTable>
+      <div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:12px; overflow:hidden;">
+          <div class="ui-g-12 ui-md-6">
+            <label></label>
+          </div>
+          <div class="ui-g-12 ui-md-2" [style]="{'text-align':'left'}">Total Retenciones IR
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="totalRetencionesIR" name="totalRetencionesIR" [ngModel]="totalRetencionesIR | number:'1.2-2'"
+            [readOnly]="true" style="color: white; text-align: right;" />
+          </div>
+        </div>
+    </div>
+
+  </div>
+</div>

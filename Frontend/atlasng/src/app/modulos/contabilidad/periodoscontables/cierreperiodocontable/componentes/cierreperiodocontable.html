@@ -1,0 +1,16 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+
+		<div class="ui-g-12 ui-md-2">
+			<label for="fpnombre" class="ui-outputlabel required">Fecha de cierre:</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText required id="fperiodofin" name="fperiodofin" 
+			[(ngModel)]="mcampos.fperiodofin"  maxlength="8" entero />
+		</div>
+	</div>
+</div>

@@ -1,0 +1,122 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Información de Garante</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fgcpersona" class="ui-outputlabel required">Garante</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="ngidentificacion" name="ngidentificacion" type="text" pInputText [ngModel]="registro.mdatos.identificacion"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="ngpersona" name="ngpersona" [(ngModel)]="registro.mdatos.npersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <button pButton type="button" id="lovgarante" name="lovgarante" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        <button pButton type="button" id="lovgarantevista" name="lovgarantevista" (click)="mostrarLovPersonaVista()"
+          icon="ui-icon-person" *ngIf="!estaVacio(registro.cpersona)"></button>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad" *ngIf="habilitamensaje">
+      <div class="ui-g-12 ui-md-2">
+        <label>&nbsp;</label>
+      </div>
+      <div class="ui-g-12 ui-md-10">
+        <span style="color:red; text-decoration:blink;">
+          <b>
+            <h2> ** Estado del socio no permite ingreso de solicitud ** </h2>
+          </b>
+        </span>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" [hidden]="!aplicaGarante">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Análisis de Capacidad</span>
+        </div>
+        <hr />
+      </div>
+      <div class="separador-linea"></div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6">
+          <app-ingresos-capacidad #igarante (eventoIngreso)="actualizarIngresos()"></app-ingresos-capacidad>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <app-egresos-capacidad #egarante (eventoEgreso)="actualizarEgresos()"></app-egresos-capacidad>
+        </div>
+      </div>
+      <div class="separador-linea"></div>
+      <div class="ui-g-12 ui-g-nopad" [hidden]="!habilitaAbsorcionGarante">
+        <app-absorber-garante #agarante (eventoAbsorcion)="actualizarAbsorcion($event)"></app-absorber-garante>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Análisis Técnico</span>
+        </div>
+        <hr />
+      </div>
+      <div class="separador-linea"></div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fgcapacidadpago" class="ui-outputlabel required">Capacidad pago</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fgcapacidadpago" name="fgcapacidadpago" numero required [(ngModel)]="registro.capacidadpago"
+            disabled="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fgporcentajecoberturacuota" class="ui-outputlabel required">Porcentaje cobertura cuota</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fgporcentajecoberturacuota" name="fgporcentajecoberturacuota" [(ngModel)]="registro.porcentajecoberturacuota"
+            disabled="true" required style="text-align:right" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fgresolucion" class="ui-outputlabel required">Resolución</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="fgresolucion" name="fgresolucion" [(ngModel)]="registro.resolucion"
+            required disabled="true" style="text-align:right" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1" *ngIf="aprobado">
+          <button pButton type="button" icon="fa-check" class="ui-button-success" disabled="true"></button>
+        </div>
+        <div class="ui-g-12 ui-md-1" *ngIf="!aprobado">
+          <button pButton type="button" icon="fa-close" class="ui-button-danger" disabled="true"></button>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2 ui-g-nopad">
+          <div class="ui-g-12 ui-md-12">
+            <label for="fgcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-10 ui-g-nopad">
+          <div class="ui-g-12 ui-md-12">
+            <textarea id="fgcomentario" style="width: 100%" name="fgcomentario" [(ngModel)]="registro.comentario"
+              required mayusculas maxlength="200" rows="3" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-lov-personas #lovgarante (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+<app-lov-persona-vista #vistagarante></app-lov-persona-vista>

@@ -1,0 +1,67 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="cfuncionario" class="ui-outputlabel ">Funcionario</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="cfuncionario" name="cfuncionario" type="text" pInputText [(ngModel)]="mcampos.cfuncionario" [readOnly]="true"
+        />      
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input id="nfuncionario" name="nfuncionario" type="text" pInputText [(ngModel)]="mcampos.nfuncionario" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+      </div>
+    <app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+  </div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">Asistencia Funcionarios</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+							<div class="f-acciones-cab-tabla">
+								<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+								  style="text-align:center">
+								</button>
+							
+							  </div>
+							<div class="f-acciones-cab-tabla" style='display:none'>
+								<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+							</div>
+						</p-header>
+						<p-column field="cfuncionario" header="Código" [style]="{'width':'60px'}"></p-column>
+						<p-column field="documento" header="Identificaci&oacute;n" [style]="{'width':'120px'}"></p-column>
+						<p-column field="Nombre" header="Funcionario" ></p-column>					
+						<p-column field="fmarcacion" header="Fecha y Hora" [style]="{'width':'120px'}"></p-column>
+						
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+
+	</div> 
+
+</form>

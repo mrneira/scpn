@@ -13,8 +13,10 @@ using System.Linq;
 using util;
 using util.dto.mantenimiento;
 
-namespace cartera.comp.mantenimiento.aprobacion {
-    class ValidaAprobacionMasiva : ComponenteMantenimiento {
+namespace cartera.comp.mantenimiento.aprobacion
+{
+    class ValidaAprobacionMasiva : ComponenteMantenimiento
+    {
 
         /// <summary>
         /// Metodo que registra el pago de devolucion de valores a personas
@@ -22,12 +24,14 @@ namespace cartera.comp.mantenimiento.aprobacion {
         /// <param name="rqmantenimiento">Request de mantenimiento</param>
         public override void Ejecutar(RqMantenimiento rqmantenimiento)
         {
-            if (rqmantenimiento.Mdatos.ContainsKey("APROBACIONMASIVA")) {
+            if (rqmantenimiento.Mdatos.ContainsKey("APROBACIONMASIVA"))
+            {
 
                 // Datos de devolucion
                 JArray a = (JArray)rqmantenimiento.Mdatos["APROBACIONMASIVA"];
                 List<tcarsolicitud> lsolicitudes = JsonConvert.DeserializeObject<List<tcarsolicitud>>(rqmantenimiento.Mdatos["APROBACIONMASIVA"].ToString());
-                if (lsolicitudes == null || lsolicitudes.Count() <= 0) {
+                if (lsolicitudes == null || lsolicitudes.Count() <= 0)
+                {
                     return;
                 }
 
@@ -35,7 +39,8 @@ namespace cartera.comp.mantenimiento.aprobacion {
                 this.ValidaSolicitudes(rqmantenimiento, lsolicitudes);
 
                 // Procesa aprobacion de solicitudes
-                foreach (tcarsolicitud sol in lsolicitudes) {
+                foreach (tcarsolicitud sol in lsolicitudes)
+                {
                     sol.Esnuevo = false;
                     sol.Actualizar = true;
                     sol.cestatussolicitud = EnumEstatus.APROVADA.Cestatus;
@@ -71,17 +76,21 @@ namespace cartera.comp.mantenimiento.aprobacion {
         /// <param name="lsolicitudes">Listado de solicitudes.</param>
         private void ValidaSolicitudes(RqMantenimiento rqmantenimiento, List<tcarsolicitud> lsolicitudes)
         {
-            foreach (tcarsolicitud sol in lsolicitudes) {
+            foreach (tcarsolicitud sol in lsolicitudes)
+            {
                 // Monto de desembolso
                 SaldoDesembolso saldo = new SaldoDesembolso(sol, rqmantenimiento.Fconatable);
-                if (saldo.MontoDesembolsar != TcarSolicitudDesembolsoDal.GetTotalDesembolso(sol.csolicitud)) {
+                if (sol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion) && saldo.MontoDesembolsar != TcarSolicitudDesembolsoDal.GetTotalDesembolso(sol.csolicitud))
+                {
                     throw new AtlasException("CAR-0082", "EXISTE DIFERENCIA EN EL REGISTRO DE DESEMBOLSO", sol.csolicitud);
                 }
 
                 // Pago pendiente de arreglo de pagos
-                if (!sol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion)) {
+                if (!sol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion))
+                {
                     List<tcaroperacionarreglopago> larreglo = TcarOperacionArregloPagoDal.FindPendientePago(sol.csolicitud);
-                    if (larreglo != null && larreglo.Count > 0) {
+                    if (larreglo != null && larreglo.Count > 0)
+                    {
                         throw new AtlasException("CAR-0080", "SOLICITUD [{0}] TIENE VALORES DE PAGO PENDIENTE", sol.csolicitud);
                     }
                 }

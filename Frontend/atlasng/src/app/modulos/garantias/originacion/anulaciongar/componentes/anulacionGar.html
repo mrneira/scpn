@@ -1,0 +1,49 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="anularsolicitud" id="anularsolicitud" label="Anular garantía" style="position: absolute; right: 105px;"
+    class="f-btn orange-btn" icon="ui-icon-cancel" (click)="anularGarantia()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+    </div>
+    <div class="ui-g-2 ui-md-2">
+      <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-9 ui-md-6">
+      <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions" class="f-float-right"></button>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+  </div>
+
+  <div class="ui-g-12 ui-md-4 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">
+      <label for="operacion" class="ui-outputlabel required">Garantía</label>
+    </div>
+    <div class="ui-g-12 ui-md-8">
+      <input type="text" pInputText id="operacion" name="operacion" maxlength="10" required [(ngModel)]="mcampos.coperacion" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-operacion-gar (eventoOperGar)=fijarLovOperacionSelec($event)></app-lov-operacion-gar>
+  </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Datos generales" [selected]="true">
+    <app-operacion-gar></app-operacion-gar>
+    <app-datos></app-datos>
+    <app-datos-generales [operaciongar]="garComponent" [campos]="camposComponent"></app-datos-generales>
+  </p-tabPanel>
+  <p-tabPanel header="Avalúo">
+    <app-avaluo-gar></app-avaluo-gar>
+  </p-tabPanel>
+</p-tabView>

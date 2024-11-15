@@ -1,0 +1,44 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Carga de archivo de respuesta BCE - Cobros OCP</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+      </div>
+
+      <div class="ui-g-12">
+        <p-fileUpload id="fucarchivo" name="fucarchivo" customUpload="true" accept=".zip,.ZIP" [disabled]="false" (onSelect)="onSelectArchivo($event)"
+          required (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione" [showCancelButton]="false"
+          [showUploadButton]="false" [disabled]="!editable"></p-fileUpload>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Resultado Carga - Respuesta OCP</div>
+      </p-header>
+      <p-column field="fecha" header="Fecha"  styleClass="f-center" [style]="{'width':'120px'}"></p-column>
+      <p-column field="cantidadregistros" header="Número Registros"  styleClass="f-center" [style]="{'width':'120px'}"></p-column>
+      <p-column header="Total" styleClass="f-right" [style]="{'width':'120px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{reg.valortotal | number:'1.2-2'}}
+				</ng-template>
+      </p-column>
+      <p-column field="idcabecera" header="N° Carga BCE"  styleClass="f-center" [style]="{'width':'120px'}"></p-column>
+    </p-dataTable>
+  </div>
+</div>

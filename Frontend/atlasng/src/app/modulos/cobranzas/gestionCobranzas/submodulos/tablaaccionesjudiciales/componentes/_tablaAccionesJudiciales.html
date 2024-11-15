@@ -1,0 +1,41 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader" resizableColumns="true"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Acciones Judiciales</div>
+          <button pButton type="button" name="btnAddAccionesCobranzas" id="btnAddAccionesCobranzas" style="background-color: #4CAF50; margin-left: 20px;" icon="ui-icon-add" (click)="agregarAccionJudicial()"> </button>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Código" [style]="{'width':'50px'}"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.netapa" header="Acción" [style]="{'width':'150px'}"></p-column>
+        <p-column header="F. Registro" [style]="{'width': '100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="observacion" header="Observación"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="ACCIONES JUDICIALES" [(visible)]="mostrarDialogoAccionJudicial" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 750px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-save" (click)="guardarAccionJudicial()" label="Guardar" style="margin-left:5px; margin-right:5px; background-color: #0B3C5D;"></button>
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoAccionesJudiciales()" label="Cerrar" class="orange-btn"></button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>

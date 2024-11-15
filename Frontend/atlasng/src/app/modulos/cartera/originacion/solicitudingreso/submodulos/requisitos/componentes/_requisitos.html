@@ -1,0 +1,86 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Requisitos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="orden" header="Orden" [style]="{'width':'50px'}"></p-column>
+        <p-column field="mdatos.nnombre" header="Nombre"></p-column>
+        <p-column header="Opcional" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.opcional" binary="false" [disabled]="true" *ngIf="reg.opcional"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Verificado" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.verificada" binary="false" [disabled]="!editable"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Comentario">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.comentario" mayusculas maxlength="2000" [disabled]="!editable" />
+          </ng-template>
+        </p-column>
+        <p-column field="cusuarioverifica" header="Usuario Verifica" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Fecha Verificación" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.freal | date:'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Requisito" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="requisito" class="ui-outputlabel required">Requisito</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="crequisito" name="crequisito" type="text" pInputText [(ngModel)]="registro.crequisito" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-9 ui-md-6">
+            <input type="text" pInputText id="nnombre" name="nnombre" [(ngModel)]="registro.mdatos.nnombre" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovrequisitos" name="lovrequisitos" icon="ui-icon-directions" [disabled]="!registro.esnuevo"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="verificada" class="ui-outputlabel">Verificado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="verificada" name="verificada" [(ngModel)]="registro.verificada" binary="false" [disabled]="!editable && !registro.esnuevo"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="comentario" class="ui-outputlabel required">Comentario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="2000"
+              rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

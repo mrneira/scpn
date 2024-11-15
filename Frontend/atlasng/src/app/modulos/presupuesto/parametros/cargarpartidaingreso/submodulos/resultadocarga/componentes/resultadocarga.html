@@ -1,0 +1,52 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true" >
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. línea" styleClass="f-center" [style]="{'width':'80px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{ reg.mdatos.numerolinea }} 
+                    </ng-template>
+                </p-column>
+                <p-column field="cpartidaingreso" header="Código" [style]="{'width':'40px'}"></p-column>
+                <p-column field="padre" header="Padre" [style]="{'width':'40px'}"></p-column>
+                <p-column field="nivel" header="Nivel" [style]="{'width':'30px'}"></p-column>
+                <p-column field="movimiento" header="Movimiento" [style]="{'width':'40px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.movimiento === true? 'Si':'No' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="nombre" header="Nombre" [style]="{'width':'120px'}"></p-column>
+                <p-column field="aniofiscal" header="Año fiscal" [style]="{'width':'40px'}"></p-column>
+                <p-column field="valormensual" header="Valor mensual" styleClass="f-right" [style]="{'width':'60px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.valormensual | number:'1.2-5' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="numeromeses" header="Meses" [style]="{'width':'40px'}"></p-column>
+                <p-column field="montototal" header="Monto total" styleClass="f-right" [style]="{'width':'60px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.montototal | number:'1.2-5' }}</span>
+                    </ng-template>
+                </p-column>                
+                <p-column header="Estado" styleClass="f-center" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <div class="f-datacontent ui-g ui-fluid" *ngIf="reg.estado != 'Ok'">
+                            <span>{{ reg.mdatos.mensaje }}</span>
+                        </div>
+                        <div class="f-datacontent ui-g ui-fluid" *ngIf="reg.estado == 'Ok'">
+                            <span class="f-bold" style="color:red">{{ reg.mdatos.estado }}</span>
+                        </div>
+                    </ng-template>
+                </p-column>
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

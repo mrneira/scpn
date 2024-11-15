@@ -1,0 +1,183 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Detalle partidas afectadas</div>
+        </p-header>
+        <p-column field="cpartidagasto" header="Partida" [style]="{'width':'50px'}"></p-column>
+        <p-column field="mdatos.npartida" header="Nombre" [style]="{'width':'300px'}"></p-column>
+
+        <p-column field="decremento" header="Es decremento?" [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-checkbox name="decremento" [(ngModel)]="reg.decremento" binary="false" (onChange)="debitoChange(reg,index,$event)"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Valor decremento" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.valor" numeroPositivo maxlength="14" style="text-align:right" (ngModelChange)="cambiarValor()"
+              *ngIf="reg.decremento" />
+          </ng-template>
+        </p-column>
+
+        <p-column header="Valor incremento" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.valor" numeroPositivo maxlength="14" style="text-align:right" (ngModelChange)="cambiarValor()"
+              *ngIf="!reg.decremento" />
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column [style]="{'width':'450px','text-align':'right'}" footer="Total"></p-column>
+            <p-column [style]="{'width':'80px','text-align':'right'}" [footer]="totaldecremento | number : '1.2-2'"></p-column>
+            <p-column [style]="{'width':'80px','text-align':'right'}" [footer]="totalincremento | number : '1.2-2'"></p-column>
+            <p-column [style]="{'width':'70px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="button" name="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+
+    <p-dialog header="Datos detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+      (onHide)="cerrarDialogo()">
+      <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width: 700px">
+          <div class="f-datacontent ui-g ui-fluid">
+
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="cpartidagasto" class="ui-outputlabel required ">Cod. Partida</label>
+              </div>
+              <div class="ui-g-2 ui-md-2">
+                <input id="cpartidagasto" name="cpartidagasto" type="text" pInputText [(ngModel)]="registro.cpartidagasto" [readOnly]="true"
+                  required/>
+              </div>
+              <div class="ui-g-1 ui-md-1">
+                <button pButton type="button" id="lovPartidaGasto" name="lovPartidaGasto" (click)="mostrarlovPartidaGasto()" icon="ui-icon-directions"></button>
+              </div>
+
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="npartida" class="ui-outputlabel ">Partida</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input type="text" pInputText id="npartida" name="npartida" [(ngModel)]="registro.mdatos.npartida" [readOnly]="true" />
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="vasignacioninicial" class="ui-outputlabel ">V. Asignación Inicial</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vasignacioninicial" name="vasignacioninicial" [(ngModel)]="registro.mdatos.vasignacioninicial"
+                  numero disabled="true" />
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vmodificado" class="ui-outputlabel ">V. Modificado</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vmodificado" name="vmodificado" [(ngModel)]="registro.mdatos.vmodificado" disabled="true"
+                  numero/>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vcodificado" class="ui-outputlabel ">V. Codificado</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vcodificado" name="vcodificado" [(ngModel)]="registro.mdatos.vcodificado" disabled="true"
+                  numero/>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="vcomprometido" class="ui-outputlabel ">V. Comprometido</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vcomprometido" name="vcomprometido" [(ngModel)]="registro.mdatos.vcomprometido" disabled="true"
+                  numero />
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vdevengado" class="ui-outputlabel ">V. Devengado</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vdevengado" name="vdevengado" [(ngModel)]="registro.mdatos.vdevengado" disabled="true"
+                  numero/>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vpagado" class="ui-outputlabel ">V. Pagado</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vpagado" name="vpagado" [(ngModel)]="registro.mdatos.vpagado" disabled="true" numero/>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="vsaldoporcomprometer" class="ui-outputlabel ">Saldo por comprometer</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vsaldoporcomprometer" name="vsaldoporcomprometer" [(ngModel)]="registro.mdatos.vsaldoporcomprometer"
+                  disabled="true" numero />
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vsaldopordevengar" class="ui-outputlabel ">Saldo por devengar</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vsaldopordevengar" name="vsaldopordevengar" [(ngModel)]="registro.mdatos.vsaldopordevengar"
+                  disabled="true" numero/>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="vsaldoporpagar" class="ui-outputlabel ">Saldo por pagar</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="vsaldoporpagar" name="vsaldoporpagar" [(ngModel)]="registro.mdatos.vsaldoporpagar" disabled="true"
+                  numero/>
+              </div>
+            </div>
+
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="decremento" class="ui-outputlabel">Es decremento?</label>
+              </div>
+              <div class="ui-g-12 ui-md-5">
+                <p-checkbox name="decremento" [(ngModel)]="registro.decremento" (onChange)="validarSaldoPorReformar()" binary="false"></p-checkbox>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-1">
+                <label for="valor" class="ui-outputlabel required">Valor</label>
+              </div>
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-2 ui-md-2">
+                <input id="valor" name="valor" type="text" pInputText [(ngModel)]="registro.valor" required numero maxlength="15" [readOnly]="false"
+                  numero (ngModelChange)="validarSaldoPorReformar()" />
+              </div>
+            </div>
+          </div>
+          <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+          </footer>
+        </div>
+      </form>
+    </p-dialog>
+  </div>
+</div>
+<app-lov-partidagasto (eventoCliente)=fijarLovPartidaGastoSelec($event)></app-lov-partidagasto>

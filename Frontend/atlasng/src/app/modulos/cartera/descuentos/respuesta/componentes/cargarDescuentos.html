@@ -1,0 +1,59 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-3">
+        <label for="fcparticion" class="ui-outputlabel required">Fecha generación</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="fcparticion" name="fcparticion" required [options]="lparticion" [(ngModel)]="mfiltros.particion"
+          (onChange)="cambiarFecha()"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="fcproducto" class="ui-outputlabel required ">Institución</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="fcdescuento" name="fcdescuento" required [options]="ltipoarchivo" [(ngModel)]="mcampos.cinstitucion"
+          (onChange)="cambiarDescuento()"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-fileUpload id="archivocarga" name="archivo[]" customUpload="true" accept=".xls,.xlsx" (onSelect)="onSelectArchivo($event)"
+          required (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione" [showCancelButton]="false"
+          [showUploadButton]="false" [disabled]="!editable"></p-fileUpload>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12"></div>
+    <div class="ui-g-12"></div>
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="ltotales" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Resultado Carga</div>
+        </p-header>
+        <p-column field="tipo" header=" "></p-column>
+        <p-column header="Registros" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.registros | number}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto" [style]="{'width':'120px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

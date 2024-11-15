@@ -1,0 +1,34 @@
+<div class="f-contenedor-transaccion ui-g-12 ui-md-12">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<div class="ui-g-12 ui-md-12 ui-g-nopad">
+		<div style="background-color: #F0F0F0; width: 20%; margin: 0 auto; height: 60px; padding: 15px; border-radius: 5px;">
+			<div class="ui-g-6 ui-md-3">
+				<label for="fdesdereporte" class="ui-outputlabel required">Fecha Desde</label>
+			</div>
+			<div class="ui-g-6 ui-md-9">
+				<p-calendar id="fdesdereporte" name="fdesdereporte" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [(ngModel)]="mcampos.finicio" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-12"></div>
+			<div class="ui-g-6 ui-md-3">
+				<label for="fhastareporte" class="ui-outputlabel required">Fecha Hasta</label>
+			</div>
+			<div class="ui-g-6 ui-md-9">
+				<p-calendar id="fhastareporte" name="fhastareporte" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [(ngModel)]="mcampos.ffin" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+			</div>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-md-12 ui-g-nopad">
+		<div style="background-color: #328cc1; width: 20%; margin: 0 auto; padding: 15px; border-radius: 5px; margin-top: 20px; color: #ffffff; text-align: center;">
+			<div style="font-size: 15px;">Generar Reporte</div>
+			<div style="margin-top: 10px;">
+				<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('PDF')" class="f-btn green-btn f-pdf" style="text-align:center"></button>
+				<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('EXCEL')" class="f-btn green-btn f-excel" style="text-align:center"></button>
+			</div>
+			<div class="ui-g-12" style='display:none'>
+				<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+			</div>
+		</div>
+	</div>
+</div>

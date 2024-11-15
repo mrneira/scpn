@@ -1,0 +1,77 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-4 ui-md-1">
+				<label for="fvaloracion" class="ui-outputlabel required">Fecha de Migración</label>
+			</div>
+			<div class="ui-g-8 ui-md-4">
+				<p-calendar name="fvaloracion" [(ngModel)]="mcampos.fmigracion" required [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="comisionbolsavalores" class="ui-outputlabel ">Genera costo amortizado?</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-4" *ngIf="pEditable != 0">
+				<p-checkbox name="clncomisionbolsa" [(ngModel)]="this.mblnGeneraNIIFS" binary="false"></p-checkbox>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="cTablaInd" class="ui-outputlabel ">Tablas individuales?</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-4" *ngIf="pEditable != 0">
+				<p-checkbox name="cTablaInd" [(ngModel)]="this.mblnTablasInd" binary="false"></p-checkbox>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="validarPortafolio" class="ui-outputlabel ">Valida con valor nominal?</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-4" *ngIf="pEditable != 0">
+				<p-checkbox name="validarPortafolio" [(ngModel)]="this.mblnDebeCuadrarConPortafolio" binary="false"></p-checkbox>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".xlsx" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+				(onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carga></app-resultado-carga>
+	</div>
+</div>

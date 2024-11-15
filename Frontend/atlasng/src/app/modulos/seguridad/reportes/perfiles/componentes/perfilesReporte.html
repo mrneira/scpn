@@ -1,0 +1,28 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="nombre" class="ui-outputlabel">Nombre:</label>
+        </div>
+        <div class="ui-g-6 ui-md-5">
+          <input pInputText name="nombre" [(ngModel)]="mcampos.nombre" mayusculas maxlength="60" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="rol" class="ui-outputlabel">Perfil:</label>
+        </div>
+        <div class="ui-g-6 ui-md-5">
+          <p-dropdown id="rol" name="rol" [options]="lperfiles" [(ngModel)]="this.mcampos.rol"></p-dropdown>
+        </div>
+      </div>
+
+
+  </form>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

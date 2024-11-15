@@ -1,0 +1,154 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="true"></acciones-cabecera>
+
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12  ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel required">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="anion" name="anion" type="text" minlength="4" pInputText [(ngModel)]="mcampos.anio" entero required [readOnly]="false"
+        />
+      </div>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">PLAN ANUAL</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.ntipo" header="Tipo" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="mdatos.nmodulo" header="Módulo" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="descripcion" header="Descripcion" [style]="{'width':'250px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column header="$ Monto" [style]="{'text-align':'right','width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="% Monto" [style]="{'text-align':'right','width':'50px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.pmontototal | number : '1.2-2' }}
+            </ng-template>
+          </p-column>
+        <p-column header="% Asignada" [style]="{'text-align':'right','width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.pparticipaciontotal | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Estado" [style]="{'width':'65px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="true" disabled="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Acciones" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+              <button type="button" pButton icon="ui-icon-delete-forever" (click)="seleccionarDetalle(reg)" icon="ui-icon-note" style="margin-left:5px">
+              </button>
+            </div>
+          </ng-template>
+
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo plan" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Plan Anual" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="aniof" class="ui-outputlabel required">Año:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input id="aniof" name="aniof" type="text" pInputText [ngModel]="registro.anio" required style="text-align:center;" [disabled]="!editable"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4 ">
+            <label for="fcmodulo" class="ui-outputlabel required">Tipo de plan</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <p-dropdown id="ctipoproducto" name="ctipoproducto" [filter]="true" [options]="ltipo" [(ngModel)]="registro.tipocdetalle"
+              appendTo="body" required [filter]="true" required (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo');seleccionarModulo(registro)"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="estadocdetalle" class="ui-outputlabel required">Monto Total:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input type="text" required name="monto" pInputText [(ngModel)]="registro.monto" numeroPositivo maxlength="25" style="text-align:right"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="estadocdetalle" class="ui-outputlabel required">% Monto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input type="text" required name="pmontototal" pInputText [(ngModel)]="registro.pmontototal" numeroPositivo maxlength="25"
+              style="text-align:right" [disabled]="!editable" />
+          </div>
+        </div>
+       <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="estadocdetalle" class="ui-outputlabel required">% Tasa inflación:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input type="text" name="pparticipacion" required pInputText [(ngModel)]="registro.pparticipacion" numeroPositivo maxlength="25"
+              style="text-align:right" [disabled]="!editable" />
+          </div>
+        </div>
+ 
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="estadocdetalle" class="ui-outputlabel required">%  Asignado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <input type="text" name="pparticipaciontotal" pInputText [(ngModel)]="registro.pparticipaciontotal" numeroPositivo maxlength="25"
+              style="text-align:right;font-size:18px" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="estadocdetalle" class="ui-outputlabel required">Estado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false" [disabled]="!editable"></p-checkbox>
+
+          </div>
+        </div>
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

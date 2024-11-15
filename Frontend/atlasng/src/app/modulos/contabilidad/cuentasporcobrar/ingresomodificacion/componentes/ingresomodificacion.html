@@ -1,0 +1,210 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!registro.esnuevo && registro.estadocdetalle =='INGRE'" pButton type="button" label="Eliminar CxC" style="position: absolute; right: 515px;"
+    class="f-btn green-btn" icon="ui-icon-trash" (click)="eliminarcxc()"></button>
+  <button *ngIf="!registro.esnuevo && registro.estadocdetalle =='INGRE'" pButton type="button" label="Generar Comprobante Contable"
+    style="position: absolute; right: 275px;" class="f-btn green-btn" icon="ui-icon-save" (click)="generarComprobante()"></button>
+  <button *ngIf="registro.esnuevo || registro.estadocdetalle =='INGRE'" pButton type="button" label="Guardar cambios" style="position: absolute; right: 115px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-9 ui-g-nopad">
+    <div class="ui-g-3 ui-md-3">
+      <label for="cpersonaFiltro" class="ui-outputlabel required">Cuenta por cobrar</label>
+    </div>
+    <div class="ui-g-3 ui-md-8">
+      <input type="text" pInputText id="cctaporcobrar" name="cctaporcobrar" [(ngModel)]="mfiltros.cctaporcobrar" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovproveedoresFiltro" name="lovproveedoresFiltro" (click)="mostrarLovCuentasPorCobrar()"
+        icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-cuentas-por-cobrar (eventoCliente)=fijarLovCuentasPorCobrarSelect($event)></app-lov-cuentas-por-cobrar>
+  </div>
+  <div class="ui-g-3 ui-md-3" *ngIf="!registro.esnuevo">
+    <app-jasper [componente]="componentehijo" [formulario]="formFiltros" style="float:right;"></app-jasper>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="ccodfactura" class="ui-outputlabel">Código de la factura</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="ccodfactura" name="ccodfactura" [(ngModel)]="registro.ccodfactura" [disabled]="true" />
+      </div>
+    </div>
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="ccompcontable" class="ui-outputlabel">Comprobante Contable</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="ccompcontable" name="ks" [(ngModel)]="registro.ccompcontable" [disabled]="true" />
+      </div>
+    </div>
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel">Comprobante Cesantía</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="registro.mdatos.numerocomprobantecesantia"
+          [disabled]="true" />
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-lov-plantillas-comprobante (eventoCliente)=fijarLovPlantillasComprobanteSelec($event)></app-lov-plantillas-comprobante>
+<app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+
+<form #formDialogoCxC="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-2 ui-md-2">
+      <label for="fpnombre" class="ui-outputlabel required">Cliente</label>
+    </div>
+    <div class="ui-g-2 ui-md-2">
+      <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="registro.cpersona" [readOnly]="true" required />
+    </div>
+    <div class="ui-g-3 ui-md-3">
+      <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.mdatos.identificacionProv"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nombreProv" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="sucursal" class="ui-outputlabel required">Sucursal</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="sucursal" name="sucursal" [options]="lsucursales" [(ngModel)]="registro.csucursalingreso" required [filter]="true"
+        (onChange)="fijarListaAgencias()"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="agencia" class="ui-outputlabel required">Agencia</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="agencia" name="agencia" [options]="lagencias" [(ngModel)]="registro.cagenciaingreso" required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+
+  <div class="ui-g-6 ui-g-nopad">
+    <div class="ui-g-6 ui-md-4">
+      <label for="tipodocumentocdetalle" class="ui-outputlabel required">Tipo de Documento</label>
+    </div>
+    <div class="ui-g-6 ui-md-8">
+      <p-dropdown id="tipodocumentocdetalle" name="tipodocumentocdetalle" [options]="ltipodoc" [(ngModel)]="registro.tipodocumentocdetalle"
+        required></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-6 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="formapagocdetalle" class="ui-outputlabel required">Forma de Pago</label>
+    </div>
+    <div class="ui-g-8 ui-md-8">
+      <p-dropdown id="formapagocdetalle" name="formapagocdetalle" [options]="lformapago" [(ngModel)]="registro.formapagocdetalle"
+        required></p-dropdown>
+    </div>
+  </div>
+
+  <div class="ui-g-6 ui-md-6 ui-g-nopad">
+    <div class="ui-g-4">
+      <label for="fdocumento" class="ui-outputlabel required">Fecha del documento</label>
+    </div>
+    <div class="ui-g-8 ui-g-nopad">
+      <p-calendar id="fdocumento" name="fdocumento" [(ngModel)]="registro.fdocumento" [showIcon]="true" [locale]="es" [disabled]="!editable"
+        [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2070" required></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-6 ui-md-6 ui-g-nopad">
+    <div class="ui-g-4">
+      <label for="fcaducidad" class="ui-outputlabel required">Fecha de Caducidad</label>
+    </div>
+    <div class="ui-g-8 ui-g-nopad">
+      <p-calendar id="fcaducidad" name="fcaducidad" [(ngModel)]="registro.fcaducidad" [showIcon]="true" [locale]="es" [disabled]="!editable"
+        [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2070" required></p-calendar>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-2 ui-md-2">
+      <label for="estado" class="ui-outputlabel">Estado de CxC</label>
+    </div>
+    <div class="ui-g-10 ui-md-10">
+      <input pInputText id="estado" name="estado" [(ngModel)]="registro.mdatos.nestado" [disabled]="true">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-2 ui-md-2">
+      <label for="concepto" class="ui-outputlabel required">Concepto</label>
+    </div>
+    <div class="ui-g-10 ui-md-10">
+      <textarea pInputText id="concepto" name="concepto" [(ngModel)]="registro.concepto" required mayusculas maxlength="2000" rows="3"
+        required></textarea>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="subtotalsinimpuestos" class="ui-outputlabel required">Subtotal sin impuestos</label>
+    </div>
+    <div class="ui-g-8 ui-md-8">
+      <input pInputText id="subtotalsinimpuestos" name="subtotalsinimpuestos" [(ngModel)]="registro.subtotalsinimpuestos" (ngModelChange)="calcularChanges()"
+        required numeroPositivo maxlength="20">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="porcentajeicecdetalle" class="ui-outputlabel required">Porcentaje de ICE</label>
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <p-dropdown id="porcentajeicecdetalle" name="porcentajeicecdetalle" (onChange)="calcularChanges($event)" [options]="lporcenice"
+        [(ngModel)]="registro.porcentajeicecdetalle" required></p-dropdown>
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <input pInputText id="montoice" name="montoice" [(ngModel)]="registro.montoice" required numeroPositivo (ngModelChange)="calcularChanges()"
+        [disabled]="registro.porcentajeicecdetalle != 'ICE0'" maxlength="20">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="baseimponible" class="ui-outputlabel required">Base imponible</label>
+    </div>
+    <div class="ui-g-8 ui-md-8">
+      <input pInputText id="baseimponible" name="baseimponible" [(ngModel)]="registro.baseimponible" required numeroPositivo [disabled]="true" maxlength="20">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="porcentajeivacdetalle" class="ui-outputlabel required">Porcentaje de IVA</label>
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <p-dropdown id="porcentajeivacdetalle" name="porcentajeivacdetalle" (onChange)="calcularChanges($event)" [options]="lporceniva"
+        [(ngModel)]="registro.porcentajeivacdetalle" required></p-dropdown>
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <input pInputText id="montoiva" name="montoiva" [(ngModel)]="registro.montoiva" required numeroPositivo [disabled]="true" maxlength="20">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-4 ui-md-4">
+      <label for="total" class="ui-outputlabel required">Total</label>
+    </div>
+    <div class="ui-g-8 ui-md-8">
+      <input pInputText id="total" name="total" [style.color]="'black'" [(ngModel)]="registro.total" required numeroPositivo [disabled]="true" maxlength="20">
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,56 @@
+<p-dialog header="Lista de parámetros anuales" [(visible)]="displayLov" width="650" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccargo" class="ui-outputlabel">Año:</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<input pInputText name="cevaluacion" [(ngModel)]="mfiltros.anio" entero maxlength="5" />
+			</div>
+		</div>
+
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Parámetros Anuales</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="anio" header="Año" [style]="{'width':'60px'}"></p-column>
+				<p-column header="Desde" [style]="{'width':'70px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.finicio | date: 'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+				<p-column header="Hasta" [style]="{'width':'70px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.ffin | date: 'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+				
+				<p-column header="RMU" [style]="{'width':'70px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.sbu | number:'1.2-2' }}
+					</ng-template>
+				</p-column>
+				<p-column header="Base gastos personales" [style]="{'width':'70px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.bimponiblegp | number:'1.2-2' }}
+					</ng-template>
+				</p-column>
+				<p-column field="descripcion" header="Descripción" [style]="{'width':'60px'}"></p-column>
+
+				<p-column header="Estado" [style]="{'width':'60px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

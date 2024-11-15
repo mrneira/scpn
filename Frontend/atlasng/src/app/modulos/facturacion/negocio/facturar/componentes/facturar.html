@@ -1,0 +1,60 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g-12">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+        <div class="ui-g-12">
+            <div class="title_separator">
+                <i class="material-icons ui-icon-person"></i>
+                <span>Datos del Cliente</span>
+            </div>
+            <hr />
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="fcpersona" class="ui-outputlabel required">Cliente</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+                <input name="fcpersona" type="text" pInputText [(ngModel)]="registro.ccliente" required [readOnly]="true" />
+            </div>
+            <div class="ui-g-9 ui-md-6">
+                <input type="text" pInputText name="fnpersona" [(ngModel)]="registro.mdatos.razonsocial" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1">
+                <button pButton type="button" name="lovpersonas" (click)="mostrarLovCliente()" icon="ui-icon-directions" autofoco class="f-float-right">
+                </button>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="fident" class="ui-outputlabel required">Identificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input type="text" pInputText name="fident" [(ngModel)]="registro.mdatos.identificacion" [readOnly]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+                <label for="fmail" class="ui-outputlabel required">Email</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input type="text" pInputText name="fmail" [(ngModel)]="registro.mdatos.email" [readOnly]="true" />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="fdir" class="ui-outputlabel required">Dirección</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <input type="text" pInputText name="fdir" [(ngModel)]="registro.mdatos.direccion" [readOnly]="true" />
+            </div>
+        </div>
+    </form>
+
+    <app-fact-det></app-fact-det>
+</div>
+
+<app-lov-cliente (eventoLov)="fijarLovCliente($event)"></app-lov-cliente>

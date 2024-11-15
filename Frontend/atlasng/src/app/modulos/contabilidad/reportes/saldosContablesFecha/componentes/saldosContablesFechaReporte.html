@@ -1,0 +1,72 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="nivel" class="ui-outputlabel required">Nivel</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-dropdown id="nivel" name="nivel" [options]="lniveles" [(ngModel)]="mfiltros.nivel"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Corte:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccuenta" class="ui-outputlabel">Cuenta</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input id="ccuenta" name="ccuenta" type="text" pInputText [(ngModel)]="mfiltros.ccuenta" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="ncuentacontable" name="ncuentacontable" [(ngModel)]="mcampos.ccuentaContable" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<button pButton type="button" id="lovCuentas" name="lovCuentas" (click)="mostrarlovcuentasContables()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+		</div>
+
+		<div class="ui-helper-clearfix">
+				<button type="button" pButton icon="fa-file-o" iconPos="left" label="Exportar excel" (click)="dt.exportCSV()" style="float:left"></button>
+		</div>
+
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable #dt [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" exportFilename="saldoscontables_a_la_fecha">
+						<p-header>
+							<div class="ui-table-title">Saldos cuentas de movimiento</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+						</p-header>
+						<p-column field="ccuenta" header="Cuenta" [style]="{'text-align':'left','width':'60px'}" [filter]="true" filterPlaceholder="Filtrar">
+						</p-column>
+						<p-column field="nombre" header="Cuenta" [style]="{'text-align':'left','width':'250px'}" [filter]="true" filterMatchMode="contains"
+						 filterPlaceholder="Filtrar">
+						</p-column>
+						<p-column field="saldo" header="Monto" [sortable]="true" [style]="{'text-align':'right','width':'60px'}">
+							<ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+								{{ reg.saldo | number: '1.2-2' }}
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</form>

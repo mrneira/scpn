@@ -1,0 +1,90 @@
+<div class="f-contenedor-transaccion">
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2 ui-g-nopad">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-2 ui-md-2 ui-g-nopad">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-5 ui-g-nopad">
+        <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1 ui-g-nopad">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarlovpersona()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2 ui-g-nopad">
+        <label for="fpk" class="ui-outputlabel required">Operación</label>
+      </div>
+      <div class="ui-g-2 ui-md-2 ui-g-nopad">
+        <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mfiltros.pk_coperacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-5 ui-g-nopad">
+        <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoproducto" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1 ui-g-nopad">
+        <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarlovoperacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-operacion-gar (eventoOperGar)=fijarLovOperacionSelec($event)></app-lov-operacion-gar>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2 ui-g-nopad">
+        <label for="fpkcmodulo" class="ui-outputlabel required">Transacción</label>
+      </div>
+      <div class="ui-g-2 ui-md-1 ui-g-nopad">
+        <input id="fpkctransaccion" name="fpkcmodulo" type="text" pInputText [(ngModel)]="mfiltros.cmodulo" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-2 ui-md-1 ui-g-nopad">
+        <input id="fpkctransaccion" name="fpkctransaccion" type="text" pInputText [(ngModel)]="mfiltros.ctransaccion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-5 ui-g-nopad">
+        <input type="text" pInputText id="fntransaccion" name="fntransaccion" [(ngModel)]="mcampos.ntransaccion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1 ui-g-nopad">
+        <button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+    </div>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Movimientos de la cuenta.</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="pk.coperacion" header="Operación" [style]="{'width':'120px'}"></p-column>
+      <p-column field="cmodulo" header="Módulo" [style]="{'width':'80px'}"></p-column>
+      <p-column field="ctransaccion" header="Transacción" [style]="{'width':'80px'}"></p-column>
+      <p-column field="mdatos.ntransaccion" header="Nombre"></p-column>
+      <p-column header="Fecha" [style]="{'width':'150px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.freal }}
+        </ng-template>
+      </p-column>
+      <p-column header="Monto" styleClass="f-right" [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.monto | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-undo" label="Reversar" (click)="reversar(reg)" style="margin-left:5px"> </button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

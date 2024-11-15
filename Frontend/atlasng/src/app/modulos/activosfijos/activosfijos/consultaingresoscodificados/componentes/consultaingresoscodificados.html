@@ -1,0 +1,118 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="cingreso" class="ui-outputlabel ">Ingreso</label>
+				</div>
+				<div class="ui-g-2 ui-md-2">
+					<input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="registro.cingreso" [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<button pButton type="button" id="lovingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"></button>
+				</div>
+				<app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12" style="clear:both;float:right;width:150px">
+				<app-jasper [componente]="componentehijo" [formulario]="formFiltros" [pdf]="false" [excel]="false"></app-jasper>
+				
+				<button pButton type="button" name="descargarReporte" id="descargarReporte" label="Prod. Codificados" style="margin-bottom:12px"
+				 class="f-btn green-btn" icon="ui-icon-print" (click)="descargarReporte()"> </button>
+
+				<button pButton type="button" name="descargarEtiquetas" id="descargarEtiquetas" label="Imprimir Etiquetas" style="margin-bottom:12px"
+				 class="f-btn green-btn" icon="ui-icon-print" (click)="descargarEtiquetas()"> </button>
+
+			</div>
+		</div>
+	</form>
+
+	<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="facturanumero" class="ui-outputlabel">No. Factura</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="facturanumero" name="facturanumero" maxlength="20" [(ngModel)]="registro.mdatos.facturanumero"
+				/>
+			</div>
+			<div class="ui-g-12 ui-md-1"></div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="memocodificacion" class="ui-outputlabel">Memo Codificaci&oacute;n</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="memocodificacion" name="memocodificacion" maxlength="20" [(ngModel)]="registro.mdatos.memocodificacion"
+				/>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+				<p-header>
+					<div class="ui-table-title">Ingresos Codificados</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="mdatos.nombre" header="Nombre" [style]="{'width':'100px'}"></p-column>
+				<p-column field="cbarras" header="Cod. Barras" [style]="{'width':'80px'}"></p-column>
+				<p-column field="serial" header="Serial" [style]="{'width':'90px'}"></p-column>
+				<p-column field="infoadicional" header="Info Adicional" [style]="{'width':'140px'}"></p-column>
+				<p-column field="comentario" header="Comentario" [style]="{'width':'180px'}"></p-column>
+				<p-column field="vunitario" header="V. Unitario" [style]="{'text-align':'right','width':'50px'}">
+					<ng-template let-reg="rowData" pTemplate="body">
+						{{reg.vunitario | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+			
+				<p-footer>
+				
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Inventario Congelado" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px; width:500px;">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cinventarioc" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="codigo" name="codigo" [(ngModel)]="registro.cinventarioc" autofoco required maxlength="30"
+						 [disabled]="!editable || !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12  ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="estado" class="ui-outputlabel">Congelar Activos</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="congelaactivos" [(ngModel)]="registro.congelaactivos" binary="false" (ngModelChange)="validarAjustesBodegaPendientes()"></p-checkbox>
+					</div>
+
+					<div class="ui-g-12 ui-md-4">
+						<label for="estado" class="ui-outputlabel">Congelar Suministros</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="congelasuministros" [(ngModel)]="registro.congelasuministros" binary="false" (ngModelChange)="validarAjustesBodegaPendientes()"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

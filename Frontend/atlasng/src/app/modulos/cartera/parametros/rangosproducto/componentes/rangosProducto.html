@@ -1,0 +1,114 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fnombre" class="ui-outputlabel required">Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="fnombre" name="fnombre" required [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovproducto" name="lovproducto" (click)="mostrarlovproducto()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-producto (eventoCliente)=fijarLovProductoSelec($event)></app-lov-producto>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="ftnombre" class="ui-outputlabel required">Tipo Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="ftnombre" name="ftnombre" required [(ngModel)]="mcampos.tnombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovtipoProducto" name="lovtipoProducto" (click)="mostrarlovtipoProducto()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-tipo-producto (eventoCliente)=fijarLovTipoProductoSelec($event)></app-lov-tipo-producto>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Rangos por Producto</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column header="Monto mínimo">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.montominimo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Monto máximo">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.montomaximo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column field="plazominimo" header="Plazo mínimo"></p-column>
+      <p-column field="plazomaximo" header="Plazo máximo"></p-column>
+      <p-column [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Rangos por Producto" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="montominimo" class="ui-outputlabel required">Monto mínimo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="montominimo" name="montominimo" [(ngModel)]="registro.montominimo"
+              required numero [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="montomaximo" class="ui-outputlabel required">Monto máximo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="montomaximo" name="montomaximo" [(ngModel)]="registro.montomaximo"
+              required numero [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="plazominimo" class="ui-outputlabel required">Plazo mínimo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="plazominimo" name="plazominimo" [(ngModel)]="registro.plazominimo"
+              required entero [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="plazomaximo" class="ui-outputlabel required">Plazo máximo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="plazomaximo" name="plazomaximo" [(ngModel)]="registro.plazomaximo"
+              required entero [disabled]="!editable" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

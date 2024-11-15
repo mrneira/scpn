@@ -1,0 +1,206 @@
+<app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+      
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-6 ui-md-4 ui-g-nopad">
+			<div class="ui-g-6 ui-md-4">
+			  <label for="aniof" class="ui-outputlabel required">Año:</label>
+			</div>
+			<div class="ui-g-6 ui-md-3">
+			  <input id="aniof" name="aniof" type="text" pInputText [ngModel]="rqMantenimiento.mdatos.anio" required [readOnly]="true" style="text-align:center;"
+			  />
+			</div>
+			<div class="ui-g-6 ui-md-1">
+			  <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+				[disabled]="!editable"></button>
+			</div>
+		  </div>
+		<div class="ui-g-3 ui-g-nopad">
+			<div class="ui-g-3 ui-md-2">
+				<label for="mescdetalle" class="ui-outputlabel ">Mes:</label>
+			</div>
+			<div class="ui-g-3 ui-md-3">
+				<p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="mfiltros.mescdetalle" [filter]="true" ></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+			 (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+		</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]=false>
+						<p-header>
+							<div class="ui-table-title">Registros aprobados</div>
+							<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+						</p-header>
+						<p-column field="cfondoreserva" header="Código" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.documento" header="Documento" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'120px'}"></p-column>
+						<p-column header="Salario" styleClass="f-right" [style]="{'width':'75px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<span>{{ reg.sueldoactual | number:'1.2-2' }}</span>
+							</ng-template>
+						</p-column>
+						<p-column header="Valor a Pagar" styleClass="f-right" [style]="{'width':'75px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<span>{{ reg.valor | number:'1.2-2' }}</span>
+							</ng-template>
+						</p-column>
+
+						<p-column [style]="{'width':'100px'}">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<div class="f-table-actions">
+									<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false" [mostrarEditar]="reg.cfondoreserva== undefined"></acciones-reg>
+								</div>
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistrosProb" [responsive]="true" scrollable="true" scrollHeight="250px" [immutable]=false>
+						<p-header>
+							<div class="ui-table-title">Registros con conflictos</div>
+							<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+						</p-header>
+						<p-column field="mdatos.documento" header="Documento" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'120px'}"></p-column>
+						<p-column field="mdatos.err" header="Conflictos encontrados"></p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Fondos de Reserva" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="documento" class="ui-outputlabel">Documento</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.mdatos.documento" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="nombre" class="ui-outputlabel">Nombre</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nombre" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="tienesolicitud" class="ui-outputlabel">Tiene Solicitud</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-checkbox id="tienesolicitud" name="tienesolicitud" [(ngModel)]="registro.tienesolicitud" binary="true" [disabled]="true"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="fechasolicitud" class="ui-outputlabel">Fecha de Solicitud</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-calendar id="fechasolicitud" name="fechasolicitud" [(ngModel)]="registro.fechasolicitud" [showIcon]="true" [locale]="es"
+						 [disabled]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+						 required></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="tienecargos" class="ui-outputlabel">Tiene Cargos</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-checkbox id="tienecargos" name="tienecargos" [(ngModel)]="registro.tienecargos" binary="true" [disabled]="true"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="tienederecho" class="ui-outputlabel">Tiene Derecho</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-checkbox id="tienederecho" name="tienederecho" [(ngModel)]="registro.tienederecho" binary="true" [disabled]="true"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="proporcional" class="ui-outputlabel">Es Proporcional?</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-checkbox id="proporcional" name="proporcional" [(ngModel)]="registro.proporcional" binary="true"></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad" *ngIf="registro.proporcional">
+					<div class="ui-g-3 ui-md-3">
+						<label for="diasproporcionales" class="ui-outputlabel">Dias proporcionales</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-spinner id="diasproporcionales" name="diasproporcionales" [(ngModel)]="registro.diasproporcionales" maxlength="2" [min]="0"
+						 [max]="31" (ngModelChange)="calcularProporcional()"></p-spinner>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-4 ui-md-4">
+						<label for="accioncdetalle" class="ui-outputlabel">Régimen</label>
+					</div>
+					<div class="ui-g-4 ui-md-4">
+						<p-dropdown id="accioncdetalle" name="accioncdetalle" [options]="laccfonres" [(ngModel)]="registro.accioncdetalle" [disabled]="!registro.proporcional"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="sueldoactual" class="ui-outputlabel">Salario Actual</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="sueldoactual" name="sueldoactual" [(ngModel)]="registro.sueldoactual" [disabled]="true"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="valor" class="ui-outputlabel required">Valor a Pagar</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" numeroPositivo/>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

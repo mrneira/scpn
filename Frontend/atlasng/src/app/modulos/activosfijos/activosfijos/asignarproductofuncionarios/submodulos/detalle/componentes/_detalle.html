@@ -1,0 +1,30 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column field="mdatos.codigo" header="Código" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.nproducto" header="Nombre" [style]="{'width':'170px'}"></p-column>
+        <p-column header="U. Recibe" [style]="{'width':'130px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cusuariorecibe" name="cusuariorecibe" [options]="lcusuariorecibe" [(ngModel)]="reg.mdatos.cusuariorecibe"
+              [filter]="true"  appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="C&oacute;digo de Barras" [style]="{'width':'150px'}">
+            <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+              <input type="text" pInputText [(ngModel)]="reg.mdatos.cbarras" maxlength="30" style="text-align:right" (blur)="codigoBlur(reg,index)"
+                (focus)="codigoFocus(reg,index)" (keyup.enter)="codigoBlur(reg,index)"  />
+            </ng-template>
+          </p-column>   
+        <p-column header="Serial" field='mdatos.serial' [style]="{'width':'100px'}"></p-column>
+        <p-column field="infoadicional" header="Observaci&oacute;n">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" name="infoadicional"  pInputText [(ngModel)]="reg.mdatos.infoadicional" maxlength="1000" style="text-align:right" mayusculas/>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+
+  </div>
+</div>

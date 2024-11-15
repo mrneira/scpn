@@ -1,0 +1,67 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  <button *ngIf="!grabo" pButton type="button" label="Guardar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cegreso" class="ui-outputlabel ">Egreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cegreso" name="cegreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cegreso" [readOnly]="true"/>
+      </div>
+
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovegresos" name="lovegresos" (click)="mostrarlovegresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-egresos (eventoCliente)=fijarLovEgresosSelec($event)></app-lov-egresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fecha" class="ui-outputlabel required">Fecha</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fecha" name="fecha" [(ngModel)]="cabeceraComponent.mcampos.fecha" [showIcon]="true"
+        [dateFormat]="formatofecha" required ></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+        <label for="cusuariorecibe" class="ui-outputlabel">Usuario recibe</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText id="cusuariorecibe" name="cusuariorecibe" maxlength="30" [(ngModel)]="cabeceraComponent.registro.cusuariorecibe"
+        [readOnly]="true" hidden="true"/>
+        <input id="nfuncionario" name="nfuncionario" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionario" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+      </div>      
+      <app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+  </div>
+  
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>

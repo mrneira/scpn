@@ -1,0 +1,63 @@
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		 <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+			  <label for="fperiodo" class="ui-outputlabel required">Periodo:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			  <input type="text" pInputText id="fperiodo" name="fperiodo" [(ngModel)]="mfiltros.fperiodo" autofoco required entero maxlength="4"
+				minlength="4" />
+			</div>
+		  </div>	
+	  <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-6 ui-md-2">
+			  <label for="finicio" class="ui-outputlabel required">Mes:</label>
+		  </div>
+		  <div class="ui-g-12 ui-md-2">
+		  <p-dropdown id="lmesesini" name="lmesesini" [options]="lmesesini" [(ngModel)]="this.mfiltros.finicio"></p-dropdown>
+		</div>
+	  </div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="tipoplancuenta" class="ui-outputlabel required">Tipo de Plan de Cuentas:</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="tipoplancuenta" required="true" name="tipoplancuenta" [options]="ltipoplancuentas" [(ngModel)]="this.mcampos.tipoplancuenta"></p-dropdown>
+			</div>
+		</div>
+		<div class="f-contenedor-transaccion">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+						<p-header>
+							<div class="ui-table-title">REPORTE B15</div>
+							<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+						</p-header>
+		
+						<p-column field="ccuenta" header="Nivel" [style]="{'width':'20%'} "></p-column>
+						<p-column field="nombre" header="Nombre" [style]="{'width':'50%'}"></p-column>
+						<p-column  header="Monto" [style]="{'text-align':'right','width':'30%'}">
+							<ng-template let-reg="rowData" pTemplate="body">
+								{{reg.monto | number:'1.2-2'}}
+						</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="ltipoplancuentas" [responsive]="true">
+				<p-header>
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-file-download" (click)="imprimir()" class="f-btn green-btn f-text" style="text-align:center">					</button>
+					</div>
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+	

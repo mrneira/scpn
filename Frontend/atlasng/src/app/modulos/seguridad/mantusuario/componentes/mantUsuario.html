@@ -1,0 +1,27 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [hidden]="!permiteguardar"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcfuncionario" class="ui-outputlabel required">Funcionario</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="fcfuncionario" name="fcfuncionario" type="text" pInputText [ngModel]="mcampos.cfuncionario" [disabled]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" required [disabled]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovFuncionario()" icon="ui-icon-directions">
+      </button>
+    </div>
+    <app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+  </div>
+</form>
+
+<app-usuario-detalle></app-usuario-detalle>
+
+<app-usuario-rol></app-usuario-rol>

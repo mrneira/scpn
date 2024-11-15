@@ -1,0 +1,186 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcusuario" class="ui-outputlabel">Usuario</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fpkcusuario" name="fpkcusuario" mayusculas [(ngModel)]="mfiltrosigual.cusuario" maxlength="20" />
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="fpkcmodulo" class="ui-outputlabel">Transacción</label>
+				</div>
+				<div class="ui-g-2 ui-md-1">
+					<input id="fcmod" name="fcmod" type="text" pInputText [(ngModel)]="mfiltrosigual.cmodulo" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-2 ui-md-1">
+					<input id="fpkctransaccion" name="fpkctransaccion" type="text" pInputText [(ngModel)]="mfiltrosigual.ctransaccion" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-9 ui-md-4">
+					<input type="text" pInputText id="fntransaccion" name="fntransaccion" [(ngModel)]="mcampos.ntransaccion" [readOnly]="true" />
+				</div>
+				<div class="ui-g-2">
+					<button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()" icon="ui-icon-directions"></button>
+					<button pButton type="button" (click)="mfiltrosigual.cmodulo=null;mfiltrosigual.ctransaccion=null;mcampos.ntransaccion=null;" icon="ui-icon-autorenew">
+			    	</button>
+				</div>
+				<app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+		  </div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Auditoria de usuario</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cusuario" header="Usuario"></p-column>
+				<p-column field="tipo" header="Acción"></p-column>
+				<p-column field="ntran" header="Transacción"></p-column>
+				<p-column field="tabla" header="Tabla"></p-column>
+				<p-column header="Fecha" [style]="{'width':'150px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.freal | fechaentero}}
+					</ng-template>
+				</p-column>
+				<p-column field="cterminal" header="Terminal"></p-column>
+				<p-column field="nage" header="Agencia"></p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>	
+</div>
+
+
+
+<p-dialog header="Auditoria de usuario" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" >
+<form #formDialogoHorario="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		
+			<div class="ui-g-12">
+					<label class="ui-outputlabel-normal-center f-bold">{{registro.tipo}}</label>
+			</div>
+				
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataList [value]="lcampospks" [rows]="5">
+				    <p-header>CLAVE REGISTRO
+				    	<div class="ui-g-12">
+							<div class="ui-g-4">
+								<label></label>
+							</div>
+							<div class="ui-g-4">
+								<label class="ui-outputlabel f-bold f-float-left">VALOR</label>
+							</div>
+						</div>
+				    </p-header>
+				    <ng-template let-item pTemplate="item">
+				        <div class="ui-grid ui-grid-responsive ui-fluid" style="border-bottom:1px solid #D5D5D5;">
+				            <div class="ui-grid-row">
+				                <div class="ui-g-12 ui-g-nopad">
+									<div class="ui-g-4">
+										<label class="ui-outputlabel f-bold">{{item.c}}</label>
+									</div>
+									<div class="ui-g-8">
+										<label class="ui-outputtext">{{item.v}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</p-dataList>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataList [value]="lcampos" [rows]="5">
+				    <p-header>DATOS REGISTRO
+				    	<div class="ui-g-12">
+							<div class="ui-g-4">
+								<label></label>
+							</div>
+							<div class="ui-g-4">
+								<label class="ui-outputlabel f-bold f-float-left" *ngIf="registro.tipo!='MODIFICADO'">VALOR</label>
+								<label class="ui-outputlabel f-bold f-float-left" *ngIf="registro.tipo=='MODIFICADO'">VALOR ANTERIOR</label>
+							</div>
+							<div class="ui-g-4">
+								<label class="ui-outputlabel f-bold f-float-left" *ngIf="registro.tipo=='MODIFICADO'">VALOR NUEVO</label>
+							</div>
+						</div>
+				    </p-header>
+				    <ng-template let-item pTemplate="item">
+				        <div class="ui-grid ui-grid-responsive ui-fluid" style="border-bottom:1px solid #D5D5D5;">
+				            <div class="ui-grid-row">
+				                <div class="ui-g-12 ui-g-nopad">
+									<div class="ui-g-4">
+										<label class="ui-outputlabel f-bold">{{item.c}}</label>
+									</div>
+									<div class="ui-g-4">
+										<label class="ui-outputtext">{{item.va}}</label>
+									</div>
+									<div class="ui-g-4">
+										<label class="ui-outputtext">{{item.vn}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</p-dataList>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<p-dataList [value]="lcamposet" [rows]="5">
+				    <p-header>ETIQUETAS
+				    	<div class="ui-g-12">
+							<div class="ui-g-4">
+								<label></label>
+							</div>
+							<div class="ui-g-4">
+								<label class="ui-outputlabel f-bold f-float-left">VALOR</label>
+							</div>
+						</div>
+				    </p-header>
+				    <ng-template let-item pTemplate="item">
+				        <div class="ui-grid ui-grid-responsive ui-fluid" style="border-bottom:1px solid #D5D5D5;">
+				            <div class="ui-grid-row">
+				                <div class="ui-g-12 ui-g-nopad">
+									<div class="ui-g-4">
+										<label class="ui-outputlabel f-bold">{{item.ce}}</label>
+									</div>
+									<div class="ui-g-4">
+										<label class="ui-outputtext">{{item.ve}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</p-dataList>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoHorario" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

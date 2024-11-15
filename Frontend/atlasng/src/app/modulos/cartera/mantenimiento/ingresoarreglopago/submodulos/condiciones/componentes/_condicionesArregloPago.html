@@ -1,0 +1,120 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <form #formularioOperacion="ngForm">
+        <div class="ui-g-12 ui-g-nopad">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montoanterior" class="ui-outputlabel required">Saldo operación anterior</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montoanterior" name="montoanterior" [disabled]="true" required
+                [(ngModel)]="registro.mdatos.montoanterior" numero />
+            </div>
+          </div>
+          <div class="ui-g-12" *ngIf="esrenovacion">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montoincremento" class="ui-outputlabel required">Valor incremento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montoincremento" name="montoincremento" required [(ngModel)]="registro.montoincremento"
+                [disabled]="esrenovacion" numero maxlength="12" />
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montonuevo" class="ui-outputlabel required">Monto nueva operación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montonuevo" name="montonuevo" [disabled]="!esrenovacion" required
+                [(ngModel)]="registro.mdatos.monto" numero maxlength="12" (ngModelChange)="calcularMonto()" />
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-4">
+              <p-radioButton name="cuotas" class="required" value="numcuota" label="Num. cuotas" [(ngModel)]="valoradio"
+                (onClick)="cambiaRadio()"></p-radioButton>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="numcuota" name="numcuota" [disabled]="valoradio==null || valoradio=='valcuota'"
+                [required]="valoradio=='numcuota'" [(ngModel)]="registro.numerocuotas" autofoco entero maxlength="3" />
+            </div>
+          </div>
+          <div class="ui-g-12" *ngIf="esrenovacion">
+            <div class="ui-g-12 ui-md-4">
+              <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="tablaamortizacion" name="tablaamortizacion" [options]="ltablaamortizacion" [(ngModel)]="registro.mdatos.ctabla"
+                required [disabled]="!editable" [filter]="true"></p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <label for="sdestino" class="ui-outputlabel required">&nbsp;Destino del crédito</label>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-10 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <textarea style="width: 100%" id="sdestino" name="sdestino" [(ngModel)]="mcampos.destino" required
+                mayusculas maxlength="500" rows="3" [disabled]="!editable"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <HR>
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="ltabla" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false"
+        rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">Tabla de amortización</div>
+        </p-header>
+        <p-column field="num" header="Número" [style]="{'width':'40px'}" styleClass="f-center"></p-column>
+        <p-column header="Vencimiento" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.ven" style="color: red;">{{reg.fven | date:'yyyy-MM-dd'}}</span>
+            <span *ngIf="!reg.ven">{{reg.fven | date:'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Capital" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.cap | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Interés" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.int | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="car" header="Cargos" [style]="{'width':'60px'}" styleClass="f-right"></p-column>
+        <p-column field="seg" header="Seguros" [style]="{'width':'60px'}" styleClass="f-right"></p-column>
+        <p-column header="Valor cuota" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valcuo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo capital" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.cred - reg.cvalor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="2" style="text-align:left">TOTAL: </td>
+          <td style="text-align:right">{{ mtotales.cap | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.int | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.car | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.seg | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.valcuo | number:'1.2-2'}}</td>
+          <td></td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,199 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcbeneficio" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcbeneficio" name="fcbeneficio" [(ngModel)]="mfiltros.cbeneficio" autofoco numeric />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Beneficio</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cbeneficio" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        
+        <p-column field="mdatos.nmes" header="Mes"></p-column>
+        <p-column field="mdatos.ntipo" header="Periodicidad"></p-column>
+
+        <p-column header="Valor" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+
+        <p-column header="Porcentual?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.porcentual" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+       
+
+       
+        <p-column header="General?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.aportepatrono" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Ingreso?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.ingreso" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Activo?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Beneficio" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cactividad" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cbeneficio" name="cbeneficio" [(ngModel)]="registro.cbeneficio" autofoco required numeric
+              maxlength="10" [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="mescdetalle" class="ui-outputlabel required">Mes de Aplicación:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="registro.mescdetalle" required [filter]="true"
+              [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'nmes')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ingresocdetalle" class="ui-outputlabel required">Saldo Contable:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="ingresocdetalle" name="ingresocdetalle" [options]="lingreso" [(ngModel)]="registro.ingresocdetalle" required [filter]="true"
+              [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lingreso, 'ingresocdetalle', 'ningreso')"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="tipocdetalle" class="ui-outputlabel required">Periodicidad:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipocdetalle" required [filter]="true"
+              [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo')"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="50" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="200" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+        </div>
+        
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="valor" class="ui-outputlabel required">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="valor" name="valor" type="text" pInputText [(ngModel)]="registro.valor" required numeroPositivo maxlength="10"
+            [readOnly]="false" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="porcentual" class="ui-outputlabel">Porcentual?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="porcentual" name="porcentual" [(ngModel)]="registro.porcentual" binary="false" ></p-checkbox>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="estado" class="ui-outputlabel">Requiere Asignación Manual?</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox id="estado" name="asignacion" [(ngModel)]="registro.asignacion" binary="false" ></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="ingreso" class="ui-outputlabel">Aplica cálculo Ingresos?</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox id="ingreso" name="ingreso" [(ngModel)]="registro.ingreso" binary="false" ></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="aportepatrono" class="ui-outputlabel">Pago General?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="aportepatrono" name="aportepatrono" [(ngModel)]="registro.aportepatrono" binary="false" ></p-checkbox>
+          </div>
+         
+        </div>
+       
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="estado" class="ui-outputlabel">Activo?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false" ></p-checkbox>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

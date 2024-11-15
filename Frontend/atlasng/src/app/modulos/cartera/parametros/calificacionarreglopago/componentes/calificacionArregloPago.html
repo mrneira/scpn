@@ -1,0 +1,78 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="farreglopago" class="ui-outputlabel required">Tipo de negociación</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="farreglopago" name="farreglopago" [options]="ltipoarreglopago" (onChange)="consultar()" [(ngModel)]="mfiltros.ctipoarreglopago"
+          [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Listado de calificaciones por tipo de negociación de pago</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ccalificacion" header="Cod. calificación" [style]="{'width':'200px'}"></p-column>
+        <p-column field="mdatos.ncalificacion" header="Calificación"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Calificación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+  width="600">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pk" class="ui-outputlabel required">Tipo de negociación</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="pkarreglopago" name="pkarreglopago" [options]="ltipoarreglopago" [(ngModel)]="registro.ctipoarreglopago"
+              [filter]="true" [disabled]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="calificacion" class="ui-outputlabel required">Calificación</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="calificacion" name="calificacion" [options]="lcalificacion" [(ngModel)]="registro.ccalificacion" [filter]="true"
+              (onChange)="registrarEtiqueta(registro, lcalificacion, 'ccalificacion', 'ncalificacion')" required [disabled]="!editable || !registro.esnuevo"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

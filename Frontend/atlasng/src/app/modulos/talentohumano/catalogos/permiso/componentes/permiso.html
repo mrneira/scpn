@@ -1,0 +1,150 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cfuncionarioFilter" class="ui-outputlabel">Funcionario:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required
+         [readOnly]="true" />
+      </div>
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="mcampos.nfuncionario"
+         [readOnly]="true" />
+       </div>
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Permiso</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cpermiso" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario" ></p-column>
+        <p-column field="mdatos.mpermiso" header="Tipo" ></p-column>
+        <p-column field="motivopermiso" header="Motivo" ></p-column>
+        <p-column header="Fecha Inicio" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.finicio | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Fecha Fin" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.ffin | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column field="tiemposolicitado" header="Tiempo Solicitado (Horas)" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+        <p-column header="Cargo Vacaciones" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.cargovacaciones" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column> 
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Permiso" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.esnuevo">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cpermiso" name="cpermiso" [(ngModel)]="registro.cpermiso" autofoco required numeric maxlength="10"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Tipo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="motivopermisocdetalle" name="motivopermisocdetalle" [options]="ltipo"
+              [(ngModel)]="registro.motivopermisocdetalle" (onChange)="registrarEtiqueta(registro, ltipo, 'motivopermisocdetalle', 'mpermiso')" required></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Motivo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="motivopermiso" name="motivopermiso" [(ngModel)]="registro.motivopermiso" required mayusculas maxlength="500" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+          
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha"
+            (ngModelChange)="validarFecha()" [readonlyInput]="true" [locale]="es" appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="mcampos.fmin"
+              [maxDate]="mcampos.fechaactual" [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"  [disabled]="estaVacio(registro.finicio)" [readonlyInput]="true" required ></p-calendar>
+          </div>
+        </div>
+     
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Tiempo solicitado (Horas):</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+              <input pInputText required name="tiemposolicitado" [(ngModel)]="registro.tiemposolicitado" entero maxlength="4" rows="1" />
+          </div>
+        </div>
+       
+                
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Cargo vacaciones</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox name="activo" [(ngModel)]="registro.cargovacaciones" binary="false"></p-checkbox>
+          </div>
+        </div>
+        
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

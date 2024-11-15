@@ -1,0 +1,76 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)>
+</app-lov-funcionarios>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button  pButton type="button" label="Ajustar" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="ajustar()"></button>
+  </div>
+
+  <form #formulariodatosgenerales="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1" >
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>AJUSTE MANUAL DE VACACIONES</span>
+      </div>
+      <hr />
+  </div>
+    <acciones-editar [formAcciones]="formulariodatosgenerales" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+    </acciones-editar>
+
+    <div class="ui-g-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cfuncionarioFilter" class="ui-outputlabel">Empleado:</label>
+      </div>
+      <div class="ui-g-6 ui-md-1">
+        <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-6">
+        <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="registro.mdatos.nfuncionario"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-1">
+        <button pButton [disabled]="!editable" type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+    <div class="ui-g-3 ui-g-nopad">
+      <div class="ui-g-3 ui-md-2">
+        <label for="aniof" class="ui-outputlabel ">Año:</label>
+      </div>
+      <div class="ui-g-3 ui-md-3">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="registro.anio" required [readOnly]="true" style="text-align:center;"
+        />
+      </div>
+      <div class="ui-g-3 ui-md-3">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+          [disabled]="!editable"></button>
+      </div>
+    </div>
+
+    <div class="ui-g-6 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="nombre" class="ui-outputlabel required">comentario:</label>
+      </div>
+      <div class="ui-g-6 ui-md-8">
+        <textarea pInputText id="nombre" name="nombre" [(ngModel)]="registro.comentario" required mayusculas maxlength="200" rows="2"
+          [disabled]="!editable"></textarea>
+      </div>
+    </div>
+
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="valor" class="ui-outputlabel required">Dias:</label>
+      </div>
+      <div class="ui-g-4 ui-md-2">
+        <input id="valor" name="valor" [disabled]="!editable" type="text" pInputText [(ngModel)]="registro.dias" required  maxlength="10"
+          [readOnly]="false" />
+      </div>
+    </div>
+
+    <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+  </form>
+
+ 
+</div>

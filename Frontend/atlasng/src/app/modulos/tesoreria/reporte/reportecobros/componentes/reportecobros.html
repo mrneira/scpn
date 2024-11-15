@@ -1,0 +1,80 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel ">Módulos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel ">Estado:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="detallesestados" name="detallesestados" [options]="lestados" [(ngModel)]="mfiltros.cestado" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel">Identificación Propietario:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="identificacionbeneficiario" name="identificacionbeneficiario" [(ngModel)]="this.mfiltros.identificacion" minlength="10" maxlength="13"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="finicio" class="ui-outputlabel required">Fecha Desde:</label>
+				</div>
+				<div class="ui-g-6 ui-md-8">
+					<p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<label for="ffin" class="ui-outputlabel required">Fecha Hasta:</label>
+				</div>
+				<div class="ui-g-6 ui-md-8">
+					<p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+				</div>
+			</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+			<p-header>
+				<div class="ui-table-title">Reporte de Cobros</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				<div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+			<p-column field="modulo" header="Módulo" ></p-column>
+			<p-column field="identificacionbeneficiario" header="Identificación Propietario" scrollable="true" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="nombrebeneficiario" header="Nombre Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="institucion" header="Institución" ></p-column>
+			<p-column field="tipocuenta" header="Tipo Cuenta" ></p-column>
+			<p-column field="numerocuentabeneficiario" header="Número Cuenta Debitada" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="valorpago" header="Valor Cobro" ></p-column>
+			<p-column field="referenciainterna" header="Referencia Interna" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+			<p-column field="descripcionEstado" header="Estado" ></p-column>
+			<p-column field="estadoBce" header="BCE" ></p-column>
+			<p-column field="detalle" header="Detalle" ></p-column>
+		</p-dataTable>
+	</div>
+</div>

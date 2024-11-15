@@ -1,0 +1,117 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Detalle de horarios</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="chorariodetalle" header="C&oacute;digo" [style]="{'width':'70px'}" styleClass="f-center"></p-column>
+        <p-column field="mdatos.ndia" header="Día" [style]="{'width':'100px'}" styleClass="f-center"></p-column>
+        <p-column field="ijornada" header="Ingreso" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column field="ialmuerzo" header="Salida Almuerzo" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column field="falmuerzo" header="Entrada Almuerzo" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column field="fjornada" header="Salida" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Agregar Detalle" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+
+
+<p-dialog header="Horario Detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoRol="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+       
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="secuencial" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="chorariodetalle" name="chorariodetalle" [(ngModel)]="registro.chorariodetalle" autofoco required entero
+              maxlength="6" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="dia" class="ui-outputlabel required">Día:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="dia" name="dia" [options]="ldias" [(ngModel)]="registro.diacdetalle" (onChange)="registrarEtiqueta(registro, ldias, 'diacdetalle', 'ndia')"
+              appendTo="body" [filter]="true"  required ></p-dropdown>
+            </div>
+          </div>
+        <div class="ui-g-12 ui-g-nopad">
+           
+
+           
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="ijornada" class="ui-outputlabel required">Hora
+                  inicio</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <p-inputMask id="ijornada" name="ijornada"
+                  [(ngModel)]="registro.ijornada" required mask="99:99" (ngModelChange)="cfingreso()"></p-inputMask>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="ialmuerzo" class="ui-outputlabel required">Salida
+                  Almuerzo</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <p-inputMask id="ialmuerzo" name="ialmuerzo"
+                  [(ngModel)]="registro.ialmuerzo" required mask="99:99" (ngModelChange)="cfsalidaa()"></p-inputMask>
+              </div>
+            </div>
+           
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="falmuerzo" class="ui-outputlabel required">Entrada
+                  Almuerzo</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <p-inputMask id="falmuerzo" name="falmuerzo"
+                  [(ngModel)]="registro.falmuerzo" required mask="99:99" (ngModelChange)="cfingresoa()"></p-inputMask>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="fjornada" class="ui-outputlabel required">Salida
+                  </label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <p-inputMask id="fjornada" name="fjornada"
+                  [(ngModel)]="registro.fjornada" required mask="99:99" (ngModelChange)="cfsalida()"></p-inputMask>
+              </div>
+            </div>
+           
+           
+
+          </div>
+
+
+              </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoRol" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

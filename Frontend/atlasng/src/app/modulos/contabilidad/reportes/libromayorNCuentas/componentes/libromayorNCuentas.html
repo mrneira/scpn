@@ -1,0 +1,73 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			Cuentas:
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<p-multiSelect [options]="lcuentas" [(ngModel)]="selectedCuentas" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			Seleccionadas:
+		</div>
+		<div class="ui-g-12 ui-md-8">
+			 <textarea pInputText type="selectedCuentas" id="selectedCuentas" name="selectedCuentas"
+			  [(ngModel)]="selectedCuentas" 
+			 readonly="true" rows="3" ></textarea>
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label class="ui-outputlabel required">Año [Periodo]:</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anioi" required entero maxlength="4"
+			 minlength="4" />
+
+		</div>
+
+		<div class="ui-g-12 ui-md-1">
+			<label class="ui-outputlabel required">Mes Inicio:</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mesi" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+			 appendTo="body"></p-dropdown>
+		</div>
+
+		<div class="ui-g-12 ui-md-1">
+			<label class="ui-outputlabel required">Mes Fin:</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<p-dropdown id="mesf" name="mesf" [options]="lmeses" [(ngModel)]="mcampos.mesf" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+			 appendTo="body"></p-dropdown>
+		</div>
+	</div>
+</div>
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="loficinas" [responsive]="true">
+
+			<p-header>
+				<div class="f-acciones-cab-tabla">
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf"
+					 style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel"
+					 style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>

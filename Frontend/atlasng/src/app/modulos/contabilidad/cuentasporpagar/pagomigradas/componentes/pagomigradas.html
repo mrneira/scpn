@@ -1,0 +1,63 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">  
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button pButton type="button" label="Grabar" style="position: absolute; right: 90px;" class="f-btn teal-btn" icon="ui-icon-save"
+    (click)="aprobarEtapa()"></button>
+</div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+ 
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" [resizableColumns]="false" scrollHeight="250px" scrollable="true" [(selection)]="selectedRegistros">
+        <p-header>
+          <div class="ui-table-title">Autorizaci&oacute;n pago de cuentas por pagar migradas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Cuenta" field="ccuentaafectacion" [style]="{'width':'80px'}" [filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column header="Nombre" field="mdatos.ncuenta" [style]="{'width':'200px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"> </p-column>
+        <p-column header="Beneficiario" field="mdatos.nbeneficiario" [style]="{'width':'220px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"> </p-column>
+        <p-column header="Comentario" field="comentario" [style]="{'width':'300px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"> </p-column> 
+        <p-column header="Valor CxP" field="valorpagar" [style]="{'text-align':'right', 'width':'80px'}" >
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorpagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>        
+        <p-column selectionMode="multiple"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario" required mayusculas
+              maxlength="2000" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="grabar()" label="Confirmar" class="green-btn" [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

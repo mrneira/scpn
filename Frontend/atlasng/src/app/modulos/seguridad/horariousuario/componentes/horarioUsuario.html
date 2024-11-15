@@ -1,0 +1,208 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm"
+		class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="pkcusuario" class="ui-outputlabel required">Usuario</label>
+				</div>
+				<div class="ui-g-2 ui-md-1">
+					<input id="pkcusuario" name="pkcusuario" type="text" pInputText
+						required [(ngModel)]="mcampos.cusuario1" [readOnly]="true" />
+				</div>
+				<div class="ui-g-8 ui-md-2">
+					<input type="text" pInputText id="fnpersona" name="fnpersona"
+						[(ngModel)]="mcampos.npersona" [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<button pButton type="button" id="lovusuariosautomatico"
+						name="lovusuariosautomatico" (click)="mostrarLovUsuariosAuto()"
+						icon="ui-icon-directions"></button>
+				</div>
+				<app-lov-usuarios #lovusuariosautomatico
+					(eventoCliente)=fijarLovUsuariosAutoSelec($event)></app-lov-usuarios>
+			</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkdiasemana" class="ui-outputlabel">Día de la
+					semana</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="fpkdiasemana" name="fpkdiasemana"
+					[options]="ldiassemana" (onChange)="consultar()"
+					[(ngModel)]="mfiltros.diasemana" [filter]="true"></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="horario" class="ui-outputlabel">Horario
+					Predeterminado</label>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="horario" name="horario"
+					(click)="mostrarHorario()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true"
+				scrollable="true" scrollHeight="250px"> <p-header>
+			<div class="ui-table-title">Horarios por usuario</div>
+			<acciones-consulta [componente]="componentehijo" [anterior]="true"
+				[siguiente]="true"></acciones-consulta> </p-header> <p-column
+				field="cusuario" header="Usuario" [style]="{'width':'100px'}"></p-column>
+			 <p-column
+				header="Día de la semana"> <ng-template pTemplate="body"
+				let-reg="rowData"> <label>{{obtenerDiaSemana(reg.diasemana)}}</label>
+			</ng-template> </p-column> <p-column field="horaini" header="Hora inicio" [style]="{'width':'80px'}"></p-column> <p-column
+				field="horafin" header="Hora fin" [style]="{'width':'80px'}"></p-column>
+			 <p-column field="observacion" header="Observación"></p-column>
+			 <p-column
+				header="Activo?" [style]="{'width':'80px'}"> <ng-template
+				pTemplate="body" let-reg="rowData"> <p-checkbox
+				[ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+			</ng-template> 
+			</p-column>
+			<p-column [style]="{'width':'100px'}"> 
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions"><acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+			</div>
+			</ng-template> </p-column> <p-footer>
+			<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+				<button type="button" pButton icon="ui-icon-add"
+					(click)="crearNuevo()" label="Nuevo"
+					class="f-btn f-float-left orange-btn"></button>
+			</div>
+			</p-footer> </p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Horario" [(visible)]="mostrarDialogoGenerico"
+	[modal]="true" showEffect="fade" [responsive]="true"
+	[positionTop]="120">
+<form #formDialogoHorario="ngForm">
+	<div class="f-dialogo" style="max-width: 1000px">
+		<div class="f-datacontent ui-g ui-fluid">
+		
+			<div *ngIf="horario" class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="diasemana" class="ui-outputlabel required">Día
+						semana</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<p-dropdown id="pkdiasemana" name="pkdiasemana"
+						[options]="ldiassemana" required
+						[disabled]="!editable || !registro.esnuevo"
+						[(ngModel)]="registro.diasemana"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="horaini" class="ui-outputlabel required">Hora
+						inicio</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<p-inputMask id="horaini" name="horaini" autofoco
+						[(ngModel)]="registro.horaini" required mask="99:99"></p-inputMask>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="horafin" class="ui-outputlabel required">Hora
+						fin</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<p-inputMask id="horafin" name="horafin"
+						[(ngModel)]="registro.horafin" required mask="99:99"></p-inputMask>
+				</div>
+			</div>
+
+			<div *ngIf="horario" class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="estaactivo" class="ui-outputlabel">Activo?</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<p-checkbox name="estaactivo" [(ngModel)]="registro.activo"
+						binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			 <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="observacion" class="ui-outputlabel required">Observaci&oacute;n</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <textarea type="text" pInputText id="observacion" name="observacion" [(ngModel)]="registro.observacion" maxlength="250"
+            mayusculas required rows="5" [disabled]="!editable"></textarea>
+        </div>
+      </div>
+
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoHorario"
+				[componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+
+
+
+
+<p-dialog header="Horario automático" [(visible)]="mostrarDialogoHrario"
+	[modal]="true" showEffect="fade" [responsive]="true"
+	[positionTop]="120">
+<form #formDialogoHorario1="ngForm">
+	<div class="f-dialogo" style="max-width: 500px">
+		<div class="f-datacontent ui-g ui-fluid">
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="horaini" class="ui-outputlabel required">Hora
+						inicio</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<p-inputMask id="horaini" name="horaini"
+						[(ngModel)]="mcampos.horaini" required mask="99:99"></p-inputMask>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="horafin" class="ui-outputlabel required">Hora
+						fin</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<p-inputMask id="horafin" name="horafin"
+						[(ngModel)]="mcampos.horafin" required mask="99:99"></p-inputMask>
+				</div>
+			</div>
+	    <div class="ui-g-12 ui-g-nopad">
+        		<div class="ui-g-12 ui-md-3">
+          			<label for="observacion" class="ui-outputlabel required">Observaci&oacute;n</label>
+        		</div>
+        	<div class="ui-g-12 ui-md-4">
+          		<textarea type="text" pInputText id="observacion" name="observacion" [(ngModel)]="mcampos.observacion" maxlength="250"
+            	mayusculas required rows="5" [disabled]="!editable"></textarea>
+        	</div>
+      	</div>
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoHorario1"
+				[componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

@@ -1,0 +1,59 @@
+<app-lov-funcionarioseval (eventoCliente)=fijarLovFuncionariosEvalSelec($event)></app-lov-funcionarioseval>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+    <button *ngIf="!nuevo && !finalizada" pButton type="button" label="Finalizar Evaluación" style="position: absolute; right: 240px;"
+        class="f-btn green-btn" icon="ui-icon-save" (click)="finalizarIngreso()"></button>
+
+    <button *ngIf="!finalizada" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+        icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+<div class="f-contenedor-transaccion">
+    <form #formularioUsuario="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="title_separator">
+                    <div class="ui-g-12 ui-md-2">
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <label for="nproducto" class="ui-outputlabel ">FUNCIONARIO EVALUADO:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <input type="text" pInputText id="nproducto" name="nproducto" [(ngModel)]="mcampos.nfuncionario" required [readOnly]="true"
+                        />
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <button pButton type="button" id="lovMeta" name="lovMeta" (click)="mostrarLovFuncionariosEval()" icon="ui-icon-directions"></button>
+                    </div>
+
+
+
+
+                </div>
+                <hr />
+            </div>
+
+
+            <div class="ui-g-12 ui-g-nopad">
+
+                    <div class="ui-g-12 ui-md-1">
+                        <label for="promedio" class="ui-outputlabel">Promedio:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <input type="text" pInputText id="promedio" name="promedio" [(ngModel)]="tablaEvaluacion.registro.calificacion" required [readOnly]="true"
+                        />
+                    </div>
+        
+                </div>
+        </div>
+
+       
+
+       
+       
+</form>
+</div>
+<app-internadetalle (calcularTotales)="calcularTotalesInterna()"></app-internadetalle>
+
+<app-cabecera></app-cabecera>

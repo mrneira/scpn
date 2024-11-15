@@ -1,0 +1,52 @@
+/* Este color se sobrepone en el panel principal y pasa a ser el color del panel de la aplicacion
+y tambien es e color del highlight de los textos del menu principal de la parte izquierda*/
+
+/*paleta 1*/
+/* $primaryColor: #0B3C5D;
+$primaryDarkColor: #001633;
+$primaryLightColor: #41668a; */
+/*------------------------*/
+/*paleta 2*/
+/* $primaryColor: #0007A7;
+$primaryDarkColor: #000077;
+$primaryLightColor: #5838da; */
+/*------------------------*/
+/*paleta 3*/
+/* $primaryColor: #000000;
+$primaryDarkColor: #000000;
+$primaryLightColor: #2c2c2c; */
+/*------------------------*/
+/*paleta 4*/
+$primaryColor: #000000;
+$primaryDarkColor: #000000;
+$primaryLightColor: #2c2c2c;
+
+/*Color de la bolita central de la aplicacion que sirve para mostrar u ocultar el menu*/
+
+/*paleta 1*//* $accentColor: #d9b310; */
+/*paleta 2*//* $accentColor: #FD654D; */
+/*paleta 3*//* $accentColor: #ffffff; */
+/*paleta 4*/$accentColor: #ffffff;
+
+$accentDarkColor: rgb(28, 179, 255);
+
+$accentLightColor: #14FEDA;
+
+/*Color de la flecha de la bolita central de la aplicacion*/
+
+/*paleta 1*//* $accentTextColor: #1d2731; */
+/*paleta 2*//* $accentTextColor: #ffffff; */
+/*paleta 3*//* $accentTextColor: #000000; */
+/*paleta 4*/$accentTextColor: #000000;
+
+$darkMenuBgColor: #E9FE14;
+
+$darkMenuHoverColor: #39FF14;
+
+$darkMenuRouterLinkActiveColor: #5a4c74;
+
+$lightMenuRouterLinkActiveColor: #176621;
+
+$horizontalLightMenuRouterLinkActiveColor: #916731;
+
+@import '../../sass/layout/_layout.scss';

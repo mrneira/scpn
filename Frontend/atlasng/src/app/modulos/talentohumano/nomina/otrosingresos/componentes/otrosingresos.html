@@ -1,0 +1,146 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-3 ui-md-3">
+			<label for="cingresoFiltro" class="ui-outputlabel">Código de Otros Ingresos</label>
+		</div>
+		<div class="ui-g-9 ui-md-9">
+			<input type="text" pInputText id="cingresoFiltro" name="cingresoFiltro" [(ngModel)]="mfiltros.cingreso" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario</label>
+		</div>
+		<div class="ui-g-2 ui-md-3">
+			<input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-9 ui-md-5">
+			<input type="text" pInputText id="nombreFuncionarioFiltroLov" name="nombreFuncionarioFiltroLov" [(ngModel)]="mcampos.nfuncionario"
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-1">
+			<button pButton type="button" id="lovfuncionariosFiltroLov" name="lovfuncionariosFiltroLov" (click)="mostrarLovFuncionario()"
+			 icon="ui-icon-directions" [disabled]="true"></button>
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Otros Ingresos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cingreso" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="valor" header="Valor"></p-column>
+				<p-column field="descripcion" header="Descripci&oacute;n"></p-column>
+				<p-column field="mdatos.nmes" header="Mes en que aplica"></p-column>
+				<p-column field="anio" header="Año en que aplica"></p-column>
+				<p-column header="Estado" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Aprobado" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.aprobado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+							<span *ngIf="reg.cingreso != undefined">
+								<button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload"></button>
+							</span>
+							<span *ngIf="reg.cingreso != undefined && reg.cgesarchivo != undefined">
+								<button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download" style="margin-left:5px">
+								</button>
+							</span>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Otros Ingresos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="cingreso" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cingreso" name="cingreso" [(ngModel)]="registro.cingreso" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="100"
+						 autofoco [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="descripcion" class="ui-outputlabel required">Descripcion:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+						 maxlength="200" [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-4 ui-md-4">
+						<label for="anio" class="ui-outputlabel required">Año en que aplica</label>
+					</div>
+					<div class="ui-g-4 ui-md-8">
+						<input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" required maxlength="4" [disabled]="true"
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-4 ui-md-4">
+						<label for="mescdetalle" class="ui-outputlabel required">Mes en que aplica</label>
+					</div>
+					<div class="ui-g-4 ui-md-8">
+						<p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="registro.mescdetalle" [disabled]="true" (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'nmes')"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="valor" class="ui-outputlabel required">Valor</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" required numeroPositivo/>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

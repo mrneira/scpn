@@ -1,0 +1,16 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+	</div>
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+
+		<div class="f-datacontent ui-g ui-fluid">
+			
+			<div class="ui-g-12 ui-g-nopad">
+
+				<p-gmap #gmap [style]="{'width':'100%','height':'500px'}" [options]="options" [overlays]="overlays" (onMapClick)="handleMapClick($event)"></p-gmap>
+					</div>
+
+		</div>
+	</form>
+</div>

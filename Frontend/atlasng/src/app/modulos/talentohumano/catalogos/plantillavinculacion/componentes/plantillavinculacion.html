@@ -1,0 +1,111 @@
+<app-lov-tth-tipovinculacion (eventoCliente)=fijarLovTipoVinculacion($event)></app-lov-tth-tipovinculacion>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-3 ui-g-nopad">
+		<div class="ui-g-3 ui-md-4">
+			<label for="fpk" class="ui-outputlabel">Código:</label>
+		</div>
+		<div class="ui-g-3 ui-md-8">
+			<input type="text" pInputText id="cplantilladocvinculacionFiltro" name="cplantilladocvinculacionFiltro" [(ngModel)]="mfiltros.cplantilladocvinculacion"
+			/>
+		</div>
+	</div>
+	<div class="ui-g-9 ui-g-nopad">
+		<div class="ui-g-9 ui-md-3">
+			<label for="fpk" class="ui-outputlabel">Documento:</label>
+		</div>
+		<div class="ui-g-9 ui-md-9">
+			<input type="text" pInputText id="documentoFiltro" name="documentoFiltro" [(ngModel)]="mfiltros.documento" mayusculas/>
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="ctipovinculacion" class="ui-outputlabel required">Documento de vinculación</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input id="ctipovinculacion" name="ctipovinculacion" type="text" pInputText [(ngModel)]="mfiltros.ctipovinculacion" required
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-9">
+			<input type="text" pInputText id="ntipovinculacion" name="ntipovinculacion" [(ngModel)]="mcampos.ntipovinculacion" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovTipoVinculacion" name="lovTipoVinculacion" (click)="mostrarLovTipoVinculacion()" icon="ui-icon-directions">
+			</button>
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Plantilla de Vinculación</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cplantilladocvinculacion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="orden" header="Orden"></p-column>
+				<p-column field="documento" header="Documento"></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Plantilla de vinculación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="cplantilladocvinculacion" class="ui-outputlabel required">Código de Área</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cplantilladocvinculacion" name="cplantilladocvinculacion" [(ngModel)]="registro.cplantilladocvinculacion"
+						 [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="orden" class="ui-outputlabel required">Orden:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="orden" name="orden" entero  maxlength="4" [(ngModel)]="registro.orden" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="documento" class="ui-outputlabel required">Documento:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.documento" required mayusculas maxlength="120"
+						 autofoco [disabled]="!editable" />
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

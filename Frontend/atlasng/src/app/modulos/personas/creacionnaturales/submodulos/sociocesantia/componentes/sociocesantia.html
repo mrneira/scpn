@@ -1,0 +1,165 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSocioInfGeneral="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioSocioInfGeneral" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+      <p-panel header="DATOS DE LA CARRERA DEL SOCIO" class="ui-g-12 ui-md-12 ui-g-nopad">
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="grado" class="ui-outputlabel required">Grado</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-dropdown id="grado" name="grado" [options]="lgrado" [(ngModel)]="registro.mdatos.cgradoactual" (onChange)="mostrarJerarquias($event)"
+                [disabled]="!editable || !registro.esnuevo" required></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="jerarquía" class="ui-outputlabel required">Jerarquía</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-dropdown id="jerarquía" name="jerarquía" [options]="ljerarquia" [disabled]="!editable || editable "
+                [(ngModel)]="registro.mdatos.cjerarquia" required></p-dropdown>
+            </div>
+          </div>
+         
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fcredencial" class="ui-outputlabel">Credencial</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="credencial" name="credencial" [(ngModel)]="registro.credencial" maxlength="20" enteroGuion [disabled]="!editable || (editable && habilitarJerarquia)"
+              /> 
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="tipopolicia" class="ui-outputlabel required">Tipo policia</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-dropdown id="tipopolicia" name="tipopolicia" [options]="ltipopolicia" [disabled]="!editable || (editable && habilitarJerarquia)"
+                [(ngModel)]="registro.ctipopolicia" required></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="ubicacion" class="ui-outputlabel">Ubicación</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="ubicacion" name="ubicacion" [(ngModel)]="registro.mdatos.nubicacion" mayusculas
+                [disabled]="!editable" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovubicaciones" name="lovubicaciones" [disabled]="!editable" (click)="mostrarLovUbicaciones()"
+                icon="ui-icon-directions">
+              </button>
+            </div>
+            <app-lov-ubicaciones (eventoCliente)=fijarLovUbicacionesSelec($event)></app-lov-ubicaciones>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.ubicacionArchivo !=null">
+            <div class="ui-g-12 ui-md-3">
+              <label for="ubicacionArchivo" class="ui-outputlabel">Ubicación archivo</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <label for="uArchivo" class="ui-outputlabel">{{registro.ubicacionArchivo}}</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="uArchivoMensaje" class="ui-outputlabel">Registro realizado por carga de Archivo</label>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel header="DATOS HISTÓRICO DE CARRERA DEL SOCIO" class="ui-g-12 ui-md-12 ui-g-nopad">
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="estado" class="ui-outputlabel required">Estado Actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-dropdown id="estado" name="estado" [options]="lestado" [(ngModel)]="registro.mdatos.cestadosocio"  [disabled]="true" required></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fechaalta" class="ui-outputlabel required">Fecha Estado Actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-calendar id="fechaalta" name="fechaalta" [maxDate]="fechaactual" [(ngModel)]="registro.mdatos.festado" [showIcon]="true" [locale]="es"
+               [disabled]="!editable || !registro.esnuevo"
+                required [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="ordengengbaja" class="ui-outputlabel required">Orden gen. estado actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="ordengenalta" name="ordengengalta" [(ngModel)]="registro.mdatos.ordengen" entero maxlength="30"
+                [disabled]="!editable || !registro.esnuevo" required />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="fechaordengen" class="ui-outputlabel required">Fecha orden gen. estado actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-calendar id="fechaordengen" name="fechaordengen" [maxDate]="fechaactual" [(ngModel)]="registro.mdatos.fordengen" [showIcon]="true" [locale]="es"
+                [disabled]="!editable || !registro.esnuevo" required [dateFormat]="formatofecha" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel header="DATOS GENERALES" class="ui-g-12 ui-md-12 ui-g-nopad">
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="sueldoactual" class="ui-outputlabel">Estado Socio</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="estadoSocio" name="estadoSocio" [(ngModel)]="registro.mdatos.estadoSocio" [disabled]="true"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="tiemposervicio" class="ui-outputlabel">Tiempo de Servicio</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="tiemposervicio" name="tiemposervicio" [(ngModel)]="registro.mdatos.ntiemposervicio" mayusculas
+                [readOnly]="true" [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="sueldoactual" class="ui-outputlabel">Sueldo Actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="sueldoactual" name="sueldoactual" [(ngModel)]="registro.sueldoactual" maxlength="18" numeroPositivo
+                autofoco [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="aportaciones" class="ui-outputlabel">Aportaciones</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <input type="text" pInputText id="aportaciones" name="aportaciones" [(ngModel)]="registro.mdatos.naportaciones" entero [readOnly]="true"
+                [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label for="uarchivo" class="ui-outputlabel">Ubicación Archivo</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="uarchivo" name="uarchivo" [(ngModel)]="registro.ubicacionarchivo" [disabled]="true"
+              />
+            </div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </form>
+  <app-lov-ubicaciones (eventoCliente)=fijarLovUbicacionesSelec($event)></app-lov-ubicaciones>
+</div>

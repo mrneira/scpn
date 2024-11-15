@@ -1,0 +1,27 @@
+<div class="ui-g-6 ">
+  <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+    <p-header>
+      <div class="ui-table-title">EGRESOS</div>
+      <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+    </p-header>
+    <p-column field="nombre" header="Nombre"></p-column>
+
+    <p-column header="Total" [style]="{'text-align':'right','width':'60px'}">
+      <ng-template pTemplate="body" let-reg="rowData">
+        {{ reg.calculado | number : '1.2-2' }}
+      </ng-template>
+    </p-column>
+    <p-footer>
+      <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+        <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+      </div>
+    </p-footer>
+    <p-footerColumnGroup style="color:blue;">
+      <p-row>
+        
+        <p-column footer="TOTAL " [style]="{'color':'blue','font-size':'12px','width':'290px','text-align':'left'}"></p-column>
+        <p-column [footer]="mcampos.total | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'85px'}"></p-column>
+         </p-row>
+    </p-footerColumnGroup>
+  </p-dataTable>
+</div>

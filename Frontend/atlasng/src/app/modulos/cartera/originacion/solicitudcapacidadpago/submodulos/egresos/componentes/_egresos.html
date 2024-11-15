@@ -1,0 +1,33 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioCapacidadPago="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistros" [responsive]="true" rowGroupMode="subheader">
+          <p-header>
+            <div class="ui-table-title">Egresos</div><!--CCA cambios egresos-->
+            <p id="mensajeError" style="display: none;color: white; background-color: red;">El valor de aportes de SCPN no puede ser "0"</p>
+            <p id="mensajeErrorISSPOL" style="display: none;color: white; background-color: red;">El valor de aportes de ISSPOL no puede ser "0"</p>
+          </p-header>
+          <p-column field="nombre" header="CONCEPTO" [style]="{'width':'60px'}"></p-column>
+          <p-column header="VALOR" [style]="{'width':'40px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              <input type="text" [name]="reg.nombre" pInputText [(ngModel)]="reg.valor" numero maxlength="16" style="text-align:right"
+                (ngModelChange)="actualizarEgresos()" [disabled]="(!habilitaeditable && !reg.mdatos.editable) || !editable"
+              />
+            </ng-template>
+          </p-column>
+          <p-column header=" " [style]="{'width':'1px'}">
+            <ng-template pTemplate="body" let-reg="rowData" let-regIndex="rowIndex">
+              <p-checkbox [name]="reg.secuencia" [ngModel]="reg.mdatos.marcar" binary="false" [disabled]="!editable" *ngIf="reg.mdatos.check"></p-checkbox>
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td style="text-align:left ">TOTAL EGRESOS:</td>
+            <td style="text-align:right">{{registro.totalegresos | number:'1.2-2' }}</td>
+            <td style="text-align:left "> </td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,107 @@
+<app-lov-tth-designaciones (eventoCliente)=fijarLovDesignaciones($event)></app-lov-tth-designaciones>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-2 ui-md-2">
+			<label for="cliquidacion" class="ui-outputlabel">Código de Liquidacion</label>
+		</div>
+		<div class="ui-g-3 ui-md-3">
+			<input type="text" pInputText id="cliquidacion" name="cliquidacion" [(ngModel)]="mfiltros.cliquidacion" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="ccontratoFilter" class="ui-outputlabel required">Designacion</label>
+		</div>
+		<div class="ui-g-2 ui-md-1">
+			<input id="ccontratoFilter" name="ccontratoFilter" type="text" pInputText [(ngModel)]="mfiltros.ccontrato" required [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-9 ui-md-7">
+			<input type="text" pInputText id="ndesignacionFilter" name="ndesignacionFilter" [(ngModel)]="mcampos.ndesignacion" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-1 ui-md-1">
+			<button pButton type="button" id="lovDesignaciones" name="lovDesignaciones" (click)="mostrarLovDesignaciones()" icon="ui-icon-directions"></button>
+		</div>
+	</div>
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<form #formDialogo="ngForm">
+				<div class="f-dialogo" style="max-width: 700px">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="cliquidacion" class="ui-outputlabel">Código</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<input type="text" pInputText id="cliquidacion" name="cliquidacion" [(ngModel)]="registro.cliquidacion" [disabled]="true" />
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="nombre" class="ui-outputlabel">Nombre:</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="100"
+								 autofoco [disabled]="!editable" />
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="descripcion" class="ui-outputlabel required">Descripcion:</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+								 maxlength="200" [disabled]="!editable" />
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="faplica" class="ui-outputlabel required">Fecha en que aplica</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<p-calendar id="faplica" name="faplica" [(ngModel)]="registro.mdatos.faplica" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+								 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="valor" class="ui-outputlabel required">Valor</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" required numeroPositivo/>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="estado" class="ui-outputlabel">Estado</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="true"></p-checkbox>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-2 ui-md-2">
+								<label for="aprobado" class="ui-outputlabel">Aprobado?</label>
+							</div>
+							<div class="ui-g-10 ui-md-10">
+								<p-checkbox id="aprobado" name="aprobado" [(ngModel)]="registro.aprobado" binary="true"></p-checkbox>
+							</div>
+						</div>
+					</div>
+					<footer>
+						<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+					</footer>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

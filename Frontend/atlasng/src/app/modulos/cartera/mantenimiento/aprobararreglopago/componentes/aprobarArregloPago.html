@@ -1,0 +1,47 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" etiquetaGrabar="Aprobar"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpk" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="operacionArreglo.mfiltros.coperacion" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-operacion-arreglo (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-arreglo>
+      </div>
+    </div>
+  </form>
+
+  <app-ope-arreglo-pago></app-ope-arreglo-pago>
+
+  <app-rubros-arreglo-pago></app-rubros-arreglo-pago>
+</div>

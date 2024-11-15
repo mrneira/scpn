@@ -1,0 +1,36 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" etiquetaGrabar="Iniciar solicitud" [grabar]="false"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" required [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+  </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Cotizador" [selected]="true">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Datos Generales</span>
+      </div>
+      <hr />
+    </div>
+
+    <app-datos-generales></app-datos-generales>
+    <div class="separador-linea"></div>
+  </p-tabPanel>
+</p-tabView>

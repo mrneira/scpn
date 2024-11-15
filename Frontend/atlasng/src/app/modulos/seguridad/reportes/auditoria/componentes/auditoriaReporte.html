@@ -1,0 +1,62 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="fpkcmodulo" class="ui-outputlabel  required">Transacción</label>
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <input id="fpkcmodulo" name="fpkcmodulo" type="text" pInputText [(ngModel)]="mfiltros.cmodulo" [readOnly]="true" required
+          />
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <input id="fpkctransaccion" name="fpkctransaccion" type="text" pInputText [(ngModel)]="mfiltros.ctransaccion"  [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-6 ui-md-6">
+          <input type="text" pInputText id="fntransaccion" name="fntransaccion" [(ngModel)]="mcampos.ntransaccion" [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="pkcusuario" class="ui-outputlabel ">Usuario</label>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <input id="pkcusuario" name="pkcusuario" type="text" pInputText [(ngModel)]="mfiltros.cusuario" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-6">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <button pButton type="button" id="lovusuariosregistro" name="lovusuariosregistro" (click)="mostrarLovUsuarios()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdesde" class="ui-outputlabel required">Fecha Desde</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-calendar name="fdesde" [(ngModel)]="mcampos.camposfecha.finicio" [minDate]="minDate" [maxDate]="maxDate"  [showIcon]="true" [dateFormat]="formatofecha" required></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label for="fhasta" class="ui-outputlabel required">Fecha Hasta</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-calendar name="fhasta" [(ngModel)]="mcampos.camposfecha.ffin" [showIcon]="true" [dateFormat]="formatofecha" required></p-calendar>
+      </div>
+    </div>
+
+
+  </form>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

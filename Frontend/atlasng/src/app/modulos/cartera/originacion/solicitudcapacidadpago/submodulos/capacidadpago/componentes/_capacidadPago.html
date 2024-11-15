@@ -1,0 +1,165 @@
+<app-reincorporados></app-reincorporados>
+
+<div class="f-contenedor-transaccion">
+  <form #formularioCapacidadPago="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Información del Crédito</span>
+          </div>
+          <hr />
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="nproducto" class="ui-outputlabel">Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nproducto" name="nproducto" [(ngModel)]="registro.nproducto" style="text-align:right"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="ntipoproducto" class="ui-outputlabel">Tipo de producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="ntipoproducto" name="ntipoproducto" [(ngModel)]="registro.ntipoproducto"
+              style="text-align:right" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="monto" class="ui-outputlabel">Monto solicitado</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="monto" name="monto" numero [(ngModel)]="registro.monto" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="numerocuotas" class="ui-outputlabel">Número de cuotas</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero [(ngModel)]="registro.numerocuotas"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="tasanominal" class="ui-outputlabel">Tasa nominal</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="tasanominal" name="tasanominal" numero [(ngModel)]="registro.tasa"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="valorcuota" class="ui-outputlabel">Valor cuota</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="valorcuota" name="valorcuota" numero [(ngModel)]="registro.valorcuota"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-2 ui-g-nopad">
+          <div class="ui-g-12 ui-md-12">
+            <label for="destinocredito" class="ui-outputlabel">Destino del crédito</label>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-10 ui-g-nopad">
+          <div class="ui-g-12 ui-md-12">
+            <textarea pInputText type="text" id="destinocredito" name="destinocredito" [(ngModel)]="registro.destino"
+              rows="3" [disabled]="true"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Análisis de Capacidad</span>
+          </div>
+          <hr />
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6">
+            <app-ingresos #ideudor (eventoIngreso)="actualizarIngresos()"></app-ingresos>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <app-egresos #edeudor (eventoEgreso)="actualizarEgresos()"></app-egresos>
+          </div>
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad" [hidden]="!habilitaAbsorcion">
+          <app-absorber-operaciones #adeudor (eventoAbsorcion)="actualizarAbsorcion($event)"></app-absorber-operaciones>
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad" [hidden]="!habilitaConsolidado">
+          <app-consolidado (eventoConsolidado)="actualizarConsolidado($event)"></app-consolidado>
+        </div>
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Análisis Técnico</span>
+          </div>
+          <hr />
+        </div>
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="capacidadpago" class="ui-outputlabel required">Capacidad pago</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="capacidadpago" name="capacidadpago" numero required [(ngModel)]="registro.capacidadpago"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="porcentajecoberturacuota" class="ui-outputlabel required">Porcentaje cobertura cuota</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="porcentajecoberturacuota" name="porcentajecoberturacuota" [(ngModel)]="registro.porcentajecoberturacuota"
+              [disabled]="true" required style="text-align:right" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="resolucion" class="ui-outputlabel required">Resolución</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="resolucion" name="resolucion" [(ngModel)]="registro.resolucion" required
+              [disabled]="true" style="text-align:right" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1" *ngIf="aprobado">
+            <button pButton type="button" icon="fa-check" class="ui-button-success" disabled="true"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1" *ngIf="!aprobado">
+            <button pButton type="button" icon="fa-close" class="ui-button-danger" disabled="true"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <label for="comentario" class="ui-outputlabel required">Comentario</label>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-10 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <textarea style="width: 100%" id="comentario" name="comentario" [(ngModel)]="registro.comentario"
+                required mayusculas maxlength="200" rows="3"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

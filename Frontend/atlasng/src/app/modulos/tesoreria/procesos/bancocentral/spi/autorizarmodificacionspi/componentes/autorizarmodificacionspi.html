@@ -1,0 +1,40 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel required">Detalle de Autorización:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="detalleobservacion" name="detalleobservacion" [(ngModel)]="mcampos.detalleobservacion"
+			 required minlength="10" maxlength="300"/>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+		 [(selection)]="selectedRegistros">
+			<p-header>
+				<div class="ui-table-title">Pagos Modificados</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="ctestransaccion" header="Id"></p-column>
+			<p-column field="mdatos.modulo" header="Módulo"></p-column>
+			<p-column field="identificacionbeneficiario" rowspan="3" header="Identificación Beneficiario" scrollable="true"></p-column>
+			<p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+			<p-column field="mdatos.institucion" header="Institución"></p-column>
+			<p-column field="mdatos.tipocuenta" header="Tipo Cuenta"></p-column>
+			<p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+			<p-column field="valorpago" header="Valor Pago"></p-column>
+			<p-column field="subcuenta" header="Concepto"></p-column>
+			<p-column field="detalle" header="Detalle"></p-column>
+			<p-column field="referenciainterna" header="Referencia Interna"></p-column>
+			<p-column field="secuenciainterna" header="Secuencia Interna"></p-column>
+			<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+		</p-dataTable>
+	</div>
+</div>

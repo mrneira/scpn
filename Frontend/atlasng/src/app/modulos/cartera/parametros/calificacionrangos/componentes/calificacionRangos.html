@@ -1,0 +1,101 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcsegmento" class="ui-outputlabel required">Segmento</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input pInputText id="fcsegmento" name="fcsegmento" [(ngModel)]="mfiltrosigual.csegmento" />
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="fcsegmento" name="fcsegmento" [options]="lsegmentos" [(ngModel)]="mfiltrosigual.csegmento" autofoco (onChange)="cambiarSegmento($event)"
+          required [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Rangos de Calificación</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ccalificacion" header="Calificación"></p-column>
+        <p-column field="mdatos.ncalificacion" header="Nombre"></p-column>
+        <p-column field="diasdesde" header="Días desde"></p-column>
+        <p-column field="diashasta" header="Días hasta"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Calificación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="nsegmento" class="ui-outputlabel required">Segmento</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nsegmento" required mayusculas maxlength="80"
+              [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="pkccalificacion" class="ui-outputlabel required">Calificación</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="pkccalificacion" name="pkccalificacion" [options]="lcalificacion" [(ngModel)]="registro.ccalificacion" [disabled]="!editable || !registro.esnuevo"
+              (onChange)="registrarEtiqueta(registro, lcalificacion, 'ccalificacion', 'ncalificacion')" required [filter]="true"
+              appendTo="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="diasdesde" class="ui-outputlabel required">Días desde</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="diasdesde" name="diasdesde" [(ngModel)]="registro.diasdesde" required entero maxlength="3"
+              [disabled]="!editable" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="diashasta" class="ui-outputlabel required">Días hasta</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="diashasta" name="diashasta" [(ngModel)]="registro.diashasta" required entero maxlength="3"
+              [disabled]="!editable" />
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

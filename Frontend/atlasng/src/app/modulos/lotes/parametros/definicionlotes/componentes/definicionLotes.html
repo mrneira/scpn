@@ -1,0 +1,34 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkclote" class="ui-outputlabel required">Lote</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="fpkclote" name="fpkclote" [options]="llote" [(ngModel)]="filtroLote" required [filter]="true" (onChange)="consultar()"></p-dropdown>
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+		</div>
+	</div>
+
+	<p-tabView>
+		<p-tabPanel header="Módulos" [selected]="true">
+			<app-lote-modulo></app-lote-modulo>
+		</p-tabPanel>
+		<p-tabPanel header="Tareas">
+			<app-tareas-modulo-lote></app-tareas-modulo-lote>
+		</p-tabPanel>
+		<p-tabPanel header="Permisos transacciones">
+			<app-transacciones-ejecucion></app-transacciones-ejecucion>
+		</p-tabPanel>
+	</p-tabView>
+</div>

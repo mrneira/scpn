@@ -1,0 +1,179 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="tipo" header="Tipo"></p-column>
+        <p-column field="ccuenta" header="Cuenta contable"></p-column>
+        <p-column field="mdatos.ncuenta" header="Descripción"></p-column>
+        <p-column field="cpartida" header="Partida"></p-column>
+        <p-column field="numerofactura" header="No. factura"></p-column>
+        <p-column field="rucfactura" header="RUC"></p-column>
+        <p-column field="fechafactura" header="F. factura">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fechafactura | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="subtotal" header="Subtotal">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.subtotal" [readOnly]="true" numeroPositivo maxlength="14"
+              style="text-align:right" />
+          </ng-template>
+        </p-column>
+        <p-column field="iva" header="I.V.A.">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.iva" numeroPositivo maxlength="14" style="text-align:right" />
+          </ng-template>
+        </p-column>
+        <p-column field="total" header="Total">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.total" numeroPositivo maxlength="14" style="text-align:right" />
+          </ng-template>
+        </p-column>
+        <p-column field="valorvalido" header="Valor válido">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" pInputText [(ngModel)]="reg.valorvalido" numeroPositivo maxlength="14" style="text-align:right" />
+          </ng-template>
+        </p-column>
+        <p-column field="comentario" header="Comentario"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="button" name="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+              class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Factura presentada" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+  [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="tipo" class="ui-outputlabel required">Tipo</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+              <p-dropdown id="tipo" name="tipo" [options]="ltipo" [(ngModel)]="registro.tipo"
+              required ></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ccuenta" class="ui-outputlabel required">Cuenta</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="ccuenta" name="ccuenta" type="text" pInputText [(ngModel)]="registro.ccuenta" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-7">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovcuentasContables" name="lovcuentasContables" (click)="mostrarlovcuentasContables()"
+              icon="ui-icon-directions"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cpartidagasto" class="ui-outputlabel required ">Partida presupuestaria</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="cpartidagasto" name="cpartidagasto" type="text" pInputText [(ngModel)]="registro.cpartida"
+              [readOnly]="true" required />
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="npartida" name="npartida" [(ngModel)]="registro.mdatos.npartida"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovPartidaGasto" name="lovPartidaGasto" (click)="mostrarlovPartidaGasto()"
+              icon="ui-icon-directions"></button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="numerofactura" class="ui-outputlabel ">No. factura</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="numerofactura" name="numerofactura" [(ngModel)]="registro.numerofactura"
+              maxlength="20" />
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="rucfactura" class="ui-outputlabel ">RUC</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="rucfactura" name="rucfactura" [(ngModel)]="registro.rucfactura" maxlength="15" />
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="fechafactura" class="ui-outputlabel ">Fecha factura</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-calendar id="fechafactura" name="fechafactura" [(ngModel)]="registro.fechafactura" [showIcon]="true"
+              [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es"
+              appendTo="body" required></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="subtotal" class="ui-outputlabel required">Subtotal</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="subtotal" name="subtotal" [(ngModel)]="registro.subtotal" numeroPositivo 
+            (ngModelChange)="calculariva()"/>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="iva" class="ui-outputlabel required">Iva</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="iva" name="iva" [(ngModel)]="registro.iva" numeroPositivo 
+            (ngModelChange)="calculartotal()"/>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="total" class="ui-outputlabel required">Total</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="total" name="total" [(ngModel)]="registro.total" numeroPositivo
+            [readOnly]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="valorvalido" class="ui-outputlabel required">Valor válido</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="valorvalido" name="valorvalido" [(ngModel)]="registro.valorvalido"
+              numeroPositivo />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="comentario" class="ui-outputlabel">Comentario</label>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-11">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" 
+              mayusculas maxlength="500" rows="3" (ngModelChange)="setvalorvalido()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+    </footer>
+  </form>
+</p-dialog>
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+<app-lov-partidagasto (eventoCliente)=fijarLovPartidaGastoSelec($event)></app-lov-partidagasto>

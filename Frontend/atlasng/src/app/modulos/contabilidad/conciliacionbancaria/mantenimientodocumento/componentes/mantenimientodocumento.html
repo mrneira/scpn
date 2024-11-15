@@ -1,0 +1,142 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcbeneficio" class="ui-outputlabel">Cuenta Bancaria</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcbeneficio" name="fcbeneficio" [(ngModel)]="mfiltros.cuentabanco" autofoco />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fdocumento" class="ui-outputlabel">Documento Bancario</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="documento" name="documento" [(ngModel)]="mfiltros.documento"/>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fdocumentob" class="ui-outputlabel">S/N Documento</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-checkbox id="documentob" name="documentob" [(ngModel)]="documentob" binary="true"></p-checkbox>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fdesde" class="ui-outputlabel required">Fecha Desde</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" required="true" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fdesde" class="ui-outputlabel required">Fecha Hasta</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-calendar name="fdesde" [(ngModel)]="mcampos.ffin" required="true" [showIcon]="true" [dateFormat]="formatofecha">
+        </p-calendar>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Movimientos Bancarios</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="clibrobanco" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nbanco" header="Banco" [style]="{'width':'120px'}"></p-column>
+        <p-column field="cuentabanco" header="N. Cuenta" [style]="{'width':'90px'}"></p-column>
+        <p-column field="ccomprobante" header="Comprobante" [style]="{'width':'75px'}"></p-column>
+        <p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'170px'}"></p-column>
+        <p-column field="mdatos.ncomentario" header="Comentario"></p-column>
+        <p-column field="documento" header="Documento"[style]="{'width':'170px'}"></p-column>
+        <p-column field="montocredito" header="Valor Crédito" styleClass="f-right" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" >
+            {{ reg.montocredito | number: '1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="montodebito" header="Valor Dédito" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montodebito | number: '1.2-2'}}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Movimientos Bancarios" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cbanco" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="clibrobanco" name="clibrobanco" [(ngModel)]="registro.clibrobanco" autofoco required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Banco:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="nbanco" name="nbanco" [(ngModel)]="registro.mdatos.nbanco" required mayusculas maxlength="200" rows="2" [disabled]="true">
+
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fpkccuenta" class="ui-outputlabel required">#Cuenta Bancaria
+            </label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="cuentabanco" name="cuentabanco" type="text" pInputText [(ngModel)]="registro.cuentabanco" required [disabled]="true" />
+          </div>
+        </div>
+
+   
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ncuenta" class="ui-outputlabel required">Documento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="documento" name="documento" [(ngModel)]="registro.documento" required  maxlength="30" [disabled]="!editable">
+          </div>
+        </div>
+
+
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

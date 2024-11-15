@@ -1,0 +1,45 @@
+<div class="f-contenedor-transaccion">
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcidentificador" class="ui-outputlabel">Identificador</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="fpkcidentificador" name="fpkcidentificador" [(ngModel)]="mfiltros.cidentificador"/>
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		</div>
+	</div>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Individual</div>
+				</p-header>
+				<p-column header="Número ejecución" field="numeroejecucion" [style]="{'width':'70px'}"></p-column>
+				<p-column header="Módulo" field="mdatos.nmodulo" [style]="{'width':'150px'}"></p-column>
+				<p-column header="Tarea" field="mdatos.ntarea"></p-column>
+				
+				<p-column header="Identificador" field="pk.cidentificador" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Fecha real" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.freal | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Fecha de proceso" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.fproceso | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Resultado" field="cresultado" [style]="{'width':'80px'}"></p-column>
+				<p-column header="Mensaje" field="textoresultado"></p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

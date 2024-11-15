@@ -1,0 +1,37 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="grabar" id="grabar" label="Cargar Respuesta" style="position: absolute; right: 105px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="cargarArchivo('cargar')"> </button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="title_separator">
+      <i class="fa ui-icon-adjust"></i>
+      <span>Carga de archivo de respuesta CashManagement - Pichincha</span>
+    </div>
+    <hr />
+  </div>
+  <div class="ui-g-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+    </div>
+
+    <div class="ui-g-12">
+      <p-fileUpload id="fucarchivo" name="fucarchivo" customUpload="true" accept=".txt" [disabled]="false" (onSelect)="onSelectArchivo($event)"
+        required (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione" [showCancelButton]="false"
+        [showUploadButton]="false"></p-fileUpload>
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+  <div class="ui-g-4 ui-g-nopad" *ngIf="cargaok">
+    <p-dataTable [value]="lresumen" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Resumen Carga CashManagement</div>
+      </p-header>
+      <p-column field="registros" header="Registros Actualizados" [style]="{'width':'20%'}"></p-column>
+    </p-dataTable>
+  </div>
+</div>

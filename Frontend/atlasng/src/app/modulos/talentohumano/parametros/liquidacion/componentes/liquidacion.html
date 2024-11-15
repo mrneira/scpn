@@ -1,0 +1,143 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ctipoccatalogo" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="ctipoccatalogo" name="ctipoccatalogo" [(ngModel)]="mfiltros.ctipoccatalogo" autofoco numeric />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Par&aacute;metros Liquidaci&oacute;n</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ctipoccatalogo" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>        
+        <p-column field="ctipocdetalle" header="Tipo Liquidaci&oacute;n" hidden="true"></p-column>
+        <p-column field="mdatos.cnombre" header="Tipo Liquidaci&oacute;n"></p-column>
+        <p-column field="parametro" header="Par&aacute;metro"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>        
+        <p-column header="Valor" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Porcentual?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.porcentual" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>                     
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Tipo Liquidaci&oacute;n" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipoccatalogo" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="ctipoccatalogo" name="ctipoccatalogo" [(ngModel)]="registro.ctipoccatalogo" autofoco required
+              numeric maxlength="10" [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipocdetalle" class="ui-outputlabel required">Tipo Liquidaci&oacute;n:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="ctipocdetalle" name="ctipocdetalle" [options]="ltipo" [(ngModel)]="registro.ctipocdetalle" required [filter]="true"
+              [disabled]="!registro.esnuevo"></p-dropdown>  
+                     
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="parametro" class="ui-outputlabel required">Par&aacute;metro:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="nombre" name="parametro" [(ngModel)]="registro.parametro" required mayusculas maxlength="200" rows="2"
+              [disabled]="!registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="200" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas maxlength="200"
+              rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="valor" class="ui-outputlabel required">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="valor" name="valor" type="text" pInputText [(ngModel)]="registro.valor" required numeroPositivo maxlength="10"
+              [readOnly]="false" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="porcentual" class="ui-outputlabel">Porcentual?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="porcentual" name="porcentual" [(ngModel)]="registro.porcentual" binary="false"></p-checkbox>
+          </div>
+
+        </div>
+
+
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

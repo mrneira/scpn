@@ -1,0 +1,95 @@
+﻿<form #formularioUsuario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <p-accordion [multiple]="true">
+
+    <p-accordionTab header="Instrumento">
+
+      <div class="f-contenedor-transaccion">
+
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-md-1" *ngIf="!this.inversionesServicios.escash()">
+              <label for="calificacionriesgoactualcdetalle" class="ui-outputlabel">Calificación de Riesgo Actual</label>
+            </div>
+            <div class="ui-g-12 ui-md-3" *ngIf="!this.inversionesServicios.escash()">
+              <p-dropdown id="calificacionriesgoactualcdetalle" name="calificacionriesgoactualcdetalle" [options]="this.inversionesServicios.ptRiesgoActual"
+                [(ngModel)]="this.inversionesServicios.pCalificacionriesgoactualcdetalle" [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+          </div>
+        </div>
+
+    </p-accordionTab>
+
+    
+
+    <p-accordionTab header="Contabilidad">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="ccomprobante" class="ui-outputlabel">Comprobante Contable</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="this.inversionesServicios.pCcomprobante"
+                maxlength="20" [disabled]="true" />
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="Auditoría">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="icusuarioing" class="ui-outputlabel required">Usuario Creación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="icusuarioing" name="icusuarioing" [(ngModel)]="this.inversionesServicios.pCusuarioing"
+                required [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="fingreso" class="ui-outputlabel required">Fecha de Creación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fingreso" name="fingreso" [(ngModel)]="this.inversionesServicios.pFingreso" [showIcon]="true" [locale]="es"
+                [disabled]="true" required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuariomod" class="ui-outputlabel required">Usuario Modificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="cusuariomod" name="cusuariomod" [(ngModel)]="this.inversionesServicios.pCusuariomod" required
+                [disabled]="true" />
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="fmodificacion" class="ui-outputlabel required">Fecha de Modificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fmodificacion" name="fmodificacion" [(ngModel)]="this.inversionesServicios.pFmodificacion" [showIcon]="true"
+                [locale]="es" [disabled]="true" required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+
+
+
+  </p-accordion>
+
+</form>

@@ -1,0 +1,69 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	
+	<button *ngIf="!nuevo && !eliminado" pButton type="button" label="Anular Depreciación" style="position: absolute; right:105px;"
+	 class="f-btn green-btn" icon="ui-icon-save" (click)="contabilizarDepreciacion()"></button>
+
+
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cdepreciacion" class="ui-outputlabel ">C&oacute;digo Depreciaci&oacute;n</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cdepreciacion" name="cdepreciacion" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cdepreciacion"
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovdepreciaciones" name="lovdepreciaciones" (click)="mostrarlovdepreciaciones()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-depreciaciones (eventoCliente)=fijarLovDepreciacionesSelec($event)></app-lov-depreciaciones>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccomprobante" class="ui-outputlabel">Comprobante Contable</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input id="ccomprobante" name="ccomprobante" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.ccomprobante"
+				/>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">	
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="estadocdetalle" class="ui-outputlabel">Estado</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input id="estadocdetalle" name="estadocdetalle" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.estadocdetalle"
+			 disabled="true" />
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="comentario" class="ui-outputlabel required">Comentario</label>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-12">
+			<textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario" required mayusculas
+			 maxlength="500" rows="1" [disabled]="!editable"></textarea>
+		</div>
+	</div>
+
+	<app-cabecera></app-cabecera>
+	<div>
+		<p-accordion [multiple]="true">
+			<p-accordionTab header="Detalle Productos">
+				<app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+			</p-accordionTab>
+		</p-accordion>
+	</div>
+
+</form>

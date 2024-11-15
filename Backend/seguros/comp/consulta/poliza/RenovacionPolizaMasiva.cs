@@ -44,6 +44,7 @@ namespace seguros.comp.consulta.poliza
                     {
                         if (registro.Count == 11)
                         {
+
                             string sql = "";
                             if (
                                 (registro["IDENTIFICACION"] != null && registro["IDENTIFICACION"].ToString().Length == 10 && int.TryParse(registro["IDENTIFICACION"].ToString(), out _)) && //VALIDA IDENTIDAD
@@ -503,7 +504,7 @@ namespace seguros.comp.consulta.poliza
             catch (Exception e)
             {
                 rqconsulta.Response["cod"] = "SEG-8786";
-                rqconsulta.Response["message"] = "EL NOMBRE DE LA HOJA DEL .xls, DEBE DENOMINARSE 'data' Y EL FORMATO DEL ARCHIVO DEBE SER GUARDADO EN .xls";
+                rqconsulta.Response["message"] = e.Message;
                 rqconsulta.Response["INSPOLIZA"] = null;
                 rqconsulta.Response["FILE_TMP"] = null;
                 rqconsulta.Response["DATA_PROCCESS"] = null;

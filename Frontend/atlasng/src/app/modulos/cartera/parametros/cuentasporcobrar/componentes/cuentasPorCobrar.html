@@ -1,0 +1,77 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+				<p-header>
+					<div class="ui-table-title">Cuentas por cobrar permitidas</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="csaldo" header="Saldo" [style]="{'width':'120px'}"></p-column>
+				<p-column field="mdatos.nsaldo" header="Nombre"></p-column>
+				<p-column header="Contabiliza ingreso?" [style]="{'width':'150px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.contabilizaingreso" binary="true" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<app-lov-saldo (eventoCliente)=fijarLovSaldoSelec($event)></app-lov-saldo>
+
+<p-dialog header="Cuenta por cobrar permitida" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="pkcsaldo" class="ui-outputlabel required">Saldo</label>
+					</div>
+					<div class="ui-g-2 ui-md-2">
+						<input id="pkcsaldo" name="pkcsaldo" type="text" pInputText [(ngModel)]="registro.csaldo" required [readOnly]="true" />
+					</div>
+					<div class="ui-g-9 ui-md-6">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nsaldo" [readOnly]="true" />
+					</div>
+					<div class="ui-g-1 ui-md-1">
+						<button pButton type="button" id="lovsaldo" name="lovsaldo" (click)="mostrarlovsaldo()" icon="ui-icon-directions" [disabled]="!editable || !registro.esnuevo"></button>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="nombre" class="ui-outputlabel">Contabiliza ingreso?</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-checkbox name="contingreso" [(ngModel)]="registro.contabilizaingreso" binary="true" [disabled]="!editable"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

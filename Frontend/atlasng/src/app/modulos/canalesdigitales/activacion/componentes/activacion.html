@@ -1,0 +1,105 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [grabar]="estaVacio(registro.mdatos.activo)" [componente]="componentehijo"> </acciones-cabecera>
+    <span *ngIf="registro.mdatos.estadousuario === 'REG'">
+      <button pButton type="button" name="grabar" id="grabar" label="Reenviar credenciales" class="f-btn orange-btn" pTooltip=">Reenvía las credenciales de ingreso"
+        tooltipPosition="top" icon="ui-icon-lock" (click)="reenviarCredenciales()" style="margin-top: -47px; margin-right: 112px;"></button>
+    </span>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.identificacion" [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" required [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    </div>
+  </form>
+
+  <form #formularioActivacion="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Informaci&oacute;n</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Credencial:</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <input type="text" pInputText name="credencial" [(ngModel)]="registro.mdatos.credencial" [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <label><span class="required"></span> <em>La credencial será su USUARIO en todos los canales digitales</em></label>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Celular:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-inputMask id="celular" name="celular" [(ngModel)]="registro.celular" mask="999-999-9999" [disabled]="!estaVacio(registro.mdatos.activo)"
+            required> </p-inputMask>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="cusuario" class="ui-outputlabel required">Correo Electrónico:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText name="correo" [(ngModel)]="registro.email" email [disabled]="!estaVacio(registro.mdatos.activo)" required />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <br />
+        <div class="ui-g-12 ui-md-2">
+          <label for="condiciones" class="ui-outputlabel required">Acepta Términos y Condiciones</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-checkbox id="condiciones" name="condiciones" [(ngModel)]="registro.activo" binary="false"
+            [disabled]="!estaVacio(registro.mdatos.activo)"> </p-checkbox>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Autorizaci&oacute;n</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12">
+      <div class="f-datacontent ui-g ui-fluid f-center-items">
+        <div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+          <div class="ui-g-12 ui-md-10 ui-g-nopad">
+            <h3 align="center" class="ui-outputlabel">Esta autorización deberá ser impresa y firmada por el socio para que pueda hacer uso de los Canales Digitales.
+              <br/>
+            </h3>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <app-jasper [componente]="componentehijo" [formulario]="formFiltros" tituloReporte="Generar Autorización" [mostrarcaja]="true" [pdf]="false" [excel]="false" [cajaexcel]="false"></app-jasper>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Permisos por transacción</div>
+					<acciones-consulta [componente]="componentehijo" [consulta]="false"></acciones-consulta> 
+				</p-header> 
+				<p-column field="ccanal" header="Canal" [style]="{'width':'60px'}"></p-column>
+				<p-column field="cconsulta" header="C&oacute;digo consulta"></p-column>
+				<p-column field="cmodulo" header="Cmódulo" [style]="{'width':'100px'}"></p-column>
+				<p-column field="ctransaccion" header="Ctransacción" [style]="{'width':'100px'}"></p-column>
+				<p-column field="mdatos.ntransaccion" header="Transacción"></p-column>
+								
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Código de Consulta" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkccanal" class="ui-outputlabel required">Canal</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ccanal" name="ccanal" [(ngModel)]="registro.ccanal" 
+						   autofoco mayusculas required maxlength="30" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+	                <label for="pkcconculta" class="ui-outputlabel required">Código consulta</label>
+	            </div>
+	            <div class="ui-g-12 ui-md-3">
+	                <input id="cconculta" name="cconculta" type="text" pInputText required [ngModel]="registro.cconsulta" [readOnly]="true" />
+	            </div>
+	            <div class="ui-g-12 ui-md-5">
+	                <input id="ncodigoconsulta" name="ncodigoconsulta" type="text" pInputText [ngModel]="registro.mdatos.ncodigoconsulta" [readOnly]="true" />
+	            </div>
+				<div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovcodigoconsulta" name="lovcodigoconsulta" (click)="mostrarLovCodigosConsulta()" 
+							icon="ui-icon-directions" [disabled]="!registro.esnuevo">
+			    	</button>
+		    	</div>
+		    	<app-lov-cod-consultas #lovcodconsultatransacciones (eventoCodigoConsulta)=fijarLovCodigosConsultaSelec($event)></app-lov-cod-consultas>
+	        </div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="pkcmodulo" class="ui-outputlabel required">Transacción</label>
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<input id="cmodulo" name="cmodulo" type="text" pInputText [(ngModel)]="registro.cmodulo" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<input type="text" pInputText id="ctransaccion" name="ctransaccion" [(ngModel)]="registro.ctransaccion" [readOnly]="true" />
+				</div>
+				<div class="ui-g-9 ui-md-6">
+					<input type="text" pInputText id="ntransaccion" name="ntransaccion" [(ngModel)]="registro.mdatos.ntransaccion" [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()"
+						icon="ui-icon-directions"></button>
+				</div>
+				<app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

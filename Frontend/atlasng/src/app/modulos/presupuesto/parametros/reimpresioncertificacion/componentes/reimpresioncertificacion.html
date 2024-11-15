@@ -1,0 +1,44 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccertificacion" class="ui-outputlabel ">C&oacute;digo</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="ccertificacion" name="ccertificacion" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.ccertificacion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovcertificacion" name="lovcertificacion" (click)="mostrarlovCertificacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-certificacion (eventoCliente)=fijarLovCertificacionSelec($event)></app-lov-certificacion>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+
+ 
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="cabeceraComponent.registro.infoadicional" required
+        mayusculas maxlength="1000" rows="5" [disabled]="true"></textarea>
+    </div>
+  </div>
+
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle certificación">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>

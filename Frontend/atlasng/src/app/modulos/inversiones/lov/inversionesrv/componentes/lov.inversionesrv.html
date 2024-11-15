@@ -1,0 +1,104 @@
+<p-dialog header="Inversiones de Renta Variable" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel">Id.:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="fpk" [(ngModel)]="mfiltros.cinversion" autofoco maxlength="10" />
+      </div>
+
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="codigotitulo" class="ui-outputlabel">Código Operación</label>
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <input pInputText name="codigotitulo" [(ngModel)]="mfiltros.codigotitulo" mayusculas maxlength="30" />
+      </div>
+
+    </div>
+
+
+    <div class="ui-g-12 ui-g-nopad">
+
+  
+      <div class="ui-g-12 ui-md-2">
+        <label for="estado" class="ui-outputlabel">Estado</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lEstado" [(ngModel)]="mcampos.estadocdetalle" [disabled]="false"
+        (onChange)="consultar()"></p-dropdown>
+      </div>
+
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcolocacioninicial" class="ui-outputlabel">Fechas Compra: Inicial</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fcolocacioninicial" 
+        name="fcolocacioninicial" 
+        [(ngModel)]=this.pfEmisionInicial 
+        [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcolocacionfinal" class="ui-outputlabel">Final</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fcolocacionfinal" 
+        name="fcolocacionfinal" 
+        [(ngModel)]=this.pfEmisionFinal 
+        [showIcon]="true" 
+        [dateFormat]="formatofecha"></p-calendar>
+      </div>
+
+
+    </div>
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+
+      <p-dataTable [value]="rqMantenimiento.lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" [immutable]="false" scrollable="true"
+        scrollHeight="250px">
+
+        <p-header>
+          <div class="ui-table-title">Inversiones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+          </acciones-consulta>
+        </p-header>
+        <p-column field="cinversion" header="Id." [style]="{'width':'90px'}"></p-column>
+        <p-column field="codigotitulo" header="Código Operación" [style]="{'width':'100px'}"></p-column>
+
+        <p-column field="femision" header="F.Compra" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fcompra | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+
+        <p-column field="fvencimiento" header="F.Pago" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fpago | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+
+        <p-column field="mdatos.nnombre" header="Emisor" [style]="{'width':'100px'}"></p-column>
+
+        <p-column field="estadocdetalle" header="Estado" [style]="{'width':'40px'}"></p-column>
+        <p-column field="emisorcdetalle" header="Id. Emisor" [style]="{'width':'0px'}"></p-column>
+        <p-column field="cinvagentebolsa" header="Id. Operador" [style]="{'width':'0px'}"></p-column>
+        <p-column field="instrumentocdetalle" header="Id. Instrumento" [style]="{'width':'0px'}"></p-column>
+        <p-column field="bancocdetalle" header="Id. Banco" [style]="{'width':'0px'}"></p-column>
+        <p-column field="bolsavalorescdetalle" header="Id. Bolsa Valores" [style]="{'width':'0px'}"></p-column>
+        
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<div class="container">
+		<p-schedule [events]="events" [locale]="escal" [header]="header" [editable]="false" (onEventClick)="onClikCalendar($event)"></p-schedule>
+	</div>
+</div>
+<p-dialog header="Detalle Inversiones" [(visible)]="mostrarInversion" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>Datos generales inversión</span>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="fcinversion" class="ui-outputlabel ">Inversión:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input pInputText id="fcinversion" name="fcinversion" [(ngModel)]="registro.mdatos.ncinversion" disabled="disabled" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="fcdeudor" class="ui-outputlabel ">Emisor:</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.nemisor" disabled="disabled" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-6 ui-g-nopad">
+						<div class="ui-g-12 ui-md-4">
+							<label for="fcproducto" class="ui-outputlabel ">Instrumento:</label>
+						</div>
+						<div class="ui-g-12 ui-md-6">
+							<input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.ninstrumento" disabled="disabled" />
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+
+						<div class="ui-g-12  ui-g-nopad">
+							<div class="ui-g-12 ui-md-8">
+								<label for="fctipoproducto" class="ui-outputlabel ">Capital:</label>
+							</div>
+							<div class="ui-g-12 ui-md-4">
+								<input pInputText id="fctipoproducto" name="fctipoproducto" numero [(ngModel)]="registro.mdatos.ncapital" disabled="disabled" />
+							</div>
+						</div>
+						<div class="ui-g-12  ui-g-nopad">
+							<div class="ui-g-12 ui-md-8">
+								<label for="montooriginal" class="ui-outputlabel ">Interes:</label>
+							</div>
+							<div class="ui-g-12 ui-md-4">
+								<input type="text" pInputText id="montooriginal" numero name="montooriginal" [(ngModel)]="registro.mdatos.ninteres" disabled="disabled"
+								/>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-12 ui-md-8">
+								<label for="nmora" class="ui-outputlabel ">Mora:</label>
+							</div>
+							<div class="ui-g-12 ui-md-4">
+								<input type="text" pInputText id="nmora" name="nmora" numero [(ngModel)]="registro.mdatos.nmora" disabled="disabled" />
+							</div>
+						</div>
+						<div class="ui-g-12  ui-g-nopad">
+							<div class="ui-g-12 ui-md-8">
+								<label for="ntotal" class="ui-outputlabel ">Total:</label>
+							</div>
+							<div class="ui-g-12 ui-md-4">
+								<input type="text" pInputText id="ntotal" name="ntotal" numero [(ngModel)]="registro.mdatos.ntotal" disabled="disabled" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<HR>
+				<div class="ui-g-12 ui-g-nopad">
+					<button type="button" pButton icon="ui-icon-cancel" (click)="salir()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+					</button>
+				</div>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

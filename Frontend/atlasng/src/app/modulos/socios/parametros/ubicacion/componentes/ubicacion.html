@@ -1,0 +1,110 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-treeTable [value]="root">
+			<p-header>Ubicación</p-header>
+            <p-column header="Activo" [style]="{'width':'200px'}">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [(ngModel)]="node.data.reg.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column field="reg.cubicacion" header="Código" styleClass="f-left"></p-column>
+			<p-column field="reg.alias" header="Alias" styleClass="f-left"></p-column>
+			<p-column header="Nombre" styleClass="f-left">
+				<ng-template pTemplate="body" let-node="rowData">
+			        	<span *ngIf="node.data.reg.nivel <= 4">{{node.data.reg.mdatos.ntabla}}</span>
+			        	<span *ngIf="node.data.reg.nivel > 4">{{node.data.reg.nombre}}</span>
+			   	</ng-template>
+			</p-column>
+			<p-column header="Ubicación Final" [style]="{'width':'200px'}">
+				<ng-template pTemplate="body" let-node="rowData">
+					<p-checkbox [(ngModel)]="node.data.reg.finubicacion" binary="true" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column field="reg.nivel" header="Nivel" styleClass="f-right"></p-column>
+			<p-column header="Acciones" styleClass="f-right">
+				<ng-template pTemplate="body" let-node="rowData">
+					<div class="f-table-actions">
+						<acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+			</p-footer>
+		</p-treeTable>
+	</div>
+
+</div>
+
+ <div *ngIf="nivel == 1">
+    <app-lov-distritos (eventoCliente)=fijarLovSelec($event)></app-lov-distritos>
+ </div>
+ <div *ngIf="nivel == 2">
+    <app-lov-provincias (eventoCliente)=fijarLovSelec($event)></app-lov-provincias>
+ </div>
+ <div *ngIf="nivel == 3">
+    <app-lov-cantones (eventoCliente)=fijarLovSelec($event)></app-lov-cantones>
+ </div>
+  <div *ngIf="nivel == 4">
+    <app-lov-ciudades (eventoCliente)=fijarLovSelec($event)></app-lov-ciudades>
+  </div>
+
+<p-dialog header="Ubicación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cnivel" class="ui-outputlabel required">Nivel</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						 <input type="text" pInputText id="nivel" name="nivel" [(ngModel)]="nivel" required entero maxlength="1" readonly="true"/>
+					</div>
+				</div>
+			    <div *ngIf="nivel <= 4" class="ui-g-12 ui-g-nopad">
+			       <div class="ui-g-12 ui-md-2">
+			    	    <label for="nlabel" class="ui-outputlabel required">{{nlabel}}</label>
+			      </div>
+			      <div class="ui-g-2 ui-md-3">
+			        	<input id="csaldo" name="csaldo" type="text" pInputText [(ngModel)]="registro.mdatos.codigo" required [readOnly]="true" />
+			      </div>
+		    	  <div class="ui-g-9 ui-md-5">
+			    	    <input type="text" pInputText id="nombrelov" name="nombrelov" [(ngModel)]="registro.mdatos.nombre" [readOnly]="true" />
+		    	  </div>
+		    	  <div class="ui-g-1 ui-md-2">
+		    		    <button pButton type="button" id="lov" name="lov" (click)="mostrarLov()" icon="ui-icon-directions"></button>
+		    	  </div>
+		    	  
+		    	     
+	    	    </div>
+
+				<div *ngIf="nivel > 4" class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="140"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div  *ngIf="nivel > 4" class="ui-g-12 ui-md-6 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="finubicacion" class="ui-outputlabel">Fin ubicación</label>
+					</div>
+					<div class="ui-g-12 ui-md-5">
+						<p-checkbox name="finubicacion" [(ngModel)]="registro.finubicacion" binary="false"></p-checkbox>
+					</div>
+				</div>
+				
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

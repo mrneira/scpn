@@ -1,0 +1,192 @@
+<app-lov-funcionarios #lovFuncionario (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-3 ui-md-2">
+        <label for="csancion" class="ui-outputlabel">Código:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="csancionFiltro" name="csancionFiltro" [(ngModel)]="mcampos.csancion" autofoco numeric />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-3 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel ">Funcionario:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mfiltros.sancionadocfuncionario" [readOnly]="true"
+          style="text-align:left;" />
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nfuncionariofiltro" [readOnly]="true" style="text-align:left;"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionarioF()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-funcionarios #lovFiltro (eventoCliente)=fijarLovFuncionarioSelecF($event)></app-lov-funcionarios>
+    </div>
+
+    <div class="ui-g-12 ui-md-1">
+      <label for="cperiodo" class="ui-outputlabel required">Periodo:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="cperiodo" name="cperiodo" type="text" pInputText [ngModel]="mcampos.cperiodo" required [readOnly]="true"
+        style="text-align:center;" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fnombre" name="periodo" [(ngModel)]="mcampos.nperiodo" required [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovPeriodo" name="lovPeriodo" (click)="mostrarLovPeriodo()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-periodo (eventoCliente)=fijarLovPeriodoSelec($event)></app-lov-periodo>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Sanciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="csancion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.ntiposancion" header="Tipo" [style]="{'width':'70px'}"></p-column>
+        <p-column header="Nombre" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.mdatos.nombre+ " "+ reg.mdatos.apellido}}</span>
+          </ng-template>
+        </p-column>
+       
+        <p-column field="detallesancion" header="Detalle" [style]="{'width':'200px'}"></p-column>
+        <p-column field="fcometido" header="Fecha" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fsancion | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Descuento?" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.aplicadescuento" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Sanción" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="csancion" class="ui-outputlabel ">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="csancion" name="csancion" [(ngModel)]="registro.csancion" autofoco numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fcpersona" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="registro.sancionadocfuncionario" required [readOnly]="true"
+              style="text-align:center;" />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" style="text-align:center;"
+            />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="tiposancioncdetalle" class="ui-outputlabel">Tipo:</label>
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <p-dropdown id="tiposancioncdetalle" name="tiposancioncdetalle" [options]="ltipo" [(ngModel)]="registro.tiposancioncdetalle"
+              (onChange)="registrarEtiqueta(registro, ltipo, 'tiposancioncdetalle', 'ntiposancion')" required></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="tipoamonestacioncdetalle" class="ui-outputlabel">Amonestación:</label>
+          </div>
+          <div class="ui-g-9 ui-md-5">
+            <p-dropdown id="tipoamonestacioncdetalle" name="tipoamonestacioncdetalle" [options]="ltipoamonestacion" [(ngModel)]="registro.tipoamonestacioncdetalle"
+              appendTo="body" (onChange)="registrarEtiqueta(registro, ltipoamonestacion, 'label', 'tipoamonestacioncdetalle')"
+              [disabled]="!editable"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fsancion" class="ui-outputlabel required">Fecha Emisión:</label>
+          </div>
+          <div class="ui-g-9 ui-md-3">
+            <p-calendar id="fsancion" name="fsancion" [(ngModel)]="registro.fsancion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+              appendTo="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+          </div>
+        </div>
+        
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="detallesancion" class="ui-outputlabel required">Detalle:</label>
+          </div>
+          <div class="ui-g-9 ui-md-9">
+            <textarea type="text" pInputText id="detallesancion" name="detallesancion" [(ngModel)]="registro.detallesancion" required
+              maxlength="400" rows="3" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+      
+       
+       
+        
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="aplicadescuento" class="ui-outputlabel">Aplica descuento?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-checkbox name="aplicadescuento" [(ngModel)]="registro.aplicadescuento" binary="false" (onChange)="validar()"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="valordescuento" class="ui-outputlabel required">Valor descuento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="valordescuento" pInputText id="valordescuento" name="valordescuento" [(ngModel)]="registro.valordescuento" required
+              numero maxlength="12" [disabled]="!registro.aplicadescuento" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

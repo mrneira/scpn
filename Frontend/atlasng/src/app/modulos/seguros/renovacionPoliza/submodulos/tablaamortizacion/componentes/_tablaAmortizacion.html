@@ -1,0 +1,73 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader"
+        [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Tabla de amortización</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="num" header="Cuota" [style]="{'width':'40px'}" styleClass="f-center"></p-column>
+        <p-column header="Vencimiento" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.ven" style="color: red;">{{reg.fven | date:'yyyy-MM-dd'}}</span>
+            <span *ngIf="!reg.ven">{{reg.fven | date:'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="estatus" header="Estado" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+        <p-column header="Capital" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.cap | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Interés" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.int | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Cargos" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.car | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Seguros" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.seg | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="CXC" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.cxc | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Mora" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor cuota" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valpagar | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Saldo capital" [style]="{'width':'60px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.cred - reg.cvalor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="3" style="text-align:left">TOTAL</td>
+          <td style="text-align:right">{{ mtotales.cap | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.int | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.car | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.seg | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.cxc | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.mor | number:'1.2-2'}}</td>
+          <td style="text-align:right">{{ mtotales.valpagar | number:'1.2-2'}}</td>
+          <td></td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

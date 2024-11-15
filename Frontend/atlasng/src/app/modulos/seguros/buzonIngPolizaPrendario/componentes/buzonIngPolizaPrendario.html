@@ -1,0 +1,35 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+ 
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+      dataKey="coperacioncartera" [resizableColumns]="true" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Prendarios pendientes de Póliza</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="coperacion" header="Operación" [style]="{'width':'80px'}" styleClass="f-center" [filter]="true"
+        filterPlaceholder="Filtrar"></p-column>
+      <p-column field="mdatos.idpersona" header="Cédula" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+      <p-column field="mdatos.npersona" header="Nombre" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'200px'}" styleClass="f-center"></p-column>
+      <p-column header="Tipo" [style]="{'width':'80px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <span *ngIf="!reg.renovacion">NUEVO</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha Ingreso" [style]="{'width':'75px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fvigencia | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column header="Fecha vencimiento" [style]="{'width':'100px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fvencimiento | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

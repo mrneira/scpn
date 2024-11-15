@@ -1,0 +1,76 @@
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="title_separator">
+      <i class="fa ui-icon-adjust"></i>
+      <span>Detalle Consolidado</span>
+    </div>
+    <hr />
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader"
+      [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Deudas</div>
+      </p-header>
+      <p-column field="descripcion" header="Descripción"></p-column>
+      <p-column header="Monto" [style]="{'width':'120px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.monto | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Porcentaje" [style]="{'width':'120px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.mdatos.porcentaje | number:'1.2-2'}} %
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'80px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <ng-template pTemplate="rowgroupfooter">
+        <td style="text-align:left ">TOTAL DEUDAS:</td>
+        <td style="text-align:right">{{totalconsolidado | number:'1.2-2' }}</td>
+        <td style="text-align:right">{{totalporcentaje | number:'1.2-2' }} %</td>
+        <td></td>
+      </ng-template>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div> <!--CCA 20221025-->
+<p-dialog header="Detalle Deudas" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input type="text" pInputText id="descripcionconsolidado" name="descripcionconsolidado" [(ngModel)]="registro.descripcion"
+              required mayusculas />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Monto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="montoconsolidado" name="montoconsolidado" [(ngModel)]="registro.monto"
+              required numero />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,98 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	<button *ngIf="!grabo" pButton type="button" label="Guardar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+	 icon="ui-icon-save" (click)="grabar()"></button>
+</div>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fecha" class="ui-outputlabel required">Fecha</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<p-calendar id="fecha" name="fecha" [(ngModel)]="mfiltros.fecha" [showIcon]="true" [dateFormat]="formatofecha"
+			 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050" required></p-calendar>
+		</div>
+	</div>
+
+
+
+</form>
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+				<p-column field="mdatos.codigo" header="Código" [style]="{'width':'180px'}"></p-column>
+				<p-column field="mdatos.nproducto" header="Nombre" [style]="{'width':'180px'}"></p-column>
+				<p-column field="mdatos.cbarras" header="C&oacute;digo de Barras" [style]="{'width':'140px'}"></p-column>
+				<p-column field="mdatos.serial" header="Serial" [style]="{'width':'100px'}"></p-column>
+				<p-column header="U. Recibe" [style]="{'width':'130px'}">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<p-dropdown id="cusuariorecibe" name="cusuariorecibe" [options]="lcusuariorecibe" [(ngModel)]="reg.mdatos.cusuariorecibe"
+						 [filter]="true" appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column header="Ubicaci&oacute;n" [style]="{'width':'130px'}">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<p-dropdown id="ubicacioncdetalle" name="ubicacioncdetalle" [options]="lubicacioncdetalle" [(ngModel)]="reg.ubicacioncdetalle"
+						 [filter]="true" appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column field="infoadicional" header="Observaci&oacute;n">
+					<ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+						<input type="text" name="infoadicional" pInputText [(ngModel)]="reg.mdatos.infoadicional" maxlength="1000" style="text-align:right"
+						 mayusculas />
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [mostrarEditar]="false" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" id="button" name="button" pButton icon="ui-icon-search" (click)="crearNuevo()" label="Buscar Producto"
+						 class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+
+
+		<app-lov-kardexcodificado (eventoCliente)=fijarlovkardexcodificadoSelec($event)></app-lov-kardexcodificado>
+		<p-dialog header="Datos detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+		 [positionTop]="120" (onHide)="cerrarDialogo()">
+			<form #formDialogo="ngForm">
+				<div class="f-dialogo" style="max-width:1000px">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-12 ui-md-2">
+								<label for="codigo" class="ui-outputlabel required">Código</label>
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<input id="cbarras" name="cbarras" type="text" pInputText [(ngModel)]="registro.mdatos.cbarras" required
+								 [readOnly]="true" />
+							</div>
+							<div class="ui-g-12 ui-md-8">
+								<input type="text" pInputText id="nproducto" name="nproducto" [(ngModel)]="registro.mdatos.nproducto"
+								 [readOnly]="true" />
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" id="lovkardexcodificado" name="lovkardexcodificado" (click)="mostrarlovkardexcodificado()"
+								 icon="ui-icon-directions"></button>
+							</div>
+						</div>
+
+					</div>
+					<footer>
+						<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+					</footer>
+				</div>
+			</form>
+		</p-dialog>
+	</div>
+</div>

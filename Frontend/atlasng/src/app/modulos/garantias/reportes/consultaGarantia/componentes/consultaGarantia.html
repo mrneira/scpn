@@ -1,0 +1,26 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ctipogar" class="ui-outputlabel ">Tipo de garantía:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="ctipogar" name="ctipogar" [options]="ltipogarantia" [(ngModel)]="mcampos.ctipogarantia"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cestado" class="ui-outputlabel ">Estado:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="cestado" name="cestado" [options]="lestado" [(ngModel)]="mcampos.cestatus"></p-dropdown>
+      </div>
+    </div>
+  </form>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [cajapdf]="false" [pdf]="false"
+    [excel]="false"></app-jasper>
+</div>

@@ -1,0 +1,99 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+   
+  
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cdetallerelevancian" class="ui-outputlabel required">Tipo:</label>
+      </div>
+      <div class="ui-g-12 ui-md-10">
+        <p-dropdown [filter]="true" id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="mcampos.tipocdetalle"
+          (onChange)="consultar()" appendTo="body" required></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Destrezas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="ccompetencia" header="C&oacute;digo" [style]="{'width':'40px'}" styleClass="f-center"></p-column>
+        <p-column field="nombre" header="Nombre" [style]="{'width':'200px'}"></p-column>
+        <p-column field="descripcion" header="Descripcion" [style]="{'width':'200px'}"></p-column>
+               <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Destreza" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cdestreza" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cdestreza" name="ccompetencia" [(ngModel)]="registro.ccompetencia" autofoco required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+              <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="200"
+              [disabled]="!editable " />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="alta" class="ui-outputlabel required">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <textarea pInputText id="alta" name="alta" [(ngModel)]="registro.descripcion" required mayusculas maxlength="500" rows="2" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+       
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="estado" class="ui-outputlabel">Activo?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.activo" binary="false" ></p-checkbox>
+          </div>
+        </div>
+        
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

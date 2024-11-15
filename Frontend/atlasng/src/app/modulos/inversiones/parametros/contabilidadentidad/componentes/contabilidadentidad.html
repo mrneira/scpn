@@ -1,0 +1,168 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="operacion" class="ui-outputlabel required">Operación</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="operacion" name="operacion" required [options]="lProceso" [(ngModel)]="mfiltros.procesocdetalle" required
+          [filter]="true" (ngModelChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="instrumento" class="ui-outputlabel required">Instrumento</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="instrumento" name="instrumento" required [options]="lInstrumento" [(ngModel)]="mfiltros.instrumentocdetalle"
+          (ngModelChange)="consultar()" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccosto" class="ui-outputlabel required">Centro de Costo:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="ccosto" name="ccosto" required [options]="lCcosto" [(ngModel)]="mfiltros.centrocostocdetalle" required [filter]="true"
+          (ngModelChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+
+
+
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Plantilla Contable de Emisores</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+
+        <p-column field="mdatos.nrubro" header="Rubro"></p-column>
+        <p-column field="mdatos.nentidad" header="Emisor"></p-column>
+        <p-column field="ccuenta" header="Cuenta"></p-column>
+        <p-column field="mdatos.ncuentacon" header="Nombre Cuenta"></p-column>
+        <p-column header="Debito" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.debito" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="orden" header="Orden" styleClass="f-center"></p-column>
+
+        <p-column header="Activo" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Título" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Rubro</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-dropdown id="rubrocdetalle" name="rubrocdetalle" [options]="lRubro" [(ngModel)]="registro.rubrocdetalle" (onChange)="registrarEtiqueta(registro, lRubro, 'rubrocdetalle', 'nrubro')"
+              required [filter]="true"></p-dropdown>
+
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="entidad" class="ui-outputlabel required">Emisor</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="entidad" name="entidad" [options]="lEntidad" [(ngModel)]="registro.entidadcdetalle" (onChange)="registrarEtiqueta(registro, lEntidad, 'entidadcdetalle', 'nentidad')"
+              [filter]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fpkccuentacon" class="ui-outputlabel required">Cuenta Contable</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="fpkccuentacon" name="fpkccuentacon" type="text" pInputText [(ngModel)]="mcampos.ccuentacon" [readOnly]="true"
+            />
+          </div>
+
+          <div class="ui-g-9 ui-md-6">
+            <input type="text" pInputText id="fnomcuenta" name="fnomcuenta" [(ngModel)]="mcampos.ncuentacon" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovCuentasContables" name="lovCuentasContables" (click)="mostrarLovCuentasContables()"
+              icon="ui-icon-directions">
+            </button>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpkDebito" class="ui-outputlabel required">Débito</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="debito" name="debito" [(ngModel)]="registro.debito" binary="false"></p-checkbox>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="orden" class="ui-outputlabel">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="number" pInputText id="orden" name="orden" align="right" [(ngModel)]="registro.orden" maxlength="1" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpkActivo" class="ui-outputlabel required">Activo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+
+</p-dialog>
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>

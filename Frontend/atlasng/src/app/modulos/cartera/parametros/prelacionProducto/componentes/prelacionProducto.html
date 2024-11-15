@@ -1,0 +1,109 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Prelación Productos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="orden" header="Orden" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="mdatos.nproducto" header="Producto"></p-column>
+        <p-column field="mdatos.ntipoproducto" header="Tipo Producto"></p-column>
+        <p-column header="% Tiempo Pagado" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.porcentajepagado | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="% de Pago" [style]="{'width':'100px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.porcentajepago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Prelación Productos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px; width: 800px;">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="Producto" class="ui-outputlabel required">Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.cproducto" [readOnly]="true"
+              [disabled]="!editable || !registro.esnuevo" entero required maxlength="5" />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fnproducto" name="fnproducto" [options]="lproducto" [(ngModel)]="registro.cproducto"
+              (onChange)="registrarEtiqueta(registro, lproducto, 'cproducto', 'nproducto');cambiarTipoProducto($event)"
+              autofoco required [filter]="true" [disabled]="!editable || !registro.esnuevo" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto
+            </label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.ctipoproducto" [readOnly]="true"
+              entero [disabled]="!editable || !registro.esnuevo" required maxlength="5" />
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="fntipoproducto" name="fntipoproducto" [options]="ltipoproducto" [(ngModel)]="registro.ctipoproducto"
+              required appendTo="body" [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoproducto, 'ctipoproducto', 'ntipoproducto')"
+              [disabled]="!editable || !registro.esnuevo"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="orden" class="ui-outputlabel required">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden" required maxlength="3"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="porcentajepagado" class="ui-outputlabel required">Porcentaje tiempo pagado</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="porcentajepagado" name="porcentajepagado" [(ngModel)]="registro.porcentajepagado"
+              required maxlength="5" [disabled]="!editable" numero />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="porcentajepago" class="ui-outputlabel required">Porcentaje de pago</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="porcentajepago" name="porcentajepago" [(ngModel)]="registro.porcentajepago"
+              required maxlength="5" [disabled]="!editable" numero />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

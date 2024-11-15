@@ -1,0 +1,45 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkclote" class="ui-outputlabel required">Lote</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="fpkclote" name="fpkclote" [options]="llote" [(ngModel)]="filtroLote" required></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-md-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="ftrabajo" class="ui-outputlabel">Fecha de proceso</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<p-calendar name="ftrabajo" [(ngModel)]="fproceso" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+		</div>
+	</div>
+
+	<p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+		<p-tabPanel header="Log general" [selected]="true">
+			<app-lote-resultado-cabecera (numeroejecucion)="fijarNumeroEjecucion($event)" ></app-lote-resultado-cabecera>
+		</p-tabPanel>
+		<p-tabPanel header="Log proceso previo">
+			<app-lote-resultado-previo></app-lote-resultado-previo>
+		</p-tabPanel>
+		<p-tabPanel header="Log registros">
+			<app-lote-resultado-individual></app-lote-resultado-individual>
+		</p-tabPanel>
+		<p-tabPanel header="Log proceso fin">
+			<app-lote-resultado-fin></app-lote-resultado-fin>
+		</p-tabPanel>
+	</p-tabView>
+</div>

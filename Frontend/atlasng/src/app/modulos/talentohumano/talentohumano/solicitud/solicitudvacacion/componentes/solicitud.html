@@ -1,0 +1,31 @@
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button *ngIf="nuevo" pButton type="button" label="Solicitar" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+      icon="ui-icon-save" (click)="solicitar()"></button>
+  </div>
+  <div class="f-contenedor-transaccion">
+    
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+      <div class="ui-g-12 ui-g-nopad" >
+        <div class="ui-g-12 ui-md-2">
+          <label for="cfuncionarioFilter" class="ui-outputlabel">Funcionario:</label>
+        </div>
+        <div class="ui-g-2 ui-md-1">
+          <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mcampos.cfuncionario" required
+           [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-4">
+          <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="mcampos.nfuncionario"
+           [readOnly]="true" />
+         </div>
+        <div class="ui-g-1 ui-md-3">
+          <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+      </div>
+    </form>
+      <app-vacacion></app-vacacion> 
+  </div>
+</div>

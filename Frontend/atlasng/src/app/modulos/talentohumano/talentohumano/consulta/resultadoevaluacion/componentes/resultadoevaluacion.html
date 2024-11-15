@@ -1,0 +1,90 @@
+<app-lov-funcionarios #lovFuncionario (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+  
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cfuncionario" class="ui-outputlabel required">Funcionario:</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cfuncionario" name="cfuncionario" type="text" pInputText [(ngModel)]="mcampos.cfuncionario" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-7">
+        <input type="text" pInputText id="nombrefuncionario" name="nombrefuncionario" [(ngModel)]="mcampos.nfuncionario"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true"  [dateFormat]="formatofecha"
+          (ngModelChange)="validarFecha()" [readonlyInput]="true"  appendTo="body" [monthNavigator]="true"
+          [yearNavigator]="true" yearRange="1900:5000" required  ></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="fmin"
+           [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(mcampos.finicio) "
+          [readonlyInput]="true" required></p-calendar>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" 
+       >
+        <p-header>
+          <div class="ui-table-title">Resultados Evaluación</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        
+            <app-jasper #listado [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+         
+        </p-header>
+        <p-column field="cevaluacion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="nfuncionario" header="Funcionario"></p-column>
+        <p-column field="njefefuncionario" header="Evaluador"></p-column>
+        
+        <p-column field="aprobada" header="Prueba?" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.aprobada" binary="false" disabled="false"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="calificacion" header="Calificación" [style]="{'width':'70px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.calificacion | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="Descargar(reg)" pTooltip="Descarga PDF" tooltipPosition="top" ></button>
+              <div class="f-acciones-cab-tabla" style='display:none'>
+								<app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+							</div>
+            </div>
+          </ng-template>
+        </p-column>
+      
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+

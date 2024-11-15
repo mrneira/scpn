@@ -1,0 +1,136 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <p-splitButton label="&emsp;Limpiar&emsp;" icon="ui-icon-list" (onClick)="recargar()" [model]="itemsEtapa" class="f-btn blue-btn"></p-splitButton>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcbeneficio" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcbeneficio" name="fcbeneficio" [(ngModel)]="mfiltros.choraextra" autofoco numeric />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="choraextra">
+        <p-header>
+          <div class="ui-table-title">Horas Extras</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column field="choraextra" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"[filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="mdatos.ntipo" header="Tipo"[filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+        <p-column field="mdatos.nmes" header="Mes" [style]="{'width':'100px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="freal" header="F.Real" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fhora | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Horas" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.horas | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-column header="Activo?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Horas Extras" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cbeneficiop" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="choraextra" name="choraextra" [(ngModel)]="registro.choraextra" autofoco required numeric
+              maxlength="10" [disabled]="true" />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-1">
+            <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="registro.mdatos.nfuncionario"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+          </div>
+          <app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+        </div>
+
+       
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="mescdetalle" class="ui-outputlabel required">Tipo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipocdetalle" required [filter]="true"
+              [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo')"></p-dropdown>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="valor" class="ui-outputlabel required">Horas:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="valor" name="valor" type="text" pInputText [(ngModel)]="registro.horas" required numeroPositivo maxlength="10"
+              [readOnly]="false" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="estado" class="ui-outputlabel">Activo?</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

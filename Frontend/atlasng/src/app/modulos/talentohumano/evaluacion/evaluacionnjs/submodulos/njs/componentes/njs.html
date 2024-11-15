@@ -1,0 +1,39 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title"></div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Competencias Conductuales" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="catributo" name="catributo" [filter]="true" [options]="latributos" [(ngModel)]="reg.catributo" appendTo="body"
+            (onChange)="actualizarAtributo(i,reg);actualizarTotal()"  required [filter]="true" required></p-dropdown>
+          </ng-template>
+        </p-column>
+      
+       
+        <p-column field="mdatos.natributo" header="Comportamiento Observable" ></p-column>
+      
+        <p-column header="Calificación" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-dropdown id="cparametro" name="cparametro" [filter]="true" [options]="lcalificacion" [(ngModel)]="reg.cparametro"
+              (onChange)="actualizarPonderacion(index,reg);actualizarTotal()" appendTo="body" required [filter]="true" required></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+                 
+                     <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+

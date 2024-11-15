@@ -1,0 +1,61 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Personas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.identificacion" header="Identificación" styleClass="f-center" [style]="{'width':'150px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Nombre"></p-column>
+        <p-column field="mdatos.nrelacion" header="Relación" styleClass="f-center" [style]="{'width':'150px'}"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="reg.crelacion===3"
+                [mostrarEliminar]="reg.crelacion===3"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+      
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+
+<p-dialog header="Personas relacionadas" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 800px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="registro.cpersona" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="registro.mdatos.npersona"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"
+              [disabled]="!registro.esnuevo"></button>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

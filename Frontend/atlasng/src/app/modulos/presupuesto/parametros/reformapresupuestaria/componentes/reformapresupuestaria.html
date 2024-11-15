@@ -1,0 +1,42 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="esnuevo" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fechaingreso" class="ui-outputlabel ">Fecha de Ingreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-calendar id="fingreso" name="fingreso" [ngModel]="cabeceraComponent.registro.freforma" [showIcon]="true" [dateFormat]="formatofecha"
+        [disabled]="true"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="infoadicional" class="ui-outputlabel required">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-10">
+      <textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="cabeceraComponent.registro.infoadicional" required
+        mayusculas maxlength="1000" rows="2" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+  <app-cabecera></app-cabecera>
+  <div>
+    <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+  </div>
+
+</form>

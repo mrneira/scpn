@@ -1,0 +1,36 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		</div>
+	</div>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Fin</div>
+				</p-header>
+				<p-column header="Número ejecución" field="numeroejecucion" [style]="{'width':'80px'}"></p-column>
+				<p-column header="Módulo" field="mdatos.nmodulo" [style]="{'width':'45px'}"></p-column>
+				<p-column header="Tarea" field="mdatos.ntarea" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Fecha inicio" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.finicio | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Fecha fin" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.freal | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Resultado" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.cresultado=='0'? 'Exito':reg.cresultado}}
+					</ng-template>
+				</p-column>
+				<p-column header="Mensaje" field="textoresultado" [style]="{'width':'120px'}"></p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

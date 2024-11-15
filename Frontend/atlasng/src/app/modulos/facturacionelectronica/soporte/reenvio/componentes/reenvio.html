@@ -1,0 +1,58 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel required">Fecha Inicio:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fdesde" [showIcon]="true" [dateFormat]="formatofecha" [(ngModel)]="mcampos.fdesde"
+				[monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"  [locale]="es"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel required">Fecha Fin:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fhasta" [showIcon]="true" [dateFormat]="formatofecha" [(ngModel)]="mcampos.fhasta"
+				[monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050"  [locale]="es"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel required">Tipo Documento:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="tipodocumentocdetalle" required name="tipodocumentocdetalle" [options]="ltipodoc" [(ngModel)]="mfiltros.tipodocumento"
+				 required></p-dropdown>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+		  [(selection)]="selectedRegistros" dataKey="clog">
+			<p-header>
+				<div class="ui-table-title">Reenvío de Documentos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="clog" header="Código" ></p-column>
+			<p-column field="tipodocumento" header="Tipo Documento" ></p-column>
+			<p-column field="numerodocumento" header="Número Documento" ></p-column>
+			<p-column field="mensaje" header="Mensaje" ></p-column>
+			<p-column field="autorizacion" header="Autorización"></p-column>
+			<p-column field="clavedeacceso" header="Clave de Acceso" ></p-column>
+			<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+			<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="existedatos" >
+							<div style="text-align: left"> [{{lregistros ? lregistros.length : '0'}}] registro(s) encontrado(s)</div>
+					</div>
+				  </p-footer>
+		</p-dataTable>
+	</div>
+</div>

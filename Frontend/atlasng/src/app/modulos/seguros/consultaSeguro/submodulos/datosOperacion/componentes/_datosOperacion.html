@@ -1,0 +1,78 @@
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel">Deudor</label>
+    </div>
+    <div class="ui-g-12 ui-md-9">
+      <input pInputText id="fcpersona" name="fcpersona" [(ngModel)]="registro.mdatos.npersona" [disabled]="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fcsucursal" class="ui-outputlabel">Sucursal</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fcsucursal" name="fcsucursal" [(ngModel)]="registro.mdatos.nsucursal" [disabled]="true"
+      />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fcagencia" class="ui-outputlabel">Agencia</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fcagencia" name="fcagencia" [(ngModel)]="registro.mdatos.nagencia" [disabled]="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fcestatus" class="ui-outputlabel">Estado</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fcestatus" name="fcestatus" [(ngModel)]="registro.mdatos.nestatus" [disabled]="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fmonto" class="ui-outputlabel">Monto</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fmonto" name="fmonto" numero [(ngModel)]="registro.monto" [disabled]="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="faprobacion" class="ui-outputlabel">Fecha de aprobación</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <p-calendar id="faprobacion" name="faprobacion" [(ngModel)]="registro.mdatos.faprobacion" [showIcon]="true" [disabled]="true"
+        [dateFormat]="formatofecha"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="numerocuotas" class="ui-outputlabel">Número cuotas</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero [(ngModel)]="registro.numerocuotas" [disabled]="true"
+      />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fapertura" class="ui-outputlabel">Fecha de apertura</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <p-calendar id="fapertura" name="fapertura" [(ngModel)]="registro.mdatos.fapertura" [showIcon]="true" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="fvencimiento" class="ui-outputlabel">Fecha de vencimiento</label>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="registro.mdatos.fvencimiento" [showIcon]="true" [disabled]="true"
+        [dateFormat]="formatofecha"></p-calendar>
+    </div>
+  </div>
+</div>

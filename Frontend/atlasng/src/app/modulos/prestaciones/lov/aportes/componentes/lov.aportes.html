@@ -1,0 +1,89 @@
+<app-lov-personasp #personas (eventoCliente)="fijarLovSociosSelec($event)">
+</app-lov-personasp>
+<p-dialog header="Aportes" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+				</button>
+
+			</div>
+
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="finicio" class="ui-outputlabel">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" [dateFormat]="formatofecha" [readonlyInput]="true"
+				 appendTo="body" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<label for="ffin" class="ui-outputlabel">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" [dateFormat]="formatofecha" [readonlyInput]="true" appendTo="body"
+				 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" [resizableColumns]="false" (onRowSelect)="seleccionaRegistro($event)"
+			 scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Aportes</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="caporte" header="Código" [style]="{'width':'90px'}">
+				</p-column>
+				<p-column field="mdatos.npersona" header="Nombre" [style]="{'width':'120px'}">
+				</p-column>
+				<p-column header="F.Aporte" [style]="{'width':'140px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.fechaaporte | fechaenteroformatoYYMM}}
+					</ng-template>
+				</p-column>
+				<p-column header="Sueldo" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.sueldo | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Aportes Personal" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.aportepersonal | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Aportes Patronal" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.aportepatronal | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Aporte Adicional" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.ajuste | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Ajuste Patronal" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.ajustepatronal | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

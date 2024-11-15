@@ -1,0 +1,206 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpnombre" class="ui-outputlabel ">Proveedor</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="mfiltros.cpersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-5">
+        <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarlovproveedores()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-proveedores (eventoCliente)=fijarLovProveedores($event)></app-lov-proveedores>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fingresoini" [style]="{'text-align':'right'}" class="ui-outputlabel ">Fecha Ingreso Inicio</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fingresoini" name="fingresoini" [(ngModel)]="mfiltros.fingresoini" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="fingresofin" [style]="{'text-align':'right'}" class="ui-outputlabel ">Fecha Ingreso Fin</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar id="fingresofin" name="fingresofin" [(ngModel)]="mfiltros.fingresofin" [showIcon]="true"
+          [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="valorapagarini" [style]="{'text-align':'right'}" class="ui-outputlabel ">Valor a pagar desde</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="valorapagarini" name="valorapagarini" numero maxlength="15" [(ngModel)]="mfiltros.valorpagarini"
+          [readOnly]="false" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="fingresofin" [style]="{'text-align':'right'}" class="ui-outputlabel ">Valor a pagar hasta</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input type="text" pInputText id="valorapagarfin" name="valorapagarfin" numero maxlength="15" [(ngModel)]="mfiltros.valorpagarfin"
+          [readOnly]="false" />
+      </div>
+    </div>
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div hidden="true" class="ui-g-12 ui-md-2">
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+      </div>
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollHeight="250px" scrollable="true" [(selection)]="selectedRegistros">
+        <p-header>
+          <div class="ui-table-title">Autorizaci&oacute;n de cuentas por pagar</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column header="C.CtaPorPagar" field="cctaporpagar"> </p-column>
+        <p-column header="Sec. contable" field="ccompcontable"> </p-column>
+        <p-column header="Comp. cesantía" field="numerocomprobantecesantia" hidden="true"> </p-column>
+        <p-column header="Proveedor" field="nombre"> </p-column>
+        <p-column header="Nombre comercial" field="nombrecomercial"> </p-column>
+        <p-column header="Documento sustento" field="numdocumentosustento"> </p-column>
+        <p-column header="F.Factura sustento" field="ffacturasustento">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.ffacturasustento | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Días Vencimiento " field="diasvencimiento"> </p-column>
+        <p-column header="F.Vencimiento" field="fvencimiento">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fpagovencimiento | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="F.Ingreso" field="fingreso">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Valor CxP" field="valorpagar" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorpagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Multa" field="valormulta" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valormulta | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Notas crédito" field="valornotascredito" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valornotascredito | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="A pagar" field="valorcxppagar" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorcxppagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Necesita presupuesto?" field="ruteopresupuesto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.ruteopresupuesto" #x1> {{ getColorNecesitaPresupuesto(x1,reg) }} Si </span>
+            <span *ngIf="!reg.ruteopresupuesto" #x2> {{ getColorNecesitaPresupuesto(x2,reg) }} No </span>
+          </ng-template>
+        </p-column>
+        <p-column header="Aprobado presupuesto?" field="aprobadopresupuesto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="!reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }} No </span>
+            <span *ngIf="reg.aprobadopresupuesto && reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }}
+              Si </span>
+            <span *ngIf="!reg.aprobadopresupuesto && reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }}
+              No </span>
+          </ng-template>
+        </p-column>
+        <p-column selectionMode="single"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistrospendientes" [responsive]="true" scrollHeight="250px" scrollable="true">
+        <p-header>
+          <div class="ui-table-title">Cuentas por pagar pendientes de aprobación presupuestaria</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="C.CtaPorPagar" field="cctaporpagar"> </p-column>
+        <p-column header="Comp. contable" field="ccomprobante" hidden="true"> </p-column>
+        <p-column header="Comp. cesantía" field="numerocomprobantecesantia"> </p-column>
+        <p-column header="Proveedor" field="nombre"> </p-column>
+        <p-column header="Nombre comercial" field="nombrecomercial"> </p-column>
+        <p-column header="Documento sustento" field="numdocumentosustento"> </p-column>
+        <p-column header="F.Factura sustento" field="ffacturasustento">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.ffacturasustento | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Días Vencimiento " field="diasvencimiento"> </p-column>
+        <p-column header="F.Vencimiento" field="fvencimiento">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fpagovencimiento | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="F.Ingreso" field="fingreso">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Valor CxP" field="valorpagar" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorpagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Multa" field="valormulta" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valormulta | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Notas crédito" field="valornotascredito" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valornotascredito | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="A pagar" field="valorcxppagar" [style]="{'text-align':'right'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorcxppagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Necesita presupuesto?" field="ruteopresupuesto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.ruteopresupuesto" #x1> {{ getColorNecesitaPresupuesto(x1,reg) }} Si </span>
+            <span *ngIf="!reg.ruteopresupuesto" #x2> {{ getColorNecesitaPresupuesto(x2,reg) }} No </span>
+          </ng-template>
+        </p-column>
+        <p-column header="Aprobado presupuesto?" field="aprobadopresupuesto">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="!reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }} No </span>
+            <span *ngIf="reg.aprobadopresupuesto && reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }}
+              Si </span>
+            <span *ngIf="!reg.aprobadopresupuesto && reg.ruteopresupuesto" #x> {{ getColorAprobadoPresupuesto(x,reg) }}
+              No </span>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

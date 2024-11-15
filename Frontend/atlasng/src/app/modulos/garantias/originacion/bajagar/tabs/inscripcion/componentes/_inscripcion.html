@@ -1,0 +1,87 @@
+<div class="f-contenedor-transaccion">
+	<form #formAval="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formAval" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="finsp" class="ui-outputlabel required">Fecha de inscripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="finsp" name="finsp" [(ngModel)]="registro.mdatos.finscripcion" [showIcon]="true" [disabled]="!editable" [dateFormat]="formatofecha"></p-calendar>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+					<label for="numreg" class="ui-outputlabel required">Número de registro</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<input type="text" pInputText id="numreg" name="numreg" [(ngModel)]="registro.numeroregistro" required maxlength="20" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Localización</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+		            <label for="cpaisins" class="ui-outputlabel required">País</label>
+		        </div>
+		        <div class="ui-g-1">
+		            <input id="cpaisins" name="cpaisins" type="text" pInputText [(ngModel)]="registro.cpais" [readOnly]="true" />
+		        </div>
+			    <div class="ui-g-10 ui-md-5">
+					<input type="text" pInputText id="npaisins" name="npaisins" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+				</div>
+				<div class="ui-g-1">
+					<button pButton type="button" id="lovpaisesins" name="lovpaisesins" (click)="mostrarLovPaises()" icon="ui-icon-directions" class="f-float-right"
+							*ngIf="editable">
+			    	</button>
+			    	<app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+		    	</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+		            <label for="cprovinciains" class="ui-outputlabel required">Provincia</label>
+		        </div>
+		        <div class="ui-g-1">
+		            <input id="cprovinciains" name="cprovinciains" type="text" pInputText [(ngModel)]="registro.cpprovincia" required [readOnly]="true" />
+		        </div>
+			    <div class="ui-g-10 ui-md-5">
+					<input type="text" pInputText id="nprovinciains" name="nprovinciains" [(ngModel)]="registro.mdatos.nprovincia" [disabled]="true" />
+				</div>
+				<div class="ui-g-1">
+					<button pButton type="button" id="lovprovinciasins" name="lovprovinciasins" (click)="mostrarLovProvincias()" icon="ui-icon-directions" class="f-float-right"
+							*ngIf="editable">
+			    	</button>
+			    	<app-lov-provincias (eventoCliente)=fijarLovProvinciasSelec($event)></app-lov-provincias>
+		    	</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-5">
+		            <label for="ccantonins" class="ui-outputlabel required">Cantón</label>
+		        </div>
+		        <div class="ui-g-1">
+		            <input id="ccantonins" name="ccantonins" type="text" pInputText [(ngModel)]="registro.ccanton" required [readOnly]="true" />
+		        </div>
+			    <div class="ui-g-10 ui-md-5">
+					<input type="text" pInputText id="ncantonins" name="ncantonins" [(ngModel)]="registro.mdatos.ncanton" [disabled]="true" />
+				</div>
+				<div class="ui-g-1">
+					<button pButton type="button" id="lovcantonesins" name="lovcantonesins" (click)="mostrarLovCantones()" icon="ui-icon-directions" class="f-float-right"
+							*ngIf="editable">
+			    	</button>
+			    	<app-lov-cantones (eventoCliente)=fijarLovCantonesSelec($event)></app-lov-cantones>
+		    	</div>
+			</div>
+			
+		</div>
+	</form>
+</div>

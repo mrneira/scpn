@@ -1,0 +1,74 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12" style='display:none'>
+			<app-jasper #tblapagos [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+		 </div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fctipoarchivo" class="ui-outputlabel required">Tipo de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="fctipoarchivo" name="fctipoarchivo" [options]="ltipoarchivo"
+				[(ngModel)]="rqMantenimiento.ctipoarchivo" required [disabled]="!editable && !ins"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo"
+						required [readOnly]="true" />
+			</div>
+		</div>
+		<div *ngIf="mostrarfechas" class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel required">Año :</label>
+			</div>
+    		<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anio" autofoco required entero maxlength="4" minlength="4"
+				/>
+			</div>
+		</div>
+
+		<div *ngIf="mostrarfechas" class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel required">Mes :</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mes" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+				 appendTo="body"></p-dropdown>
+			</div>
+		</div>
+	
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+			</div>
+			<div class="ui-g-12 ui-md-4">
+        <p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".txt"
+        [disabled]="rqMantenimiento.ctipoarchivo == null || rqMantenimiento.ctipoarchivo == undefined"
+        (uploadHandler)="uploadHandler($event)" (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()"
+				chooseLabel="Escoger"
+				uploadLabel="Subir"
+				cancelLabel="Cancelar"></p-fileUpload>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carga></app-resultado-carga>
+	</div>
+</div>
+
+

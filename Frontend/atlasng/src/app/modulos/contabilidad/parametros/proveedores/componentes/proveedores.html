@@ -1,0 +1,37 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" ></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+            <label for="fpkcproveedor" class="ui-outputlabel required">Proveedor</label>
+        </div>
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcproveedor" name="fpkcproveedor" type="text" pInputText [(ngModel)]="mcampos.cpersona" required [readOnly]="true" />
+        </div>
+	    <div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarLovProveedores()" icon="ui-icon-directions"></button>
+    	</div>
+    	<app-lov-proveedores (eventoCliente)=fijarLovProveedoresSelect($event)></app-lov-proveedores>
+	</div>
+</form>
+
+
+<p-tabView>
+    <p-tabPanel header="Información general" [selected]="true">
+        <app-informacion-general-proveedor></app-informacion-general-proveedor>
+    </p-tabPanel>
+    <p-tabPanel header="Dirección" lazy=true [disabled]="infGeneral.registro.cpersona === undefined">
+    	<app-proveedor-direccion></app-proveedor-direccion>
+    </p-tabPanel>
+    <p-tabPanel header="Referencia bancaria" lazy=true [disabled]="infGeneral.registro.cpersona === undefined">
+    	<app-proveedor-ref-bancaria></app-proveedor-ref-bancaria>
+    </p-tabPanel>
+</p-tabView>
+
+

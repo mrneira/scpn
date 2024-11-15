@@ -1,0 +1,97 @@
+<div class="ui-g-12 ui-md-2"></div>
+
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm">
+		<div class="f-filtros ui-g ui-fluid" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-4 ui-md-2">
+					<label for="fdesde" class="ui-outputlabel required">Fecha inicio</label>
+				</div>
+				<div class="ui-g-8 ui-md-4">
+					<p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" [showIcon]="true" [dateFormat]="formatofecha" required [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fmax"></p-calendar>
+				</div>	
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-4 ui-md-2">
+					<label for="fdesde" class="ui-outputlabel required">Fecha de fin</label>
+				</div>
+				<div class="ui-g-8 ui-md-4">
+					<p-calendar name="fcorte" [(ngModel)]="mcampos.ffin" [showIcon]="true" [dateFormat]="formatofecha" required [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fmax" [minDate]="mcampos.fdesde"></p-calendar>
+				</div>
+			</div>
+
+		</div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Lista de emisores</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="cdetalle" header="Id" [style]="{'width':'150px'}">
+				</p-column>
+
+				<p-column field="mdatos.nemisor" header="Nombre"></p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-6 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="lrecuperacion" [responsive]="true">
+
+				<p-header>
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+						</button>
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+						</button>
+					</div>
+					
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+<p-dialog header="Beneficio" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="mescdetalle" class="ui-outputlabel required">Emisor:</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="mescdetalle" name="cdetalle" [options]="lemisor" [(ngModel)]="registro.cdetalle" required [filter]="true"
+						appendTo="body" [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lemisor, 'cdetalle', 'nemisor')"></p-dropdown>
+					</div>
+				</div>
+
+
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

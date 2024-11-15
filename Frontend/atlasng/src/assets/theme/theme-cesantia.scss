@@ -1,0 +1,38 @@
+/*Color de las tablas de la aplicacion*/ /*Ademas tambien es el color principal del boton de login*/
+
+/*paleta 1*//* $primaryColor: #328cc1; */
+/*paleta 2*//* $primaryColor: #272EC1; */
+/*paleta 3*//* $primaryColor: #00ced1; */
+/*paleta 4*/$primaryColor: #969696;
+
+/*Color del panel central de la aplicacion (este color queda en la parte de atras y a este se sobrepone
+otro color en layout-cesantia.scss*/
+/*Ademas tambien es el color de contraste (highlight) del boton de login*/
+
+/*paleta 1*//* $primaryDarkColor: #0B3C5D; */
+/*paleta 2*//* $primaryDarkColor: #0007A7; */
+/*paleta 3*//* $primaryDarkColor: #00ced1; */
+/*paleta 3*/$primaryDarkColor: #969696;
+
+/*?*/
+$primaryLightColor: #F5E2C8;
+
+/*Color que resalta una opcion seleccionada, ya sea de un combo box o algun elemento similar*/
+
+/*paleta 1*//* $accentColor: #d9b310; */
+/*paleta 2,3*//* $accentColor: #E3DEDB; */
+/*paleta 4*/$accentColor: #c7c7c7;
+
+/*Color para el borde que se ilumina cuando se va a escribir un texto*/
+
+/*paleta 1*//* $accentDarkColor: #1d2731; */
+/*paleta 2,3*//* $accentDarkColor: #E3DEDB; */
+/*paleta 4*/$accentDarkColor: #c7c7c7;
+
+/*?*/
+$accentLightColor: #B0D0D3;
+
+/*?*/
+$accentTextColor: #212121;
+
+@import '../sass/theme/_theme.scss';

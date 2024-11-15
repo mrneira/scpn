@@ -1,0 +1,45 @@
+<p-dialog header="Plantillas Contables" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpk" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="fpk" [(ngModel)]="mfiltros.cplantilla" autofoco entero maxlength="5" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="nombre" class="ui-outputlabel">Nombre:</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<input pInputText name="nombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="80" />
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Plantillas Contables</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="cplantilla" header="Código" [style]="{'width':'90px'}">
+				</p-column>
+
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="mdatos.ntipo" header="Tipo"></p-column>
+				<p-column field="mdatos.nmodulo" header="Módulo"></p-column>
+				<p-column field="mdatos.ntransaccion" header="Transacción"></p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

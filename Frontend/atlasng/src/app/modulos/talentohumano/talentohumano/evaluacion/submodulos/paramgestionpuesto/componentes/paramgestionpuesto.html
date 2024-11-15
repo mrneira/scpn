@@ -1,0 +1,87 @@
+<div class="f-contenedor-transaccion">
+		<p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true"  [appendTo]="'body'" >
+				<p-dataTable [value]="lcalidadd" [responsive]="true" [resizableColumns]="false" [style]="{width: '450px'}">
+						<p-header>
+							<div class="ui-table-title">PARÁMETROS DE CALIFICACIÓN</div>
+						</p-header>
+						<p-column field="nombre" header="Calificación" styleClass="f-center"></p-column>
+						<p-column field="descripcion" header="Descripción"></p-column>
+					</p-dataTable> 
+		</p-overlayPanel>
+
+		<p-overlayPanel #op2 [dismissable]="true" [showCloseIcon]="true"  [appendTo]="'body'" >
+				<p-dataTable [value]="loportunidadd" [responsive]="true" [resizableColumns]="false" [style]="{width: '450px'}">
+						<p-header>
+							<div class="ui-table-title">PARÁMETROS DE CALIFICACIÓN</div>
+						</p-header>
+						<p-column field="nombre" header="Calificación" styleClass="f-center"></p-column>
+						<p-column field="descripcion" header="Descripción"></p-column>
+					</p-dataTable> 
+		</p-overlayPanel>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+						<button  pButton type="button" label="Calidad" style="position: absolute; left: 1%;"
+						class="f-btn green-btn" icon="ui-icon-help"  (click)="op.toggle($event)" (mouseenter)="op.toggle($event)"></button>
+						<button  pButton type="button" label="Oportunidad" style="position: absolute; left: 10%;"
+            class="f-btn green-btn" icon="ui-icon-help"  (click)="op2.toggle($event)" (mouseenter)="op2.toggle($event)"></button>
+  
+					<div class="ui-table-title">ASIGNACIÓN DE RESPONSABILIDAES</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				
+				<p-column header="Producto intermedio">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.pintermedio" required mayusculas maxlength="300" style="text-align:left" />
+					</ng-template>
+				</p-column>
+				
+
+				<p-column header="Meta individual" [style]="{'width':'60px'}" *ngIf="periodoprueba">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<input type="text" pInputText [(ngModel)]="reg.mindividual" required numeroPositivo maxlength="14" style="text-align:right"
+						(ngModelChange)="actualizarPorcentajeCumplimiento(i)"/>
+					</ng-template>
+				</p-column>
+				<p-column header="Meta cumplida" [style]="{'width':'65px'}" *ngIf="periodoprueba">
+					<ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex"hidden="!periodoprueba">
+						<input type="text" pInputText [(ngModel)]="reg.mindividualcumplida" required numeroPositivo maxlength="14" style="text-align:right"
+						(ngModelChange)="actualizarPorcentajeCumplimiento(index)" />
+					</ng-template>
+				</p-column>
+				
+				
+				<p-column header="Calidad" [style]="{'width':'150px'}" >
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+					  <p-dropdown id="calidadcparametro" name="calidadcparametro"  [filter]="true" [options]="lcalidad" [(ngModel)]="reg.calidadcparametro" (onChange)="actualizarPorcentaje(i,reg)"
+					  appendTo="body" required [filter]="true" required></p-dropdown>
+					</ng-template>
+				  </p-column>
+				  <p-column header="Oportunidad" [style]="{'width':'150px'}">
+					  <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<p-dropdown id="oportunidadcparametro" name="oportunidadcparametro"  [filter]="true" [options]="loportunidad" [(ngModel)]="reg.oportunidadcparametro" (onChange)="actualizarPorcentaje(i,reg);actualizarTotal()"
+						appendTo="body" required [filter]="true" required></p-dropdown>
+					  </ng-template>
+					</p-column>
+					<p-column header="Comentarios" [style]="{'width':'150px'}" >
+						<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+							<input type="text" pInputText [(ngModel)]="reg.comentario" mayusculas maxlength="300" style="text-align:left" />
+						</ng-template>
+					</p-column>
+				<p-column header="Acciones" [style]="{'width':'60px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [mostrarEditar]="false" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+			
+			</p-dataTable>
+		
+		</div>
+	</div>
+</div>
+

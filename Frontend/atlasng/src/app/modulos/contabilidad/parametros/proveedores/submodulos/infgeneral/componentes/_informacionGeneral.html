@@ -1,0 +1,129 @@
+<app-lov-personas (eventoCliente)=fijarLovPersonaContacto($event)></app-lov-personas>
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+			<div class="ui-g-12 ui-md-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipoidentificacioncdetalle" class="ui-outputlabel required">Tipo de identificación</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-dropdown id="tipoidentificacioncdetalle" name="tipoidentificacioncdetalle" [options]="ltipoidentif" 
+					[(ngModel)]="registro.tipoidentificacioncdetalle" required [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-6 ui-md-4 ui-g-nopad">
+				<div class="ui-g-6 ui-md-3">
+					<label for="identificacion" class="ui-outputlabel required">Identificaci&oacute;n</label>
+				</div>
+				<div class="ui-g-6 ui-md-9">
+					<input type="text" pInputText id="identificacion" name="identificacion" 
+						[(ngModel)]="registro.identificacion" maxlength="20" required entero 
+						[disabled]="!editable" (blur)="validarDocumento()"/>
+				</div>
+			</div>
+			<div class="ui-g-4 ui-g-nopad">
+				<div class="ui-g-6 ui-md-6">
+					<label for="contribuyentespecial" class="ui-outputlabel">Contribuyente Especial?</label>
+				</div>
+				<div class="ui-g-6 ui-md-6">
+					<p-checkbox id=contribuyentespecial name="contribuyentespecial" [(ngModel)]="registro.contribuyentespecial" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+
+
+			<div class="ui-g-6 ui-md-4 ui-g-nopad">
+				<div class="ui-g-6 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-6 ui-md-9">
+					<input type="text" pInputText id="nombre" name="nombre" 
+						[(ngModel)]="registro.nombre" maxlength="200" required letras [disabled]="!editable" autofoco />
+				</div>
+			</div>
+			<div class="ui-g-6 ui-md-4 ui-g-nopad">
+				<div class="ui-g-6 ui-md-3">
+					<label for="nombrecomercial" class="ui-outputlabel required">Nombre Comercial</label>
+				</div>
+				<div class="ui-g-6 ui-md-9">
+					<input type="text" pInputText id="nombrecomercial" name="nombrecomercial" 
+						[(ngModel)]="registro.nombrecomercial" maxlength="200" required mayusculas [disabled]="!editable" />
+				</div>
+			</div>			
+			<div class="ui-g-4 ui-g-nopad">
+				<div class="ui-g-3 ui-md-3">
+					<label for="email" class="ui-outputlabel">Email</label>
+				</div>
+				<div class="ui-g-9 ui-md-9">
+					<input type="text" pInputText id="email" name="email" 
+						[(ngModel)]="registro.email" maxlength="120" [disabled]="!editable" />
+				</div>
+			</div>
+
+
+			<div class="ui-g-12 ui-md-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cactividad" class="ui-outputlabel required">Actividad económica</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-dropdown id="cactividad" name="cactividad" [options]="componentehijo.lactivecon" 
+					[(ngModel)]="registro.cactividad" [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>		
+			<div class="ui-g-12 ui-md-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Tipo de institución</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-dropdown id="tipoinstitucioncdetalle" name="tipoinstitucioncdetalle" [options]="componentehijo.ltipoinsit" 
+					[(ngModel)]="registro.tipoinstitucioncdetalle" required [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-md-4 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="estadoccdetalle" class="ui-outputlabel required">Estado</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-dropdown id="estadoccdetalle" name="estadoccdetalle" [options]="componentehijo.lestado" 
+					[(ngModel)]="registro.estadoccdetalle" required [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pagoporbce" class="ui-outputlabel">¿A este proveedor se le realizan pagos por transferencia entre cuentas corrientes del Banco Central?</label>
+				</div>
+				<div class="ui-g-2 ui-md-1">
+					<p-checkbox id="pagoporbce" name="pagoporbce" [(ngModel)]="registro.pagoporbce" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>			
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="contactocpersona" class="ui-outputlabel">Contacto</label>
+				</div>
+				<div class="ui-g-2 ui-md-4">
+					<input id="contactocpersona" name="contactocpersona" type="text" pInputText [(ngModel)]="registro.contacto" maxlength="200"/>
+				</div>			
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-1 ui-md-2">
+					<label for="ccuenta" class="ui-outputlabel">Cuenta</label>
+				</div>
+				<div class="ui-g-2 ui-md-2">
+					<input id="ccuenta" name="ccuenta" type="text" pInputText (keyup.delete)="limpiarlovcuentacontable()" [(ngModel)]="registro.ccuenta" [readOnly]="true" [disabled]="!editable"/>
+				</div>
+				<div class="ui-g-8 ui-md-7">
+					<input type="text" pInputText id="ncuentacontable" name="ncuentacontable" [(ngModel)]="mcampos.ncuentacontable" [readOnly]="true" [disabled]="!editable"/>
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<button pButton type="button" id="lovCuentas" name="lovCuentas" (click)="componentehijo.mostrarlovcuentasContables()" icon="ui-icon-directions" [disabled]="!editable"></button>
+				</div>				
+			</div>
+		</div>
+	</form>
+</div>

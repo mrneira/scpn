@@ -55,7 +55,99 @@ namespace cartera.comp.mantenimiento.arreglopago
         private void CreaSolicitud(RqMantenimiento rqmantenimiento, tcaroperacionarreglopago tcaroperacionarreglopago, tcaroperacion tcaroperacion)
         {
             List<tcarsolicitud> lsolicitud = new List<tcarsolicitud>();
-            if (tcaroperacion.cproducto == 1 && tcaroperacion.ctipoproducto == 21) //CCA 20220418
+            if (rqmantenimiento.Cmodulotranoriginal == 7 && rqmantenimiento.Ctranoriginal == 52)//Negociación de pagos (NOVADO, REFINANCIADOS Y RESTRUCTURADOS)
+            {
+                tcartipoarreglopago tipoarreglo = TcarTipoArregloPagoDal.Find(tcaroperacionarreglopago.ctipoarreglopago);
+                if (tipoarreglo == null)
+                {
+                    throw new Exception("CAR-777 NO FUE POSIBLE ENCONTRAR EL TIPO ARREGLO DE PAGO " + tcaroperacionarreglopago.ctipoarreglopago);
+                }
+                if (rqmantenimiento.GetDatos("prorrateo") == null)
+                {
+                    throw new Exception("CAR-777 EL VALOR DEL prorrateo ES OBLIGATORO.");
+                }
+                int prorrateo = int.Parse(rqmantenimiento.GetDatos("prorrateo").ToString());
+                decimal montoarreglopago = decimal.Parse(rqmantenimiento.GetDatos("montoabsorcionaportes").ToString());
+
+                if (tcaroperacion.cproducto == 1 && tcaroperacion.ctipoproducto == 21)// PLAZO FIJO
+                {
+                    tcarsolicitud sol = new tcarsolicitud
+                    {
+                        csolicitud = Constantes.CERO,
+                        cpersona = tcaroperacion.cpersona,
+                        cmodulo = tcaroperacion.cmodulo,
+                        cproducto = tcaroperacion.cproducto,
+                        ctipoproducto = tcaroperacion.ctipoproducto,
+                        ccompania = tcaroperacion.ccompania,
+                        cmoneda = tcaroperacion.cmoneda,
+                        cagencia = tcaroperacion.cagencia,
+                        csucursal = tcaroperacion.csucursal,
+                        ctipocredito = tcaroperacion.ctipocredito,
+                        cusuarioingreso = rqmantenimiento.Cusuario,
+                        cfrecuecia = tcaroperacion.cfrecuecia,
+                        cestatussolicitud = EnumEstatus.INGRESADA.Cestatus,
+                        ctabla = tcaroperacionarreglopago.GetInt("ctabla"),
+                        cbasecalculo = tcaroperacion.cbasecalculo,
+                        fingreso = rqmantenimiento.Fconatable,
+                        periodicidadcapital = tcaroperacion.periodicidadcapital,
+                        tasareajustable = tcaroperacion.tasareajustable,
+                        numerocuotasreajuste = tcaroperacion.numerocuotasreajuste,
+                        fgeneraciontabla = rqmantenimiento.Fconatable,
+                        montooriginal = rqmantenimiento.Monto,
+                        monto = rqmantenimiento.Monto,
+                        valorcuota = tcaroperacionarreglopago.valorcuota,
+                        diapago = tcaroperacion.diapago,
+                        numerocuotas = tcaroperacionarreglopago.numerocuotas,
+                        mantieneplazo = tcaroperacion.mantieneplazo,
+                        tasa = tcaroperacion.tasa,
+                        numcuotaprorrateo = prorrateo,
+                        montoarreglopago = montoarreglopago,
+                        csegmento = tcaroperacion.csegmento,
+                        cuotasgracia = (tcaroperacionarreglopago.numerocuotas) - 1,
+                        cestadooperacion = tipoarreglo.cestadooperacion //EL ESTADO OPERACIÓN DEL TIPO DE ARREGLO DE PAGO
+                    };
+                    lsolicitud.Add(sol);
+                }
+                else
+                {
+                    tcarsolicitud sol = new tcarsolicitud
+                    {
+                        csolicitud = Constantes.CERO,
+                        cpersona = tcaroperacion.cpersona,
+                        cmodulo = tcaroperacion.cmodulo,
+                        cproducto = tcaroperacion.cproducto,
+                        ctipoproducto = tcaroperacion.ctipoproducto,
+                        ccompania = tcaroperacion.ccompania,
+                        cmoneda = tcaroperacion.cmoneda,
+                        cagencia = tcaroperacion.cagencia,
+                        csucursal = tcaroperacion.csucursal,
+                        ctipocredito = tcaroperacion.ctipocredito,
+                        cusuarioingreso = rqmantenimiento.Cusuario,
+                        cfrecuecia = tcaroperacion.cfrecuecia,
+                        cestatussolicitud = EnumEstatus.INGRESADA.Cestatus,
+                        ctabla = tcaroperacionarreglopago.GetInt("ctabla"),
+                        cbasecalculo = tcaroperacion.cbasecalculo,
+                        fingreso = rqmantenimiento.Fconatable,
+                        periodicidadcapital = tcaroperacion.periodicidadcapital,
+                        tasareajustable = tcaroperacion.tasareajustable,
+                        numerocuotasreajuste = tcaroperacion.numerocuotasreajuste,
+                        fgeneraciontabla = rqmantenimiento.Fconatable,
+                        montooriginal = rqmantenimiento.Monto,
+                        monto = rqmantenimiento.Monto,
+                        valorcuota = tcaroperacionarreglopago.valorcuota,
+                        diapago = tcaroperacion.diapago,
+                        numerocuotas = tcaroperacionarreglopago.numerocuotas,
+                        mantieneplazo = tcaroperacion.mantieneplazo,
+                        tasa = tcaroperacion.tasa,
+                        numcuotaprorrateo = prorrateo,
+                        montoarreglopago = montoarreglopago,
+                        csegmento = tcaroperacion.csegmento,
+                        cestadooperacion = tipoarreglo.cestadooperacion //EL ESTADO OPERACIÓN DEL TIPO DE ARREGLO DE PAGO
+                    };
+                    lsolicitud.Add(sol);
+                }
+            }
+            else if (tcaroperacion.cproducto == 1 && tcaroperacion.ctipoproducto == 21) //CCA 20220418
             {
                 tcarsolicitud sol = new tcarsolicitud
                 {
@@ -192,7 +284,7 @@ namespace cartera.comp.mantenimiento.arreglopago
                 {
                     foreach (tcaroperacionrubro rubro in cuota.GetRubros())
                     {
-                        if (rubroarreglo.csaldo.Equals(rubro.csaldo) && !rubroarreglo.pagoobligatorio.Value)
+                        if (rubroarreglo.csaldo.Equals(rubro.csaldo) && (rubroarreglo.pagoobligatorio == null || !rubroarreglo.pagoobligatorio.Value))
                         {
                             valor = mcargos.ContainsKey(rubroarreglo.csaldodestino) ? mcargos[rubroarreglo.csaldodestino] : Constantes.CERO;
 

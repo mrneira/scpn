@@ -1,0 +1,46 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+          <p-header>
+              <div class="ui-table-title">Consulta de Ingresos</div>
+              <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+            </p-header>
+        <p-column field="cproducto" header="cproducto" hidden="true" ></p-column>
+        <p-column field="mdatos.codigo" header="Código" [style]="{'width':'100px'}" ></p-column>
+        <p-column field="mdatos.nproducto" header="Nombre" [style]="{'width':'180px'}"></p-column>
+        <p-column header="Cantidad" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" pInputText [ngModel]="reg.cantidad" entero maxlength="14" style="text-align:right" 
+            readOnly="true"/>
+          </ng-template>
+        </p-column>
+        <p-column header="V.Unitario" [style]="{'text-align':'right','width':'60px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.vunitario | number : '1.2-2' }}
+            </ng-template>
+        </p-column>
+        <p-column header="V.Total" [style]="{'text-align':'right','width':'60px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.mdatos.vtotal | number : '1.2-2' }}
+            </ng-template>
+        </p-column>
+        <p-column header="Stock" [style]="{'text-align':'right','width':'60px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.mdatos.stock1 | number : '1.2-2' }}
+            </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column [style]="{'width':'153px'}"></p-column>
+            <p-column footer="Totales" [style]="{'color':'blue','font-size':'12px','width':'228px'}"></p-column>
+            <p-column [footer]="totalCantidad | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [footer]="totalValorUnitario | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [footer]="totalValorTotal | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [style]="{'width':'70px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <p-splitButton label="&emsp;Limpiar&emsp;" icon="ui-icon-list" (onClick)="recargar()" [model]="itemsEtapa" class="f-btn blue-btn"></p-splitButton>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcbeneficio" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcbeneficio" name="fcbeneficio" [(ngModel)]="mfiltros.cfalta" autofoco numeric />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="idreg">
+        <p-header>
+          <div class="ui-table-title">Atrasos</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        
+        <p-column field="cfalta" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="cbiometrico" header="Biométrico" [style]="{'width':'90px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+        <p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'120px'}"[filter]="true" filterPlaceholder="Filtrar"></p-column>
+      
+        <p-column field="observaciones" header="Observaciones" [style]="{'width':'200px'}"[filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="hinicio" header="H. Sistema" [style]="{'width':'100px'}"></p-column>
+        <p-column field="hregistro" header="H. Registro" [style]="{'width':'100px'}"></p-column>
+        <p-column header="T. Retraso" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.tretraso | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="ffalta" header="F.Real" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.ffalta | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+      
+        <p-column header="Aplica descuento?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.justificado" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+     
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Atrasos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cbeneficiop" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="choraextra" name="cfalta" [(ngModel)]="registro.cfalta" autofoco required numeric
+              maxlength="10" [disabled]="true" />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-1">
+            <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="registro.mdatos.nfuncionario"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+          </div>
+          <app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+        </div>
+
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

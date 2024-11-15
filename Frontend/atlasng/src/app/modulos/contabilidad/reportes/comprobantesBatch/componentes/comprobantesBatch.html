@@ -1,0 +1,95 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="fdesde" class="ui-outputlabel ">Fecha:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="fcontable" name="fcontable" [(ngModel)]="mfiltros.fcontable" />
+    </div>
+  </div>
+
+</form>
+
+
+<p-accordion [multiple]="true">
+  <p-accordionTab header="Resumen de comprobantes automáticos por proceso batch">
+    <div class="f-contenedor-transaccion">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <p-dataTable #dtregistros [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+            selectionMode="single" (onRowSelect)="seleccionarDetalle($event)" (onFilter)="calcularTotales($event.filteredValue)"
+            exportFilename="comprobantes">
+            <p-header>
+              <div class="ui-table-title">Comprobantes</div>
+               <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+            </p-header>
+              <p-column field="estado" header="Estado" [style]="{'width':'40px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="comentario" header="Comentario" [style]="{'width':'250px'}" [filter]="true" filterPlaceholder="Contiene"
+              filterMatchMode="contains"></p-column>
+            <p-column field="ccomprobante" header="Comprobante" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="cmodulo" header="Módulo" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="ctransaccion" header="Transacción" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="cproducto" header="Producto" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="ctipoproducto" header="Tipo Producto" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="ccuenta" header="Cuenta contable" [style]="{'width':'80px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+            <p-column field="montodebito" header="Débito" styleClass="f-right" [style]="{'width':'100px'}">
+            </p-column>
+            <p-column field="montocredito" header="Crédito" styleClass="f-right" [style]="{'width':'100px'}">
+            </p-column>
+
+            <p-column header="Acciones" [style]="{'width':'40px'}" styleClass="f-center">
+              <ng-template pTemplate="body" let-reg="rowData">
+                <div class="f-table-actions">
+                  <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultarOperaciones(reg)" icon="ui-icon-search" pTooltip="Ver operaciones"
+                    tooltipPosition="top">
+                  </button>
+                </div>
+              </ng-template>
+            </p-column>
+
+            <p-footerColumnGroup>
+              <p-row>
+                <p-column footer="Totales" [style]="{'font-size':'12px','width':'330px'}"></p-column>
+                <p-column [footer]="totalDebito | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'50px'}"></p-column>
+                <p-column [footer]="totalCredito | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'50px'}"></p-column>
+                <p-column [style]="{'width':'20px'}"></p-column>
+              </p-row>
+            </p-footerColumnGroup>
+          </p-dataTable>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<p-dialog header="Operaciones" [(visible)]="comportamiento" modal="modal" width="700" [responsive]="true">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable #dtoperaciones [value]="lregistrosoperaciones" [responsive]="true" scrollable="true" exportFilename="operaciones"
+        scrollHeight="250px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Operaciones de cartera</div>
+        </p-header>
+        <p-column field="operacion" header="Operación" [style]="{'width':'80px'}"></p-column>
+        <p-column field="ntransaccion" header="Transacción"></p-column>
+        <p-column field="nestatus" header="Estatus" [style]="{'width':'90px'}"></p-column>
+        <p-column field="nsaldo" header="Rubro"></p-column>
+        <p-column field="numcuota" header="Cuota" styleClass="f-center" [style]="{'width':'60px'}"></p-column>
+        <p-column header="Monto" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.monto | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa-check" (click)="comportamiento=false" label="Aceptar"></button>
+  </p-footer>
+</p-dialog>

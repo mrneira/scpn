@@ -1,0 +1,154 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcdocumento" class="ui-outputlabel">Código</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input pInputText id="fcdocumento" name="fcdocumento" [(ngModel)]="mfiltros.chorario" autofoco numeric />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Horario</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="chorario" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        <p-column field="mdatos.njornada" header="Jornada"></p-column>
+        <p-column field="iniciojornada" header="Inicio Jornada"></p-column>
+        <p-column field="inicioalmuerzo" header="Inicio Almuerzo"></p-column>
+        <p-column field="finalmuerzo" header="Fin Almuerzo"></p-column>
+        <p-column field="finjornada" header="Fin Jornada"></p-column>
+        <p-column header="Jornada Especial" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.jornadaespecial" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Horario" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.esnuevo">
+          <div class="ui-g-12 ui-md-2">
+            <label for="chorario" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="chorario" name="chorario" [(ngModel)]="registro.chorario" autofoco required numeric maxlength="10"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Nombre:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText required name="nombre" [(ngModel)]="registro.nombre" texto maxlength="60" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Descripción:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText required name="nombre" [(ngModel)]="registro.descripcion" texto maxlength="150" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Tipo Jornada:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="jornadacdetalle" name="jornadacdetalle" [options]="ltipo" [(ngModel)]="registro.tipojornadacdetalle" 
+            (onChange)="registrarEtiqueta(registro, ltipo, 'tipojornadacdetalle', 'njornada')"
+              required></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Horario:</label>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Inicio Jornada:</label>
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <p-inputMask required id="iniciojornada" name="iniciojornada" [(ngModel)]="registro.iniciojornada" 
+                   (onblur)="formatoHora($event,1)"mask="99:99" hora [disabled]="!editable"></p-inputMask>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Inicio Almuerzo:</label>
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <p-inputMask required id="inicioalmuerzo" name="inicioalmuerzo" [(ngModel)]="registro.inicioalmuerzo" 
+                   mask="99:99" hora [disabled]="!editable"></p-inputMask>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Fin Almuerzo:</label>
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <p-inputMask required id="finalmuerzo" name="finalmuerzo" [(ngModel)]="registro.finalmuerzo" 
+                   mask="99:99" hora [disabled]="!editable"></p-inputMask>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel ">Fin Jornada:</label>
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <p-inputMask required id="finjornada" name="finjornada" [(ngModel)]="registro.finjornada" 
+                   mask="99:99" hora [disabled]="!editable"></p-inputMask>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Jornada Especial</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox name="activo" [(ngModel)]="registro.jornadaespecial" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div></div>
+  </form>
+</p-dialog>

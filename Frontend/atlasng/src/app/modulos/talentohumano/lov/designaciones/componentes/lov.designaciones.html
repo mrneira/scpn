@@ -1,0 +1,54 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+
+<p-dialog header="Lista de vinculaciones" [(visible)]="displayLov" width="900" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formFiltroLovDesigs="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccontrato" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText name="ccontrato" [(ngModel)]="mfiltros.ccontrato" autofoco entero maxlength="4" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-7">
+				<input type="text" pInputText id="nombreFuncionarioFiltroLovDesig" name="nombreFuncionarioFiltroLovDesig" [(ngModel)]="mcampos.nfuncionario"
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovfuncionariosFiltroLovDesigLovDesig" name="lovfuncionariosFiltroLovDesigLovDesig" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Vinculaciones</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="ccontrato" header="C&oacute;digo" [style]="{'width':'50px'}"></p-column>
+				<p-column field="mdatos.nfuncionario" header="Funcionario"></p-column>
+				<p-column field="mdatos.ncargo" header="Cargo"></p-column>
+				<p-column field="mdatos.ngrupo" header="Grupo Organizacional"></p-column>
+				<p-column field="mdatos.ntiporelacionlaboral" header="Tipo Relaci&oacute;n Laboral"></p-column>
+				<p-column field="mdatos.nregion" header="Region"></p-column>
+				<p-column field="mdatos.nestado" header="Estado"></p-column>
+				<p-column header="Inicio">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fvinculacion | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

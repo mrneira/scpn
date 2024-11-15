@@ -1,0 +1,117 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fdesde" class="ui-outputlabel required">Fecha Desde</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" required="true" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fdesde" class="ui-outputlabel required">Fecha Hasta</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.ffin" required="true" [showIcon]="true" [dateFormat]="formatofecha">
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Cancelación de la Operación</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        <div class="f-acciones-cab-tabla">
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir2()" class="f-btn green-btn f-excel"
+            style="text-align:center">
+          </button>
+        </div>
+        <div class="ui-g-12" style='display:none'>
+          <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+        </div>
+      </p-header>
+      <p-column field="coperacion" header="Operación" [style]="{'width':'30px'}"></p-column>
+      <p-column field="mdatos.ntransaccion" header="Transacción" [style]="{'width':'150px'}"></p-column>
+      <p-column field="cusuario" header="Usuario" [style]="{'width':'40px'}"></p-column>
+      <p-column header="Fecha" [style]="{'width':'35px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.fcontable | fechaenteroformato}}
+        </ng-template>
+      </p-column>
+      <p-column field="documento" header="Documento" [style]="{'width':'70px'}"></p-column>
+      <p-column header="Monto" styleClass="f-right" [style]="{'width':'50px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.monto | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Acciones" [style]="{'width':'55px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultaMovimientos(reg)" icon="ui-icon-search"
+              style="margin-left:5px">
+            </button>
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir(reg)" icon="ui-icon-print"
+              style="margin-left:5px">
+            </button>
+            <div class="ui-g-12" style='display:none'>
+              <app-jasper #tblapagos [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+            </div>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Cancelación de la Operación" [(visible)]="mostrarDialogoMovContable" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 900px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lmovimientos" [responsive]="true" scrollable="true" scrollHeight="480px" rowGroupMode="subheader">
+          <p-header>
+            <div class="ui-table-title">Detalle de Cancelación </div>
+          </p-header>
+          <p-column field="coperacion" header="Operación" [style]="{'width':'45px'}"></p-column>
+          <p-column field="ntran" header="Nombre" [style]="{'width':'100px'}"></p-column>
+          <p-column field="nsaldo" header="Saldo" [style]="{'width':'120px'}"></p-column>
+          <p-column header="Fecha" styleClass="f-center" [style]="{'width':'75px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{reg.fcontable | fechaenteroformato}}
+            </ng-template>
+          </p-column>
+          <p-column header="Monto" styleClass="f-right" [style]="{'width':'90px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.monto | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td colspan="4" style="text-align:left">TOTAL</td>
+            <td style="text-align:right">{{ total | number:'1.2-2' }}</td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoMovContable()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px"> </button>
+      </div>
+    </footer>
+  </div>
+
+</p-dialog>

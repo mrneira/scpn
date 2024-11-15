@@ -1,0 +1,94 @@
+<p-dialog header="Egresos" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="cegreso" class="ui-outputlabel">Egreso</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText name="cegreso" [(ngModel)]="mfiltros.cegreso" autofoco maxlength="10" />
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="tienekardex" class="ui-outputlabel">Tiene kardex</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-checkbox id="tienekardex" name="tienekardex" [(ngModel)]="mfiltros.tienekardex" binary="false"></p-checkbox>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="tienekardex" class="ui-outputlabel">Eliminado</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-checkbox id="eliminado" name="eliminado" [(ngModel)]="mfiltros.eliminado" binary="false"></p-checkbox>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="finicio" class="ui-outputlabel ">Fecha inicio</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" [appendTo]="body"  [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="ffin" class="ui-outputlabel ">Fecha fin</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+				<p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" [appendTo]="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
+			
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="numeromemo" class="ui-outputlabel">Numero memo</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<input pInputText name="numeromemo" [(ngModel)]="mfiltros.numeromemo" mayusculas maxlength="30" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="numerooficio" class="ui-outputlabel">Numero oficio</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<input pInputText name="numerooficio" [(ngModel)]="mfiltros.numerooficio" mayusculas maxlength="30" />
+			</div>
+		</div>
+
+
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px" resizableColumns="true">
+				<p-header>
+					<div class="ui-table-title">Egresos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true">
+					</acciones-consulta>
+				</p-header>
+				<p-column field="cegreso" header="C&oacute;digo" [style]="{'width':'90px'}"></p-column>
+				<p-column field="fecha" header="F.Real" [style]="{'width':'100px'}">
+					<ng-template  pTemplate="body" let-reg="rowData">
+						<span>{{reg.fecha | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>					
+				<p-column field="numeromemo" header="N&uacute;mero memo" [style]="{'width':'90px'}"></p-column>
+				<p-column field="numerooficio" header="N&uacute;mero oficio" [style]="{'width':'80px'}"></p-column>
+				<p-column field="tipoegresocdetalle" header="Tipo egreso"></p-column>
+				<p-column field="estadocdetalle" header="Estado"></p-column>
+				<p-column header="Kardex" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.tienekardex" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Eliminado" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.eliminado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

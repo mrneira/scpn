@@ -1,0 +1,103 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+	<div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+				 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+				 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label class="ui-outputlabel required">Tipo Documento:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="tipodocumentocdetalle" required name="tipodocumentocdetalle" [options]="ltipodoc" [(ngModel)]="mfiltros.tipodocumento"
+				 required></p-dropdown>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-2 ui-md-2">
+				<label class="ui-outputlabel">Cliente</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="registro.cpersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-3 ui-md-3">
+				<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.mdatos.identificacionProv"
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-4 ui-md-4">
+				<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nombreProv" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+				<p-header>
+					<div class="ui-table-title">Documentos Electrónicos Autorizados</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+						 style="text-align:center">
+						</button>
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+						 style="text-align:center">
+						</button>
+					</div>
+					<div class="f-acciones-cab-tabla" style='display:none'>
+						<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+					</div>
+				</p-header>
+				<p-column field="tipodocumento" header="Tipo Documento"></p-column>
+				<p-column field="numerodocumento" header="N° Documento"></p-column>
+				<p-column field="mensaje" header="Mensaje"></p-column>
+				<p-column field="autorizacion" header="Autorización"></p-column>
+				<p-column field="nombre" header="Cliente/Proveedor"></p-column>
+				<p-column field="cusuarioing" header="Usuario Ingreso"></p-column>
+				<p-column field="clavedeacceso" header="F. Ingreso" *ngIf="false"></p-column>
+				<p-column field="fingreso" header="F. Ingreso">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column header="Email">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<input type="text" pInputText name="email" [(ngModel)]="reg.email" />
+					</ng-template>
+				</p-column>
+				<p-column header="Acciones">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<button type="button" pButton icon="ui-icon-mail" name="btnmail" (click)="enviarmail(reg)" pTooltip="Enviar Email" tooltipPosition="top"></button>
+							<button type="button" pButton icon="ui-icon-attach-file" name="btnxml" (click)="Descargar(reg,$event)" pTooltip="Descarga XML"
+							 tooltipPosition="top"></button>
+							<button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="Descargar(reg,$event)" pTooltip="Descarga PDF"
+							 tooltipPosition="top"></button>
+						</div>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

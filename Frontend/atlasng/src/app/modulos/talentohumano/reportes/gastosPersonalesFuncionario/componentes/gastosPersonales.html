@@ -1,0 +1,20 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+			  <label for="pkcnivel" class="ui-outputlabel required">Año:</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+			  <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mfiltros.anio" autofoco required entero maxlength="4"
+				minlength="4" />
+			</div>
+		  </div>
+
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>

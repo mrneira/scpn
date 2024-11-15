@@ -1,0 +1,183 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+<app-lov-tth-designaciones (eventoCliente)=fijarLovDesignaciones($event)></app-lov-tth-designaciones>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="ccontratoFilter" class="ui-outputlabel required">Viculación:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="ccontratoFilter" name="ccontratoFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-7">
+        <input type="text" pInputText id="ndesignacionFilter" name="ndesignacionFilter" [(ngModel)]="mcampos.ndesignacion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovDesignaciones" name="lovDesignaciones" (click)="mostrarLovDesignaciones()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [immutable]=false>
+        <p-header>
+          <div class="ui-table-title">Acciones de Personal</div>
+          <acciones-consulta [componente]="componentehijo"></acciones-consulta>
+        </p-header>
+        <p-column field="cacciondepersonal" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.naccion" header="Tipo de Acción" [style]="{'width':'200px'}"></p-column>
+        <p-column field="numero" header="Memorando" [style]="{'width':'100px'}"></p-column>
+        <p-column field="faccion" header="Fecha" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.faccion | date: 'yyyy-MM-dd hh:mm'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="fderigor" header="Fecha de Rigor" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fderigor | date: 'yyyy-MM-dd hh:mm'}}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'180px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+              <span *ngIf="reg.cacciondepersonal != undefined">
+                <button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload" style="margin-left:5px"></button>
+                <button *ngIf="reg.cgesarchivo != undefined" type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download"
+                  style="margin-left:5px">
+                </button>
+                <button *ngIf="reg.cgesarchivo != undefined" type="button" pButton icon="ui-icon-document" (click)="eliminarArchivo(reg)"
+                  class="red-btn" style="margin-left:5px">
+                </button>
+                <button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="descargar(reg)" pTooltip="Descarga PDF"
+                  tooltipPosition="top"></button>
+
+              </span>
+              <div class="ui-g-12" style='display:none'>
+                <app-jasper #rep2 [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+              </div>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Acción de Personal" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+
+
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="numero" class="ui-outputlabel required">Memorando:</label>
+          </div>
+          <div class="ui-g-3 ui-md-9">
+            <input type="text" pInputText id="numero" name="numero" [(ngModel)]="registro.numero" required mayusculas maxlength="20"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-6 ui-g-nopad">
+          <div class="ui-g-6 ui-md-1">
+            <label for="accionpersonalcdetalle" class="ui-outputlabel">Tipo:</label>
+          </div>
+          <div class="ui-g-6 ui-md-9">
+            <p-dropdown id="accionpersonalcdetalle" name="accionpersonalcdetalle" [options]="ltiposacciones" [(ngModel)]="registro.accionpersonalcdetalle"
+              appendTo="body" (onChange)="cambiarEtiquetaDropdown($event, ltiposacciones, 'naccion')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fderigor" class="ui-outputlabel required">Fecha de Acción:</label>
+          </div>
+          <div class="ui-g-3 ui-md-9">
+            <p-calendar id="faccion" name="faccion" [(ngModel)]="registro.faccion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+              appendTo="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+              required></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fderigor" class="ui-outputlabel required">Fecha de Memorando:</label>
+          </div>
+          <div class="ui-g-3 ui-md-9">
+            <p-calendar id="fmemorando" name="fmemorando" [(ngModel)]="registro.fmemorando" [showIcon]="true" [locale]="es" [disabled]="!editable"
+              appendTo="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+              required></p-calendar>
+          </div>
+        </div>
+
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="fderigor" class="ui-outputlabel required">Fecha de rigor:</label>
+          </div>
+          <div class="ui-g-3 ui-md-9">
+            <p-calendar id="fderigor" name="fderigor" [(ngModel)]="registro.fderigor" [showIcon]="true" [locale]="es" [disabled]="!editable"
+              appendTo="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"
+              required></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-3">
+            <label for="ffinaccion" class="ui-outputlabel ">Fecha de Fin Acción:</label>
+          </div>
+          <div class="ui-g-3 ui-md-9">
+            <p-calendar id="ffinaccion" name="ffinaccion" [(ngModel)]="registro.ffinaccion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+              appendTo="body" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="sactual" class="ui-outputlabel ">Situación Actual?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="sactual" name="sactual" [(ngModel)]="registro.sactual" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="spropuesta" class="ui-outputlabel ">Situación Propuesta?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox id="spropuesta" name="spropuesta" [(ngModel)]="registro.spropuesta" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="descripcion" class="ui-outputlabel required">Comentario:</label>
+          </div>
+          <div class="ui-g-11 ui-md-12">
+            <p-editor id="comentario" name="comentario" [(ngModel)]="registro.comentario" [style]="{'height':'360px'}" maxlength="500"
+              required></p-editor>
+          </div>
+
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

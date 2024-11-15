@@ -1,0 +1,19 @@
+<div class="ui-g-12 ui-g-nopad f-acciones-editar">
+    <div *ngIf="!componentes[0].editable && componentes[0].formeditable">
+        <button pButton type="button" icon="ui-icon-save" (click)="habilitarEdicion()"
+        pTooltip="Edita  el formulario" tooltipPosition="top"
+        label="Editar" class="f-btn green-btn">         
+        </button>
+    </div>
+
+    <div *ngIf="componentes[0].editable && componentes[0].formeditable">
+        <button 
+        pTooltip="Aceptar validación" tooltipPosition="top"
+        type="button" pButton icon="ui-icon-check" (click)="actualizar()" label="Validar" class="f-btn" [disabled]="!formAcciones.valid">
+        </button>            
+        <button type="button" 
+        pTooltip="Cancelar actualización de datos" tooltipPosition="top"
+        pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="f-btn orange-btn">
+        </button>
+    </div>
+</div>

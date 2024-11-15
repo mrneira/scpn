@@ -1,0 +1,168 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+<div class="f-contenedor-transaccion">
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdesde" class="ui-outputlabel required">Fecha contable</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.fcontable" [showIcon]="true" [dateFormat]="formatofecha"
+            required></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcrurbo" class="ui-outputlabel required">Rubro</label>
+        </div>
+        <div class="ui-g-2 ui-md-8">
+          <p-dropdown (onChange)="consultar()" id="fcrurbo" name="fcrurbo" [options]="lrubros" [(ngModel)]="mcampos.csaldo"
+            [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <HR>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px" rowGroupMode="subheader"
+      [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Cuadre Operativo Contable</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        <div class="f-acciones-cab-tabla">
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel"
+            style="text-align:center">
+          </button>
+        </div>
+        <div class="ui-g-12" style='display:none'>
+          <app-jasper #descuentos [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+        </div>
+      </p-header>
+      <p-column field="nproducto" header="Producto" [style]="{'width':'120px'}"></p-column>
+      <p-column field="ntipoproducto" header="Tipo producto" [style]="{'width':'150px'}"></p-column>
+      <p-column field="ccuenta" header="Cuenta contable" [style]="{'width':'100px'}"></p-column>
+      <p-column field="ncuenta" header="Nombre cuenta contable"></p-column>
+      <p-column header="Saldo contable" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldocontable | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Saldo cartera" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Diferencia" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <span *ngIf="reg.saldodiferencia !== 0" style="color: red;">{{ reg.saldodiferencia | number:'1.2-2'}}</span>
+          <span *ngIf="reg.saldodiferencia === 0">{{ reg.saldodiferencia | number:'1.2-2'}}</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Acciones" [style]="{'width':'60px'}" styleClass="f-center" *ngIf="!habilitadetalle">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultaDetalleOperativo(reg)" icon="ui-icon-search"
+              style="margin-left:5px">
+            </button>
+          </div>
+        </ng-template>
+      </p-column>
+      <ng-template pTemplate="rowgroupfooter">
+        <td style="text-align:right" colspan="5">{{ mcampos.totalcontable | number:'1.2-2'}}</td>
+        <td style="text-align:right">{{ mcampos.totaloperativo | number:'1.2-2'}}</td>
+        <td style="text-align:right" *ngIf="habilitadetalle"></td>
+        <td style="text-align:right" colspan="2" *ngIf="!habilitadetalle"></td>
+      </ng-template>
+    </p-dataTable>
+  </div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid" *ngIf="habilitadetalle">
+  <br /><br /> <br />
+</div>
+<app-detalle-operativo></app-detalle-operativo>
+
+<div class="f-datacontent ui-g ui-fluid" *ngIf="habilitadetalle">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="detalleOperativoComponent.lregistros" [responsive]="true" scrollable="true" scrollHeight="500px"
+      rowGroupMode="subheader" [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Detalle Operativo</div>
+      </p-header>
+      <p-column field="nproducto" header="Producto" [style]="{'width':'120px'}"></p-column>
+      <p-column field="ntipoproducto" header="Tipo producto"></p-column>
+      <p-column header="Saldo cartera" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Acciones" [style]="{'width':'60px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultaDetalleOperativo(reg)" icon="ui-icon-search"
+              style="margin-left:5px">
+            </button>
+          </div>
+        </ng-template>
+      </p-column>
+      <ng-template pTemplate="rowgroupfooter">
+        <td style="text-align:right" colspan="3">{{ detalleOperativoComponent.mcampos.totaldetalle | number:'1.2-2'}}</td>
+        <td style="text-align:right"></td>
+      </ng-template>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Detalle Operativo" [(visible)]="mostrarDialogoOperativo" [modal]="true" [responsive]="true"
+  [positionTop]="100">
+  <div class="f-dialogo" style="max-width: 800px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="loperativo" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">{{ mcampos.cuenta }}</div>
+          </p-header>
+          <p-column field="coperacion" header="Operación" [style]="{'width':'90px'}"></p-column>
+          <p-column field="identificacion" header="Identificación" [style]="{'width':'90px'}"></p-column>
+          <p-column field="nombre" header="Nombre"></p-column>
+          <p-column header="Saldo vencido" styleClass="f-right" [style]="{'width':'100px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.saldovencido | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <p-column header="Saldo por vencer" styleClass="f-right" [style]="{'width':'100px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.saldoxvencer | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <p-column header="Saldo " styleClass="f-right" [style]="{'width':'100px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.saldo | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td colspan="3" style="text-align:right"> </td>
+            <td style="text-align:right">{{ sumasaldovencido | number:'1.2-2' }}</td>
+            <td style="text-align:right">{{ sumasaldoxvencer | number:'1.2-2' }}</td>
+            <td style="text-align:right">{{ sumasaldo | number:'1.2-2' }}</td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoOperativo()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px"> </button>
+      </div>
+    </footer>
+  </div>
+
+</p-dialog>

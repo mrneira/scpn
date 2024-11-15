@@ -1,0 +1,65 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+	<div class="f-filtros ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+				 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+				 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+				<p-header>
+					<div class="ui-table-title">Log Documentos Electrónicos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+						 style="text-align:center">
+						</button>
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+						 style="text-align:center">
+						</button>
+					</div>
+					<div class="f-acciones-cab-tabla" style='display:none'>
+						<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+					</div>
+				</p-header>
+				<p-column field="tipodocumento" header="Tipo Documento"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="numerodocumento" header="N° Documento"></p-column>
+				<p-column field="estado" header="Estado"></p-column>
+				<p-column field="mensaje" header="Mensaje"></p-column>
+				<p-column field="autorizacion" header="Autorización"></p-column>
+				<p-column field="cusuarioing" header="Usuario Ingreso"></p-column>
+				<p-column field="fingreso" header="F. Ingreso">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="cusuariomod" header="Usuario Modificación"></p-column>
+				<p-column field="fmodificacion" header="F. Modificación">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fmodificacion | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

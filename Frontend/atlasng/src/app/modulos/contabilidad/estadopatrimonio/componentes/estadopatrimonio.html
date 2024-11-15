@@ -1,0 +1,85 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+				<div class="ui-table-title">Estado Patrimonio</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+			</p-header>
+      <p-column field="anio" header="Año"></p-column>
+      <p-column field="mdatos.nnombre" header="Catalogo Patrimonio"></p-column>
+      <p-column field="mdatos.ncuenta" header="Cuenta Patrimonio"></p-column>
+      <p-column field="valor" header="Valor"></p-column>    
+      <p-column>
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Registro Estado Patrimonio" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Año:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" autofoco maxlength="4"
+              [disabled]="!registro.esnuevo" required />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Catalogo Patrimonio:</label>
+          </div>
+         
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="ccatalogopatrimonio" name="ccatalogopatrimonio" [options]="lestadoscatalogo" [(ngModel)]="registro.ccatalogopatrimonio" [filter]="true"
+            (onChange)="registrarEtiqueta(registro, lestadoscatalogo, 'ccatalogopatrimonio', 'nnombre')" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Cuenta Patrimonio:</label>
+          </div>
+         
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="ccuentapatrimonio"  appendTo="body" name="ccuentapatrimonio" [options]="lestadoscuenta" [(ngModel)]="registro.ccuentapatrimonio" [filter]="true"
+            (onChange)="registrarEtiqueta(registro, lestadoscuenta, 'ccuentapatrimonio', 'ncuenta')" appendTo="body"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" required number minlength="1"
+              maxlength="50" />
+          </div>
+        </div>
+  
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

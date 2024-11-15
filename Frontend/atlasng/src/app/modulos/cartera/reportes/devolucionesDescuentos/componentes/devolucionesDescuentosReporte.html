@@ -1,0 +1,76 @@
+<div class="ui-g-12 ui-md-2">
+</div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fdesde" class="ui-outputlabel required">Fecha Desde</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" required="true" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fhasta" class="ui-outputlabel required">Fecha Hasta</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar name="fhasta" [(ngModel)]="mcampos.ffin" required="true" [showIcon]="true" [dateFormat]="formatofecha">
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="ui-g-12" style='display:none'>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+</div>
+
+<div class="ui-g-12 ui-g-nopad">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Devoluciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column header="Fecha" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fdevolucion | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="cusuario" header="Usuario" [style]="{'width':'120px'}"></p-column>
+        <p-column field="cantidad" header="Registros" [style]="{'width':'90px'}" styleClass="f-right"></p-column>
+        <p-column header="Monto" styleClass="f-right" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montodevolucion | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto Pago" styleClass="f-right" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montopagado | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Monto Ingresos" styleClass="f-right" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montoingresos | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="ccomprobante" header="Comprobante Contable" [style]="{'width':'90px'}" styleClass="f-right"></p-column>
+        <p-column header="Acciones" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton (click)="imprimir(reg)" icon="ui-icon-print" style="margin-left:5px">
+              </button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

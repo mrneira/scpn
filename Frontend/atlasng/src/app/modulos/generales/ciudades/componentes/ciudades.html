@@ -1,0 +1,159 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+	            <label for="fpkcpais" class="ui-outputlabel required">País</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-1">
+	            <input id="fcpais" name="fcpais" type="text" pInputText entero [(ngModel)]="mfiltros.cpais" required [disabled]="true" />
+	        </div>
+		    <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnpais" name="fnpais" [(ngModel)]="mcampos.npais" [disabled]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovpaises" name="lovpaises" (click)="mostrarLovPaises()" icon="ui-icon-directions">
+		    	</button>
+	    	</div>
+	    	<app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+	            <label for="fpkcprovincia" class="ui-outputlabel required">Provincia</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-1">
+	            <input id="fpkcprovincia" name="fcprovincia" type="text" pInputText entero [(ngModel)]="mfiltros.cpprovincia" required [disabled]="true" />
+	        </div>
+		    <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnprovincia" name="fnprovincia" [(ngModel)]="mcampos.nprovincia" [disabled]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovprovincias" name="lovprovincias" (click)="mostrarLovProvincias()" icon="ui-icon-directions">
+		    	</button>
+	    	</div>
+	    	<app-lov-provincias (eventoCliente)=fijarLovProvinciasSelec($event)></app-lov-provincias>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+	            <label for="fpkccanton" class="ui-outputlabel required">Cantón</label>
+	        </div>
+	        <div class="ui-g-12 ui-md-1">
+	            <input id="fpkccanton" name="fccanton" type="text" pInputText entero [(ngModel)]="mfiltros.ccanton" required [disabled]="true" />
+	        </div>
+		    <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fncanton" name="fncanton" [(ngModel)]="mcampos.ncanton" [disabled]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovcantones" name="lovcantones" (click)="mostrarLovCantones()" icon="ui-icon-directions">
+		    	</button>
+	    	</div>
+	    	<app-lov-cantones (eventoCliente)=fijarLovCantonesSelec($event)></app-lov-cantones>
+		</div>
+		
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="300px">
+				<p-header>
+					<div class="ui-table-title">Ciudades</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="cciudad" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column> 
+				<p-column field="nombre" header="Nombre"></p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Ciudades" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cpais" class="ui-outputlabel required">País</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="cpais" name="cpais" entero [(ngModel)]="registro.cpais" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="npais" name="npais" [(ngModel)]="mcampos.npais" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cpprovincia" class="ui-outputlabel required">Provincia</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="cpprovincia" name="cpprovincia" entero [(ngModel)]="registro.cpprovincia" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="nprovincia" name="nprovincia" [(ngModel)]="mcampos.nprovincia" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="ccanton" class="ui-outputlabel required">Cantón</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="ccanton" name="ccanton" entero [(ngModel)]="registro.ccanton" [disabled]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ncanton" name="ncanton" [(ngModel)]="mcampos.ncanton" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pkcciudad" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="cciudad" name="pkcciudad"
+						[(ngModel)]="registro.cciudad" autofoco entero required maxlength="3" [disabled]="!registro.esnuevo" />
+				</div>
+			</div>
+			
+			
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

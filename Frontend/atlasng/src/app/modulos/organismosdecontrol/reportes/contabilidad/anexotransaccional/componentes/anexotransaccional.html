@@ -1,0 +1,41 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+			<label for="pkcnivel" class="ui-outputlabel required">Periodo:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="anio" name="anio" [(ngModel)]="mfiltros.fperiodo" autofoco required entero maxlength="4"
+			 minlength="4"/>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+			<label for="fdesde" class="ui-outputlabel required">Mes:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="nivel" name="nivel" [options]="lmesesini" [(ngModel)]="this.mfiltros.finicio"></p-dropdown>
+		</div>
+	</div>
+
+</form>
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="ltipoplancuentas" [responsive]="true">
+			<p-header>
+				<div class="ui-table-title">Generar XML</div>
+				<div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-attach-file" name="btnxml" (click)="Descargar(reg,$event)" pTooltip="Descarga XML"
+					 tooltipPosition="top"></button>
+
+				</div>
+				
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>
+</div>

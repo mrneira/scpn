@@ -1,0 +1,97 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+    <button pButton type="button" label="Generar pago" style="position: absolute; right: 1px;" class="f-btn teal-btn" icon="ui-icon-money"
+      (click)="aprobarEtapa()"></button>
+
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="mescdetalle" class="ui-outputlabel required">Mes de Aplicación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="mfiltros.mescdetalle" required [filter]="true"
+          [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'nmes')"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="mescdetalle" class="ui-outputlabel required">Rubro:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="mescdetalle" name="mescdetalle" [options]="ltipo" [(ngModel)]="mfiltros.tipocdetalle" required [filter]="true"
+          [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo');consultar()"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="idreg">
+        <p-header>
+          <label class="ui-cell-total">{{getTotal() | number:'1.2-2'}}</label>
+
+          <div class="ui-table-title">Ingresos Pendientes Pago</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'28px'}" selectionMode="multiple"></p-column>
+
+        <p-column field="cingreso" header="C&oacute;digo" [style]="{'width':'40px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario" [style]="{'width':'180px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="descripcion" header="Descripción" [style]="{'width':'200px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column header="Porcentual?" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.porcentual" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Monto" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.calculado | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario" required mayusculas
+              maxlength="2000" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="aprobarpago()" label="Confirmar" class="green-btn" [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

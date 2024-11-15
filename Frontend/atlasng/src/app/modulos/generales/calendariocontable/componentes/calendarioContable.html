@@ -1,0 +1,67 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="fanio" class="ui-outputlabel required">Año</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText id="fanio" name="fanio" [(ngModel)]="mcampos.anioactual" entero required maxlength="4" />
+			</div>
+		</div>
+		
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="ffinicio" class="ui-outputlabel required">Fecha de inicio</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-calendar name="ffinicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" [dateFormat]="formatofecha" required autofoco [minDate]="fechaactual" [maxDate]="anioFinalDateYear(mcampos.anioactual)"></p-calendar>
+			</div>
+		</div>
+		
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="fcsucursalinicio" class="ui-outputlabel required">Sucursal inicio</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText id="fcsucursalinicio" name="fcsucursalinicio" [(ngModel)]="mcampos.csucursalinicio" entero required maxlength="4" />
+			</div>
+		</div>
+		
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-12 ui-md-4">
+				<label for="fcsucursalfin" class="ui-outputlabel required">Sucursal fin</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input pInputText id="fcsucursalfin" name="fcsucursalfin" [(ngModel)]="mcampos.csucursalfin" entero required maxlength="4" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="ldias" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Días</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+				<p-column field="ndia" header="Mes"></p-column> 
+				<p-column header="Trabajo?" [style]="{'width':'150px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [(ngModel)]="reg.trabajo" binary="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Contable?" [style]="{'width':'150px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						<p-checkbox [(ngModel)]="reg.contable" binary="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

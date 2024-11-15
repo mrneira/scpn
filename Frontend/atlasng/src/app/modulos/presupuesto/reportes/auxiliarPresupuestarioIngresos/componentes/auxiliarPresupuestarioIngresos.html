@@ -1,0 +1,110 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="codigo" class="ui-outputlabel required">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input id="cpartidaingreso" name="cpartidaingreso" type="text" pInputText [(ngModel)]="mfiltros.cpartidaingreso" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<input type="text" pInputText id="npartida" name="npartida" [(ngModel)]="mcampos.npartida" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<button pButton type="button" id="lovpartidasingreso" name="lovpartidasingreso" (click)="mostrarlovpartidasingreso()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-partidaingreso (eventoCliente)=fijarlovpartidasingresoSelec($event)></app-lov-partidaingreso>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel reqmuired">Periodo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="periodo" name="periodo" [options]="lperiodo" [(ngModel)]="mcampos.periodo" required [filter]="true"></p-dropdown>
+			</div>
+		</div>
+
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="lregistros" [responsive]="true">
+
+			<p-header>
+				<div class="ui-table-title">Generar Reporte</div>
+				<div class="f-acciones-cab-tabla">
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+					 style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+					 style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+					<div class="ui-table-title">Auxiliar Presupuestario de Ingresos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column header="Fecha" [style]="{'width':'40px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.fecha | date: 'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="concepto" header="Concepto" [style]="{'width': '100px'}"></p-column>
+				<p-column header="Secuencia" [style]="{'width':'30px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<a [routerLink]="" (click)="IrAComprobanteContable(reg)"> {{ reg.ccomprobante }}</a>
+					</ng-template>
+				</p-column>
+				<p-column field="ccuenta" header="Cuenta" [style]="{'width':'30px'}"></p-column>
+				<p-column field="ncuenta" header="Nombre" [style]="{'width':'100px'}"></p-column>
+				<p-column field="valor" header="Valor" [style]="{'width':'80px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.valor | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="devengado" header="Recaudado" [style]="{'width':'80px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.devengado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="saldopordevengar" header="Saldo por recaudar" [style]="{'width':'80px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.saldopordevengar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="credito" header="Crédito" [style]="{'width':'40px'}"></p-column>
+				<p-footerColumnGroup style="color:blue;">
+					<p-row>
+						<p-column footer="Totales" [style]="{'color':'blue','font-size':'12px','width':'52%'}"></p-column>
+						<p-column [footer]="totalvalor | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'13%'}"></p-column>
+						<p-column [footer]="totaldevengado | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'13%'}"></p-column>
+						<p-column footer="" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'22%'}"></p-column>
+					</p-row>
+				</p-footerColumnGroup>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

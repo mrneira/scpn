@@ -1,0 +1,55 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="nuevo" pButton type="button" label="Copiar" style="position: absolute; right: 240px;"
+    class="f-btn teal-btn" icon="ui-icon-copy" (click)="mostrarLovEvaluacionCopia()"></button>
+
+  <button  pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="cplantila" class="ui-outputlabel required">Plantilla:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="cplantila" name="cplantila" type="text" pInputText [ngModel]="mcampos.cplantilla" required [readOnly]="true"
+        style="text-align:left;" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="nombreplantilla" name="nombreplantilla" [(ngModel)]="mcampos.nombre" [readOnly]="true" style="text-align:left;"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovPlantilla" name="lovPlantilla" (click)="mostrarLovPlantilla()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-plantillaevaluacionmrl (eventoCliente)=fijarLovPlantillaSelec($event)></app-lov-plantillaevaluacionmrl>
+  </div>
+  <app-lov-plantillaevaluacion (eventoCliente)=fijarLovEvaluacionCopia($event)></app-lov-plantillaevaluacion>
+</form>
+
+<app-cabecera></app-cabecera>
+<p-accordion>
+  <p-accordionTab header="INDICADORES DE GESTIÓN DE PUESTO">
+    <app-paramgestionpuesto></app-paramgestionpuesto>
+  </p-accordionTab>
+  <p-accordionTab header="CONOCIMIENTOS">
+    <app-conocimiento></app-conocimiento>
+  </p-accordionTab>
+  <p-accordionTab header="COMPETENCIAS TÉCNICAS DEL PUESTO">
+    <app-comptecnicas></app-comptecnicas>
+  </p-accordionTab>
+  <p-accordionTab header="COMPETENCIAS UNIVERSALES">
+    <app-compuniversales></app-compuniversales>
+  </p-accordionTab>
+  <p-accordionTab header="TRABAJO EN EQUIPO, INICIATIVA Y LIDERAZGO">
+    <app-trabajoequipo></app-trabajoequipo>
+  </p-accordionTab>
+</p-accordion>
+
+
+
+
+
+
+

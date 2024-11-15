@@ -1,0 +1,130 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="tipoarchivo" class="ui-outputlabel">Tipo Archivo</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="tipoarchivo" name="tipoarchivo" [options]="ltipoarchivo" [(ngModel)]="mfiltros.tipoarchivo" [filter]="true"></p-dropdown>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [resizableColumns]="false" [responsive]="true" scrollable="true" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Log de carga de archivos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="fcarga" header="F.carga" [filter]="true" filterPlaceholder="Filtrar"  
+			[style]="{'width':'80px'}"></p-column>
+			<p-column field="freal" header="F.real" [filter]="true" filterPlaceholder="Filtrar"  
+			[style]="{'width':'80px'}"></p-column>
+			<p-column field="nombre" header="Archivo" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"  
+			[style]="{'width':'100px'}"></p-column>
+			<p-column field="registrosok" header="Reg. OK" styleClass="f-right" [style]="{'width':'60px'}"></p-column>
+			<p-column field="registroserror" header="Reg. Error" styleClass="f-right" [style]="{'width':'60px'}"></p-column>
+			<p-column field="registrostotal" header="Reg. Total" styleClass="f-right" [style]="{'width':'60px'}"></p-column>
+			<p-column header="Total $" [style]="{'text-align':'right','width':'40px'}" >
+				<ng-template pTemplate="body" let-reg="rowData">
+				  {{ reg.valor1 | number : '1.2-2' }}
+				</ng-template>
+			  </p-column>
+			<p-column [style]="{'width':'100px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [mostrarEliminar]="false" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<p-dialog header="Información Log" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="tipoarchivo" class="ui-outputlabel ">Tipo archivo</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">{{registro.tipoarchivo}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="nombre" class="ui-outputlabel ">Nombre:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.nombre}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="fcarga" class="ui-outputlabel ">Fecha carga:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.fcarga}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="freal" class="ui-outputlabel ">Fecha real:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.freal}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="registrosok" class="ui-outputlabel ">Registros ok:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.registrosok}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="registroserror" class="ui-outputlabel required">Registros error:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.registroserror}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="registrostotal" class="ui-outputlabel ">Registros total:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.registrostotal}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="valor1" class="ui-outputlabel ">Valor:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.valor1}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="comentario" class="ui-outputlabel ">Comentario:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.comentario}}
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="cusuarioing" class="ui-outputlabel required">Usuario:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">{{registro.cusuarioing}}
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

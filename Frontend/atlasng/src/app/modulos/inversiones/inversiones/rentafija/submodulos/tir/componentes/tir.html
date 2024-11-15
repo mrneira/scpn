@@ -1,0 +1,108 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+			<p-dataTable [value]="this.inversionesServicios.pTIR" [responsive]="true" scrollable="true" scrollHeight="250px"
+			[immutable]="false">
+
+				<p-header>
+					<div class="ui-table-title">Costo Amortizado</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column header="Concepto" [style]="{'width':'90px'}"  styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.concepto }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Inicio" [style]="{'width':'80px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfinicio | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column header="Vencimiento" [style]="{'width':'80px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfvencimiento | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="plazo" header="Plazo" styleClass="f-center" [style]="{'width':'60px'}" *ngIf="true"></p-column>
+
+				<p-column header="Tasa" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyecciontasa | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Capital" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioncapital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioninteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Capital por Amortizar" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.capitalxamortizar | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Flujo NIIF" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.total | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Implícito" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.interesimplicito | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+				<p-column header="Costo Amortizado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.costoamortizado | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Valor Ajuste en Activo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.valorajusteactivo | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Diferencia Por Interés Implícito" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span class="f-bold" style="font-size:12px">{{ reg.diferenciainteresimplicito | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}" disabled="true" *ngIf="pEditable != 0">
+
+					<ng-template pTemplate="body" let-reg="rowData" disabled="pEditable == 0">
+						<div class="f-table-actions" disabled="pEditable == 0">
+							<acciones-reg [componente]="componentehijo" [reg]="reg" disabled="pEditable == 0"></acciones-reg>
+						</div>
+					</ng-template>
+
+				</p-column>
+
+				<p-footer *ngIf="pEditable != 0">
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"
+						 [disabled]="pEditable == 0"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+

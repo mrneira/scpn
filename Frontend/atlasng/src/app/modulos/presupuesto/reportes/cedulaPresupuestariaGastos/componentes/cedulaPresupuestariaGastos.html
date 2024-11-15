@@ -1,0 +1,141 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-header>
+			<div class="ui-table-title">Generar Reporte</div>
+			<div class="f-acciones-cab-tabla">
+				<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+				 style="text-align:center">
+				</button>
+				<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+				 style="text-align:center">
+				</button>
+			</div>
+			<div class="ui-g-12" style='display:none'>
+				<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+			</div>
+		</p-header>
+	</div>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="false" scrollHeight="250px" [resizableColumns]="false"
+			 (onFilter)="calcularTotales($event.filteredValue)" var="reg"
+			 [rowStyleClass]="filaEstilo">
+				<p-header>
+					<div class="ui-table-title">Cédula Presupuestaria de Gastos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="false"></acciones-consulta>
+				</p-header>
+				<p-column field="cpartidagasto" header="Código" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width': '70px'}"></p-column>
+				<p-column field="nombre" header="Partida" [filter]="true" filterPlaceholder="Filtrar" filterMatchMode="contains" 
+					[style]="{'width':'200px'}"></p-column>				
+				<p-column field="vasignacioninicial" header="Asignación Inicial" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vasignacioninicial | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vmodificado" header="Reforma" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vmodificado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcodificado" header="Codificado" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcodificado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcertificado" header="V. Certificado" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcertificado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vcomprometido" header="V. Compr." [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vcomprometido | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vdevengado" header="Devengado" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vdevengado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vpagado" header="Pagado" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vpagado | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldoporcertificar" header="Saldo Por Certificar" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldoporcertificar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldoporcomprometer" header="Saldo Por Compr." [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldoporcomprometer | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldopordevengar" header="Saldo Por Devengar" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldopordevengar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="vsaldoporpagar" header="Saldo Por Pagar" [style]="{'width':'60px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.vsaldoporpagar | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="porcenparticipacion" header="% part" [style]="{'width':'50px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.porcenparticipacion | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-column field="porcenejecucion" header="% ejec" [style]="{'width':'50px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.porcenejecucion | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-footerColumnGroup style="color:blue;">
+					<p-row>
+
+							<p-column footer="Totales" colspan="2" [style]="{'width':'30%','font-size':'9px'}" ></p-column>
+							<p-column [footer]="totalAsignacionInicial| number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalReforma | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalCodificado | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalCertificado | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalComprometido | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalDevengado | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalPagado | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalSaldoPorCertificar | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalSaldoPorComprometer | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalSaldoPorDevengar | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalSaldoPorPagar | number : '1.2-2'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalPorcenParticipacion | number : '1.2-6'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>
+							<p-column [footer]="totalPorcenEjecucion | number : '1.2-6'" 
+							[style]="{'width':'6%','font-size':'9px'}"></p-column>						
+				</p-row>
+				</p-footerColumnGroup>
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>

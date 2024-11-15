@@ -1,0 +1,99 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="emisor" class="ui-outputlabel">Emisor:</label>
+			</div>
+			<div class="ui-g-12 ui-md-7">
+				<p-dropdown id="emisor" name="emisor" required [options]="lEmisor" [(ngModel)]="mfiltros.emisorcdetalle" [filter]="true"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="instrumento" class="ui-outputlabel">Instrumento:</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="instrumento" name="instrumento" required [options]="lInstrumento" [(ngModel)]="mfiltros.instrumentocdetalle"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="proceso" class="ui-outputlabel">Proceso:</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="proceso" name="proceso" required [options]="lProceso" [(ngModel)]="mfiltros.procesocdetalle"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkccuentacon" class="ui-outputlabel">Cuenta Contable</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input id="fpkccuentacon" name="fpkccuentacon" type="text" pInputText [(ngModel)]="mcampos.ccuentacon" [readOnly]="true"
+				/>
+			</div>
+
+			<div class="ui-g-9 ui-md-6">
+				<input type="text" pInputText id="fnomcuenta" name="fnomcuenta" [(ngModel)]="mcampos.ncuentacon" required [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovCuentasContables" name="lovCuentasContables" (click)="mostrarLovCuentasContables()"
+				 icon="ui-icon-directions">
+				</button>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+		</div>
+
+
+
+
+	</div>
+
+
+
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="lregistro" [responsive]="true">
+
+			<p-header>
+				<div class="ui-table-title">Generar Reporte</div>
+				<div class="f-acciones-cab-tabla">
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+					 style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>

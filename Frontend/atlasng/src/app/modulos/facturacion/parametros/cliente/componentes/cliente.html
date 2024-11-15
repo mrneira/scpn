@@ -1,0 +1,109 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g-12">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="400px">
+				<p-header>
+					<div class="ui-table-title">Clientes</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="mdatos.ntipoidentificacion" header="Tipo Identificación" [style]="{'width':'60px'}"></p-column> 
+				<p-column field="identificacion" header="Identificación"></p-column>
+                <p-column field="razonsocial" header="Razón Social"></p-column>
+                <p-column field="email" header="Email"></p-column>
+                <p-column field="celular" header="Celular"></p-column>
+
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+                </p-column>
+                
+                <p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Cliente" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" width="700">
+    <form #formDialogo="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="tipoident" class="ui-outputlabel required">Tipo de Identificación</label>
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                    <p-dropdown name="tipoident" [options]="ltipoidentificacion" [(ngModel)]="registro.tipoidentificacdetalle" required
+                                (onChange)="registrarEtiqueta(registro, ltipoidentificacion, 'tipoidentificacdetalle', 'ntipoidentificacion')" [disabled]="!editable" [filter]="true"></p-dropdown>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="ident" class="ui-outputlabel required">Identificación</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText name="ident" [(ngModel)]="registro.identificacion" required entero maxlength="15" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="razon" class="ui-outputlabel required">Razón Social</label>
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                    <input type="text" pInputText name="razon" [(ngModel)]="registro.razonsocial" required mayusculas maxlength="100" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="email" class="ui-outputlabel required">Email</label>
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                    <input type="text" pInputText name="email" [(ngModel)]="registro.email" required maxlength="80" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="celular" class="ui-outputlabel">Celular</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText name="celular" [(ngModel)]="registro.celular" entero maxlength="20" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="telefono" class="ui-outputlabel">Teléfono Convencional</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <input type="text" pInputText name="telefono" [(ngModel)]="registro.telefono" entero maxlength="20" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-3">
+                    <label for="direccion" class="ui-outputlabel required">Dirección</label>
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                    <textarea pInputText name="direccion" [(ngModel)]="registro.direccion" required mayusculas maxlength="100" rows="4" [disabled]="!editable"></textarea>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+        </footer>
+    </form>
+</p-dialog>

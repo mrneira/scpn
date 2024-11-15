@@ -1,4 +1,7 @@
 ﻿using bce.util;
+using cartera.datos;
+using cartera.enums;
+using cartera.lote.operacion;
 using core.componente;
 using core.servicios.mantenimiento;
 using dal.cartera;
@@ -11,12 +14,14 @@ using util;
 using util.dto.mantenimiento;
 using util.servicios.ef;
 
-namespace cartera.comp.mantenimiento.desembolso {
+namespace cartera.comp.mantenimiento.desembolso
+{
 
     /// <summary>
     /// Clase que se encarga que validar los datos de desembolso.
     /// </summary>
-    public class ValidaDesembolso : ComponenteMantenimiento {
+    public class ValidaDesembolso : ComponenteMantenimiento
+    {
         int secuencia = 0;
         decimal montoOperacion = 0;
 
@@ -24,11 +29,12 @@ namespace cartera.comp.mantenimiento.desembolso {
         {
             ValidaDesembolsoTransferencia(rqmantenimiento);
             ValidaDesembolsoOtros(rqmantenimiento);
-
-            if (montoOperacion != rqmantenimiento.Monto) {
+            //OMITIR LA VALIDACIÓN DEL MONTO DE OPERACIÓN CUANDO ES UNA NEGOCIACIÓN DE PAGO
+            tcaroperacion op = TcarOperacionDal.FindWithLock(rqmantenimiento.Coperacion);
+            if (op.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion) && montoOperacion != rqmantenimiento.Monto)
+            {
                 throw new AtlasException("CAR-0019", "MONTO TOTAL DE LA TRANSACCION NO ENVIADO");
             }
-
             Mantenimiento.ProcesarAnidado(rqmantenimiento, 7, 133);
         }
 
@@ -45,23 +51,27 @@ namespace cartera.comp.mantenimiento.desembolso {
 
             // Merge listas de registros
             ltrandb = TcarOperacionDesembolsoDal.FindToTipo(rqmantenimiento.Coperacion, "T").Cast<IBean>().ToList(); ;
-            if (rqmantenimiento.GetTabla("TRANSFERENCIA") != null && rqmantenimiento.GetTabla("TRANSFERENCIA").Lregistros.Count() > 0) {
+            if (rqmantenimiento.GetTabla("TRANSFERENCIA") != null && rqmantenimiento.GetTabla("TRANSFERENCIA").Lregistros.Count() > 0)
+            {
                 ltranmod = rqmantenimiento.GetTabla("TRANSFERENCIA").Lregistros;
             }
-            if (rqmantenimiento.GetTabla("TRANSFERENCIA") != null && rqmantenimiento.GetTabla("TRANSFERENCIA").Lregeliminar.Count() > 0) {
+            if (rqmantenimiento.GetTabla("TRANSFERENCIA") != null && rqmantenimiento.GetTabla("TRANSFERENCIA").Lregeliminar.Count() > 0)
+            {
                 ltraneli = rqmantenimiento.GetTabla("TRANSFERENCIA").Lregeliminar.Cast<IBean>().ToList();
             }
             ltransferencia = DtoUtil.GetMergedList(ltrandb.Cast<IBean>().ToList(), ltranmod, ltraneli).Cast<IBean>().ToList();
-            if (ltransferencia == null || ltransferencia.Count == 0) {
+            if (ltransferencia == null || ltransferencia.Count == 0)
+            {
                 return;
             }
 
-            foreach (tcaroperaciondesembolso spi in ltransferencia) {
+            foreach (tcaroperaciondesembolso spi in ltransferencia)
+            {
                 if (spi.Esnuevo)
                 {
                     if (secuencia == 0)
                     {
-                        secuencia = TcarOperacionDesembolsoDal.FindMaxSecuencia(spi.coperacion) + 1 ;
+                        secuencia = TcarOperacionDesembolsoDal.FindMaxSecuencia(spi.coperacion) + 1;
                     }
                     else
                     {
@@ -69,24 +79,27 @@ namespace cartera.comp.mantenimiento.desembolso {
                     }
                     spi.secuencia = secuencia;
                 }
-                               
+
                 //spi.secuencia = secuencia;
                 spi.identificacionbeneficiario = spi.identificacionbeneficiario ?? TperPersonaDetalleDal.Find(rqmantenimiento.Cpersona, rqmantenimiento.Ccompania).identificacion;
-                if (spi.nombrebeneficiario == null) {
+                if (spi.nombrebeneficiario == null)
+                {
                     tpernatural persona = TperNaturalDal.Find(rqmantenimiento.Cpersona, rqmantenimiento.Ccompania);
                     string nombre = persona.primernombre + " " + persona.segundonombre;
                     spi.nombrebeneficiario = spi.nombrebeneficiario ?? nombre;
                 }
 
                 if ((spi.tipoinstitucioncdetalle == null) || (spi.tipocuentacdetalle == null) || (spi.numerocuentabancaria == null) || (spi.valor == null) ||
-                    (spi.identificacionbeneficiario == null) || (spi.nombrebeneficiario == null)) {
+                    (spi.identificacionbeneficiario == null) || (spi.nombrebeneficiario == null))
+                {
                     throw new AtlasException("CAR-0046", "DATOS DE TRANSFERENCIA INCOMPLETOS");
                 }
 
                 //Sessionef.Actualizar(spi);
 
                 // Registro SPI si es transferencia y no esta enviada o pagada.
-                if (spi.transferencia.Value && !spi.pagado.Value) {
+                if (spi.transferencia.Value && !spi.pagado.Value)
+                {
                     spi.mensaje = rqmantenimiento.Mensaje;
                     spi.pagado = true;
                     spi.fpago = rqmantenimiento.Fconatable;
@@ -96,7 +109,8 @@ namespace cartera.comp.mantenimiento.desembolso {
                                            spi.tipoinstitucioncdetalle, (decimal)spi.valor, spi.coperacion, spi.secuencia, null);
 
                 }
-                if (!spi.Esnuevo) {
+                if (!spi.Esnuevo)
+                {
                     spi.Actualizar = true;
                 }
                 montoOperacion = decimal.Add(montoOperacion, (decimal)spi.valor);
@@ -119,18 +133,22 @@ namespace cartera.comp.mantenimiento.desembolso {
 
             // Merge listas de registros
             lotrodb = TcarOperacionDesembolsoDal.FindToTipo(rqmantenimiento.Coperacion, "C").Cast<IBean>().ToList(); ;
-            if (rqmantenimiento.GetTabla("OTROS") != null && rqmantenimiento.GetTabla("OTROS").Lregistros.Count() > 0) {
+            if (rqmantenimiento.GetTabla("OTROS") != null && rqmantenimiento.GetTabla("OTROS").Lregistros.Count() > 0)
+            {
                 lotromod = rqmantenimiento.GetTabla("OTROS").Lregistros;
             }
-            if (rqmantenimiento.GetTabla("OTROS") != null && rqmantenimiento.GetTabla("OTROS").Lregeliminar.Count() > 0) {
+            if (rqmantenimiento.GetTabla("OTROS") != null && rqmantenimiento.GetTabla("OTROS").Lregeliminar.Count() > 0)
+            {
                 lotroeli = rqmantenimiento.GetTabla("OTROS").Lregeliminar.Cast<IBean>().ToList();
             }
             lotros = DtoUtil.GetMergedList(lotrodb.Cast<IBean>().ToList(), lotromod, lotroeli).Cast<IBean>().ToList();
-            if (lotros == null || lotros.Count == 0) {
+            if (lotros == null || lotros.Count == 0)
+            {
                 return;
             }
 
-            foreach (tcaroperaciondesembolso otr in lotros) {
+            foreach (tcaroperaciondesembolso otr in lotros)
+            {
                 if (otr.Esnuevo)
                 {
                     if (secuencia == 0)
@@ -143,7 +161,8 @@ namespace cartera.comp.mantenimiento.desembolso {
                     }
                     otr.secuencia = secuencia;
                 }
-                if (otr.ccuenta == null) {
+                if (otr.ccuenta == null)
+                {
                     throw new AtlasException("CAR-0016", "NUMERO DE CUENTA CONTABLE REQUERIDO PARA EJECUTAR EL DESEMBOLSO");
                 }
                 //secuencia += 1;

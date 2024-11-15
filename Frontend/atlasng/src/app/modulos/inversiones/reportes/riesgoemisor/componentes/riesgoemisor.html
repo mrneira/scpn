@@ -1,0 +1,63 @@
+<div class="ui-g-12 ui-md-2"></div>
+
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm">
+		<div class="f-filtros ui-g ui-fluid" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="emisorcdetalle" class="ui-outputlabel required">Emisor</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<p-dropdown id="emisorcdetalle" name="emisorcdetalle" [options]="lEmisor" [(ngModel)]="registro.emisorcdetalle" 
+					(ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()" required [filter]="true"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-4 ui-md-2">
+					<label for="fdesde" class="ui-outputlabel required">Fecha Colocación de Corte</label>
+				</div>
+				<div class="ui-g-8 ui-md-3">
+					<p-calendar name="fdesde" [(ngModel)]="mcampos.fcorte" [showIcon]="true" [dateFormat]="formatofecha" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-calendar>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="diaslaborables" class="ui-outputlabel required"># Dias Laborables Anteriores</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<p-spinner id="diaslaborables" name="diaslaborables" [(ngModel)]="mcampos.diaslaborables" [disabled]="false" maxlength="10"
+					 [min]="1" [max]="1000000" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-spinner>
+				</div>
+			</div>
+
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="lrecuperacion" [responsive]="true">
+
+				<p-header>
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+						</button>
+
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+						</button>
+					</div>
+					<div class="ui-g-12" style='display:none'>
+						<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+					</div>
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

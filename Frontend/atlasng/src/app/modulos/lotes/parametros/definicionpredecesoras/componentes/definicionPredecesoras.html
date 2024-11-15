@@ -1,0 +1,89 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Lote</label>
+			</div>
+			<div class="ui-g-12 ui-md-6">
+				<p-dropdown id="fpkcmodulo" name="fpkcmodulo" [options]="llote" [(ngModel)]="mfiltros.clote" required [filter]="true" (onChange)="consultar()"></p-dropdown>
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable rowGroupMode="subheader" [value]="lregistros" [responsive]="true" [editable]="true" dataKey="ctarea" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Lotes predecesores</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column header="Código" field="clote" [style]="{'width':'200px'}"></p-column>
+				<p-column header="Predecesora" field="clotepredecesora" ></p-column>
+				<p-column header="Orden" field="orden" ></p-column>
+				<p-column header="Activa?" [style]="{'width':'80px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+					  <p-checkbox [ngModel]="reg.activa" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				  </p-column>
+				 
+				<p-column header="Acciones" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Tareas" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="60" >
+<form #formDialogoLote="ngForm" >
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+				  <label for="mescdetalle" class="ui-outputlabel required">Predecesora:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+				  <p-dropdown id="clotepredecesora" name="clotepredecesora" [options]="lpredecesora" [(ngModel)]="registro.clotepredecesora" required [filter]="true"
+				  appendTo="body"	[disabled]="!editable" (onChange)="registrarEtiqueta(registro, lpredecesora, 'clotepredecesora', 'nclotepredecesora')"></p-dropdown>
+				</div>
+			  </div>
+		
+			  <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+				  <label for="orden" class="ui-outputlabel required">Orden:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+				  <input id="orden" name="orden" type="text" pInputText [(ngModel)]="registro.orden" required entero maxlength="10"
+				  [readOnly]="false" />
+				</div>
+			  </div>
+			  <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+				  <label for="activa" class="ui-outputlabel">Activa?</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+				  <p-checkbox id="activa" name="activa" [(ngModel)]="registro.activa" binary="false" ></p-checkbox>
+				</div>
+			  </div>
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoLote" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>

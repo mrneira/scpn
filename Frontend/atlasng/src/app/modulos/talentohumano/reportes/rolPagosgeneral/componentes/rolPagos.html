@@ -1,0 +1,100 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="cfuncionarioFilter" class="ui-outputlabel ">Funcionario:</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mcampos.cfuncionariof" required
+				 [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="nombref" name="nombref" [(ngModel)]="mcampos.nfuncionario"
+				 [readOnly]="true" />
+			 </div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+			  <label for="pkcnivel" class="ui-outputlabel ">Año:</label>
+			</div>
+			<div class="ui-g-6 ui-md-2">
+			  <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mfiltros.anio" autofoco  entero maxlength="4"
+				minlength="4" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="mescdetalle" class="ui-outputlabel ">Mes:</label>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <p-dropdown id="mescdetalle" name="mescdetalle" [options]="lmeses" [(ngModel)]="mfiltros.mescdetalle"  [filter]="true" (onChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+
+	</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" columnResizeMode="expand" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Rol de Pagos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				<div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+						style="text-align:center">
+					</button>
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+						style="text-align:center">
+					</button>
+					</div>
+				<div class="f-acciones-cab-tabla" style='display:none'>
+					<app-jasper #rep1 [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+				</div>
+			</p-header>
+			<p-column field="crol" header="C. Rol" [style]="{'width':'50px'}"></p-column>
+			<p-column field="nombre" header="Nombre"></p-column>
+			<p-column field="cargo" header="Cargo"></p-column>
+			<p-column field="mes" header="Mes" [style]="{'width':'75px'}"></p-column>
+			<p-column header="D. Tercero?" [style]="{'width':'80px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<p-checkbox [ngModel]="reg.mdtercero" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column header="D. Cuarto?" [style]="{'width':'80px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<p-checkbox [ngModel]="reg.mdcuarto" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+			<p-column header="F. Reserva?" [style]="{'width':'80px'}" styleClass="f-center">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<p-checkbox [ngModel]="reg.mfondos" binary="false" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+
+			<p-column header="Valor" [style]="{'width':'60px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.total | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+		 
+			<p-column header="Acciones" [style]="{'width':'45px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					 <div class="f-table-actions">
+						<button type="button" pButton icon="ui-icon-picture-as-pdf" name="btnpdf" (click)="descargar(reg)" pTooltip="Descarga PDF" tooltipPosition="top" ></button>
+						<div class="ui-g-12" style='display:none'>
+							<app-jasper  #rep2 [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+						</div>
+					</div>
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>

@@ -1,0 +1,651 @@
+<form #formularioUsuario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <p-accordion [multiple]="true">
+    <p-accordionTab header="Instrumento">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+         
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="codigotitulo" class="ui-outputlabel required f-bold" style="font-size:11px">Código Título</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="codigotitulo" name="codigotitulo" [(ngModel)]="registro.codigotitulo" maxlength="30" required
+                [disabled]="pEditable == 0" class="f-bold" style="font-size:11px" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="numerocontrato" class="ui-outputlabel required">Número Contrato</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="numerocontrato" name="numerocontrato" [(ngModel)]="registro.numerocontrato" maxlength="20"
+                required [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="portafoliocdetalle" class="ui-outputlabel required">Portafolio</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="portafoliocdetalle" name="portafoliocdetalle" [options]="lPortafolio" [(ngModel)]="registro.portafoliocdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="mercadotipocdetalle" class="ui-outputlabel required">Mercado</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="mercadotipocdetalle" name="mercadotipocdetalle" [options]="lMercado" [(ngModel)]="registro.mercadotipocdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="sistemacolocacioncdetalle" class="ui-outputlabel required">Sistema de Colocación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="sistemacolocacioncdetalle" name="sistemacolocacioncdetalle" [options]="lSistemaColocacion" [(ngModel)]="registro.sistemacolocacioncdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="ccomprobante" class="ui-outputlabel">Comprobante Contable</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="registro.ccomprobante" maxlength="20" [disabled]="true"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fcontable" class="ui-outputlabel">Fecha Comprobante Contable</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fcontable" name="fcontable" [(ngModel)]="registro.fcontable" [showIcon]="true" [locale]="es" [disabled]="true"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="boletin" class="ui-outputlabel">Boletín (Kohinor)</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="boletin" name="boletin" [(ngModel)]="registro.boletin" maxlength="10" required entero [disabled]="true"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="emisorcdetalle" class="ui-outputlabel required">Emisor</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="emisorcdetalle" name="emisorcdetalle" [options]="lEmisor" [(ngModel)]="registro.emisorcdetalle" required
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="instrumentocdetalle" class="ui-outputlabel required">Instrumento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="instrumentocdetalle" name="instrumentocdetalle" [options]="lInstrumento" [(ngModel)]="registro.instrumentocdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="sectorcdetalle" class="ui-outputlabel required">Sector</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="sectorcdetalle" name="sectorcdetalle" [options]="lSector" [(ngModel)]="registro.sectorcdetalle" required
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="monedacdetalle" class="ui-outputlabel required">Moneda</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="monedacdetalle" name="monedacdetalle" [options]="lMoneda" [(ngModel)]="registro.monedacdetalle" required
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cotizacion" class="ui-outputlabel ">Cotización</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=cotizacion name="cotizacion" [(ngModel)]="registro.cotizacion" numeroDecimal7 maxlength="14"
+                [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="clasificacioninversioncdetalle" class="ui-outputlabel required">Clasificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="clasificacioninversioncdetalle" name="clasificacioninversioncdetalle" [options]="lClasificacion" [(ngModel)]="registro.clasificacioninversioncdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="bolsavalorescdetalle" class="ui-outputlabel">Bolsa de Valores</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="bolsavalorescdetalle" name="bolsavalorescdetalle" [options]="lBolsaValores" [(ngModel)]="registro.bolsavalorescdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="casavalorescdetalle" class="ui-outputlabel">Casa de Valores</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="casavalorescdetalle" name="casavalorescdetalle" [options]="lCasaValores" [(ngModel)]="registro.casavalorescdetalle"
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="calificacionriesgoinicialcdetalle" class="ui-outputlabel">Calificación de Riesgo Inicial</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="calificacionriesgoinicialcdetalle" name="calificacionriesgoinicialcdetalle" [options]="lRiesgo" [(ngModel)]="registro.calificacionriesgoinicialcdetalle"
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="fpkccuenta" class="ui-outputlabel required">Contacto Casa de Valores</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+              <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.cinvagentebolsa" required readonly />
+            </div>
+            <div class="ui-g-9 ui-md-2">
+              <input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.nombres" [disabled]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovagentebolsa" name="lovagentebolsa" (click)="mostrarLovAgentesBolsa()" [disabled]="pEditable == 0"
+                icon="ui-icon-directions">
+              </button>
+            </div>
+            <app-lov-agentesbolsa (eventoCliente)=fijarLovAgentesBolsaSelect($event)></app-lov-agentesbolsa>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="femision" class="ui-outputlabel required">Fecha de Emisión</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="femision" name="femision" [(ngModel)]="registro.femision" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="fcolocacion" class="ui-outputlabel required">Fecha de Colocación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fcolocacion" name="fcolocacion" [(ngModel)]="registro.fcolocacion" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+                required [dateFormat]="formatofecha" (ngModelChange)="calcularFechaVencimiento()"></p-calendar>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fregistro" class="ui-outputlabel required">Fecha de Registro</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fregistro" name="fregistro" [(ngModel)]="registro.fregistro" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="fcompra" class="ui-outputlabel required">Fecha de Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fcompra" name="fcompra" [(ngModel)]="registro.fcompra" [showIcon]="true" [locale]="es" [disabled]="pEditable == 0"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+
+
+   
+
+
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Valor de la posición en el mercado">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="valornominal" class="ui-outputlabel required">Valor Nominal</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=valornominal name="valornominal" [(ngModel)]="registro.valornominal" numero maxlength="14"
+                [disabled]="pEditable == 0" (ngModelChange)="calcularInteres()" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="fultimopago" class="ui-outputlabel">Fecha Valor</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fultimopago" name="fultimopago" [(ngModel)]="registro.fultimopago" [showIcon]="true" [locale]="es" [disabled]="true"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="plazo" class="ui-outputlabel required">Plazo</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="plazo" name="plazo" [(ngModel)]="registro.plazo" maxlength="10" required entero [disabled]="pEditable == 0"
+                (ngModelChange)="calcularFechaVencimiento()" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="fvencimiento" class="ui-outputlabel">Fecha Vencimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="registro.fvencimiento" [showIcon]="true" [locale]="es" [disabled]="true"
+                [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="yield" class="ui-outputlabel ">Yield</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=yield name="yield" [(ngModel)]="registro.yield" numeroDecimal7 maxlength="14" [disabled]="pEditable == 0"
+              />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="valornegociacion" class="ui-outputlabel ">Valor Negociación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=valornegociacion name="valornegociacion" [(ngModel)]="registro.valornegociacion" numero
+                maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="porcentajepreciocompra" class="ui-outputlabel ">% Precio de Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=porcentajepreciocompra name="porcentajepreciocompra" [(ngModel)]="registro.porcentajepreciocompra"
+                numero maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="tasa" class="ui-outputlabel required">Tasa</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="tasa" name="tasa" [(ngModel)]="registro.tasa" numeroDecimal7 maxlength="14" [disabled]="pEditable == 0"
+                (ngModelChange)="calcularInteres()" />
+            </div>
+          </div>
+
+
+      
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="calendarizacioncdetalle" class="ui-outputlabel required">Base de Cálculo</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="calendarizacioncdetalle" name="calendarizacioncdetalle" [options]="lCalendarizacion" [(ngModel)]="registro.calendarizacioncdetalle"
+                required [disabled]="pEditable == 0" (ngModelChange)="calcularNumeroPagosCapitalInteres()"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="formaajusteinterescdetalle" class="ui-outputlabel required">Forma de Ajuste del Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="formaajusteinterescdetalle" name="formaajusteinterescdetalle" [options]="lAjusteInteres" [(ngModel)]="registro.formaajusteinterescdetalle"
+                required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Proyecciones">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="periodicidadpagoscapitalcdetalle" class="ui-outputlabel">Periodo de Pagos del Capital</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="periodicidadpagoscapitalcdetalle" name="periodicidadpagoscapitalcdetalle" [options]="lPeriodos" [(ngModel)]="registro.periodicidadpagoscapitalcdetalle"
+                (ngModelChange)="calcularNumeroPagosCapital()" required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="diasgraciacapital" class="ui-outputlabel ">Días de Gracia para el Capital</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=diasgraciacapital name="diasgraciacapital" [(ngModel)]="registro.diasgraciacapital" entero
+                maxlength="7" [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="numeropagoscapital" class="ui-outputlabel "># de Pagos para el Capital</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=numeropagoscapital name="numeropagoscapital" [(ngModel)]="registro.numeropagoscapital" entero
+                maxlength="7" [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="periodicidadpagosinterescdetalle" class="ui-outputlabel">Periodo de Pagos del Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="periodicidadpagosinterescdetalle" name="periodicidadpagosinterescdetalle" [options]="lPeriodos" [(ngModel)]="registro.periodicidadpagosinterescdetalle"
+                (ngModelChange)="calcularNumeroPagosInteres()" required [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="diasgraciainteres" class="ui-outputlabel ">Días de Gracia para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=diasgraciainteres name="diasgraciainteres" [(ngModel)]="registro.diasgraciainteres" entero
+                maxlength="7" [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="numeropagosinteres" class="ui-outputlabel "># de Pagos para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=numeropagosinteres name="numeropagosinteres" [(ngModel)]="registro.numeropagosinteres" entero
+                maxlength="7" [disabled]="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Comisiones">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionbolsavalores" class="ui-outputlabel ">Comisión Bolsa de Valores</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionbolsavalores name="comisionbolsavalores" [(ngModel)]="registro.comisionbolsavalores"
+                numero maxlength="14" [disabled]="pEditable == 0" (ngModelChange)="totalizaComisiones()" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionoperador" class="ui-outputlabel ">Comisión Operador</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionoperador name="comisionoperador" [(ngModel)]="registro.comisionoperador" numero
+                maxlength="14" [disabled]="pEditable == 0" (ngModelChange)="totalizaComisiones()" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionretencion" class="ui-outputlabel ">Retención</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisionretencion name="comisionretencion" [(ngModel)]="registro.comisionretencion" numero
+                maxlength="14" [disabled]="pEditable == 0" (ngModelChange)="totalizaComisiones()" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisiontotal" class="ui-outputlabel ">TOTAL COMISIONES</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id=comisiontotal name="comisiontotal" [(ngModel)]="registro.comisiontotal" numero maxlength="14"
+                [disabled]="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Rentabilidad">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="porcentajecalculoprecio" class="ui-outputlabel ">% Cálculo en Base al Precio</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=porcentajecalculoprecio name="porcentajecalculoprecio" [(ngModel)]="registro.porcentajecalculoprecio"
+                numeroDecimal7 maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="porcentajecalculodescuento" class="ui-outputlabel ">% Cálculo en Base al Descuento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=porcentajecalculodescuento name="porcentajecalculodescuento" [(ngModel)]="registro.porcentajecalculodescuento"
+                numeroDecimal7 maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="porcentajecalculorendimiento" class="ui-outputlabel ">% Cálculo en Base al Rendimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=porcentajecalculorendimiento name="porcentajecalculorendimiento" [(ngModel)]="registro.porcentajecalculorendimiento"
+                numeroDecimal7 maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="compracuponcdetalle" class="ui-outputlabel">Tipo de Cupón</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="compracuponcdetalle" name="compracuponcdetalle" [options]="lCupon" [(ngModel)]="registro.compracuponcdetalle"
+                [disabled]="pEditable == 0"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="interesnominaldias" class="ui-outputlabel ">Días Valor Nominal para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=interesnominaldias name="interesnominaldias" [(ngModel)]="registro.interesnominaldias" entero
+                maxlength="7" [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="interesnominalvalor" class="ui-outputlabel ">Interés en Base al Valor Nominal</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=interesnominalvalor name="interesnominalvalor" [(ngModel)]="registro.interesnominalvalor"
+                numero maxlength="14" [disabled]="true" />
+            </div>
+          </div>
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="interestranscurridodias" class="ui-outputlabel ">Días Transcurridos para el Interés</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=interestranscurridodias name="interestranscurridodias" [(ngModel)]="registro.interestranscurridodias"
+                entero maxlength="7" [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="interestranscurrido" class="ui-outputlabel ">Interés Transcurrido</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=interestranscurrido name="interestranscurrido" [(ngModel)]="registro.interestranscurrido"
+                numero maxlength="14" [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="diasporvencer" class="ui-outputlabel ">Días por Vencer</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=diasporvencer name="diasporvencer" [(ngModel)]="registro.diasporvencer" entero maxlength="7"
+                [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="valorporvencer" class="ui-outputlabel ">Interés por Vencer</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=valorporvencer name="valorporvencer" [(ngModel)]="this.registro.interesporvencer" numero
+                maxlength="14" [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="valordescuento" class="ui-outputlabel ">Valor Descuento</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=valordescuento name="valordescuento" [(ngModel)]="registro.valordescuento" numero maxlength="14"
+                [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="valornegociado" class="ui-outputlabel ">Valor Negociado</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=valornegociado name="valornegociado" [(ngModel)]="registro.valornegociado" numero maxlength="14"
+                [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="efectivonegociado" class="ui-outputlabel ">Efectivo Negociado</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=efectivonegociado name="efectivonegociado" [(ngModel)]="registro.efectivonegociado" numero
+                maxlength="14" (ngModelChange)="calcularTotalAPagar()" [disabled]="pEditable == 0" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="interesesnegociacion" class="ui-outputlabel ">Intereses Negociación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=interesesnegociacion name="interesesnegociacion" [(ngModel)]="registro.interesesnegociacion"
+                numero maxlength="14" (ngModelChange)="calcularTotalAPagar()" [disabled]="pEditable == 0" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="comisionesnegociacion" class="ui-outputlabel ">Comisiones Negociación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=comisionesnegociacion name="comisionesnegociacion" [(ngModel)]="registro.comisionesnegociacion"
+                numero maxlength="14" [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="totalapagar" class="ui-outputlabel ">TOTAL A PAGAR</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=totalapagar name="totalapagar" [(ngModel)]="registro.totalapagar" numero maxlength="14"
+                [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="utilidad" class="ui-outputlabel ">Utilidad</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id=utilidad name="utilidad" [(ngModel)]="registro.utilidad" numero maxlength="14" [disabled]="true"
+              />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="ley" class="ui-outputlabel required">Ley</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="ley" name="ley" [(ngModel)]="registro.ley" required [disabled]="true" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="sb" class="ui-outputlabel required">SB</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="sb" name="sb" [(ngModel)]="registro.sb" required [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="estadocdetalle" class="ui-outputlabel required">Estado</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lEstado" [(ngModel)]="registro.estadocdetalle" required
+                [disabled]="pEditable == 0 || pEditable == 1"></p-dropdown>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Auditoría">
+      <div class="f-contenedor-transaccion">
+        <div class="f-datacontent ui-g ui-fluid">
+
+
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="observaciones" class="ui-outputlabel required">Observaciones</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="observaciones" name="observaciones" [(ngModel)]="registro.observaciones" required [disabled]="pEditable == 0"
+              />
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuarioing" class="ui-outputlabel required">Usuario Creación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="cusuarioing" name="cusuarioing" [(ngModel)]="registro.cusuarioing" required [disabled]="true"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fingreso" class="ui-outputlabel required">Fecha de Creación</label>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fingreso" name="fingreso" [(ngModel)]="registro.fingreso" [showIcon]="true" [locale]="es" [disabled]="true"
+                required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuariomod" class="ui-outputlabel required">Usuario Modificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="cusuariomod" name="cusuariomod" [(ngModel)]="registro.cusuariomod" required [disabled]="true"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fmodificacion" class="ui-outputlabel required">Fecha de Modificación</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fmodificacion" name="fmodificacion" [(ngModel)]="registro.fmodificacion" [showIcon]="true" [locale]="es"
+                [disabled]="true" required [dateFormat]="formatofecha"></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+</form>

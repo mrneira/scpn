@@ -1,0 +1,25 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+
+  <button *ngIf="tablaCabecera.registro.estadicdetalle=='GEN'" pButton type="button" label="Finalizar" style="position: absolute; right: 135px;"
+    class="f-btn green-btn" icon="fa-check" (click)="finalizarIngreso()"></button>
+    <button *ngIf="tablaCabecera.registro.estadicdetalle=='GEN'" pButton type="button" name="Recalcular" id="Recalcular" label="Recalcular" style="position: absolute; right: 240px;" class="f-btn orange-btn" icon="ui-icon-pan-tool" (click)="reacalcular()"> </button>
+ 
+  <button  *ngIf="tablaCabecera.nuevo || (tablaCabecera.registro.estadicdetalle=='GEN')" pButton type="button" label="Guardar Cambios" style="position: absolute; right: 1px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"  ></button>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+  </div>
+
+  <app-datosgenerales (eventoReporte)="generarRol()"></app-datosgenerales>
+
+  <app-rolpago (eventoReferencia)="consultarDetalle($event)"></app-rolpago>
+
+  <p-fieldset legend="INGRESOS Y EGRESOS">
+    <div class="container">
+      <app-ingreso></app-ingreso>
+      <app-egreso></app-egreso>
+    </div>
+  </p-fieldset>

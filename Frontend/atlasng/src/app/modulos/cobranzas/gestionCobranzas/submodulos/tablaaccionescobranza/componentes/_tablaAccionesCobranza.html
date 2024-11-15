@@ -1,0 +1,194 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader" resizableColumns="true"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Acciones de Cobranza</div>
+          <button pButton type="button" name="btnAddAccionesCobranzas" id="btnAddAccionesCobranzas" style="background-color: #4CAF50; margin-left: 20px;" icon="ui-icon-add" (click)="agregarAccionCobranza()"> </button>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Código" [style]="{'width':'50px'}"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.naccion" header="Acción" [style]="{'width':'150px'}"></p-column>
+        <p-column field="numcuotavencido" header="Cuotas Vencidas" [style]="{'width':'100px'}"></p-column>
+        <p-column field="saldovencido" header="Saldo Vencido" [style]="{'width':'100px'}"></p-column>
+        <p-column field="diasvencido" header="Días Vencidos" [style]="{'width':'100px'}"></p-column>
+        <p-column field="telefono" header="Teléfono" [style]="{'width':'80px'}"></p-column>
+        <p-column field="correo" header="Correo" [style]="{'width':'200px'}"></p-column>
+        <p-column header="F. Registro" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="F.Comp. Pago" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fcompromisopago | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column field="observacion" header="Observación" [style]="{'width':'300px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="ACCIONES DE COBRANZAS" [(visible)]="mostrarDialogoAccionCobranza" [modal]="true" [responsive]="true"
+  [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 750px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-tabView>
+          <p-tabPanel header="Nueva acción" [selected]="true">
+            <form #formularioOperacion="ngForm">
+              <div class="f-datacontent ui-g ui-fluid">
+                <div class="oculto" style='display:none;'>
+                  <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+                </div>
+                <!--<button pButton type="button" name="imprimir" id="imprimir" label="Imprimir" style="position: absolute; left: 220px;" class="f-btn green-btn" icon="ui-icon-print" (click)="descargarReporte()"> </button>-->
+                <div class="ui-g-12 ui-g-nopad">
+                  <p-fieldset legend="Datos Cliente" [toggleable]="false">
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_celular" class="ui-outputlabel required">Celular</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <p-inputMask id="accioncobranza_celular" name="accioncobranza_celular" [(ngModel)]="mcampos.celular" mask="(09)-99999999" [disabled]="true"></p-inputMask>
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_email" class="ui-outputlabel">Email Personal</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <input type="text" pInputText id="accioncobranza_email" name="accioncobranza_email" [(ngModel)]="mcampos.email" [disabled]="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12"></div>
+                    <div class="ui-g-12"></div>
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="f-contenedor-transaccion">
+                        <div class="f-datacontent ui-g ui-fluid">
+                          <div class="ui-g-12 ui-g-nopad">
+                            <p-dataTable [value]="lregistrosDireccion" [responsive]="true" scrollable="true" scrollHeight="100px" scrollWidth="700px">
+                              <p-header>
+                                <div class="ui-table-title">Direcciones</div>
+                              </p-header>
+                              <p-column field="mdatos.ntipodireccion" header="Tipo Dirección" [style]="{'width':'80px'}"></p-column>
+                              <p-column field="direccion" header="Dirección" [style]="{'width':'300px'}"></p-column>
+                              <p-column field="referencia" header="Referencia" [style]="{'width':'300px'}"></p-column>
+                              <p-column field="telefonofijo" header="Teléfono fijo" [style]="{'width':'100px'}"></p-column>
+                              <p-column field="celular" header="Teléfono Celular" [style]="{'width':'100px'}"></p-column>
+                            </p-dataTable>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+                <div class="ui-g-12"></div>
+                <div class="ui-g-12"></div>
+                <div class="ui-g-12 ui-g-nopad">
+                  <p-fieldset legend="Datos Operación" [toggleable]="false">
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_valor" class="ui-outputlabel required">Valor Vencido</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <input id="accioncobranza_valor" name="accioncobranza_valor" type="text" pInputText [ngModel]="registro.saldovencido" required numero [disabled]="true" />
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_diasvencidos" class="ui-outputlabel">Días Vencidos</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <input type="text" pInputText id="accioncobranza_diasvencidos" name="accioncobranza_diasvencidos" [(ngModel)]="registro.diasvencido" entero disabled="disabled" />
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_cuotasvencidos" class="ui-outputlabel">Cuotas Vencidas</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <input type="text" pInputText id="accioncobranza_cuotasvencidos" name="accioncobranza_cuotasvencidos" [(ngModel)]="registro.numcuotavencido" entero disabled="disabled" />
+                        </div>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+                <div class="ui-g-12"></div>
+                <div class="ui-g-12"></div>
+                <div class="ui-g-12 ui-g-nopad">
+                  <p-fieldset legend="Datos de la nueva acción de cobranza" [toggleable]="false">
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-6 ui-md-4">
+                          <label for="accioncobranza_tipoaccion" class="ui-outputlabel required">Tipo de Acción:</label>
+                        </div>
+                        <div class="ui-g-6 ui-md-6">
+                          <p-dropdown id="accioncobranza_tipoaccion" name="accioncobranza_tipoaccion" [options]="laccion" [(ngModel)]="registro.tipoaccionselected" autofoco required (onChange)="habilitarCorreo($event)" (onChange)="habilitarNotificacion($event)" [disabled] = "print"></p-dropdown>
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_accionMora" class="ui-outputlabel">Motivo de Mora</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <p-dropdown id="accioncobranza_accionMora" name="accioncobranza_accionMora" [options]="laccionMora" [(ngModel)]="registro.tipomoraselected" autofoco required (onChange)="selectMotivoMora($event)" [disabled] = "print"></p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_fdesde" class="ui-outputlabel">Fecha Compromiso Pago</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <p-calendar id="accioncobranza_fdesde" name="accioncobranza_fdesde" [(ngModel)]="registro.fcompromisopago" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" d [disabled] = "print"></p-calendar>
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="acitvation">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_registrocelular" class="ui-outputlabel required">Celular</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <p-inputMask id="accioncobranza_registrocelular" name="accioncobranza_registrocelular" [(ngModel)]="registro.telefono" mask="(09)-99999999" required [disabled] = "print"></p-inputMask>
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.mdatos.enviocorreo">
+                        <div class="ui-g-12 ui-md-4">
+                          <label for="accioncobranza_registroemail" class="ui-outputlabel required">Email</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <input type="email" pInputText id="accioncobranza_registroemail" name="accioncobranza_registroemail" [(ngModel)]="registro.correo" maxlength="120" [disabled] = "print" [required]="registro.mdatos.enviocorreo" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-2">
+                        <label for="accioncobranza_observacion" class="ui-outputlabel required">Observación</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-10 ui-g-nopad">
+                        <textarea pInputText type="text" id="accioncobranza_observacion" name="accioncobranza_observacion" [(ngModel)]="registro.observacion" required mayusculas maxlength="255" rows="3" [disabled] = "print"></textarea>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+              </div>
+            </form>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-save" *ngIf = "(!print)" (click)="guardarAccionCobranza()" label="Guardar" style="margin-left:5px; margin-right:5px; background-color: #0B3C5D;"></button>
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoAccionesCobranza()" label="Cerrar" class="orange-btn"></button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>

@@ -1,0 +1,70 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">DETALLE DE MATRIZ CORRELACI&Oacute;N</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cmatrizdetalle" header="Código" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+       
+        <p-column header="Unidades / Procesos Internos" [style]="{'width':'200px'}" >
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cdepartamento" name="cdepartamento" [options]="lcdepartamento" [(ngModel)]="reg.cdepartamento"
+            [filter]="true" (onChange)="buscarFuncionario(i,reg)"  appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Producto o Servicio"[style]="{'width':'200px'}" >
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="cmetadetalle" name="cmetadetalle" [options]="lcmetadetalle" [(ngModel)]="reg.cmetadetalle"
+            [filter]="true" (onChange)="registrarEtiqueta(registro, lcmetadetalle, 'cmetadetalle', 'nproducto')" appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+      
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+      </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Meta proyectada" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="secuencia" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="cmatrizdetalle" name="cmatrizdetalle" [(ngModel)]="registro.cmatrizdetalle" [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="producto" class="ui-outputlabel required">Producto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <textarea type="text" pInputText id="nombre" name="producto" [(ngModel)]="registro.producto" required mayusculas maxlength="200"
+              rows="2" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

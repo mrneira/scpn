@@ -1,0 +1,42 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar] = "false" ></acciones-cabecera>		
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept="text/*" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+			 (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<app-resultado-carga></app-resultado-carga>
+		</div>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [responsive]="true">
+				<p-header>
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-file-download" (click)="imprimir()" class="f-btn green-btn f-text" style="text-align:center"></button>
+					</div>
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+</div>	

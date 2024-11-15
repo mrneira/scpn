@@ -1,0 +1,532 @@
+.layout-main {
+    padding-top: 95px !important;
+}
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+	padding: 3px 0px 8px 0px !important;
+}
+.ui-panel-title {
+	font-size:16px;display:inline-block;margin-top:2px;line-height: 3;
+}
+.ui-table-title {
+	font-size:14px;display:inline-block;margin-top:2px;height: 25px;;
+}
+.headerless thead {
+    display:none;
+}
+.ui-datatable .ui-datatable-data tr td {
+    padding: 0.2em .8em !important;
+}
+.ui-datatable .ui-datatable-thead > tr th .ui-column-title {
+    font-weight: bold;
+}
+.ui-datatable.ui-datatable-scrollable thead tr th{
+	font-size: inherit !important;
+}
+.ui-datatable-scrollable-body {
+    overflow-y: scroll !important;
+}
+.ui-datatable-scrollable .ui-datatable-scrollable-header {
+    background: #efefef !important;
+}
+.ui-datatable-scrollable-header-box{
+	margin-right: 17px !important;
+}
+.ui-dropdown {
+	width: 100% !important;
+}
+.ui-cell-editor > .ui-inputtext {
+    border-width: 1px !important;
+}
+.ui-outputlabel {
+    color: #695757;
+}
+
+.ui-cell-total {
+    border-radius: 15px;
+    background: rgba(233, 51, 51, 0.796);
+    padding: 5px; 
+    width: 200px;
+    height: 5px; 
+    font-size:14px;
+}
+
+.ui-cell-totalReporte {
+    border-radius: 15px;
+    background: rgba(139, 233, 51, 0.796);
+    padding: 5px; 
+    width: 200px;
+    height: 5px; 
+    font-size:14px;
+}
+.ui-dialog{
+	overflow: hidden !important;
+}
+
+.f-dash-selected {
+	background-color: #b3cccc !important;
+}
+
+.required:after {
+    content: '*';
+    color: rgb(236, 81, 81);
+    padding-left: 5px;
+}
+.title_separator{
+	margin-top: 15px;
+	font-weight: bold;
+	padding: 0px 10px 0px 2px;
+	display: flex;
+    line-height: 2;
+}
+.title_separator .fa{
+	margin-right: 5px;
+}
+.title_separator + hr{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.title_separator_box {
+  margin-top: 20px;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px;
+  padding: 5px 10px 5px 10px;
+  margin: 40px 0px 5px 0px;
+}
+
+.separador-linea {
+	display: inline-block;
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+.title_separator_sub {
+	font-weight: bold;
+	padding: 4px 10px 4px 5px;
+	display: flex;
+	line-height: 1.8;
+	background-color: #868686;
+    color: #ffffff;
+}
+.layout-container .topbar .topbar-left{
+  padding: 0px !important;
+  /*Color de la esquina del tema*/
+  background-color: #0b3c5d !important;
+  border-color: #ffffff;
+        height: 90px !important;
+    width: 250px;
+}
+.layout-container .topbar .logo{
+	width: 250px !important;
+    height: 120px !important;
+    background: url("../layout/images/logo-autorizado-gris.png") top left no-repeat !important;
+	background-size: 225px 88px !important;
+    position: relative !important;
+    left: 5px !important;
+    top: 1px !important;
+}
+
+.layout-container .topbar {
+	position: fixed;
+    z-index: 100;
+    width: 100%;
+    height: 90px !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.layout-container .layout-menu {
+	    overflow: auto;
+    position: fixed;
+    width: 250px;
+    z-index: 99;
+    top: 90px !important;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, 0.3);
+    transition: margin-left 0.3s;
+}
+
+.layout-container .topbar .topbar-right {
+	padding: 22px !important;
+    position: relative;
+}
+
+.f-titulo {
+	padding: 8px 5px 8px 5px;
+    margin-bottom: 2px;
+    border: solid 1px #bdbdbd;
+}
+.f-btn {
+    width: initial !important;
+}
+.f-filtros {
+	padding: 15px;
+    margin-bottom: 10px;
+}
+.f-acciones-cabecera {
+	width: 100%;
+    float: right;
+    position: absolute;
+    display: inline !important;
+    top: -32px;
+    right: 0px;
+}
+.f-acciones-cabecera  button {
+	float: right;
+	margin-right: 15px;
+}
+.f-acciones-cabecera  p-splitButton {
+  float: right;
+	margin-right: 15px;
+}
+.f-acciones-editar {
+	margin-bottom: 15px;
+}
+.f-float-left {
+	float: left !important;
+}
+.f-pdf, .f-excel, .f-txt {
+	width: 40px;
+    height: 40px !important;
+    padding-left: 5px !important;
+    margin: 5px;
+    font-size: 0px;
+}
+.f-pdf:hover, .f-excel:hover, .f-txt:hover {
+    background: none !important;
+}
+.f-center-items > div[class*='ui-'] {
+	margin: 0 auto !important;
+}
+.f-bold {
+	font-weight: bold;
+}
+
+.ui-datatable-header .f-pdf, .ui-datatable-header .f-excel, .ui-datatable-header .f-txt {
+    height: 22px;
+    padding-top: 0px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 0px;
+}
+.ui-datatable-header .f-pdf:hover, .ui-datatable-header .f-excel:hover, .ui-datatable-header .f-txt:hover,
+.f-pdf span.ui-button-text:hover, .f-pdf .ui-button-text-only span.ui-button-text:hover,
+.f-excel span.ui-button-text:hover, .f-excel .ui-button-text-only span.ui-button-text:hover,
+.f-txt span.ui-button-text:hover, .f-txt .ui-button-text-only span.ui-button-text:hover,
+.f-pdf.ui-state-focus .ui-button-text, .f-excel.ui-state-focus .ui-button-text, .f-txt.ui-state-focus .ui-button-text  {
+    background-color: transparent !important;
+    font-size: 0px;
+}
+.f-excel span.ui-button-text, .f-excel .ui-button-text-only span.ui-button-text {
+	background-repeat: no-repeat !important;
+	background-image: url("../imagenes/excel.png") !important;
+	height: 25px;
+	width: 25px;
+    background-size: 24px;
+    padding: 0px !important;
+    font-size: 0px;
+}
+.f-txt span.ui-button-text, .f-txt .ui-button-text-only span.ui-button-text {
+	background-repeat: no-repeat !important;
+	background-image: url("../imagenes/txt.png") !important;
+	height: 25px;
+	width: 25px;
+    background-size: 24px;
+    padding: 0px !important;
+    font-size: 0px;
+}
+.f-pdf span.ui-button-text, .f-pdf .ui-button-text-only span.ui-button-text {
+	background-repeat: no-repeat !important;
+	background-image: url("../imagenes/pdf.png") !important;
+	height: 25px;
+	width: 25px;
+    background-size: 24px;
+    padding: 0px !important;
+    font-size: 0px;
+}
+.f-left {
+	text-align: left !important;
+}
+.f-right {
+	text-align: right !important;
+}
+
+.f-center {
+	text-align: center !important;
+}
+
+.f-dash-selected {
+	background-color: rgb(105, 105, 105) !important;
+	color: #ffffff;
+}
+
+.f-max-width-300 {
+	max-width: 300px;
+}
+.f-max-width-400 {
+	max-width: 400px;
+}
+.f-max-width-500 {
+	max-width: 500px;
+}
+.f-max-width-600 {
+	max-width: 600px;
+}
+.f-max-width-700 {
+	max-width: 700px;
+}
+.f-max-width-800 {
+	max-width: 800px;
+}
+.f-max-width-900 {
+	max-width: 900px;
+}
+
+body .ui-calendar .ui-datepicker-trigger .fa {
+	color: #fff !important;
+}
+
+@media (max-width: 35em){
+	.ui-datatable table {
+	    table-layout: auto !important;
+	}
+	.ui-datatable-reflow .ui-datatable-data>tr>td {
+	    text-align: left !important;
+	    width: 100% !important;
+	}
+	.f-table-actions {
+		text-align: center;
+	}
+	.ui-datatable-even .f-table-actions {
+		background-color: #ffffff;
+	}
+	.ui-datatable-odd .f-table-actions {
+		background-color: #f4f4f4;
+	}
+}
+
+
+/*ESTILOS LAYOUT CYAN*/
+.login-panel .ui-inputtext:focus {
+    border-width: 0 0 2px 0;
+    padding-bottom: 0px; }
+
+.layout-container .topbar {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  height: 75px;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
+
+.layout-container .topbar .topbar-right .topbar-items .search-item input:focus ~ label {
+      top: -5px;
+      font-size: 12px; }
+
+.layout-container.menu-layout-horizontal .topbar .topbar-left {
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none; }
+
+
+
+.layout-container .topbar .topbar-right .topbar-items > li.search-item input:focus ~ label,
+      .layout-container .topbar .topbar-right .topbar-items > li.search-item input.ui-state-filled ~ label {
+        top: -20px;}
+
+.splash-screen .bar:nth-child(3) {
+    background-color: rgb(105,105,105);
+    animation: loading 3s linear 2s infinite; }
+
+
+.ajax-loader {
+  font-size: 2em;
+  color: rgb(105,105,105); }
+
+.layout-container .topbar-items > li > a .topbar-badge {
+          position: absolute;
+          right: -5px;
+          top: -5px;
+          background-color: rgb(105,105,105);
+          color: #212121;
+          -moz-border-radius: 50%;
+          -webkit-border-radius: 50%;
+          border-radius: 50%;
+          padding: 2px 4px;
+          display: block;
+          font-size: 12px;
+          line-height: 12px; }
+
+
+.splash-screen .logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 200px;
+    height: 30px;
+    background: url("../imagenes/login/login2.jpg") top left no-repeat;
+    background-size: 200px 30px; }
+
+.landing-wrapper #header .header-top .logo {
+      display: inline-block;
+      vertical-align: middle;
+      width: 20px;
+      height: 30px;
+      background: url("../imagenes/login/login2.jpg") top left no-repeat !important; }
+
+
+body .ui-dropdown-panel .ui-dropdown-filter-container {
+
+              display: block !important;
+              border-bottom: 1px solid #bdbdbd !important;
+              padding: 0.625em 1em !important; }
+
+.img-loading {
+ display: inline-block;
+ vertical-align: middle;
+ width: 108px;
+ height: 108px;
+ background: url("../imagenes/loading1.gif") top left no-repeat;
+ display:block;}
+
+.app-info {
+	height: 50px !important;
+    padding-top: 12px !important;
+}
+.app-info-fecha {
+    /* background: linear-gradient(to left, #fd654d 19%, #f14978 100%); */
+    background-color: #ffffff;
+    border-radius: 7px;
+    padding: 2px 2px 2px 2px;
+    width: 65px !important;
+    text-align: center;
+    color: #000000;
+    display: inline-block;
+}
+
+.app-info-ambiente {
+    /* background: linear-gradient(to left, #fd654d 19%, #f14978 100%); */
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 2px 2px 2px 2px;
+    width: 90px !important;
+    text-align: center;
+    color: #000000;
+    display: inline-block;
+}
+/*ESTILOS SIDEBAR*/
+.ui-sidebar {
+    position: fixed;
+    padding: .5em 1em;
+    -webkit-transition: transform .3s;
+    transition: transform .3s;
+}
+
+.ui-sidebar-left {
+    top: 0;
+    left: 0;
+    width: 20em;
+    height: 100%;
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+.ui-sidebar-right {
+    top: 0;
+    right: 0;
+    width: 20em;
+    height: 100%;
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+.ui-sidebar-top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10em;
+    -webkit-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+.ui-sidebar-bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10em;
+    -webkit-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    transform: translateY(100%);
+}
+
+.ui-sidebar-full {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    -webkit-transition: transform 0s;
+    transition: transform 0s;
+}
+
+.ui-sidebar-left.ui-sidebar-active,
+.ui-sidebar-right.ui-sidebar-active {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0)
+}
+
+.ui-sidebar-left.ui-sidebar-sm,
+.ui-sidebar-right.ui-sidebar-sm {
+    width: 20em;
+}
+
+.ui-sidebar-left.ui-sidebar-md,
+.ui-sidebar-right.ui-sidebar-md {
+    width: 40em;
+}
+
+.ui-sidebar-left.ui-sidebar-lg,
+.ui-sidebar-right.ui-sidebar-lg {
+    width: 60em;
+}
+
+.ui-sidebar-top.ui-sidebar-active,
+.ui-sidebar-bottom.ui-sidebar-active {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.ui-sidebar-top.ui-sidebar-sm,
+.ui-sidebar-bottom.ui-sidebar-sm {
+    height: 10em;
+}
+
+.ui-sidebar-top.ui-sidebar-md,
+.ui-sidebar-bottom.ui-sidebar-md {
+    height: 20em;
+}
+
+.ui-sidebar-top.ui-sidebar-lg,
+.ui-sidebar-bottom.ui-sidebar-lg {
+    height: 30em;
+}
+
+.ui-sidebar-mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.ui-sidebar-close {
+    float: right;
+}
+
+@media screen and (max-width: 64em) {
+    .ui-sidebar-left.ui-sidebar-lg,
+    .ui-sidebar-left.ui-sidebar-md, 
+    .ui-sidebar-right.ui-sidebar-lg,
+    .ui-sidebar-right.ui-sidebar-md {
+        width: 20em;
+    }
+}

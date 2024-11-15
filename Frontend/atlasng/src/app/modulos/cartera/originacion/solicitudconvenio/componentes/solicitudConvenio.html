@@ -1,0 +1,116 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="solicitud" id="solicitud" label="Iniciar solicitud" style="position: absolute; right: 95px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="grabarSolicitud()" [disabled]="!habilitagrabar" *ngIf="ins"></button>
+</div>
+
+<p-steps [model]="solicitudComponent.items" [readonly]="true" [(activeIndex)]="solicitudComponent.idstep"></p-steps>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+        required [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-12">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"
+          [disabled]="!selectedPersona"></button>
+        <button pButton type="button" id="lovpersonavista" name="lovpersonavista" (click)="mostrarLovPersonaVista()"
+          icon="ui-icon-person" *ngIf="!estaVacio(registro.cpersona)"></button>
+      </div>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    <app-lov-persona-vista #vistadeudor></app-lov-persona-vista>
+  </div>
+  <div class="ui-g-12 ui-md-8 ui-g-nopad" *ngIf="habilitamensaje">
+    <div class="ui-g-12 ui-md-2">
+      <label>&nbsp;</label>
+    </div>
+    <div class="ui-g-12 ui-md-10">
+      <span style="color:red; text-decoration:blink;">
+        <b>
+          <h2> ** Estado del socio no permite ingreso de solicitud ** </h2>
+        </b>
+      </span>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-8 ui-g-nopad" *ngIf="habilitamensajereincorporado">
+    <div class="ui-g-12 ui-md-2">
+      <label>&nbsp;</label>
+    </div>
+    <div class="ui-g-12 ui-md-10">
+      <span style="color:blue; text-decoration:blink;">
+        <b>
+          <h2> {{msgsreincorporado}} </h2>
+        </b>
+      </span>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-8 ui-g-nopad" *ngIf="habilitamensajerestriccion">
+    <div class="ui-g-12 ui-md-2">
+      <label>&nbsp;</label>
+    </div>
+    <div class="ui-g-12 ui-md-10">
+      <span style="color:red; text-decoration:blink;">
+        <b>
+          <h2> ** Socio tiene registrado novedad que no permite realizar créditos ** </h2>
+        </b>
+      </span>
+    </div>
+  </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Datos generales" [selected]="true">
+    <button pButton type="button" name="simular" id="simular" label="Simular" style="margin-bottom:10px" class="f-btn green-btn"
+      icon="fa-check" (click)="grabarSimulacion()" [disabled]="!datosGeneralesComponent.formularioSolicitud.valid">
+    </button>
+    <app-solicitud (eventoSimulacion)="recargarSimulacion()"></app-solicitud>
+    <app-datos-generales [solicitud]="solicitudComponent"></app-datos-generales>
+    <div class="separador-linea"></div>
+    <app-tabla-amortizacion></app-tabla-amortizacion>
+  </p-tabPanel>
+  <p-tabPanel header="Deudor" lacy=true [disabled]="!habilitaCapacidad">
+    <app-capacidad-pago></app-capacidad-pago>
+  </p-tabPanel>
+</p-tabView>
+
+<p-dialog header="Requisitos" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <div class="f-dialogo" style="max-width: 700px">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lrequisitossolicitud" [responsive]="true" scrollable="true" scrollHeight="350px"
+        [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Requisitos</div>
+        </p-header>
+        <p-column field="mdatos.nrequisito" header="Nombre" [style]="{'width':'160px'}"></p-column>
+        <p-column header="Verificado" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.verificada" binary="false"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Comentario">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <input type="text" size="80" pInputText [(ngModel)]="reg.comentario" mayusculas maxlength="2000" />
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+    <footer>
+      <div align="right">
+        <button type="button" pButton icon="ui-icon-check" (click)="grabar()" label="Confirmar" class="green-btn">
+        </button>
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+          style="margin-left:5px">
+        </button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>

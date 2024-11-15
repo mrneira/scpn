@@ -1,0 +1,26 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fdesde" class="ui-outputlabel required">Fecha:</label>
+      </div>
+      <div class="ui-g-6 ui-md-8">
+         <p-calendar name="fdesde" [(ngModel)]="mcampos.finicio" (ngModelChange)="this.consultarEmisores()" [showIcon]="true" [dateFormat]="formatofecha" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-calendar>
+      </div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+			<label for="emisor" class="ui-outputlabel required">Emisor:</label>
+		</div>
+		<div class="ui-g-6 ui-md-5">
+			<p-dropdown id="emisor" name="emisor" [options]="lemisores"[(ngModel)]="mcampos.emisor"></p-dropdown>
+		</div>
+	</div>
+
+  </form>
+    <app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [excel]="false" [pdf]="false" [cajapdf]="false"></app-jasper>
+</div>

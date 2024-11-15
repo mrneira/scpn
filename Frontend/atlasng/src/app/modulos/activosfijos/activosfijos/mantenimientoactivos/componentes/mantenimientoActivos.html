@@ -1,0 +1,232 @@
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="cbarras" class="ui-outputlabel">Cod. Barras</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="cbarras" name="cbarras" [(ngModel)]="mfiltros.cbarras" mayusculas autofoco
+					maxlength="30" />
+			</div>
+		</div>
+	</form>
+	<!--RNI 20240802-->
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Mantenimiento de Activos</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="mdatos.nproducto" header="Nombre"></p-column>
+				<p-column field="cbarras" header="Cod. Barras"></p-column>
+				<p-column field="porcendepreciacion" header="% Depreciaci&oacute;n"></p-column>
+				<p-column field="vidautil" header="Vida Útil"></p-column>
+				<p-column field="ccuenta" header="Cta. Contable"[style]="{'width':'70px'}"></p-column>
+				<p-column field="ccuentadepreciacion" header="Cta. Dep." [style]="{'width':'70px'}"></p-column>
+				<p-column field="ccuentagasto" header="Cta. Gasto" [style]="{'width':'70px'}"></p-column>
+				<p-column field="ccuentadepreciacionacum" header="Cta. Dep Acu." [style]="{'width':'70px'}"></p-column>
+				<p-column [style]="{'width':'110px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+							<button type="button" pButton (click)="mostrarLovGestorDocumental(reg)"
+								icon="ui-icon-file-upload"></button>
+
+							<span *ngIf="reg.cgesarchivo != undefined">
+								<button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)"
+									icon="ui-icon-file-download">
+								</button>
+							</span>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Mantenimiento Activos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+	[responsive]="true" [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px; width:500px;">
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cnombre" class="ui-outputlabel">Nombre</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="cnombre" name="cnombre" [readonly]="true" [(ngModel)]="registro.mdatos.nproducto" maxlength="20" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cbarras" class="ui-outputlabel">C. Barras</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="cbarras" name="cbarras" [readonly]="true" [(ngModel)]="registro.cbarras" maxlength="20" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="motor" class="ui-outputlabel ">Serie</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="serial" name="serial" [(ngModel)]="registro.serial"
+							maxlength="50" />
+					</div>
+				</div>
+
+				<!-- CAMPOS MARCA AÑADIDOS-->
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="marca" class="ui-outputlabel">Marca</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="marca" name="marca" [(ngModel)]="registro.marcacdetalle"
+							maxlength="50" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+					<div class="ui-g-12 ui-md-1"></div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="modelo" class="ui-outputlabel">Modelo</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="modelo" name="modelo"
+							[(ngModel)]="registro.modelo" maxlength="50"
+							[disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="estado" class="ui-outputlabel required">Estado</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="estadoDetalle" name="estadoDetalle" [options]="lestado" [(ngModel)]="registro.estadocdetalle"
+						  required [filter]="true" ></p-dropdown>
+					</div>
+					<div class="ui-g-12 ui-md-1"></div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="ubicacion" class="ui-outputlabel required">Ubicación</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<p-dropdown id="ubicacion" name="ubicacion" [options]="lubicacion" [(ngModel)]="registro.ubicacioncdetalle"
+						  required [filter]="true" ></p-dropdown>
+					</div>
+				</div>	
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+					  <label for="estructuracdetalle" class="ui-outputlabel required">Estructura</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+					  <p-dropdown id="estructuracdetalle" name="estructuracdetalle" [options]="lestructura" [(ngModel)]="registro.estructuracdetalle"
+						required [filter]="true" ></p-dropdown>
+					</div>
+				  </div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="oficina" class="ui-outputlabel ">Oficina Responsable</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="oficina" name="oficina" [(ngModel)]="registro.oficina"
+							maxlength="50" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="motor" class="ui-outputlabel ">Accesorios</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="accesorios" name="accesorios" [(ngModel)]="registro.extras"
+							maxlength="50" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cbarras" class="ui-outputlabel required">Color</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="color" name="color" [(ngModel)]="registro.color" maxlength="20" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad" hidden>
+					<div class="ui-g-12 ui-md-2">
+						<label for="fingreso" class="ui-outputlabel required">Fecha Compra</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-calendar id="fingreso" name="fechafactura" [(ngModel)]="registro.fingreso"
+						[showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050">
+						</p-calendar>
+					</div>
+				</div>
+
+				
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="motor" class="ui-outputlabel ">Código Anterior</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="canterior" name="canterior" [(ngModel)]="registro.canterior"
+							maxlength="50" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="motor" class="ui-outputlabel ">Información adicional</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="registro.infoadicional"  mayusculas
+						maxlength="500" rows="2" ></textarea>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="motor" class="ui-outputlabel ">Comentario</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario"  mayusculas
+						maxlength="500" rows="2" ></textarea>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="estado" class="ui-outputlabel ">Activo?</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false" ></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>
+<app-lov-cuentas-contables #lov1 (eventoCliente)=fijarLovCuentasSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov2 (eventoCliente)=fijarLovCuentasDepreciacionSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov3 (eventoCliente)=fijarLovCuentasGastoSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov4 (eventoCliente)=fijarLovCuentasDepreciacionAcumSelec($event)>
+</app-lov-cuentas-contables>

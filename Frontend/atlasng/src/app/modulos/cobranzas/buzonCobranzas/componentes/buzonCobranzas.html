@@ -1,0 +1,168 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1"><!--NCH 20220810-->
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="relaciondeuda"  class="ui-outputlabel required">Relación deuda:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown id="relaciondeuda" name="relaciondeuda" [options]="lrelacionDeuda" [(ngModel)]="this.mcampos.relaciondeuda" required [filter]="true"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Buzón de Cobranzas</div>
+          <acciones-consulta [componente]="componentehijo"></acciones-consulta>
+        </p-header>
+        <p-column field="ccobranza" header="Cobranza" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'30px'}"></p-column>
+        <p-column field="coperacion" header="Operación" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'30px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Deudor" [filter]="true" filterPlaceholder="Filtrar"[style]="{'width':'100px'}"></p-column>
+        <p-column field="mdatos.nproducto" header="Producto" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'105px'}"></p-column>
+        <p-column field="cuotasvencidas" header="Cuotas V" [style]="{'width':'35px'}"></p-column>
+        <p-column field="montovencido" header="Monto V" [style]="{'width':'35px'}"></p-column>
+        <p-column field="diasvencidos" header="Días V" [style]="{'width':'35px'}"></p-column>
+        <p-column header="F. Ingreso" styleClass="f-center" [style]="{'width':'40px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="F. Asignación" styleClass="f-center" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fasignacion | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="cusuarioasignado" header="U. Asignado" [style]="{'width':'50px'}"></p-column>
+        <p-column header="F. Ult. Modificación" styleClass="f-center" [style]="{'width':'65px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fultmodificacion | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'30px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-delete-forever" (click)="selectRegistro(reg)" icon="ui-icon-document" style="margin-left:5px">
+              </button>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{lregistros ? lregistros.length : '0'}}] registros</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Detalle Desembolso" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Datos Operación</span>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcdeudor" class="ui-outputlabel required">Deudor</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.npersona" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.nproducto" disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.mdatos.ntipoproducto" disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="monto" class="ui-outputlabel required">Monto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="monto" name="monto" maxlength="10" numero [(ngModel)]="registro.valor" disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="numerocuotas" class="ui-outputlabel required">Número cuotas</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero [(ngModel)]="registro.mdatos.numerocuotas" required
+                disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12"></div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Datos Pago</span>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="cbanco" class="ui-outputlabel required">Institución financiera:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="cbanco" name="cbanco" [(ngModel)]="registro.mdatos.nbanco" disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="ctipocuenta" class="ui-outputlabel required">Tipo de cuenta:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="ctipocuenta" name="ctipocuenta" [(ngModel)]="registro.mdatos.ntipocuenta" required disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="numerocuentabancaria" class="ui-outputlabel required">Número de cuenta:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="numerocuentabancaria" name="numerocuentabancaria" entero [(ngModel)]="registro.numerocuentabancaria"
+                disabled="disabled" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cerrar" class="orange-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

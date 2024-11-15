@@ -1,0 +1,89 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Horas Extras</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="anio" header="Año" [style]="{'width':'40px'}"></p-column>
+        <p-column field="chora" header="Código" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+        <p-column field="mdatos.ntipo" header="Tipo" ></p-column>
+        <p-column field="mdatos.nregimen" header="Régimen" ></p-column>
+        <p-column header="Valor" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.porcentaje | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+
+
+        <p-column [style]="{'width':'100px'}" header="Acciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Horas extras" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="chora" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="chora" name="chora" [(ngModel)]="registro.chora" autofoco required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel required">Tipo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown appendTo="body" id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="registro.tipocdetalle" (onChange)="registrarEtiqueta(registro, ltipo, 'tipocdetalle', 'ntipo')"
+              required></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel required">Régimen:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown appendTo="body" id="regimencdetalle" name="regimencdetalle" [options]="lregimen" [(ngModel)]="registro.regimencdetalle" (onChange)="registrarEtiqueta(registro, lregimen, 'regimencdetalle', 'nregimen')"
+              required></p-dropdown>
+          </div>
+        </div>
+        
+
+
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="porcentaje" class="ui-outputlabel required">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="porcentaje" name="porcentaje" [(ngModel)]="registro.porcentaje" (blur)="validarPorcentaje()" numeroPositivo
+               required/>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

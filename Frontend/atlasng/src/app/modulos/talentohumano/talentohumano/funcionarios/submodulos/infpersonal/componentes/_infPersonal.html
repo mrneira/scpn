@@ -1,0 +1,469 @@
+<app-lov-personas (eventoCliente)=fijarLovPersonas($event)></app-lov-personas>
+<app-lov-maps [draggable]="editable" (eventoCliente)=fijarLovMapa($event)></app-lov-maps>
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+<app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+<app-lov-provincias (eventoCliente)=fijarLovProvinciasSelec($event)></app-lov-provincias>
+<app-lov-cantones (eventoCliente)=fijarLovCantonesSelec($event)></app-lov-cantones>
+<app-lov-ciudades (eventoCliente)=fijarLovCiudadesSelec($event)></app-lov-ciudades>
+
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+
+			<acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+			</acciones-editar>
+
+			<p-accordion class="ui-g-12 ui-g-nopad" [multiple]="true">
+				<p-accordionTab header="Información General" [selected]="true">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="cfuncionario" class="ui-outputlabel">Código</label>
+							</div>
+							<div class="ui-g-9 ui-md-2">
+								<input type="text" pInputText id="cfuncionario" name="cfuncionario" [(ngModel)]="registro.cfuncionario" entero [disabled]="true"
+								/>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Tipo de documento</label>
+							</div>
+							<div class="ui-g-8 ui-md-8">
+								<p-dropdown id="tipoinstitucioncdetalle" name="tipoinstitucioncdetalle" [options]="ltipodocumento" [(ngModel)]="registro.tipodocumentocdetalle"
+								 [disabled]="!editable" [filter]="true" required></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="documento" class="ui-outputlabel required">Documento</label>
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.documento" maxlength="20" (blur)="validarDocumento()"
+								 [disabled]="!editable || estaVacio(registro.tipodocumentocdetalle)" required/>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="codigobiometrico" class="ui-outputlabel">Biométrico</label>
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="codigobiometrico" name="codigobiometrico" [(ngModel)]="registro.codigobiometrico" maxlength="50"
+								 [disabled]="!editable" />
+							</div>
+						</div>
+
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="tipopersonalcdetalle" class="ui-outputlabel required">Tipo personal:</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="tipopersonalcdetalle" name="tipopersonalcdetalle" (onChange)="consultarTitulo($event)" [options]="ltipopersonal" [(ngModel)]="registro.tipopersonalcdetalle" [disabled]="!editable"
+								 [filter]="true" required></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="titulocdetalle" class="ui-outputlabel required">Título/Grado:</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="titulocdetalle" name="titulocdetalle" [options]="ltitulo" [(ngModel)]="registro.titulocdetalle" [disabled]="!editable"
+								 [filter]="true" required></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-12 ui-md-3">
+								<label for="cpersonaFilter" class="ui-outputlabel">Persona:</label>
+							</div>
+							<div class="ui-g-2 ui-md-1">
+								<input id="cpersonaFilter" name="cpersonaFilter" type="text" pInputText [(ngModel)]="registro.cpersona" required [disabled]="true"
+								/>
+							</div>
+							<div class="ui-g-9 ui-md-7">
+								<input type="text" pInputText id="nombrePersona" name="nombrePersona" [(ngModel)]="registro.mdatos.npersona" [disabled]="true"
+								/>
+							</div>
+							<div class="ui-g-1 ui-md-1">
+								<button pButton type="button" id="lovPersona" name="lovPersona" [disabled]="!editable" (click)="mostrarLovPersonas()" icon="ui-icon-directions"></button>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="primernombreFun" class="ui-outputlabel required">Primer Nombre
+								</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<input type="text" pInputText id="primernombreFun" name="primernombreFun" [(ngModel)]="registro.primernombre" maxlength="80"
+								 letras [disabled]="!editable" required/>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="segundonombreFun" class="ui-outputlabel">Segundo Nombre
+								</label>
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="segundonombreFun" name="segundonombreFun" [(ngModel)]="registro.segundonombre" maxlength="80"
+								 letras [disabled]="!editable" />
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="primerapellidoFun" class="ui-outputlabel required">Apellido paterno
+								</label>
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="primerapellidoFun" name="primerapellidoFun" [(ngModel)]="registro.primerapellido" maxlength="80"
+								 letras [disabled]="!editable" required/>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="segundoapellidoFun" class="ui-outputlabel">Apellido materno
+								</label>
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="segundoapellidoFun" name="segundoapellidoFun" [(ngModel)]="registro.segundoapellido" maxlength="80"
+								 letras [disabled]="!editable" />
+							</div>
+						</div>
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-6 ui-md-3">
+								<label for="cpais" class="ui-outputlabel required">País
+								</label>
+							</div>
+							<div class="ui-g-6 ui-md-2">
+								<input id="cpais" name="cpais" type="text" pInputText [(ngModel)]="registro.cpais" [readOnly]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="npais" name="npais" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-1">
+								<button pButton type="button" id="lovpaises" name="lovpaises" (click)="mostrarLovPaises()" icon="ui-icon-directions" [disabled]="!editable">
+								</button>
+							</div>
+						</div>
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-12 ui-md-3">
+								<label for="jefecfuncionario" class="ui-outputlabel">Funcionario Jefe</label>
+							</div>
+							<div class="ui-g-2 ui-md-1">
+								<input id="jefecfuncionario" name="jefecfuncionario" type="text" pInputText [(ngModel)]="registro.jefecfuncionario" [readOnly]="true"
+								/>
+							</div>
+							<div class="ui-g-9 ui-md-7">
+								<input type="text" pInputText id="njefe" name="njefe" [(ngModel)]="registro.mdatos.njefe" [disabled]="true" />
+							</div>
+							<div class="ui-g-1 ui-md-1">
+								<button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"
+								 [disabled]="!editable"></button>
+							</div>
+						</div>
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-6 ui-md-3">
+								<label for="cprovincia" class="ui-outputlabel ">Provincia</label>
+							</div>
+							<div class="ui-g-6 ui-md-2">
+								<input id="cprovincia" name="cprovincia" type="text" pInputText [(ngModel)]="registro.cpprovincia" [readOnly]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="nprovincia" name="nprovincia" [(ngModel)]="registro.mdatos.nprovincia" [disabled]="true"
+								/>
+							</div>
+							<div class="ui-g-1 ui-md-1">
+								<button pButton type="button" id="lovprovincias" name="lovprovincias" (click)="mostrarLovProvincias()" icon="ui-icon-directions"
+								 [disabled]="!editable || registro.cpais != 'EC'">
+								</button>
+							</div>
+						</div>
+						
+
+
+
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-6 ui-md-3">
+								<label for="ccanton" class="ui-outputlabel ">Cantón</label>
+							</div>
+							<div class="ui-g-6 ui-md-2">
+								<input id="ccanton" name="ccanton" type="text" pInputText [(ngModel)]="registro.ccanton" [readOnly]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="ncanton" name="ncanton" [(ngModel)]="registro.mdatos.ncanton" [disabled]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-1">
+								<button pButton type="button" id="lovcantones" name="lovcantones" (click)="mostrarLovCantones()" icon="ui-icon-directions"
+								 [disabled]="!editable || registro.cpais != 'EC'">
+								</button>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="fnacimiento" class="ui-outputlabel required">Fecha de Nacimiento</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-calendar id="fnacimiento" name="fnacimiento" [(ngModel)]="registro.fnacimiento" [showIcon]="true" [locale]="es" [disabled]="!editable" [maxDate]="fechaactual"
+								 [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" (ngModelChange)="calcularEdad($event)"required></p-calendar>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="telefonocelular" class="ui-outputlabel">Edad:</label>
+							</div>
+							<div class="ui-g-3 ui-md-9">
+								<input type="text" pInputText id="nfecha" name="nfecha" [(ngModel)]="mcampos.nfecha" maxlength="120"
+								 [disabled]="true" />
+							</div>
+
+						</div>
+
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-6 ui-md-3">
+								<label for="cciudad" class="ui-outputlabel ">Ciudad </label>
+							</div>
+							<div class="ui-g-6 ui-md-2">
+								<input id="cciudad" name="cciudad" type="text" pInputText [(ngModel)]="registro.cciudad" [readOnly]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-6">
+								<input type="text" pInputText id="nciudad" name="nciudad" [(ngModel)]="registro.mdatos.nciudad" [disabled]="true" />
+							</div>
+							<div class="ui-g-6 ui-md-1">
+								<button pButton type="button" id="lovciudades" name="lovciudades" (click)="mostrarLovCiudades()" icon="ui-icon-directions"
+								 [disabled]="!editable || registro.cpais != 'EC'">
+								</button>
+							</div>
+						</div>
+
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="email" class="ui-outputlabel">Email Personal</label>
+							</div>
+							<div class="ui-g-9 ui-md-9">
+								<input type="text" pInputText id="email" name="email" [(ngModel)]="registro.email" maxlength="120" [disabled]="!editable"
+								/>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="estadocivilcdetalle" class="ui-outputlabel required">Estado Civil
+								</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="estadocivilcdetalle" name="estadocivilcdetalle" [options]="lestadocivil" [(ngModel)]="registro.estadocivilcdetalle"
+								 required [disabled]="!editable" [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="tipolicenciaconduccioncdetalle" class="ui-outputlabel">Tipo de Licencia</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="tipolicenciaconduccioncdetalle" name="tipolicenciaconduccioncdetalle" [options]="ltipolicencia" [(ngModel)]="registro.tipolicenciaconduccioncdetalle"
+								 [disabled]="!editable" [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="emailinstitucion" class="ui-outputlabel">Email Institucional
+								</label>
+							</div>
+							<div class="ui-g-9 ui-md-9">
+								<input type="text" pInputText id="emailinstitucion" name="emailinstitucion" [(ngModel)]="registro.emailinstitucion" maxlength="120"
+								 [disabled]="!editable" />
+							</div>
+						</div>
+						
+							<div class="ui-g-3 ui-g-nopad">
+								<div class="ui-g-3 ui-md-6">
+									<label for="telefonocelular" class="ui-outputlabel">Teléfono Celular</label>
+								</div>
+								<div class="ui-g-3 ui-md-6">
+									<p-inputMask id="telefonocelular" name="telefonocelular" [(ngModel)]="registro.telefonocelular" mask="999-999-9999" [disabled]="!editable"></p-inputMask>
+								</div>
+							</div>
+							<div class="ui-g-3 ui-g-nopad">
+								<div class="ui-g-3 ui-md-6">
+									<label for="telefonofijo" class="ui-outputlabel">Teléfono Fijo</label>
+								</div>
+								<div class="ui-g-3 ui-md-6">
+									<p-inputMask id="telefonofijo" name="telefonofijo" [(ngModel)]="registro.telefonofijo" mask="(99)-999-9999" [disabled]="!editable"></p-inputMask>
+								</div>
+							</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="generocdetalle" class="ui-outputlabel required">Género</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="generocdetalle" name="generocdetalle" [options]="lgenero" [(ngModel)]="registro.generocdetalle" [disabled]="!editable"
+								 [filter]="true" required></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="centrocostocdetalle" class="ui-outputlabel required">Centro de Costo</label>
+							</div>
+							<div class="ui-g-3 ui-md-9">
+								<p-dropdown id="centrocostocdetalle" name="centrocostocdetalle" [options]="lcentrocostos" [(ngModel)]="registro.centrocostocdetalle" [disabled]="!editable"
+								 [filter]="true" required></p-dropdown>
+							</div>
+						</div>
+					
+							
+						
+						<div class="ui-g-4 ui-g-nopad">
+							<div class="ui-g-12 ui-md-4">
+								<label for="migrante" class="ui-outputlabel">Es migrante?
+								</label>
+							</div>
+							<div class="ui-g-12 ui-md-5">
+								<p-checkbox id="migrante" name="migrante" [(ngModel)]="registro.migrante" binary="true" [disabled]="!editable"></p-checkbox>
+							</div>
+						</div>
+						<div class="ui-g-4 ui-g-nopad">
+							<div class="ui-g-12 ui-md-4">
+								<label for="familiaexterior" class="ui-outputlabel">Posee familia en el exterior?</label>
+							</div>
+							<div class="ui-g-12 ui-md-5">
+								<p-checkbox id="familiaexterior" name="familiaexterior" [(ngModel)]="registro.familiaexterior" binary="true" [disabled]="!editable"></p-checkbox>
+							</div>
+						</div>
+						<div class="ui-g-4 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="activo" class="ui-outputlabel">Activo</label>
+							</div>
+							<div class="ui-g-9 ui-md-9">
+								<p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="true" [disabled]="!editable"></p-checkbox>
+							</div>
+						</div>
+					</div>
+				</p-accordionTab>
+				<p-accordionTab header="Información domiciliaria" [selected]="true">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="sectorcdetalle" class="ui-outputlabel required">Sector</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-dropdown id="sectorcdetalle" name="sectorcdetalle" [options]="ltiposector" [(ngModel)]="registro.sectorcdetalle" required
+								 [disabled]="!editable" [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-9 ui-g-nopad">
+							<div class="ui-g-3 ui-md-1">
+								<label for="direccionFun" class="ui-outputlabel required">Dirección</label>
+							</div>
+							<div class="ui-g-9 ui-md-11">
+								<input type="text" pInputText id="direccionFun" name="direccionFun" [(ngModel)]="registro.direccion" maxlength="200" mayusculas
+								 [disabled]="!editable" required/>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-3 ui-md-3">
+								<label for="direccionLovFun" class="ui-outputlabel required">Coordenadas de Dirección</label>
+							</div>
+							<div class="ui-g-4 ui-md-4">
+								<input type="text" pInputText id="latituddireccion" name="latituddireccion" [(ngModel)]="registro.latituddireccion" [disabled]="!editable"
+								 numeroDecimalCoord required />
+							</div>
+							<div class="ui-g-4 ui-md-4">
+								<input type="text" pInputText id="longituddireccion" name="longituddireccion" [(ngModel)]="registro.longituddireccion" [disabled]="!editable"
+								 numeroDecimalCoord required />
+							</div>
+							<div class="ui-g-1 ui-md-1">
+								<button pButton type="button" id="lovMap" name="lovMap" [disabled]="!editable" (click)="mostrarLovMapa()" icon="ui-icon-directions"></button>
+							</div>
+
+						</div>
+					</div>
+				</p-accordionTab>
+				<p-accordionTab header="Información Bancaria" [selected]="true">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-6 ui-g-nopad">
+							<div class="ui-g-6 ui-md-3">
+								<label for="bancocdetalle" class="ui-outputlabel">Banco</label>
+							</div>
+							<div class="ui-g-6 ui-md-9">
+								<p-dropdown id="bancocdetalle" name="bancocdetalle" [options]="lbanco" [(ngModel)]="registro.bancocdetalle" [disabled]="!editable"
+								 [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-4">
+								<label for="tipocuentacdetalle" class="ui-outputlabel">Tipo de Cuenta</label>
+							</div>
+							<div class="ui-g-3 ui-md-8">
+								<p-dropdown id="tipocuentacdetalle" name="tipocuentacdetalle" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"
+								 [disabled]="!editable" [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="ncuenta" class="ui-outputlabel">Número de cuenta</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="registro.ncuenta" maxlength="20" entero [disabled]="!editable"
+								/>
+							</div>
+						</div>
+					</div>
+				</p-accordionTab>
+				<p-accordionTab header="Información Médica" [selected]="true">
+					<div class="f-datacontent ui-g ui-fluid">
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="tiposangrecdetalle" class="ui-outputlabel required">Tipo de Sangre</label>
+							</div>
+							<div class="ui-g-9 ui-md-6">
+								<p-dropdown id="tiposangrecdetalle" name="tiposangrecdetalle" [options]="ltiposangre" [(ngModel)]="registro.tiposangrecdetalle"
+								 required [disabled]="!editable" [filter]="true"></p-dropdown>
+							</div>
+						</div>
+						<div class="ui-g-3 ui-g-nopad">
+							<div class="ui-g-3 ui-md-6">
+								<label for="discapacidad" class="ui-outputlabel">Posee discapacidad?</label>
+							</div>
+							<div class="ui-g-3 ui-md-6">
+								<p-checkbox id="discapacidad" name="discapacidad" [(ngModel)]="registro.discapacidad" binary="true" [disabled]="!editable"></p-checkbox>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-g-nopad">
+							<div class="ui-g-3 ui-g-nopad">
+								<div class="ui-g-3 ui-md-6">
+									<label for="tipodiscapacidadcdetalle" class="ui-outputlabel">Tipo de discapacidad</label>
+								</div>
+								<div class="ui-g-3 ui-md-6">
+									<p-dropdown id="tipodiscapacidadcdetalle" name="tipodiscapacidadcdetalle" [options]="ltipodiscapacidad" [(ngModel)]="registro.tipodiscapacidadcdetalle"
+									 [disabled]="!registro.discapacidad || !editable">
+									</p-dropdown>
+								</div>
+							</div>
+							<div class="ui-g-3 ui-g-nopad">
+								<div class="ui-g-3 ui-md-6">
+									<label for="carnetconadisFun" class="ui-outputlabel">Carnet del Conadis</label>
+								</div>
+								<div class="ui-g-3 ui-md-6">
+									<input type="text" pInputText id="carnetconadisFun" name="carnetconadisFun" [(ngModel)]="registro.carnetconadis" maxlength="20"
+									 [disabled]="!registro.discapacidad || !editable" />
+								</div>
+							</div>
+
+							<div class="ui-g-6 ui-g-nopad">
+								<div class="ui-g-6 ui-md-2">
+									<label for="porcentajediscapacidad" class="ui-outputlabel">Porcentaje de discapacidad</label>
+								</div>
+								<div class="ui-g-6 ui-md-1">
+									<input type="text" pInputText id="porcentajediscapacidad" name="porcentajediscapacidad" [(ngModel)]="registro.porcentajediscapacidad"
+									 [disabled]="true" />
+								</div>
+								<div class="ui-g-6 ui-md-9">
+									<input type="range" name="porcentajediscapacidad" [(ngModel)]="registro.porcentajediscapacidad" min="0" max="100" [disabled]="!registro.discapacidad || !editable">
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</p-accordionTab>
+			</p-accordion>
+		</div>
+	</form>
+</div>

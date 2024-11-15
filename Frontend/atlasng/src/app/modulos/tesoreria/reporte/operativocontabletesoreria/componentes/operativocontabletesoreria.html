@@ -1,0 +1,98 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel required">Empresa:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown id="detallempresa" name="detallempresa" [options]="lempresa"
+            [(ngModel)]="mcampos.cempresa" [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdesde" class="ui-outputlabel required">Fecha:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.fcontable" [showIcon]="true" [dateFormat]="formatofecha"
+            required></p-calendar>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+
+</div>
+<div class="ui-g-12" style='display:none'>
+  <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+</div>
+<br>
+
+<div class="f-datacontent ui-g ui-fluid" >
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <p-dataTable [(value)]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        columnResizeMode="expand">
+        <p-header>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-12">
+                <label class="ui-table-title">Resumen</label>
+              </div>
+            </div>
+          </div>
+        </p-header>
+        <p-column field="estado" header="Estado" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Registros" [style]="{'width':'160px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.registros | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Total" [style]="{'width':'160px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.total | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid" >
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <p-dataTable [(value)]="lregistrosmovimientos" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-12">
+                <label class="ui-table-title">Detalle</label>
+              </div>
+            </div>
+          </div>
+        </p-header>
+        <p-column field="modulo" header="Módulo"></p-column>
+        <p-column field="transaccion" header="Transacción"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario" ></p-column>
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario"></p-column>
+        <p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+        <p-column field="referenciainterna" header="Referencia Interna"></p-column>
+        <p-column field="estado" header="Estado"></p-column>
+        <p-column field="ccomprobanteobligacion" header="Comprobante Obligación"></p-column>
+        <p-column header="Valor Pago" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        
+      </p-dataTable>
+    </div>
+  </div>
+</div>

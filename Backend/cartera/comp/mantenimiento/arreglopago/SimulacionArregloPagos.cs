@@ -2,6 +2,7 @@
 using cartera.datos;
 using core.componente;
 using dal.cartera;
+using dal.persona;
 using modelo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -36,6 +37,46 @@ namespace cartera.comp.mantenimiento.arreglopago {
                 throw new AtlasException("CAR-0053", "YA EXISTE UN ARREGLO DE PAGOS PARA LA OPERACIÓN: {0}", tcaroperacionanterior.coperacion);
             }
 
+            //VERIFICAAR SI SE ENCUENTRA EN EDAD PARA NEGOCIAR UN CRÉDITO
+            if (rqmantenimiento.GetDatos("CODMODULOORIGEN") != null && rqmantenimiento.GetDatos("CODTRANSACCIONORIGEN") != null && rqmantenimiento.GetDatos("cmodulonegociacion") != null && rqmantenimiento.GetDatos("cproductonegociacion") != null && rqmantenimiento.GetDatos("tipoarreglonegociacion") != null && rqmantenimiento.GetDatos("numerocuotas") != null && rqmantenimiento.GetDatos("ctipoproductonegociacion") != null)
+            {
+                if (Int32.Parse(rqmantenimiento.GetDatos("CODMODULOORIGEN").ToString()) == 7 && Int32.Parse(rqmantenimiento.GetDatos("CODTRANSACCIONORIGEN").ToString()) == 52)
+                {
+                    if (rqmantenimiento.GetDatos("tipoarreglonegociacion").Equals("RES"))
+                    {
+                        //string keysearch = "PLAZO-EDAD-" + rqmantenimiento.GetDatos("tipoarreglonegociacion") + "-" + rqmantenimiento.GetDatos("cmodulonegociacion") + "-" + rqmantenimiento.GetDatos("cproductonegociacion");
+                        string keysearch = "PLAZO-EDAD";
+                        tcarparametros param = TcarParametrosDal.Find(keysearch, rqmantenimiento.Ccompania);
+                        if (param == null)
+                        {
+                            throw new Exception("CAR-777 NO SE ENCUENTRA DEFINIDA LA EDAD MÁXIMA PARA OTORGAR NEGOCIACIÓNES DE PAGO RESTRUCTURADAS");
+                        }
+                        tpernatural per = TperNaturalDal.Find((long)tcaroperacionanterior.cpersona, rqmantenimiento.Ccompania);
+                        if (per == null)
+                        {
+                            throw new Exception("CAR-777 NO FUE POSIBLE ENCONTRAR AL SOCIO");
+                        }
+                        DateTime fechaActual = DateTime.Now;
+                        var anios = fechaActual.Subtract((DateTime)per.fnacimiento);
+                        decimal edad = anios.Days / 365;
+                        decimal anio_plazo = (Int32.Parse(rqmantenimiento.GetDatos("numerocuotas").ToString())) / 12;
+                        if ((edad + anio_plazo) > (int)param.numero)
+                        {
+                            throw new Exception("CAR-777 EL PLAZO OTORGADO AL SOCIO SOBRE PASA LA EDAD A LA QUE SE LE PUEDE OTORGAR UN CRÉDITO");
+                        }
+                        tcarproductorangosnegociacion proranneg = TcarProductoRangosNegociacionDal.findRango( Int32.Parse(rqmantenimiento.GetDatos("cmodulonegociacion").ToString()), Int32.Parse(rqmantenimiento.GetDatos("cproductonegociacion").ToString()), Int32.Parse(rqmantenimiento.GetDatos("ctipoproductonegociacion").ToString()), Decimal.Parse(rqmantenimiento.GetDatos("saldocapital").ToString()));
+                        if (proranneg == null)
+                        {
+                            throw new Exception("CAR-777 NO SE ENCUENTRA DEFINIDO EL RANGO DE NEGOCIACIÓN");
+                        }
+                        if (proranneg.plazominimo > Int32.Parse(rqmantenimiento.GetDatos("numerocuotas").ToString()) || proranneg.plazomaximo < Int32.Parse(rqmantenimiento.GetDatos("numerocuotas").ToString()))
+                        {
+                            throw new Exception("CAR-777 EL NÚMERO DE CUOTAS EXCEDE A LO PERMITIDO PARA ESTE PRODUCTO");
+                        }
+                    }
+                }
+            }
+            
             // Lista de rubros
             JArray rubros = (JArray)rqmantenimiento.GetDatos("ARREGLORUBROS");
             mcobro = rubros.ToList<object>();
@@ -128,7 +169,6 @@ namespace cartera.comp.mantenimiento.arreglopago {
         private void GetArregloPagosTabla(RqMantenimiento rqmantenimiento)
         {
             Dictionary<string, decimal> lsaldos = new Dictionary<string, decimal>();
-
             foreach (JObject obj in this.mcobro) {
                 IDictionary<string, object> m = obj.ToObject<Dictionary<string, object>>();
                 if (m.ContainsKey("csaldodestino")) {

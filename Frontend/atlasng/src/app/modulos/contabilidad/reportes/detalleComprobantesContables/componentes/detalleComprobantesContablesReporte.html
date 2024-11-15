@@ -1,0 +1,193 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="f-filtros ui-g ui-fluid">
+
+
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [appendTo]="body" required [dateFormat]="formatofecha"></p-calendar>
+			</div>
+
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="tipoComprobante" class="ui-outputlabel">Tipo Comprobante:</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<p-dropdown id="tipoComprobante" name="tipoComprobante" [options]="lComprobante" [(ngModel)]="mfiltros.tipodocumentocdetalle"></p-dropdown>
+			</div>
+		</div>
+
+		<!-- RRO 20210421 --------------------------------------------------- -->
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="modulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+  
+			<div class="ui-g-12 ui-md-8">
+				<p-dropdown id="fpkcmodulo" name="fpkcmodulo" [options]="lmodulo" [(ngModel)]="mfiltros.cmodulo" [filter]="true" (onChange)="filtrarTransaccion($event)"></p-dropdown>
+			</div>
+		  </div>
+
+
+		  <div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label for="transaccdetalle" class="ui-outputlabel required">Transacción</label>
+			</div>
+  
+			<div class="ui-g-12 ui-md-8">
+			  <p-dropdown id="transaccdetalle" name="transaccdetalle" [options]="lTransaccion" [(ngModel)]="mfiltros.ctransaccion" [filter]="true"></p-dropdown>
+			</div>
+		  </div>
+ 		<!-- RRO 20210421 --------------------------------------------------- -->
+
+	</div>
+
+
+
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+	<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+		<p-dataTable [value]="lregistro" [responsive]="true">
+
+			<p-header>
+				<div class="ui-table-title">Generar Reporte</div>
+				<div class="f-acciones-cab-tabla">
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf"
+					 style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel"
+					 style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper #jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+					<app-jasper #jasper1 [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false"
+			 selectionMode="single" (onRowSelect)="seleccionarDetalle($event)">
+				<p-header>
+					<div class="ui-table-title">Comprobante Contable</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="Comprobante" header="Código" [style]="{'width':'40px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="Numero" header="Número" [style]="{'width':'80px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="FechaContable" header="F.Contable" [style]="{'width':'60px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="FechaReal" header="F.Real" [style]="{'width':'80px'}" [filter]="true" filterPlaceholder="Filtrar">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.FechaReal | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="Modulo" header="Módulo" [style]="{'width':'70px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+				<p-column field="Transaccion" header="Transacción" [style]="{'width':'100px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+				<p-column header="Auto." [style]="{'width':'40px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.Automatico" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Mayo." [style]="{'width':'40px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.Mayorizado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Anul." [style]="{'width':'40px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.Anulado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Elim." [style]="{'width':'40px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.Eliminado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				
+				<p-column field="Comentario" header="Comentario" [style]="{'width':'300px'}" 
+				[filter]="true" filterPlaceholder="Filtrar" filterMatchMode="contains"></p-column>
+
+				<p-column field="UsuarioIngreso" header="Usuario" [style]="{'width':'60px'}" 
+				[filter]="true" filterPlaceholder="Filtrar" filterMatchMode="contains"></p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistroDetalle" [responsive]="true" scrollable="true" [resizableColumns]="false"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Detalle</div>
+
+					<div class="f-acciones-cab-tabla" style='display:none'>
+						<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+					</div>
+				</p-header>
+				<p-column field="Cuenta" header="Cuenta" [style]="{'width':'40px'}"></p-column>
+				<p-column field="Nombre" header="Nombre" [style]="{'width':'150px'}"></p-column>
+				<p-column field="Referencia" header="Referencia" [style]="{'width':'50px'}"></p-column>
+				<p-column field="Centrocostos" header="Centro Costos" [style]="{'width':'50px'}"></p-column>
+				<p-column field="ccompromiso" header="No. Compromiso" [style]="{'width':'40px'}"></p-column>
+				<p-column field="cpartida" header="Partida" [style]="{'width':'40px'}"></p-column>
+
+				<p-column field="Debito" header="Débito" [style]="{'width':'50px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.Debito | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+
+				<p-column field="Credito" header="Crédito" [style]="{'width':'50px'}" styleClass="f-right">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.Credito | number:'1.2-2'}}
+					</ng-template>
+				</p-column>
+				<p-footerColumnGroup style="color:blue;">
+					<p-row>
+						<p-column footer="Totales" [style]="{'color':'blue','font-size':'12px','width':'81px'}"></p-column>
+						<p-column [footer]="totalDebito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'8px'}"></p-column>
+						<p-column [footer]="totalCredito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'8px'}"></p-column>
+					</p-row>
+				</p-footerColumnGroup>
+
+			</p-dataTable>
+
+
+		</div>
+	</div>
+</div>

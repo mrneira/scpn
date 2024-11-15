@@ -1,0 +1,145 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel required">Proveedor</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input type="text" pInputText required id="cpersona" name="cpersona" [(ngModel)]="mcampos.cpersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">Identificaci&oacute;n</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">Raz&oacute;n social</label>
+		</div>
+		<div class="ui-g-12 ui-md-3">
+			<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nproveedor" [readOnly]="true" />
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarlovproveedores()" icon="ui-icon-directions"
+			 hidden="!nuevo"></button>
+		</div>
+		<app-lov-proveedores (eventoCliente)=fijarLovProveedores($event)></app-lov-proveedores>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="cctaporpagar" class="ui-outputlabel required">Cuenta por pagar:</label>
+		</div>
+		<div class="ui-g-12 ui-md-5">
+			<input type="text" pInputText id="cctaporpagar" name="cctaporpagar" [(ngModel)]="mcampos.cctaporpagar" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" id="lovcuentasporpagar" name="lovcuentasporpagar" (click)="mostrarlovcuentasporpagar()" icon="ui-icon-directions"></button>
+		</div>
+		<app-lov-cuentasporpagar (eventoCliente)=fijarLovCuentasporpagar($event)></app-lov-cuentasporpagar>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">Comprobante Contable</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccompcontable" [readOnly]="true"
+			/>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<label for="fpnombre" class="ui-outputlabel">No.Comprobante Cesantía</label>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+		<div class="ui-g-12 ui-md-6">
+			<label></label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<label for="valorpagar" class="ui-outputlabel" style="color: white; text-align: left;">
+				Total cxp:
+			</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="valorpagar" name="valorpagar" [ngModel]="mcampos.valorpagar | number:'1.2-2'" [readOnly]="true"
+			 style="color: white; text-align: right;" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+		<div class="ui-g-12 ui-md-6">
+			<label></label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<label for="valorpagar" class="ui-outputlabel" style="color: white; text-align: left;">
+				Total notas crédito seleccionadas:
+			</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="totalnotascredito" name="totalnotascredito" [ngModel]="mcampos.totalnotascredito | number:'1.2-2'"
+			 [readOnly]="true" style="color: white; text-align: right;" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad" style="background-color:darkblue; color: white; font-size:14px; overflow:hidden;">
+		<div class="ui-g-12 ui-md-6">
+			<label></label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<label for="valorapagar" class="ui-outputlabel" style="color: white; text-align: left;">
+				Valor a pagar:
+			</label>
+		</div>
+		<div class="ui-g-12 ui-md-2">
+			<input type="text" pInputText id="valorapagar" name="valorapagar" [ngModel]="mcampos.valorapagar | number:'1.2-2'"
+			 [readOnly]="true" style="color: white; text-align: right;" />
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" [resizableColumns]="false" scrollable="true" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Notas crédito por proveedor</div>
+			</p-header>
+
+			<p-column field="ccomprobante" header="Secuencial Contable"></p-column>
+			<p-column field="numdocumento" header="N. documento"></p-column>
+			<p-column field="fdocumento" header="F. documento">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fdocumento | date: 'yyyy-MM-dd' }}
+				</ng-template>
+			</p-column>
+			<p-column field="autorizacion" header="N. autorización"></p-column>
+			<p-column field="subtotal" header="Subtotal" [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.subtotal | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="valoriva" header="I.V.A." [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.valoriva | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="total" header="Total" [style]="{'width':'80px','text-align':'right'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.total | number : '1.2-2' }}
+				</ng-template>
+			</p-column>
+			<p-column field="numdocsustento" header="Doc. sustento"></p-column>
+			<p-column field="fdocsustento" header="F. sustento">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{ reg.fdocsustento | date: 'yyyy-MM-dd' }}
+				</ng-template>
+			</p-column>
+
+			<p-column>
+				<ng-template let-col let-reg="rowData" pTemplate="body">
+					<input type="checkbox" id="check" name="check" [(ngModel)]="reg.mdatos.seleccionado" (change)="checked(reg, $event)" />
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>

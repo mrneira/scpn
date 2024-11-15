@@ -1,0 +1,50 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <div class="ui-g-12 ui-g-nopad f-acciones-editar">
+    <button pButton type="button" name="generar" id="generar" label="Generar" style="margin-bottom:10px" class="f-btn green-btn"
+      icon="ui-icon-update" (click)="generar()"> </button>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="fgeneracion" class="ui-outputlabel">Fecha Generación</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar name="fgeneracion" [(ngModel)]="mcampos.camposfecha.fgeneracion" [disabled]="true" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+    </div>
+
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Detalle Generación</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column field="sumcpersona" header="Total personas" [style]="{'width':'90px'}"></p-column>
+        <p-column field="sumcoperacon" header="Total operación" [style]="{'width':'90px'}"></p-column>
+        <p-column field="summonto" header="Total monto" [style]="{'width':'90px'}"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

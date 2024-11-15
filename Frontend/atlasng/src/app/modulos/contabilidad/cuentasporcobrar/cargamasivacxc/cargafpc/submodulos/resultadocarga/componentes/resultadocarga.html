@@ -1,0 +1,56 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+                <p-column field="ffactura" header="F.Factura" [style]="{'width':'10%'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{reg.ffactura | date: 'yyyy-MM-dd hh:mm'}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="secuencial" header="Secuencial" [style]="{'width':'10%'}"></p-column>
+                <p-column field="nombre" header="Nombre" [style]="{'width':'20%'}"></p-column>
+                <p-column field="identificacion" header="Identificación" [style]="{'width':'10%px'}"></p-column>
+                <p-column header="Subtotal" styleClass="f-right" [style]="{'width':'10%'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.subtotal | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="IVA" styleClass="f-right" [style]="{'width':'10%'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.montoiva | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Total" styleClass="f-right" [style]="{'width':'10%'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.total | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Mensaje" [style]="{'width':'20%'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.mdatos.mensaje }}</span>
+                    </ng-template>
+                </p-column>
+                <p-footerColumnGroup>
+                    <p-row>
+                        <p-column [style]="{'width':'10%'}"></p-column>
+                        <p-column [style]="{'width':'10%'}"></p-column>
+                        <p-column [style]="{'width':'20%'}"></p-column>
+                        <p-column footer="Totales" [style]="{'width':'10%'}"></p-column>
+                        <p-column [footer]="suma_total[0] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'10%'}"></p-column>
+                        <p-column [footer]="suma_total[1] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'10%'}"></p-column>
+                        <p-column [footer]="suma_total[2] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'10%'}"></p-column>
+                        <p-column [style]="{'width':'20%'}"></p-column>   
+                        <p-column [style]="{'width':'2%'}"></p-column>                                              
+                    </p-row>
+                </p-footerColumnGroup>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins"> </div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fccalificaion" class="ui-outputlabel">Calificación</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fccalificaion" name="fccalificaion" [(ngModel)]="mfiltros.ccalificacion" mayusculas autofoco maxlength="3" />
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fnombre" class="ui-outputlabel">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas autofoco maxlength="80" />
+			</div>
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+				<p-header>
+					<div class="ui-table-title">Calificación</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="ccalificacion" header="Calificación"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="provisionconstituida" header="Prov.Constituida"></p-column>
+				<p-column field="provisionminima" header="Prov.Mínima"></p-column>
+				<p-column field="provisionmaxima" header="Prov.Máxima"></p-column>
+				<p-column field="ccalificacionlegal" header="Calificiación legal"></p-column>
+				
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Calificación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" >
+<form #formDialogo="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pk" class="ui-outputlabel required">Calificación</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="pk" name="pk"	[(ngModel)]="registro.ccalificacion" 
+						   autofoco required mayusculas maxlength="3" [disabled]="!editable || !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="80" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="provisionconstituida" class="ui-outputlabel required">Provisión constituida</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="provisionconstituida" name="provisionconstituida" [(ngModel)]="registro.provisionconstituida" 
+						   required numero maxlength="20" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="provisionminima" class="ui-outputlabel required">Provisión mínima</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="provisionminima" name="provisionminima" [(ngModel)]="registro.provisionminima" 
+						   required numero maxlength="20" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="provisionmaxima" class="ui-outputlabel required">Provisión máxima</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="provisionmaxima" name="provisionmaxima" [(ngModel)]="registro.provisionmaxima" 
+						   required numero maxlength="20" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="ccalificacionlegal" class="ui-outputlabel required">Calificación legal</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ccalificacionlegal" name="ccalificacionlegal" [(ngModel)]="registro.ccalificacionlegal" 
+						   required mayusculas maxlength="20" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

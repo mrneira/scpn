@@ -1,0 +1,102 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button pButton *ngIf="!grabo" type="button" label="Registrar Garantía" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+        icon="ui-icon-save" (click)="registrargarantia()"></button>
+</div>
+
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-2 ui-md-1">
+                <label for="fpnombre" class="ui-outputlabel required">Cliente</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+                <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="registro.cpersona" [readOnly]="true" required />
+            </div>
+            <div class="ui-g-3 ui-md-2">
+                <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion" [readOnly]="true"
+                />
+            </div>
+            <div class="ui-g-4 ui-md-4">
+                <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.ncliente" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+                <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+            </div>
+            <app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12" style="clear:both;float:right;width:150px">
+                <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+                <label for="fpnombre" class="ui-outputlabel required">Cuenta Bancos</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <input type="text" pInputText required id="cuenta" name="cuenta" [(ngModel)]="registro.ccuenta" [readOnly]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarlovcuentascontables()"
+                    icon="ui-icon-directions"></button>
+            </div>
+        </div>
+        <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-2 ui-md-1">
+                <label for="valor" class="ui-outputlabel required">Valor Garantía</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+                <input type="text" name="valor" pInputText [(ngModel)]="registro.valor" numeroPositivo maxlength="14" style="text-align:right"
+                />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-2 ui-md-1">
+                <label for="documentoreferencia" class="ui-outputlabel required">Documento Referencia</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+                <input type="text" name="documentoreferencia" pInputText [(ngModel)]="registro.documentoreferencia" maxlength="20" style="text-align:right"
+                />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-1">
+                <label for="comentario" class="ui-outputlabel required">Comentario</label>
+            </div>
+            <div class="ui-g-12 ui-md-7">
+                <textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="500"
+                    rows="1"></textarea>
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobanteregistro != undefined">
+            <div class="ui-g-1 ui-md-2">
+                <label for="ccomprobanteregistro" class="ui-outputlabel">Código de Comprobante Contable</label>
+            </div>
+            <div class="ui-g-11 ui-md-4">
+                <input type="text" pInputText id="ccomprobanteregistro" name="ccomprobanteregistro" [(ngModel)]="mcampos.ccomprobanteregistro"
+                    [readOnly]="true" />
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+            <div class="ui-g-1 ui-md-2">
+                <label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+            </div>
+            <div class="ui-g-11 ui-md-4">
+                <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+                    [readOnly]="true" />
+            </div>
+        </div>
+    </div>
+</div>

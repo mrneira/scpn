@@ -1,0 +1,24 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="ccompromiso" header="Cod. Compromiso" hidden="true" ></p-column>
+        <p-column field="cpartidagasto" header="Cod. Partida" [style]="{'width':'100px'}"></p-column>
+        <p-column field="mdatos.npartida" header="Partida Presupuestaria" [style]="{'width':'180px'}"></p-column>
+        <p-column field="valor" header="Valor" [style]="{'text-align':'right','width':'100px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.valor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;">
+          <p-row>
+              <p-column [style]="{'width':'100px'}"></p-column>
+              <p-column footer="Total" [style]="{'color':'blue','font-size':'12px','width':'180px'}"></p-column>
+              <p-column [footer]="totalValor | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'100px'}"></p-column>
+              <p-column [style]="{'width':'10px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

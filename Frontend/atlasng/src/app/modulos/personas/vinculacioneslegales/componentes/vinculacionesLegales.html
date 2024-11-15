@@ -1,0 +1,64 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+               <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+               <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="registro.cpersona" required [readOnly]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions">
+		    	</button>
+	    	</div>
+	    	<app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+	     </div>
+	</form>
+
+
+	<form #formularioVinculacion="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioVinculacion" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+						
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="ctipocausal" class="ui-outputlabel required">Tipo causal</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="ctipocausal" name="ctipocausal" [(ngModel)]="registro.ctipocausal" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="ntipocausal" name="ntipocausal" [(ngModel)]="registro.mdatos.ntipocausal" required [readOnly]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+		               <label for="fcpersona" class="ui-outputlabel required">Causal</label>
+		           </div>
+		           <div class="ui-g-12 ui-md-1">
+		               <input id="ccausalvinculacion" name="ccausalvinculacion" type="text" pInputText [ngModel]="registro.ccausalvinculacion" required [readOnly]="true" />
+		           </div>
+		           <div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="ncausalvinculacion" name="ncausalvinculacion" [(ngModel)]="registro.mdatos.ncausal" [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovcausal" name="lovcausal" (click)="mostrarLovCausalVinculacion()" icon="ui-icon-directions" [disabled]="!editable">
+			    	</button>
+		    	</div>
+		    	<app-lov-causales-vinculacion (eventoCliente)=fijarLovCausalVinculacionSelec($event)></app-lov-causales-vinculacion>
+		     </div>
+			
+	        
+		</div>
+	</form>
+
+</div>

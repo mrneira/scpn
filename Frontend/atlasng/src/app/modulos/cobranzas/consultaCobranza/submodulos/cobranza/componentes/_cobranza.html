@@ -1,0 +1,39 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcnstatus" class="ui-outputlabel ">Estatus</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="nstatus" name="nstatus" [(ngModel)]="registro.mdatos.nstatus" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcusuario" class="ui-outputlabel">Usuario Asignado</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="usuario" name="usuario" [(ngModel)]="registro.cusuarioasignado" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcingreso" class="ui-outputlabel">Fecha de Ingreso</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="fingreso" name="finigreso" [(ngModel)]="mcampos.fingreso" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcultmodificacion" class="ui-outputlabel">Fecha de Asignación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="fcultmodificacion" name="fcultmodificacion" [(ngModel)]="mcampos.fasignacion" [disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

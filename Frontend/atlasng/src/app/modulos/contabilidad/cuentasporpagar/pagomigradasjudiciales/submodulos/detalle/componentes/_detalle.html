@@ -1,0 +1,123 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" [resizableColumns]="false" scrollHeight="250px" scrollable="true">
+        <p-header>
+          <div class="ui-table-title">Beneficiarios</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column header="Banco" field="mdatos.nbancocdetalle" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Tipo Cuenta" field="mdatos.ntipocuentacdetalle" [style]="{'width':'100px'}"></p-column>
+        <p-column header="No. cuenta" field="numerocuenta" [style]="{'width':'100px'}"></p-column>
+
+        <p-column header="Nombre" field="nombrebeneficiario" [style]="{'width':'200px'}"> </p-column>
+        <p-column header="Cédula" field="cedula" [style]="{'width':'100px'}"> </p-column>
+
+        <p-column header="Valor CxP" field="valorpagar" [style]="{'text-align':'right', 'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.valorpagar | number: '1.2-2'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+
+        <p-footerColumnGroup>
+          <p-row>
+            <p-column [style]="{'width':'10%'}"></p-column>
+            <p-column [style]="{'width':'10%'}"></p-column>
+            <p-column [style]="{'width':'20%'}"></p-column>
+            <p-column footer="Totales" [style]="{'width':'10%'}"></p-column>
+            <p-column [footer]="totalDetalleCxp | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'10%'}"></p-column>
+           <p-column [style]="{'width':'20%'}"></p-column>
+            <p-column [style]="{'width':'2%'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="button" name="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+              class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+
+    <p-dialog header="Datos Beneficiario" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true"
+      [positionTop]="120" (onHide)="cerrarDialogo()">
+      <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width: 500px">
+          <div class="f-datacontent ui-g ui-fluid">
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="tipoinstitucioncdetalle" class="ui-outputlabel required">Int.Financiera</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <p-dropdown id="tipoinstitucioncdetalle" name="tipoinstitucioncdetalle" [options]="linstfinanciera"
+                  [(ngModel)]="registro.tipoinstitucioncdetalle" required [disabled]="!editable" [filter]="true"
+                  [appendTo]="body"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="tipocuentacdetalle" class="ui-outputlabel required">Tipo cuenta</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <p-dropdown id="tipocuentacdetalle" name="tipocuentacdetalle" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"
+                  required [disabled]="!editable" [filter]="true" [appendTo]="body"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="numero" class="ui-outputlabel required">No cuenta</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="numero" name="numero" [(ngModel)]="registro.numerocuenta" maxlength="19"
+                  required entero [disabled]="!editable" />
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="nombres" class="ui-outputlabel required">Apellidos y nombres</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombrebeneficiario"
+                  maxlength="100" required mayusculas [disabled]="!editable" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="cedula" class="ui-outputlabel required">Cédula</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="cedula" name="cedula" [(ngModel)]="registro.cedula" maxlength="10"
+                  required [disabled]="!editable" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="valorpagar" class="ui-outputlabel required">Valor a pagar</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <input type="text" pInputText id="valorpagar" name="valorpagar" [(ngModel)]="registro.valorpagar"
+                  maxlength="10" required numero [disabled]="!editable" />
+              </div>
+            </div>
+
+          </div>
+          <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+          </footer>
+        </div>
+      </form>
+    </p-dialog>
+  </div>
+</div>

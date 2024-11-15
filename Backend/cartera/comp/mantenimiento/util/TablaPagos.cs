@@ -15,6 +15,8 @@ using util.dto.mantenimiento;
 using cartera.contabilidad;
 using System.Linq;
 using util.enums;
+using System.Reflection;
+using System.Collections;
 
 namespace cartera.comp.mantenimiento.util {
 
@@ -113,7 +115,6 @@ namespace cartera.comp.mantenimiento.util {
             {
                 p.Marreglopago = (Dictionary<string, decimal>)rqmantenimiento.GetDatos("MSALDOS-ARREGLO-PAGOS-TABLA");
             }
-
             return p;
         }
 
@@ -242,7 +243,89 @@ namespace cartera.comp.mantenimiento.util {
                 LlenarTcarOperacionCuota(rqmantenimiento, cuota, lcuotas, lrubros, lcxc, coperacion, montopagoextraordinario);
                 montopagoextraordinario = null;
             }
-            operacion.Lcuotas = lcuotas;
+            //Prorrateo de rubros vencidos (NEGOCIACIÓN DE PAGO)
+            if ((rqmantenimiento.GetDatos("CODMODULOORIGEN") != null && rqmantenimiento.GetDatos("CODTRANSACCIONORIGEN") != null && long.Parse(rqmantenimiento.GetDatos("CODMODULOORIGEN").ToString()) == 7 && long.Parse(rqmantenimiento.GetDatos("CODTRANSACCIONORIGEN").ToString()) == 52 && ((lcuotas.Count +1) - long.Parse(rqmantenimiento.GetDatos("prorrateo").ToString())) != lcuotas.Count) || (!tcaroperacion.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion) && tcaroperacion.numcuotaprorrateo != null && ((tcaroperacion.numerocuotas + 1) - tcaroperacion.numcuotaprorrateo) != tcaroperacion.numerocuotas))
+            {
+                IDictionary rubrosarreglopago = (IDictionary)rqmantenimiento.GetDatos("MSALDOS-ARREGLO-PAGOS-TABLA");
+                //Encerar rubros vencidos a prorrateados
+                foreach (tcaroperacioncuota cuo in lcuotas)
+                {
+                    foreach (tcaroperacionrubro rub in cuo.GetRubros())
+                    {
+                        foreach (object key in rubrosarreglopago.Keys)
+                        {
+                            if (rub.csaldo.Equals(key))
+                            {
+                                rub.saldo = 0;
+                                rub.valorcuota = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+                //Realizar prorrateo
+                List<tcaroperacionrubro> rubrosprorrateo = new List<tcaroperacionrubro>();
+                long prorrateo = (rqmantenimiento.GetDatos("prorrateo") != null) ? long.Parse(rqmantenimiento.GetDatos("prorrateo").ToString()) : (long)tcaroperacion.numcuotaprorrateo;
+                for (int i = ((int)prorrateo-1); i < lcuotas.Count; i++)
+                {
+                    foreach (object key in rubrosarreglopago.Keys)
+                    {
+                        decimal valorprorrateo = decimal.Round((decimal)rubrosarreglopago[key] / (lcuotas.Count - prorrateo + 1), 2);
+                        foreach (tcaroperacionrubro rub in lcuotas[i].GetRubros())
+                        {
+                            if (rub.csaldo.Equals(key))
+                            {
+                                bool existRubro = false;
+                                foreach (tcaroperacionrubro r in rubrosprorrateo)
+                                {
+                                    if (r.csaldo == rub.csaldo)
+                                    {
+                                        decimal total = (decimal)r.valorcuota + valorprorrateo;
+                                        if((i+1) == lcuotas.Count)
+                                        {
+                                            if (total != (decimal)rubrosarreglopago[key])
+                                            {
+                                                total = total - valorprorrateo;
+                                                rub.saldo = decimal.Round(((decimal)rubrosarreglopago[key]) - total, 2);
+                                                rub.valorcuota = decimal.Round((((decimal)rubrosarreglopago[key]) - total), 2);
+                                                total = total + (decimal)rub.valorcuota;
+                                            }
+                                            else
+                                            {
+                                                rub.saldo = valorprorrateo;
+                                                rub.valorcuota = valorprorrateo;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rub.saldo = valorprorrateo;
+                                            rub.valorcuota = valorprorrateo;
+                                        }
+                                        r.valorcuota = total;
+                                        existRubro = true;
+                                        break;
+                                    }
+                                }
+                                if (!existRubro)
+                                {
+                                    tcaroperacionrubro help = new tcaroperacionrubro();
+                                    help.csaldo = rub.csaldo;
+                                    help.valorcuota = valorprorrateo;
+                                    rub.saldo = valorprorrateo;
+                                    rub.valorcuota = valorprorrateo;
+                                    rubrosprorrateo.Add(help);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                operacion.Lcuotas = lcuotas;
+            }
+            else
+            {
+                operacion.Lcuotas = lcuotas;
+            }
             // Adiciona cabecera de la tabla para que el motor de mantenimiento lo envie a la base.
             rqmantenimiento.AdicionarTabla(typeof(tcaroperacioncuota).Name.ToUpper(), lcuotas, false);
             // Adiciona rubros de la tabla de pagos para que el motor de mantenimiento lo envie a la base.
@@ -368,5 +451,4 @@ namespace cartera.comp.mantenimiento.util {
         }
 
     }
-
 }

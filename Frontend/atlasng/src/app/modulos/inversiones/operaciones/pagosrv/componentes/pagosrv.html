@@ -1,0 +1,174 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Pagos de Inversiones de Renta Variable</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+
+				<p-column field="cinversion" header="Id. Inversión"></p-column>
+				<p-column field="mdatos.ncodigotitulo" header="Cód. Titulo"></p-column>
+				<p-column field="mdatos.nbanco" header="Cód. Banco"></p-column>
+
+				<p-column header="P. Efectivo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.pagoefectivo | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="numerocheque" header="# Cheque"></p-column>
+
+				<p-column header="# Acciones" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.pagoaccionesnumeroacciones | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Precio Unitario" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.pagoaccionespreciounitario | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="P. En Acciones" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.pagoaccionesmontototal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Pago / Venta de Inversiones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="70">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+
+			<div class="f-datacontent ui-g ui-fluid">
+
+				<div class="ui-g-12 ui-g-nopad">
+
+					<div class="ui-g-12 ui-md-3">
+						<label for="fpkcinversion" class="ui-outputlabel required">Inversión Renta Variable</label>
+					</div>
+
+					<div class="ui-g-2 ui-md-1">
+						<input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="registro.cinversion" required [readOnly]="true"
+						/>
+					</div>
+
+					<div class="ui-g-9 ui-md-4">
+						<input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.ncodigotitulo" [readOnly]="true"
+						/>
+					</div>
+
+					<div class="ui-g-1 ui-md-3">
+						<button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" icon="ui-icon-directions">
+						</button>
+					</div>
+
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>RECAUDACIÓN EN EFECTIVO</span>
+					</div>
+					<hr />
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel">Monto</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.pagoefectivo" numeroPositivo maxlength="19" [disabled]="false"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cdetallebanco" class="ui-outputlabel">Banco</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="cdetallebanco" name="cdetallebanco" [options]="lbancos" [(ngModel)]="registro.bancocdetalle" (onChange)="registrarEtiqueta(registro, lbancos, 'bancocdetalle', 'nbanco')"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="numerochq" class="ui-outputlabel">Número cheque</label>
+					</div>
+					<div class="ui-g-2 ui-md-3">
+						<input id="numerochq" name="numerochq" type="text" pInputText [(ngModel)]="registro.numerocheque" class="f-bold" style="font-size:13px"
+						 maxlength="30" [disabled]="false" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="title_separator">
+						<i class="fa ui-icon-adjust"></i>
+						<span>PAGO EN ACCIONES</span>
+					</div>
+					<hr />
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel">Número Acciones</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="numeroacciones" name="numeroacciones" [(ngModel)]="registro.pagoaccionesnumeroacciones"
+						 numeroPositivo maxlength="19" [disabled]="false" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel">Precio Unitario Acción</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="preciounitario" name="preciounitario" [(ngModel)]="registro.pagoaccionespreciounitario"
+						numeroDecimal7 maxlength="15" [disabled]="false" /><!--NCH 20220728-->
+					</div>
+				</div>
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="valor" class="ui-outputlabel">Total</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<input type="text" pInputText id="totalacciones" name="totalacciones" [(ngModel)]="registro.pagoaccionespreciounitario * registro.pagoaccionesnumeroacciones"
+						 numeroPositivo maxlength="19" [disabled]="true" />
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>
+<app-lov-inversionesrv (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversionesrv>

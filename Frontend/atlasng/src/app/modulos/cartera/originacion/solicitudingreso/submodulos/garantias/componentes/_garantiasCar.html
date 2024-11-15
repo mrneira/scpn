@@ -1,0 +1,55 @@
+<div class="f-contenedor-transaccion">
+  <app-lov-operacion-gar (eventoOperGar)=fijarLovGarantiasSelec($event)></app-lov-operacion-gar>
+  <app-lov-cotizador-seguros (eventoCotizaSeg)=fijarLovSeguroSelec($event)></app-lov-cotizador-seguros>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Garantías de la solicitud</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column field="coperaciongarantia" header="Garantía"></p-column>
+        <p-column field="mdatos.nclasificacion" header="Clasificación"></p-column>
+        <p-column field="mdatos.ntipogar" header="Tipo garantía"></p-column>
+        <p-column field="mdatos.ntipobien" header="Tipo bien"></p-column>
+        <p-column field="mdatos.nestado" header="Estado" styleClass="f-center"></p-column>
+        <p-column header="Menor avalúo" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.montoavaluo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Valor comercial" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.monto | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Seguro" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.mdatos.aplicaseguro" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Prima" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valorprima | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false" [mostrarEliminar]="habilitaNuevo"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins && habilitaNuevo">
+            <button pButton type="button" id="lovoperacion" name="lovoperacion" label="Agregar garantía" (click)="mostrarLovGarantias()"
+              icon="ui-icon-add" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button *ngIf="lregistros.length" pButton type="button" label="Contabilizar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+        icon="ui-icon-save" (click)="contabilizar()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+            <label for="fpnombre" class="ui-outputlabel required">Cliente</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="mcampos.cpersona" [readOnly]="true" required />
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacion" [readOnly]="true"
+            />
+        </div>
+        <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.ncliente" [readOnly]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+        <div class="ui-g-1 ui-md-2">
+            <label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+        </div>
+        <div class="ui-g-11 ui-md-4">
+            <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+                [readOnly]="true" />
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante != undefined">
+        <div class="ui-g-1 ui-md-2">
+            <label for="ccomprobante" class="ui-outputlabel">Código de Comprobante Contable</label>
+        </div>
+        <div class="ui-g-11 ui-md-4">
+            <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true"
+            />
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+            <label for="numerodocumentobancario" class="ui-outputlabel">N. documento bancario</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="numerodocumentobancario" name="numerodocumentobancario" [(ngModel)]="mcampos.numerodocumentobancario"
+                required maxlength="30" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="valor" class="ui-outputlabel">Valor</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input type="text" name="valor" pInputText [(ngModel)]="mcampos.valor" (ngModelChange)="valorChange()" numeroPositivo maxlength="14"
+                style="text-align:right" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="diferencia" class="ui-outputlabel">Diferencia</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            {{ mcampos.diferencia | number:'1.2-2' }}
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+            <label for="comentario" class="ui-outputlabel">Comentario</label>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-11">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="mcampos.comentario"
+            required mayusculas maxlength="2000"
+                rows="3"></textarea>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" hidden="true">
+        <div class="ui-g-12" style="clear:both;float:right;width:150px">
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+        </div>
+    </div>
+</form>
+
+<div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [(selection)]="selectedRegistros">
+                <p-header>
+                    <div class="ui-table-title">Facturas de parqueadero por contrato</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+                <p-column field="ffactura" header="F.Factura" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{reg.ffactura | date: 'yyyy-MM-dd hh:mm'}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field="secuencial" header="Secuencial" [style]="{'width':'120px'}"></p-column>
+                <p-column field="nombre" header="Nombre" [style]="{'width':'200px'}"></p-column>
+                <p-column field="identificacion" header="Identificación" [style]="{'width':'140px'}"></p-column>
+                <p-column header="Subtotal" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.subtotal | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="IVA" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.montoiva | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Total" styleClass="f-right" [style]="{'width':'75px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.total | number:'1.2-2' }}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header="Seleccione facturas a cancelar|">
+                    <ng-template let-col let-reg="rowData" pTemplate="body">
+                        <input type="checkbox" id="check" name="check" (change)="checked(reg, $event)" />
+                    </ng-template>
+                </p-column>
+                <p-footerColumnGroup>
+                    <p-row>
+                        <p-column footer="Sub Total" [style]="{'font-size':'12px'}"></p-column>
+                        <p-column [footer]="suma_total[0] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'75'}"></p-column>
+
+                        <p-column footer="IVA" [style]="{'font-size':'12px'}"></p-column>
+                        <p-column [footer]="suma_total[1] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'75'}"></p-column>
+
+                        <p-column footer="Total" [style]="{'font-size':'12px'}"></p-column>
+                        <p-column [footer]="suma_total[2] | number : '1.2-2'" [style]="{'text-align':'right','font-size':'12px','width':'75'}"></p-column>
+                    </p-row>
+                </p-footerColumnGroup>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins"> </div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

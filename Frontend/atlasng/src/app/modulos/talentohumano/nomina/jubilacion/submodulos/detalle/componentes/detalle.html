@@ -1,0 +1,105 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">EMPRESAS TRABAJO</div>
+        </p-header>
+        <p-column field="cjubilaciondetalle" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.ntipo" header="Tipo" [style]="{'width':'80px'}"></p-column>
+        <p-column field="razonsocial" header="Razón Social"></p-column>
+        <p-column field="finicio" header="F.Inicio" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.finicio | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="ffin" header="F.Fin" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.ffin | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Tiempo" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData" style="text-align:right">
+            {{ reg.tiempo | number:'1.7-7' }}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}" header="Opciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Liquidación" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ctipocdetalle" class="ui-outputlabel required">Tipo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="ctipocdetalle" name="ctipocdetalle" [options]="ltipo" [(ngModel)]="registro.cdetalle" required [filter]="true"
+              appendTo="body" [disabled]="!editable" (onChange)="registrarEtiqueta(registro, ltipo, 'cdetalle', 'ntipo')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="freal" class="ui-outputlabel required">Razón Social</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input type="text" pInputText id="razonsocial" name="razonsocial" [(ngModel)]="registro.razonsocial" maxlength="200" mayusculas
+              [disabled]="!editable" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="freal" class="ui-outputlabel required">Fecha Inicio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-calendar id="finicio" name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true" appendTo="body" 
+            appendTo="body" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="!editable"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="freal" class="ui-outputlabel required">Fecha Fin:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-calendar id="ffin" name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" 
+            appendTo="body" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="!editable" (ngModelChange)="diferenciaEntreDiasEnDias()"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="freal" class="ui-outputlabel required">Tiempo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="valor" name="tiempo" type="text" pInputText [(ngModel)]="registro.tiempo" required numeroDecimal7 maxlength="10"
+              [readOnly]="false" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

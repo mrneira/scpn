@@ -1,0 +1,68 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioFinanciera="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioFinanciera" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+						
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="activos" class="ui-outputlabel required">Activos</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="totalactivos" name="totalactivos" 
+						[(ngModel)]="registro.totalactivos" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="pasivos" class="ui-outputlabel required">Pasivos</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="totalpasivos" name="totalpasivos" 
+						[(ngModel)]="registro.totalpasivos" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="patrimonio" class="ui-outputlabel required">Patrimonio</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="patrimonio" name="patrimonio" 
+						[(ngModel)]="registro.patrimonio" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="totalingresos" class="ui-outputlabel required">Ventas/Ingresos anuales</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="totalingresos" name="totalingresos" 
+						[(ngModel)]="registro.totalingresos" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="totalegresos" class="ui-outputlabel required">Total-egresos mensuales</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="totalegresos" name="totalegresos" 
+						[(ngModel)]="registro.totalegresos" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-7">
+					<label for="utilidad" class="ui-outputlabel required">Utilidad</label>
+				</div>
+				<div class="ui-g-12 ui-md-5">
+					<input type="text" pInputText id="utilidad" name="utilidad" 
+						[(ngModel)]="registro.utilidad" maxlength="15" required numero [disabled]="!editable" />
+				</div>
+			</div>
+	        
+		</div>
+	</form>
+</div>

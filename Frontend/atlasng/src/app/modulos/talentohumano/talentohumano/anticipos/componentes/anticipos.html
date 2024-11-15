@@ -1,0 +1,505 @@
+<div class="f-contenedor-transaccion">
+   <div class="f-acciones-cabecera ui-g ui-fluid">
+      <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+      
+
+     
+
+               <button pButton type="button" name="imprimir" id="imprimir" label="Imprimir Formularios" style="position: absolute; right: 95px;" class="f-btn green-btn"
+               icon="ui-icon-print" (click)="descargarReporte('pdf')" *ngIf="vistaImprimir"> </button>
+
+         
+   </div>
+   <p-fieldset legend="DATOS GENERALES" [toggleable]="true">
+      <div class="f-datacontent ui-g ui-fluid">
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="f-contenedor-transaccion">
+               <div class="f-datacontent ui-g ui-fluid">
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-6 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-3">
+                           <label for="fsolicitud" class="ui-outputlabel required">Fecha de Solicitud:</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-8">
+                           <p-calendar id="fsolicitud" name="fsolicitud" [(ngModel)]="registro.fsolicitud" [showIcon]="true" [locale]="es" [disabled]="!editable"
+                           [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-6 ui-md-3">
+                        <label for="cfuncionario" class="ui-outputlabel required">Funcionario</label>
+                     </div>
+                     <div class="ui-g-6 ui-md-1">
+                        <input id="cfuncionario" name="cfuncionario" type="text" pInputText [(ngModel)]="registro.cfuncionario" required [readOnly]="true"
+                        />
+                     </div>
+                     <div class="ui-g-6 ui-md-7">
+                        <input type="text" pInputText id="nfuncionario" name="nfuncionario" [(ngModel)]="registro.nfuncionario" required [readOnly]="true"
+                        />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="documento" class="ui-outputlabel required">Número de cédula</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.documento" [readOnly]="true"
+                        required />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-6 ui-md-3">
+                        <label for="ccargo" class="ui-outputlabel required">Cargo</label>
+                     </div>
+                     <div class="ui-g-6 ui-md-1">
+                        <input id="ccargo" name="ccargo" type="text" pInputText [(ngModel)]="registro.ccargo" required [readOnly]="true" />
+                     </div>
+                     <div class="ui-g-6 ui-md-7">
+                        <input type="text" pInputText id="ncargo" name="ncargo" [(ngModel)]="registro.ncargo" [readOnly]="true" />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-3">
+                        <label for="ctiporelacionlaboral" class="ui-outputlabel required">Tipo de Relación Laboral</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-1">
+                        <input id="ctiporelacionlaboral" name="ctiporelacionlaboral" type="text" pInputText [(ngModel)]="registro.ctiporelacionlaboral"
+                        required [readOnly]="true" />
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="ntiporelacionlaboral" name="ntiporelacionlaboral" [(ngModel)]="registro.ntiporelacionlaboral"
+                        [readOnly]="true" />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="fvinculacion" class="ui-outputlabel required">Fecha de Vinculación:</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <p-calendar id="fvinculacion" name="fvinculacion" [(ngModel)]="registro.fvinculacion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+                        [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="tiempovinculacion" class="ui-outputlabel required">Tiempo de vinculación</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="tiempovinculacion" name="tiempovinculacion" [(ngModel)]="registro.tiempovinculacion" [readOnly]="true"
+                        required />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-6 ui-md-3">
+                        <label for="cgrupo" class="ui-outputlabel ">Grupo Ocupacional:</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-1">
+                        <input id="cgrupo" name="cgrupo" type="text" pInputText [(ngModel)]="registro.cgrupo" [readOnly]="true" 
+                        />
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="ngrupo" name="ngrupo" [(ngModel)]="registro.ngrupo"       [readOnly]="true"          />
+                     </div>
+                  </div>
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="remuneracion" class="ui-outputlabel required">Remuneración</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="remuneracion" name="remuneracion" [(ngModel)]="registro.remuneracion" numeroPositivo maxlength="9" [readOnly]="true"
+                        required />
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </p-fieldset>
+   <p-fieldset legend="ANÁLISIS ECONÓMICO" [toggleable]="true" >
+      <div class="f-datacontent ui-g ui-fluid">
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="f-contenedor-transaccion">
+               <div class="ui-g-12 ui-g-nopad">
+                 
+
+
+                  <div class="ui-g-6 ui-g-nopad">
+
+                   
+   
+                     <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="remuneracion" class="ui-outputlabel">Remuneración</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-7">
+                           <input type="text" pInputText id="remuneracion" name="remuneracion" [(ngModel)]="registro.remuneracion" numeroPositivo [disabled]="true" required />
+                        </div>
+                     </div>
+   
+                     <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="totalendeudamiento" class="ui-outputlabel">Total Descuentos</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-7">
+                           <input type="text" pInputText id="totalendeudamiento" name="totalendeudamiento" [(ngModel)]="registro.totalendeudamiento" numeroPositivo  numeroPositivo [disabled]="true" required />
+                        </div>
+                     </div>
+   
+                  
+                     <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-3 ui-md-4">
+                           <label for="cuotamensualmax" class="ui-outputlabel">Capacidad de Pago Mensual</label>
+                        </div>
+                        <div class="ui-g-3 ui-md-7">
+                           <input type="text" pInputText id="cuotamensualmax" name="cuotamensualmax" [(ngModel)]="cuotamensualmax" numeroPositivo  numeroPositivo [disabled]="true" required />
+                        </div>
+                     </div> 
+   
+   
+                  
+   
+   
+   
+             
+                    
+                  </div>
+
+                  <div class="ui-g-12 ui-md-6">
+                     <p-dataTable #dtMB [(value)]="lCapacidadEndeudamiento" 
+                     [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+                     <p-header>
+                        <div class="ui-table-title ui-md-2">ENDEUDAMIENTO</div>
+                     </p-header>
+                     <p-column field="nombredescuento" header="DESCRIPCIÓN" >
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.nombredescuento}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="valor" header="VALOR" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.valor | number: '1.2-2'}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-footerColumnGroup style="color:blue;">
+                        <p-row>
+                           <p-column footer="TOTAL" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                           <p-column [footer]="totalEndeudamiento| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                        </p-row>
+                     </p-footerColumnGroup>
+                     </p-dataTable>
+                  </div>
+
+
+               </div>
+
+
+
+            </div>
+         </div>
+      </div>
+   </p-fieldset>
+
+  
+
+   <form #formAnticipo="ngForm" *ngIf="crearSolicitud">
+      <div *ngIf="permiteSolicitud; else noPermite">
+      <p-fieldset  legend="INFORMACIÓN DEL GARANTE" [toggleable]="true" *ngIf="bolcapacidadendeudamiento">
+      <div class="f-datacontent ui-g ui-fluid">
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="f-contenedor-transaccion">
+               <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-6 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-3">
+                        <label for="tiempovinculacion" class="ui-outputlabel required">Garante</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-8">
+                        <p-dropdown id="fpkclote" name="fpkclote" [options]="lGarante" [(ngModel)]="registro.garante" required [filter]="true" (onChange)="consultarInfoGarante(registro.garante)"></p-dropdown>
+                     </div>
+                  </div>
+               </div>
+             
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-6 ui-md-3">
+                     <label for="ccargogarante" class="ui-outputlabel required">Cargo</label>
+                  </div>
+                  <div class="ui-g-6 ui-md-1">
+                     <input id="ccargogarante" name="ccargogarante" type="text" pInputText [(ngModel)]="registro.ccargogarante" required [readOnly]="true"
+                     />
+                  </div>
+                  <div class="ui-g-6 ui-md-7">
+                     <input type="text" pInputText id="ncargogarante" name="ncargogarante" [(ngModel)]="registro.ncargogarante" required [readOnly]="true"
+                     />
+                  </div>
+               </div>
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-3 ui-md-3">
+                     <label for="ctiporelacionlaboralgarante" class="ui-outputlabel required">Tipo de Relación Laboral</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-1">
+                     <input id="ctiporelacionlaboralgarante" name="ctiporelacionlaboralgarante" type="text" pInputText [(ngModel)]="registro.ctiporelacionlaboralgarante"
+                     required [readOnly]="true" />
+                  </div>
+                  <div class="ui-g-3 ui-md-7">
+                     <input type="text" pInputText id="ntiporelacionlaboralgarante" name="ntiporelacionlaboralgarante" [(ngModel)]="registro.ntiporelacionlaboralgarante"
+                     [readOnly]="true" />
+                  </div>
+               </div>
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-3 ui-md-4">
+                     <label for="fvinculaciongarante" class="ui-outputlabel required">Fecha de Vinculación:</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-7">
+                     <p-calendar id="fvinculaciongarante" name="fvinculaciongarante" [(ngModel)]="registro.fvinculaciongarante" [showIcon]="true" [locale]="es" [disabled]="!editable"
+                     [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+                  </div>
+               </div>
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-3 ui-md-4">
+                     <label for="tiempovinculaciongarante" class="ui-outputlabel required">Tiempo de vinculación</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-7">
+                     <input type="text" pInputText id="tiempovinculaciongarante" name="tiempovinculaciongarante" [(ngModel)]="registro.tiempovinculaciongarante" [readOnly]="true"
+                     required />
+                  </div>
+               </div>
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-6 ui-md-3">
+                     <label for="cgrupogarante" class="ui-outputlabel ">Grupo Ocupacional:</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-1">
+                     <input id="cgrupogarante" name="cgrupogarante" type="text" pInputText [(ngModel)]="registro.cgrupogarante"  [readOnly]="true"
+                     />
+                  </div>
+                  <div class="ui-g-3 ui-md-7">
+                     <input type="text" pInputText id="ngrupogarante" name="ngrupogarante" [(ngModel)]="registro.ngrupogarante"      [readOnly]="true"           />
+                  </div>
+               </div>
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-3 ui-md-4">
+                     <label for="remuneraciongarante" class="ui-outputlabel required">Remuneración</label>
+                  </div>
+                  <div class="ui-g-3 ui-md-7">
+                     <input type="text" pInputText id="remuneraciongarante" name="remuneraciongarante" [(ngModel)]="registro.remuneraciongarante" numeroPositivo maxlength="9" [readOnly]="true"
+                     required />
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </p-fieldset>
+      <p-fieldset legend="DATOS DEL ANTICIPO" [toggleable]="true" *ngIf="bolcapacidadendeudamiento">
+      <div class="f-datacontent ui-g ui-fluid">
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="f-contenedor-transaccion">
+
+               <div class="ui-g-12 ui-g-nopad">
+               <div class="ui-g-6 ui-g-nopad">
+                  <div class="ui-g-3 ui-md-4">
+                     <label for="plazo" class="ui-outputlabel required">Tipo de cuota</label>
+                  </div>
+
+                  <div class="ui-g-3 ui-md-7">
+                  <p-radioButton name="group1" value="1" label="Iguales" [(ngModel)]="selectedvalue" inputId="opt1" (onClick)="seleccionarCuota(1)" required></p-radioButton>
+                  <p-radioButton name="group1" value="2" label="Cuota del 70% en Diciembre" [(ngModel)]="selectedvalue" inputId="opt2" (onClick)="seleccionarCuota(2)" required *ngIf="vistacuota70"></p-radioButton>                     
+               </div>
+            </div>
+         </div>
+
+            <div *ngIf="vistaTipoCuota">
+
+               <div class="ui-g-5 ui-g-nopad">
+
+            
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="plazo" class="ui-outputlabel required">Plazo (meses)</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <p-dropdown id="ddlPlazo" name="ddlPlazo" [options]="lPlazo" [(ngModel)]="registro.plazo" (onChange)="calcularMontoSugerido(registro.plazo, selectedvalue)" required></p-dropdown>
+                     </div>
+                  </div>
+
+
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="montoSugerido" class="ui-outputlabel required">Monto máximo a otorgar</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="montoSugerido" name="montoSugerido" [(ngModel)]="montoSugerido" numeroPositivo [disabled]="true"
+                        required />
+                     </div>
+                  </div>
+
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="montosolicitado" class="ui-outputlabel required">Monto solicitado</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="montosolicitado" name="montosolicitado" [(ngModel)]="registro.montosolicitado" numeroPositivo  (blur)='validarMontoSolicitado()'
+                        required />
+                     </div>
+                  </div>
+
+                <!--   <div class="ui-g-12 ui-g-nopad" *ngIf="numeroCuotaMax">
+                     <div class="ui-g-12 ui-md-4">
+                        <label for="estado" class="ui-outputlabel">Diciembre cuota del 70% ?</label>
+                     </div>
+                     <div class="ui-g-12 ui-md-2">
+                        <p-checkbox name="anttipodescuento" [(ngModel)]="registro.anttipodescuento" binary="false" (ngModelChange)="validarTipoDcto()"></p-checkbox>
+                     </div>
+                  </div> -->
+
+
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-12 ui-md-4">
+                  <button type="button" pButton icon="ui-icon-calculator" (click)="calcularCuotas(registro.plazo)" label="Calcular Cuotas" class="orange-btn" [disabled]="inactivoCuotas">
+                  </button>
+               </div>
+            </div>
+
+
+
+                 <!--  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="montomaximo" class="ui-outputlabel required">Monto máximo a otorgar</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="montomaximo" name="montomaximo" [(ngModel)]="registro.montomaximo" numeroPositivo [disabled]="true"
+                        required />
+                     </div>
+                  </div>
+                  <div class="ui-g-12 ui-g-nopad">
+                     <div class="ui-g-3 ui-md-4">
+                        <label for="montosolicitado" class="ui-outputlabel required">Monto solicitado</label>
+                     </div>
+                     <div class="ui-g-3 ui-md-7">
+                        <input type="text" pInputText id="montosolicitado" name="montosolicitado" [(ngModel)]="registro.montosolicitado" numeroPositivo  (blur)='validarMonto()'
+                        required />
+                     </div>
+                  </div> -->
+                 
+               </div>
+               <div class="ui-g-7 ui-g-nopad" *ngIf="lTablaCuotas.length > 0">
+                  <div class="ui-g-12 ui-md-12" >
+                     <p-dataTable #dtMB [(value)]="lTablaCuotas" 
+                     [responsive]="true" [scrollable]="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+                     <p-header>
+                        <div class="ui-table-title ui-md-2">CUOTAS</div>
+                     </p-header>
+                     <p-column field="idcuota" header="# CUOTA" >
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.idcuota}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="finicio" header="INICIO" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.finicio }}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="fvencimiento" header="VENCIMIENTO" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.fvencimiento }}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="mescuota" header="MES" >
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.mescuota}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="valorcuota" header="VALOR" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.valorcuota | number: '1.2-2'}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="capitalreducido" header="CAPITAL REDUCIDO" styleClass="f-right">
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.capitalreducido | number: '1.2-2'}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-column field="cestatus" header="ESTADO" >
+                        <ng-template pTemplate="body" let-reg="rowData">
+                           <div class="ui-grid-row">
+                              {{ reg.cestatus}}
+                           </div>
+                        </ng-template>
+                     </p-column>
+                     <p-footerColumnGroup style="color:blue;">
+                        <p-row>
+                           <p-column footer="TOTAL" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                           <p-column [footer]="totalCuotas| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+                        </p-row>
+                     </p-footerColumnGroup>
+                     </p-dataTable>
+                  </div>
+               </div>
+
+            </div>
+
+            </div>
+         </div>
+      </div>
+      </p-fieldset>
+      <div class="f-contenedor-transaccion" >
+         <div class="ui-g-12 ui-g-nopad f-acciones-editar" style="text-align: left;" *ngIf="bolcapacidadendeudamiento">
+            <button type="button" pButton icon="ui-icon-check" (click)="grabarSolicitud()" label="Confirmar" class="green-btn"
+            [disabled]="!formAnticipo.valid">
+            </button>
+
+
+
+            <button type="button" pButton icon="ui-icon-cancel" (click)="cancelarSolicitud()" label="Cancelar" class="blue-grey-btn"
+               style="margin-left:5px">
+            </button>
+         </div>
+      </div>
+
+
+
+   </div>
+
+
+    
+    <ng-template #noPermite>
+ 
+      <p-fieldset legend="OBSERVACIONES" [toggleable]="false">
+         <div class="f-contenedor-transaccion">
+            <div class="f-datacontent ui-g ui-fluid">
+               <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-12">
+                     <textarea pInputText id="antcomentario" name="antcomentario" [(ngModel)]="registro.antcomentario" required mayusculas
+                     maxlength="500" rows="1" [disabled]="true"></textarea>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </p-fieldset>
+
+
+    </ng-template>
+
+
+
+   </form>
+
+   <div class="ui-g-12" style='display:none'>
+      <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+   </div>
+  
+</div>

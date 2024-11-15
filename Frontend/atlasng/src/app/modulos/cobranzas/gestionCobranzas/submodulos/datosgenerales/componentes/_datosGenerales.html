@@ -1,0 +1,249 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="solicitud.registro.n_producto" readonly="true"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fctipoproducto" class="ui-outputlabel required">Tipo producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="solicitud.registro.n_tipoproducto"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="frecuenciainteres" class="ui-outputlabel required">Frecuencia interés</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input pInputText id="frecuenciainteres" name="frecuenciainteres" [(ngModel)]="solicitud.registro.n_frecuencia"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="periocidadcapital" class="ui-outputlabel required">Periocidad capital</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="periocidadcapital" name="periocidadcapital" entero [(ngModel)]="solicitud.registro.periodicidadcapital"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="tablaamortizacion" name="tablaamortizacion" [(ngModel)]="solicitud.registro.n_tabla"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="basecalculo" class="ui-outputlabel required">Base de cálculo</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="basecalculo" name="basecalculo" [(ngModel)]="solicitud.registro.n_basecalculo"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="sucursal" class="ui-outputlabel required">Sucursal</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="sucursal" name="sucursal" [(ngModel)]="solicitud.registro.n_sucursal"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="agencia" class="ui-outputlabel required">Agencia</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="agencia" name="agencia" [(ngModel)]="solicitud.registro.n_oficina"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estatus" class="ui-outputlabel required">Estatus</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="estatus" name="estatus" [(ngModel)]="solicitud.registro.n_estatus"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="estadooperacion" class="ui-outputlabel required">Estado</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="estadooperacion" name="estadooperacion" [(ngModel)]="solicitud.registro.n_cestadooperacion"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="calif" class="ui-outputlabel required">Calificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="calif" name="calif" [(ngModel)]="solicitud.registro.ncalificacion"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="oficial" class="ui-outputlabel required">Oficial</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="oficial" name="oficial" [(ngModel)]="solicitud.registro.cusuarioapertura"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="solicitud.registro.coperacionmigrada != null">
+        <div class="ui-g-12 ui-md-4">
+          <label for="coperacionmigrada" class="ui-outputlabel required">Operación migrada</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="coperacionmigrada" name="coperacionmigrada" [(ngModel)]="solicitud.registro.coperacionmigrada"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="solicitud.registro.coperacionarreglopago != null">
+        <div class="ui-g-12 ui-md-4">
+          <label for="coperacionarreglopago" class="ui-outputlabel required">Operación original</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <input type="text" pInputText id="coperacionarreglopago" name="coperacionarreglopago" [(ngModel)]="solicitud.registro.coperacionarreglopago"
+            [disabled]="true" />
+        </div>
+      </div>
+
+      <div class="ui-g-12"></div>
+      <div class="ui-g-12"></div>
+
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6">
+          <label for="monto" class="ui-outputlabel required">Monto</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="monto" name="monto" maxlength="10" numero required [(ngModel)]="solicitud.registro.montooriginal"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="tasanominal" class="ui-outputlabel">Tasa nominal</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="tasanominal" name="tasanominal" maxlength="5" numero [(ngModel)]="solicitud.registro.tasa"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="plazo" class="ui-outputlabel required-opc">Plazo</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="plazo" name="plazo" maxlength="3" entero [(ngModel)]="solicitud.registro.plazo"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6">
+          <label for="numerocuotas" class="ui-outputlabel required-opc">Número cuotas</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero [(ngModel)]="solicitud.registro.numerocuotas"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="cuotagracia" class="ui-outputlabel">Cuotas de gracia</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="cuotagracia" name="cuotagracia" entero [(ngModel)]="solicitud.registro.cuotasgracia"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="diapago" class="ui-outputlabel">Día de pago</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="diapago" name="diapago" entero [(ngModel)]="solicitud.registro.diapago"
+            [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6">
+          <label for="faprobacion" class="ui-outputlabel">Fecha de aprobación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="faprobacion" name="faprobacion" [(ngModel)]="solicitud.registro.mdatos.faprobacion"
+            [showIcon]="true" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="fapertura" class="ui-outputlabel">Fecha de apertura</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fapertura" name="fapertura" [(ngModel)]="solicitud.registro.mdatos.fapertura" [showIcon]="true"
+            [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="fvencimiento" class="ui-outputlabel">Fecha de vencimiento</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="solicitud.registro.mdatos.fvencimiento"
+            [showIcon]="true" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad" *ngIf="solicitud.registro.cestadooperacion != 'N'">
+        <div class="ui-g-12 ui-md-6">
+          <label for="montoProrrateo" class="ui-outputlabel required">Monto de negociación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montoProrrateo" name="montoProrrateo" maxlength="10" numero required [(ngModel)]="solicitud.registro.montoarreglopago"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+      <div class="ui-g-12 ui-md-4 ui-g-nopad" *ngIf="solicitud.registro.cestadooperacion != 'N'">
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="numerocuotasProrrateo" class="ui-outputlabel required-opc">Cuotas prorrateo</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="numerocuotasProrrateo" name="numerocuotasProrrateo" entero [(ngModel)]="solicitud.registro.numcuotaprorrateo"
+            [disabled]="true" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

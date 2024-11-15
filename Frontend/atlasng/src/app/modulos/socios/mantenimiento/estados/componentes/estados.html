@@ -1,0 +1,178 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpkcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+
+      <div class="ui-g-2 ui-md-1">
+        <input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required (blur)="Busqueda()"
+        />
+      </div>
+
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+      </div>
+
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Histórico de carrera</div>
+           <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Secuencia"></p-column>>
+        <p-column field="mdatos.ntipoestado" header="Tipo Histórico"></p-column>>
+        <p-column field="mdatos.ngradoactual" header="Grado Actual"></p-column>
+        <p-column field="mdatos.nsubestado" header="Tipo Baja"></p-column>
+        <p-column   header="Fecha Histórico">
+			<ng-template pTemplate="body" let-reg="rowData">
+			  {{ reg.festado | date:'dd-MM-yyyy'}}
+			</ng-template>
+        </p-column>
+        <p-column field="ordengen"header="Orden General"></p-column>
+        <p-column  header="Fecha Orden General">
+			<ng-template pTemplate="body" let-reg="rowData">
+  				{{ reg.fordengen | date:'dd-MM-yyyy'}}
+			</ng-template>
+        </p-column>
+      <p-column
+				header="Activo?" [style]="{'width':'60px'}" styleClass="f-center"> <ng-template
+				pTemplate="body" let-reg="rowData"> <p-checkbox
+				[ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+			</ng-template> 
+			</p-column>
+        <p-column field="observaciones" header="Observaciones"></p-column>
+        <p-column [style]="{'width':'100px'}">
+			<ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-table-actions">
+					<acciones-reg [componente]="componentehijo" [reg]="reg" ></acciones-reg>
+				</div>
+			</ng-template>
+		</p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>            
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Histórico De Carrera" [(visible)]="mostrarDialogoGenerico" [closable]="true" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70" (onHide)="cancelar()">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Histórico carrera</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="ccdetalleestado" class="ui-outputlabel required">Tipo Histórico</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <p-dropdown id="ccdetalleestado" name="ccdetalleestado" [options]="ltipoEstado" [(ngModel)]="registro.cestadosocio" required
+              appendTo="body" [disabled]="!editable || !registro.esnuevo" [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoEstado, 'cestadosocio', 'ntipoestado');consultarHistoricoActual()" ></p-dropdown>
+            </div>
+          </div>
+         <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="ordengeneral" class="ui-outputlabel required">Orden General</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="ordengeneral" entero name="ordengeneral" [(ngModel)]="registro.ordengen" required maxlength="30"
+                [disabled]="!editable && !registro.esnuevo" />
+            </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad"  *ngIf="registro.cestadosocio==3">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ccdetalleestado" class="ui-outputlabel required">Tipo de Baja</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="csubestado" name="csubestado" [options]="ltipoSubEstado" [(ngModel)]="registro.csubestado" required
+              [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoSubEstado, 'csubestado', 'nsubestado')" [disabled]="registro.cestadosocio!='3' && !registro.esnuevo"></p-dropdown>
+          </div>
+        </div>
+       
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="finicio" class="ui-outputlabel required ">Fecha Histórico:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="festado" [(ngModel)]="registro.festado" [showIcon]="true"  [dateFormat]="formatofecha"
+              (ngModelChange)="validarFecha()" appendTo="body" [monthNavigator]="true"
+              [yearNavigator]="true" [locale]="es" yearRange="1900:2200" required [disabled]="!editable" ></p-calendar>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="ffin" class="ui-outputlabel required ">Fecha Orden:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-calendar name="fordengen" [(ngModel)]="registro.fordengen" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="fmin"
+               [monthNavigator]="true" [locale]="es" [yearNavigator]="true" yearRange="1900:2200" [disabled]="!editable "
+              required></p-calendar>
+          </div>
+        </div>
+        
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cdetalleestado" class="ui-outputlabel required">Grado</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="cgradoactual" name="cgradoactual"  [options]="ltipoGradoActual" [(ngModel)]="registro.cgradoactual" required
+            appendTo="body" [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoGradoActual, 'cgradoactual', 'ngradoactual')" [disabled]="!editable && !registro.esnuevo"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" *ngIf="false" >
+          <div class="ui-g-12 ui-md-2">
+            <label for="cdetalleestado" class="ui-outputlabel required">Grado Proximo</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="cgradoproximo" name="cgradoproximo" [options]="ltipoGradoProximo" [(ngModel)]="registro.cgradoproximo" required
+            appendTo="body" [filter]="true" (onChange)="registrarEtiqueta(registro, ltipoGradoProximo, 'cgradoproximo', 'ngradoproximo')" disabled="!registro.esnuevo"></p-dropdown>
+          </div>
+        </div>
+      <div class="ui-g-12  ui-g-nopad ">
+        <div class="ui-g-12 ui-md-2">
+            <label for="estado" class="ui-outputlabel ">Observaciones</label>
+        </div>
+         <div class="ui-g-12 ui-md-8">
+          <textarea type="text" pInputText id="observaciones" name="observaciones" [(ngModel)]="registro.observaciones"  mayusculas maxlength="2000"
+          rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+         </div>
+      </div>
+      <div class="ui-g-12  ui-g-nopad ">
+          <div class="ui-g-12 ui-md-2">
+              <label for="activo" class="ui-outputlabel required">Activo?</label>
+          </div>
+           <div class="ui-g-12 ui-md-6">
+              <p-checkbox name="estaactivo" [(ngModel)]="registro.activo"
+              binary="false" [disabled]="!editable"></p-checkbox>
+           </div>
+        </div>
+
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

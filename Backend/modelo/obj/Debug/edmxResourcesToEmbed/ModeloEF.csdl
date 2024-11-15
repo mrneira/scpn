@@ -4051,6 +4051,12 @@
       <End Role="tgensecuencia" EntitySet="tgensecuencia" />
       <End Role="tpreexpedienteasignacion" EntitySet="tpreexpedienteasignacion" />
     </AssociationSet>
+    <EntitySet Name="tsoccertificado" EntityType="atlas_desarrolloModel.tsoccertificado" />
+    <EntitySet Name="tcarproductorangosnegociacion" EntityType="atlas_desarrolloModel.tcarproductorangosnegociacion" />
+    <AssociationSet Name="FK_TGENMODULO" Association="atlas_desarrolloModel.FK_TGENMODULO">
+      <End Role="tgenproducto" EntitySet="tgenproducto" />
+      <End Role="tcarproductorangosnegociacion" EntitySet="tcarproductorangosnegociacion" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="tacfajuste">
     <Key>
@@ -5396,6 +5402,8 @@
     <NavigationProperty Name="tsegusuario1" Relationship="atlas_desarrolloModel.FKTCREOPERACIONTUSUACAN" FromRole="tcaroperacion" ToRole="tsegusuario" />
     <NavigationProperty Name="tsegusuario2" Relationship="atlas_desarrolloModel.FKTCREOPERACIONTUSUADES" FromRole="tcaroperacion" ToRole="tsegusuario" />
     <NavigationProperty Name="tcaroperacionhistoria" Relationship="atlas_desarrolloModel.TCAROPERACIONHISTTCAROPER" FromRole="tcaroperacion" ToRole="tcaroperacionhistoria" />
+    <Property Name="numcuotaprorrateo" Type="Int32" />
+    <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcaroperacionarreglopago">
     <Key>
@@ -5794,6 +5802,8 @@
     <Property Name="coperacionmigrada" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="cusuarioaprobacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="tcaroperacion" Relationship="atlas_desarrolloModel.TCAROPERACIONHISTTCAROPER" FromRole="tcaroperacionhistoria" ToRole="tcaroperacion" />
+    <Property Name="numcuotaprorrateo" Type="Int32" />
+    <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcaroperacionlote">
     <Key>
@@ -6575,6 +6585,8 @@
     <NavigationProperty Name="tgentipoproducto" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTTIPOPRODUCTO" FromRole="tcarsolicitud" ToRole="tgentipoproducto" />
     <NavigationProperty Name="tsegusuario" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTUSUAAPR" FromRole="tcarsolicitud" ToRole="tsegusuario" />
     <NavigationProperty Name="tsegusuario1" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTUSUAING" FromRole="tcarsolicitud" ToRole="tsegusuario" />
+    <Property Name="numcuotaprorrateo" Type="Int32" />
+    <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcarsolicitudabsorcion">
     <Key>
@@ -9694,6 +9706,7 @@
     <NavigationProperty Name="tgencatalogodetalle" Relationship="atlas_desarrolloModel.FK_TGENPRODUCTO_FK_TINVTG_TGENCATA" FromRole="tgenproducto" ToRole="tgencatalogodetalle" />
     <NavigationProperty Name="tgenmodulo" Relationship="atlas_desarrolloModel.FKTGENPRODTMODULO" FromRole="tgenproducto" ToRole="tgenmodulo" />
     <NavigationProperty Name="tgentipoproducto" Relationship="atlas_desarrolloModel.FKTGENTIPOPRODTMODULO" FromRole="tgenproducto" ToRole="tgentipoproducto" />
+    <NavigationProperty Name="tcarproductorangosnegociacion" Relationship="atlas_desarrolloModel.FK_TGENMODULO" FromRole="tgenproducto" ToRole="tcarproductorangosnegociacion" />
   </EntityType>
   <EntityType Name="tgenprovincia">
     <Key>
@@ -12174,6 +12187,7 @@
     <NavigationProperty Name="tgencatalogodetalle" Relationship="atlas_desarrolloModel.TNOMPARAMETRODETALLETGENCATALOGOmesdecimoc" FromRole="tnomparametrodetalle" ToRole="tgencatalogodetalle" />
     <NavigationProperty Name="tgencatalogodetalle1" Relationship="atlas_desarrolloModel.tnomparametrodetalletgencatalogomesfondoreserva" FromRole="tnomparametrodetalle" ToRole="tgencatalogodetalle" />
     <NavigationProperty Name="tnomparametro" Relationship="atlas_desarrolloModel.FKTNOMPARAMETRODETALLETNOMPARAMETRO" FromRole="tnomparametrodetalle" ToRole="tnomparametro" />
+    <Property Name="ppasanteiess" Type="Decimal" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tnomparametroliquidacion">
     <Key>
@@ -12958,6 +12972,11 @@
     <Property Name="fmodificacion" Type="DateTime" Precision="3" />
     <NavigationProperty Name="tpptcertificaciondetalle" Relationship="atlas_desarrolloModel.FKtpptcertificacion" FromRole="tpptcertificacion" ToRole="tpptcertificaciondetalle" />
     <Property Name="incluyeiva" Type="Boolean" />
+    <Property Name="cdepartamento" Type="Int64" />
+    <Property Name="gastoccatalogo" Type="Int32" />
+    <Property Name="gastocdetalle" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="docrespaldo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="certpoa" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="tpptcertificaciondetalle">
     <Key>
@@ -27536,6 +27555,11 @@
     <Property Name="ccompania" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tgenagencia" Relationship="atlas_desarrolloModel.FK_EXP_ASIGNACION_TO_AGENCIA" FromRole="tpreexpedienteasignacion" ToRole="tgenagencia" />
     <NavigationProperty Name="tgensecuencia" Relationship="atlas_desarrolloModel.FK_EXP_ASIGNACION_TO_SECUENCIA" FromRole="tpreexpedienteasignacion" ToRole="tgensecuencia" />
+    <Property Name="ccatalogoestadoregistro" Type="Int32" />
+    <Property Name="cdetalleestadoregistro" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="fechamodificacionregistro" Type="DateTime" Precision="3" />
+    <Property Name="cusuariomodificacionregistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="comentarioregistro" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_EXP_ASIGNACION_TO_AGENCIA">
     <End Type="atlas_desarrolloModel.tgenagencia" Role="tgenagencia" Multiplicity="1" />
@@ -27562,6 +27586,52 @@
       </Principal>
       <Dependent Role="tpreexpedienteasignacion">
         <PropertyRef Name="csecuencia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tsoccertificado">
+    <Key>
+      <PropertyRef Name="csocio" />
+      <PropertyRef Name="identificacion" />
+    </Key>
+    <Property Name="csocio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="primernombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="segundonombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="apellidopaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="apellidomaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="verreg" Type="Int32" Nullable="false" />
+    <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tcarproductorangosnegociacion">
+    <Key>
+      <PropertyRef Name="cmodulo" />
+      <PropertyRef Name="cproducto" />
+      <PropertyRef Name="ctipoproducto" />
+      <PropertyRef Name="secuencia" />
+    </Key>
+    <Property Name="cmodulo" Type="Int32" Nullable="false" />
+    <Property Name="cproducto" Type="Int32" Nullable="false" />
+    <Property Name="ctipoproducto" Type="Int32" Nullable="false" />
+    <Property Name="secuencia" Type="Int32" Nullable="false" />
+    <Property Name="montominimo" Type="Decimal" Nullable="false" Precision="15" Scale="2" />
+    <Property Name="montomaximo" Type="Decimal" Nullable="false" Precision="15" Scale="2" />
+    <Property Name="plazominimo" Type="Int32" Nullable="false" />
+    <Property Name="plazomaximo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tgenproducto" Relationship="atlas_desarrolloModel.FK_TGENMODULO" FromRole="tcarproductorangosnegociacion" ToRole="tgenproducto" />
+  </EntityType>
+  <Association Name="FK_TGENMODULO">
+    <End Type="atlas_desarrolloModel.tgenproducto" Role="tgenproducto" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="atlas_desarrolloModel.tcarproductorangosnegociacion" Role="tcarproductorangosnegociacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tgenproducto">
+        <PropertyRef Name="cmodulo" />
+        <PropertyRef Name="cproducto" />
+      </Principal>
+      <Dependent Role="tcarproductorangosnegociacion">
+        <PropertyRef Name="cmodulo" />
+        <PropertyRef Name="cproducto" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

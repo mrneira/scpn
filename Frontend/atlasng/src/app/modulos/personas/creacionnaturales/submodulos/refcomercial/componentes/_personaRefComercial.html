@@ -1,0 +1,94 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Referencias Comerciales</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="celular" header=Celular></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Referencia comercial" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoRefPersonal="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="secuencia" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="secuencia" name="secuencia"
+						   [(ngModel)]="registro.secuencia" [disabled]="true" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="nombre" name="nombre"
+						[(ngModel)]="registro.nombre" maxlength="80" mayusculas required [disabled]="!editable" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="celular" class="ui-outputlabel">Celular</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="celular" name="celular"
+						[(ngModel)]="registro.celular" maxlength="20" entero [disabled]="!editable" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="telefonofijo" class="ui-outputlabel">Telefono fijo</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="telefonofijo" name="telefonofijo"
+						[(ngModel)]="registro.telefonofijo" maxlength="20" entero [disabled]="!editable" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="extension" class="ui-outputlabel">Extensión</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="extension" name="extension"
+						[(ngModel)]="registro.extension" maxlength="6" entero [disabled]="!editable" />
+				</div>
+			</div>
+
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoRefPersonal" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

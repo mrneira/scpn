@@ -1,0 +1,283 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+
+    <div class="ui-g-12 ui-g-nopad">
+
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpkcinversion" class="ui-outputlabel">Inversiones</label>
+        </div>
+
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="mcampos.cinversion"  readonly
+            />
+        </div>
+        <div class="ui-g-9 ui-md-4">
+            <input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.codigotitulo" [disabled]="true"
+            />
+        </div>
+
+        <div class="ui-g-1 ui-md-3">
+            <button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" [disabled]="false"
+                icon="ui-icon-directions">
+            </button>
+        </div>
+
+        <app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>
+  
+    </div>
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-outputlabel ">Emisor</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="emisor" name="emisor" [options]="lEmisor" [(ngModel)]="mcampos.emisorcdetalle" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-outputlabel ">Instrumento</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="instrumento" name="instrumento" [options]="lInstrumento" [(ngModel)]="mcampos.instrumentocdetalle" [filter]="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fdesde" class="ui-outputlabel ">Fecha de Emisión: Desde</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar name="fdesde" [(ngModel)]="mcampos.fdesde" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="fhasta" class="ui-outputlabel ">Hasta</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar name="fhasta" [(ngModel)]="mcampos.fhasta" [showIcon]="true" [dateFormat]="formatofecha"></p-calendar>
+      </div>
+    </div>
+
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Inversiones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column field="cinversion" header="Id. Inv." [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+        <p-column field="mdatos.nEmisor" header="Emisor"></p-column>
+        <p-column field="mdatos.nInstrumento" header="Instrumento"></p-column>
+        <p-column field="fcompra" header="F.Compra" [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+        <p-column field="femision" header="F.Emisión" [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+        <p-column field="fvencimiento" header="F.Vencimiento"  [style]="{'width':'75px'}" styleClass="f-center"></p-column>
+
+        <p-column field="plazo" header="Plazo" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+        <p-column header="Valor Nominal" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.valornominal | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Valor Efectivo" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.valorefectivo | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Int. Transc." styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{ reg.interestranscurrido | number:'1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column field="numerooficiocompra" header="No. Oficio"></p-column>
+
+        <p-column header="F.Resolución" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.nFresolucion | date:'yyyy-MM-dd' }}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+
+            <div class="f-table-actions">
+
+
+
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+
+
+            </div>
+
+
+          </ng-template>
+        </p-column>
+
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Institución Financiera" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 15000">
+      <div class="f-datacontent ui-g ui-fluid">
+
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="nEmis" class="ui-outputlabel">Institución Financiera</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="nEmis" name="nEmis" [(ngModel)]="registro.mdatos.nEmisor" readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="nIns" class="ui-outputlabel">Instrumento</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="nIns" name="nIns" [(ngModel)]="registro.mdatos.nInstrumento" readonly />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="fCom" class="ui-outputlabel">Fecha de Compra</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="fCom" name="fCom" [(ngModel)]="registro.fcompra" readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="fEmi" class="ui-outputlabel">Fecha de Emisión</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="fEmi" name="fEmi" [(ngModel)]="registro.femision" readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="fVen" class="ui-outputlabel">Fecha de Vencimiento</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="fVen" name="fVen" [(ngModel)]="registro.fvencimiento" readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="valornominalA" class="ui-outputlabel">Valor Nominal</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id=valornominalA name="valornominalA" [(ngModel)]="registro.valornominal" numero
+            disabled = "true"
+              readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="valEfe" class="ui-outputlabel">Valor Efectivo</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id=valEfe name="valEfe" 
+            [(ngModel)]="registro.valorefectivo" numero
+            disabled = "true"
+              readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="intTrans" class="ui-outputlabel">Intereses Transcurridos</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id=intTrans name="intTrans" 
+            [(ngModel)]="registro.interestranscurrido" numero
+            disabled = "true"
+              readonly />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="numeroficio" class="ui-outputlabel required">Número de Oficio</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numeroficio" 
+            name="numeroficio" [(ngModel)]="registro.numerooficiocompra" required maxlength="30"
+              mayusculas />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+
+          <div class="ui-g-12 ui-md-1">
+            <label for="nfcolocacion" class="ui-outputlabel required">Fecha de Resolución</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-calendar id="nfcolocacion" name="nfcolocacion" [(ngModel)]="registro.mdatos.nFresolucion" [showIcon]="true" [locale]="es"
+              [disabled]="false" required [dateFormat]="formatofecha" ></p-calendar>
+          </div>
+
+        </div>
+
+      </div>
+
+   
+
+
+      <footer>
+
+
+        <p-fieldset legend="Acciones">
+          <div class="ui-g">
+            <div *ngIf="this.editable || this.registro.esnuevo">
+              <button type="button" pButton icon="ui-icon-check" (click)="imprimir('pdf')" label="Generar oficio" class="green-btn" [disabled]="estaVacio(registro.numerooficiocompra) || estaVacio(registro.mdatos.nFresolucion)">
+              </button>
+            </div>
+            <div *ngIf="this.editable || this.registro.esnuevo">
+              <button type="button" pButton icon="ui-icon-cancel" (click)="this.cancelar()" label="Cancelar" class="orange-btn" style="margin-left:5px">
+              </button>
+            </div>
+          </div>
+        </p-fieldset>
+
+
+      </footer>
+    </div>
+  </form>
+
+
+</p-dialog>
+<div class="ui-g-12" style='display:none'>
+  <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+</div>
+

@@ -1,0 +1,46 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta"
+					[readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables"
+					(click)="mostrarLovCuentasContables()" icon="ui-icon-directions">
+				</button>
+			</div>
+			<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)>
+			</app-lov-cuentas-contables>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="anio" class="ui-outputlabel required">Año:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input id="anio" name="anio" type="text" pInputText [(ngModel)]="mfiltros.anio" required entero maxlength="4" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="finicio" class="ui-outputlabel required">Mes:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<p-dropdown id="lmesesini" name="lmesesini" [options]="lmesesini" [(ngModel)]="this.mfiltros.finicio">
+				</p-dropdown>
+			</div>
+		</div>
+	</form>
+</div>

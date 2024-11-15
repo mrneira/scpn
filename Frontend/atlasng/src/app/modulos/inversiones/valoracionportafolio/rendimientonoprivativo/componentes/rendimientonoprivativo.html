@@ -1,0 +1,38 @@
+<div class="ui-g-12 ui-md-2"></div>
+
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm">
+		<div class="f-filtros ui-g ui-fluid" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-4 ui-md-2">
+					<label for="fdesde" class="ui-outputlabel required">Fecha Evaluacion</label>
+				</div>
+				<div class="ui-g-8 ui-md-4">
+					<p-calendar name="fdesde" [(ngModel)]="mcampos.fcorte" [showIcon]="true" [dateFormat]="formatofecha" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-calendar>
+				</div>
+			</div>			
+		</div>
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="lrecuperacion" [responsive]="true">
+
+				<p-header>
+					<div class="ui-table-title">Generar Reporte</div>
+					<div class="f-acciones-cab-tabla">
+						<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+						</button>
+					</div>
+					<div class="ui-g-12" style='display:none'>
+						<app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+					</div>
+				</p-header>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

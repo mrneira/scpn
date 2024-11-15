@@ -1,0 +1,188 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+
+		<div class="ui-g-12 ui-md-2">
+            <label for="fpkcpersona" class="ui-outputlabel required">Persona</label>
+		</div>
+
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true" />
+		</div>
+
+	    <div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+	    	</button>
+    	</div>
+    	<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+	</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Novedades</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="mdatos.ntiponovedad" header="Tipo novedad" [style]="{'width':'120px'}"></p-column>
+				<p-column field="numerooficio" header="Número oficio" [style]="{'width':'120px'}"></p-column>
+				<p-column field="novedad" header="Descripción" [style]="{'width':'210px'}"></p-column>
+				<p-column header="Fecha recepción" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.fecharecepcion | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Valor" [style]="{'width':'90px','text-align':'right'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.valor | number:'1.2-2'}}
+					</ng-template>
+				</p-column> 			
+				<p-column header="Estado" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-dropdown [options]="lestado" [disabled]="true" [ngModel]="reg.estado"></p-dropdown>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Novedades" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+				<div *ngIf="edited" class="ui-g-12 ui-g-nopad" style="  padding:3px;
+				background-color: #f44336;color: white;margin-bottom: 3px;">
+					<p>{{mensaje}}</p>
+				</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Datos Novedad</span>
+				</div>
+				<hr />
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="numerooficio" class="ui-outputlabel required">Número de oficio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="numerooficio" name="numerooficio" [(ngModel)]="registro.numerooficio"
+						mayusculas  maxlength="50" [disabled]="!editable || (!registro.esnuevo && registro.automatico)" (blur)="validarDocumento()" required/>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fechaoficio" class="ui-outputlabel">Fecha oficio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fechaoficio" name="fechaoficio" [(ngModel)]="registro.fechaoficio"
+						    [showIcon]="true" [maxDate]="fechaactual" [disabled]="!editable || registro.automatico" [dateFormat]="formatofecha"></p-calendar>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fecharecepcion" class="ui-outputlabel required">Fecha recepción</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fecharecepcion" name="fecharecepcion" [(ngModel)]="registro.fecharecepcion"
+                [showIcon]="true" [maxDate]="fechaactual" [disabled]="!editable || registro.automatico" required [dateFormat]="formatofecha"  [locale]="es"
+                 [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+				</div>
+			</div>
+
+		    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetallenovedad" class="ui-outputlabel required">Tipo novedad</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetallenovedad" name="cdetallenovedad" [disabled]="!editable || registro.automatico" [options]="ltipoNovedad" [(ngModel)]="registro.cdetallenovedad" required [filter]="true"
+                    (onChange)="registrarEtiqueta(registro, ltipoNovedad, 'cdetallenovedad', 'ntiponovedad')"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="novedad" class="ui-outputlabel required">Descripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<input type="text" pInputText id="novedad" name="novedad" [(ngModel)]="registro.novedad"
+						   required mayusculas maxlength="200" [disabled]="!editable || (!registro.esnuevo && registro.automatico)" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="valor" class="ui-outputlabel">Valor</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor"
+						   numeroPositivo maxlength="19" [disabled]="!editable || (!registro.esnuevo && registro.automatico)" />
+				</div>
+			</div>
+
+			<div *ngIf="!registro.automatico" class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="retencion" class="ui-outputlabel">Tiene retención</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-checkbox name="retencion" [(ngModel)]="registro.retencion" binary="false"></p-checkbox>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad" *ngIf="registro.retencion">
+				<div class="ui-g-12 ui-md-3">
+					<label for="porcentajeretencion" class="ui-outputlabel">Porcentaje retención</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="porcentajeretencion" name="porcentajeretencion" [(ngModel)]="registro.porcentajeretencion"
+						 numeroPositivo maxlength="6" [disabled]="!editable || (!registro.esnuevo && registro.automatico)" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="estado" class="ui-outputlabel required">Estado</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="estado" name="estado" [options]="lestado" [disabled]="!editable || registro.automatico"
+							[(ngModel)]="registro.estado" required></p-dropdown>
+				</div>
+			</div>
+
+
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

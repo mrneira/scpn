@@ -1,0 +1,34 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+          <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+          </div>
+          <div class="ui-g-12">
+          <p-fileUpload id="fucarchivo" name="fucarchivo" customUpload="true" accept=".txt,.TXT" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+            required (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione"  ></p-fileUpload>
+          </div>
+        </div>
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="false">
+        <p-column field="ccuenta" header="Cuenta" ></p-column>
+        <p-column field="mdatos.ncuenta" header="Nombre Cuenta" ></p-column>
+        <p-column field="cmoneda" header="Moneda" ></p-column>
+        <p-column field="numerodocumentobancario" header="Referencia" ></p-column>       
+        <p-column field="mdatos.ncentrocostoscdetalle" header="Centro Costos" ></p-column>
+        <p-column field="mdatos.centrocostosccatalogo" header="centrocostoscatalogo" hidden="true" ></p-column>
+        <p-column field="ccompromiso" header="No. Compromiso" > </p-column> 
+        <p-column field="cpartida" header="Partida" > </p-column>
+        <p-column field="debito" header="Débito" >
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <p-checkbox name="debito" [(ngModel)]="reg.debito" binary="false" [disabled]="true" ></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column  field="monto" header="Monto"> </p-column>
+        <p-footer>
+          
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

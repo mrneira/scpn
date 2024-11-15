@@ -1,0 +1,117 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fkcconcepto" class="ui-outputlabel">Código</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input pInputText id="fkcconcepto" name="fkcconcepto" [(ngModel)]="mfiltros.cconcepto" entero autofoco maxlength="5" />
+		</div>
+	</div>
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fnombre" class="ui-outputlabel">Nombre</label>
+		</div>
+		<div class="ui-g-12 ui-md-5">
+			<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="80" />
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Cupos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="anio" header="Año" [style]="{'width':'70px'}"></p-column>
+			<p-column field="mdatos.njerarquia" header="Jerarqu&iacute;a"></p-column>
+			<p-column field="mdatos.ntipo" header="Tipo cupo"></p-column>
+			<p-column field="cupostotal" header="Total cupos" [style]="{'width':'70px'}"></p-column>
+			<p-column field="cuposusado" header="Usados" [style]="{'width':'70px'}"></p-column>
+			<p-column field="comentario" header="Comentario"></p-column>
+			<p-column [style]="{'width':'100px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<p-dialog header="Cupos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+(onHide)="cerrarDialogo()" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="anio" class="ui-outputlabel required">Año</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="anio" name="anio" [(ngModel)]="registro.anio" 
+						autofoco entero maxlength="4" [disabled]="!registro.esnuevo" required
+						/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="tipojerarquiacdetalle" class="ui-outputlabel required">Jerarqu&iacute;a</label>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-dropdown id="tipojerarquiacdetalle" appendTo="body" name="tipojerarquiacdetalle" [options]="ltipojerarquiacdetalle" 
+						[(ngModel)]="registro.tipojerarquiacdetalle" (onChange)="registrarEtiqueta(registro, ltipojerarquiacdetalle, 'tipojerarquiacdetalle', 'njerarquia')"
+						 required [filter]="true"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="tipocupocdetalle" class="ui-outputlabel required">Tipo cupo</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="tipocupocdetalle" appendTo="body" name="tipocupocdetalle" [options]="ltipocupocdetalle" [(ngModel)]="registro.tipocupocdetalle"
+						(onChange)="registrarEtiqueta(registro, ltipocupocdetalle, 'tipocupocdetalle', 'ntipo')" required [filter]="true"></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cupostotal" class="ui-outputlabel required">Cupos total</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="cupostotal" name="cupostotal" [(ngModel)]="registro.cupostotal" autofoco entero maxlength="4"
+						 [disabled]="!registro.esnuevo" required/>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="comentario" class="ui-outputlabel required">Comentario</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<div class="ui-g-12 ui-md-12">
+							<textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="500"
+							 rows="2"></textarea>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

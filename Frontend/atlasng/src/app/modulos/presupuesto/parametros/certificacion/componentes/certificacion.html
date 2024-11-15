@@ -1,0 +1,140 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="cabeceraComponent.registro.estadocdetalle == 'INGRES'" pButton type="button" label="Generar certificación" style="position: absolute; right: 275px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="certificar()">
+  </button>  
+  <button *ngIf="cabeceraComponent.registro.estadocdetalle == 'INGRES'" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccertificacion" class="ui-outputlabel ">C&oacute;digo</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="ccertificacion" name="ccertificacion" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.ccertificacion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovcertificacion" name="lovcertificacion" (click)="mostrarlovCertificacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-certificacion (eventoCliente)=fijarLovCertificacionSelec($event)></app-lov-certificacion>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcertificacion" class="ui-outputlabel ">Fecha de certificación</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-calendar id="fcertificacion" name="fcertificacion" [(ngModel)]="cabeceraComponent.registro.fcertificacion" [showIcon]="true" [dateFormat]="formatofecha"
+        [disabled]="cabeceraComponent.registro.estadocdetalle != 'INGRES'"></p-calendar>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcaducidad" class="ui-outputlabel ">Fecha de caducidad</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-calendar id="fcaducidad" name="fcaducidad" [(ngModel)]="cabeceraComponent.registro.fcaducidad" [showIcon]="true" [dateFormat]="formatofecha"
+      [disabled]="cabeceraComponent.registro.estadocdetalle != 'INGRES'"></p-calendar>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="tipoingresocdetalle" class="ui-outputlabel">Estado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      {{cabeceraComponent.registro.estadocdetalle}}
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+  </div>
+  <!--INICIO AGREGACIÓN DE CKECK PARA EL INCLUIDO IVA MNR 20230718-->
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="ckeckiva" class="ui-outputlabel">Incluir IVA</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input name="ckeckiva" id="ckeckiva" type="checkbox" [(ngModel)]="cabeceraComponent.registro.incluyeiva" />
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+  </div>
+  <!--FIN AGREGACIÓN DE CKECK PARA EL INCLUIDO IVA-->
+  <!---------------------------------------------------CCA 20240826-------------------------------------------------------------->
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="cdepartamento" class="ui-outputlabel required">Unidad Requiriente: </label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="cdepartamento" name="cdepartamento" [options]="ltipodepdetalle" [(ngModel)]="cabeceraComponent.registro.cdepartamento" 
+            required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+ 
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="gastocdetalle" class="ui-outputlabel required">Tipo de Gasto: </label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="gastocdetalle" name="gastocdetalle" [options]="ltipogastodetalle" [(ngModel)]="cabeceraComponent.registro.gastocdetalle" 
+            required [filter]="true"></p-dropdown>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="certpoa" class="ui-outputlabel required">Certificación POA: </label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <textarea pInputText id="certpoa" name="certpoa" [(ngModel)]="cabeceraComponent.registro.certpoa" required
+        mayusculas maxlength="1000" rows="1" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="docrespaldo" class="ui-outputlabel required">Doc. Respaldo: </label>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-12">
+        <textarea pInputText id="docrespaldo" name="docrespaldo" [(ngModel)]="cabeceraComponent.registro.docrespaldo" required
+         mayusculas maxlength="1000" rows="1" [disabled]="!editable"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!----------------------------------------------------------------------------------------------------------------------------->
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="infoadicional" class="ui-outputlabel required">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <textarea pInputText id="infoadicional" name="infoadicional" [(ngModel)]="cabeceraComponent.registro.infoadicional" required
+        mayusculas maxlength="1000" rows="1" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle certificación">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>

@@ -1,0 +1,24 @@
+<div class="ui-g-6 ">
+  <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="300px">
+    <p-header>
+      <div class="ui-table-title">INGRESOS</div>
+    </p-header>
+    <p-column field="nombrebeneficio" header="Nombre" [style]="{'text-align':'left','width':'100px'}"></p-column>
+
+
+
+    <p-column header="Total" [style]="{'text-align':'right','width':'60px'}">
+      <ng-template pTemplate="body" let-reg="rowData">
+        {{ reg.calculado | number : '1.2-2' }}
+      </ng-template>
+    </p-column>
+
+    <p-footerColumnGroup style="color:blue;">
+      <p-row>
+        
+        <p-column footer="TOTAL " [style]="{'color':'blue','font-size':'12px','width':'290px','text-align':'left'}"></p-column>
+        <p-column [footer]="mcampos.total | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'85px'}"></p-column>
+         </p-row>
+    </p-footerColumnGroup>
+  </p-dataTable>
+</div>

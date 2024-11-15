@@ -1,0 +1,100 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fcproducto" class="ui-outputlabel ">Producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.n_producto" readonly="true" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fctipoproducto" class="ui-outputlabel ">Tipo Producto</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.n_tipoproducto" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="estado" class="ui-outputlabel ">Estado</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="estado" name="estado" [(ngModel)]="registro.n_estatus" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="calif" class="ui-outputlabel">Calificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="calif" name="calif" [(ngModel)]="registro.ncalificacion" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="monto" class="ui-outputlabel ">Monto</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="monto" name="monto" maxlength="10" numero [(ngModel)]="registro.monto" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="numerocuotas" class="ui-outputlabel required-opc">Número Cuotas</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero [(ngModel)]="registro.numerocuotas" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="valorcuota" class="ui-outputlabel">Valor Cuota</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="valorcuota" name="valorcuota" numero [(ngModel)]="registro.valorcuota" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cusuarioapertura" class="ui-outputlabel">Usuario</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="cusuarioapertura" name="cusuarioapertura" [(ngModel)]="registro.cusuarioapertura" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fapertura" class="ui-outputlabel">Fecha Apertura</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fapertura" name="fapertura" [(ngModel)]="registro.mdatos.fapertura" [showIcon]="true" [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="fvencimiento" class="ui-outputlabel">Fecha Vencimiento</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="registro.mdatos.fvencimiento" [showIcon]="true" [disabled]="true"
+            [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.coperacionmigrada != null">
+        <div class="ui-g-12 ui-md-3">
+          <label for="coperacionmigrada" class="ui-outputlabel ">Operación Migrada</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="coperacionmigrada" name="coperacionmigrada" [(ngModel)]="registro.coperacionmigrada" [disabled]="true"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

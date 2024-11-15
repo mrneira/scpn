@@ -1,0 +1,12 @@
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+    <button *ngIf="nuevo" pButton type="button" label="Solicitar" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+      icon="ui-icon-save" (click)="solicitar()"></button>
+  </div>
+  <div class="f-contenedor-transaccion">
+    
+      <app-vacacion></app-vacacion> 
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-acciones-cabecera ui-g ui-fluid">
+			<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+		</div>
+		
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Información del Usuario</span>
+				</div>
+				<hr />
+			</div>
+			<acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cusuario" class="ui-outputlabel required">Username:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cusuario" name="cusuario" 
+						[(ngModel)]="registro.cusuario" autofoco required mayusculas maxlength="20" [disabled]="true" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="sobrenombre" class="ui-outputlabel required">Alias:</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="sobrenombre" name="sobrenombre" 
+						[(ngModel)]="registro.sobrenombre" maxlength="30" [disabled]="true" autofoco required />
+				</div>
+			</div>
+			
+		
+			
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Credenciales</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="anteriorcon" class="ui-outputlabel required">Password Anterior</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='anteriorcon' name='anteriorcon' type="password" pInputText [(ngModel)]="mcampos.anteriorcon" 
+						   autocomplete="off" required maxlength="50" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuevacon" class="ui-outputlabel required">Nuevo password</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='nuevacon' name='nuevacon' type="password" pInputText [(ngModel)]="mcampos.nuevacon" 
+						   autocomplete="off" required maxlength="50" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="confirmarcon" class="ui-outputlabel required">Confirmar nuevo password</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input id='confirmarcon' name='confirmarcon' type="password" pInputText [(ngModel)]="mcampos.confirmarcon" 
+						   autocomplete="off" required maxlength="50" [disabled]="!editable" />
+				</div>
+			</div>
+			
+	        
+		</div>
+	</form>
+</div>

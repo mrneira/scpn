@@ -1,0 +1,180 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+     <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+     <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+           <label for="finicio" class="ui-outputlabel required">Fecha Desde:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+           <p-calendar name="finicio" [(ngModel)]="mcampos.finicio" [showIcon]="true" required [dateFormat]="formatofecha" 
+           [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+           <label for="ffin" class="ui-outputlabel required">Fecha Hasta:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+           <p-calendar name="ffin" [(ngModel)]="mcampos.ffin" [showIcon]="true" required [dateFormat]="formatofecha"
+           [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2050" [locale]="es"></p-calendar>
+        </div>
+     </div><!--RRO 20230123-->
+     <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+           <label for="finicio" class="ui-outputlabel">Estado:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+           <p-dropdown id="fpkcestado" name="fpkcestado" [options]="lEstados" [(ngModel)]="mcampos.estado" [filter]="true"></p-dropdown>
+        </div>
+     </div>
+     <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-6 ui-md-4">
+           <button pButton type="button" name="cargar" id="cargar" label="Buscar" class="f-btn orange-btn" icon="ui-icon-search"
+           (click)="consultarSolicitud()" [disabled]="!formFiltros.valid"></button>
+           <button pButton type="button" name="recargar" id="recargar" label="Limpiar" style="margin-bottom:10px" class="f-btn green-btn"
+              pTooltip="Limpiar" tooltipPosition="top" icon="ui-icon-update" (click)="recargarSolicitud()"> </button>
+        </div>
+     </div>
+  </form>
+  <p-fieldset legend="SALDO ANTICIPOS - TALENTO HUMANO" [toggleable]="false">
+     <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+           <div class="f-contenedor-transaccion">
+              <div class="ui-g-12 ui-g-nopad">
+                 <div class="ui-g-12 ui-md-12">
+                    <p-dataTable #dtMB [(value)]="lSolicitudAnticipo" 
+                    [responsive]="true" [scrollable]="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+                    <p-header *ngIf="totalRegistros > 0">
+                       <div class="ui-table-title">Generar Reporte</div>
+                       <div class="f-acciones-cab-tabla">
+                          <button type="submit" pButton icon="ui-icon-delete-forever" 
+                             pTooltip="Descargar PDF" tooltipPosition="top"
+                             (click)="generaReporte('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+                          </button>
+                          <button type="submit" 
+                             pTooltip="Descargar EXCEL" tooltipPosition="top"
+                             pButton icon="ui-icon-delete-forever" (click)="generaReporte('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+                          </button>
+                       </div>
+                    </p-header>
+                    <p-column field="cantsolicitud" header="N°. SOLICITUD"  [style]="{'text-align':'center','width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{reg.cantsolicitud }}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="documento" header="CÉDULA"  [style]="{'text-align':'center','width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{reg.documento }}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="nfuncionario" header="SOLICITANTE" >
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.nfuncionario}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="garnfuncionario" header="GARANTE" >
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.garnfuncionario}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="fmodificacion" header="FECHA DE ENTREGA"  [style]="{'text-align':'center','width':'105px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{reg.fmodificacion | date: 'dd/MM/yyyy'}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="numcuotas" header="No. CUOTAS" [style]="{'text-align':'center','width':'80px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.numcuotas}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="cuotasigual" header="CUOTAS IGUALES" [style]="{'text-align':'center','width':'95px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             <div *ngIf="reg.cuotasigual == 'SI'; else loggedOut">
+                                <input  type="checkbox"   [checked]="true" onclick="return false;">
+                             </div>
+                             <ng-template #loggedOut>
+                                <input  type="checkbox" onclick="return false;">
+                             </ng-template>
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="cuotas70" header="70% DICIEMBRE" [style]="{'text-align':'center','width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             <div *ngIf="reg.cuotas70 == 'SI'; else loggedOut2">
+                                <input  type="checkbox" [checked]="true" onclick="return false;">
+                             </div>
+                             <ng-template #loggedOut2>
+                                <input  type="checkbox" onclick="return false;">
+                             </ng-template>
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="cuotaspagadas" header="CUOTAS PAGADAS" [style]="{'text-align':'center','width':'100px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.cuotaspagadas}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="cuotaspendientes" header="CUOTAS PENDIENTES" [style]="{'text-align':'center','width':'110px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.cuotaspendientes}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="saldoinicial" header="SALDO INICIAL" styleClass="f-right"  [style]="{'width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.saldoinicial | number: '1.2-2'}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="pagado" header="PAGADO" styleClass="f-right"  [style]="{'width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.pagado | number: '1.2-2'}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-column field="diferencia" header="DIFERENCIA" styleClass="f-right"  [style]="{'width':'90px'}">
+                       <ng-template pTemplate="body" let-reg="rowData">
+                          <div class="ui-grid-row">
+                             {{ reg.diferencia | number: '1.2-2'}}
+                          </div>
+                       </ng-template>
+                    </p-column>
+                    <p-footerColumnGroup style="color:blue;" *ngIf="totalRegistros > 0">
+                       <p-row>
+                          <p-column footer="TOTAL GENERAL" [style]="{'color':'blue','font-weight': 'bold','text-align':'right','font-size':'12px'}"></p-column>
+                          <p-column [footer]="Totalsaldoinicial  | number : '1.2-2'" [style]="{'color':'blue','font-weight': 'bold','text-align':'right','width':'90px','font-size':'12px'}"></p-column>
+                          <p-column [footer]="Totalpagado | number : '1.2-2'" [style]="{'color':'blue','font-weight': 'bold','text-align':'right','width':'90px','font-size':'12px'}"></p-column>
+                          <p-column [footer]="Totaldiferencia | number : '1.2-2'" [style]="{'color':'blue','font-weight': 'bold','text-align':'right','width':'90px','font-size':'12px'}"></p-column>
+                          <p-column [style]="{'width':'18px','font-size':'9px'}"></p-column>
+                       </p-row>
+                    </p-footerColumnGroup>
+                    </p-dataTable>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </p-fieldset>
+</div>
+<div class="ui-g-12" style='display:none'>
+  <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+</div>

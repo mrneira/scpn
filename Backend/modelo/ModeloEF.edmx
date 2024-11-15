@@ -1207,6 +1207,8 @@
           <Property Name="coperacionarreglopago" Type="varchar" MaxLength="30" />
           <Property Name="coperacionmigrada" Type="varchar" MaxLength="30" />
           <Property Name="cusuarioaprobacion" Type="varchar" MaxLength="20" />
+          <Property Name="numcuotaprorrateo" Type="int" />
+          <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcaroperacionarreglopago">
           <Key>
@@ -1580,6 +1582,8 @@
           <Property Name="coperacionarreglopago" Type="varchar" MaxLength="30" />
           <Property Name="coperacionmigrada" Type="varchar" MaxLength="30" />
           <Property Name="cusuarioaprobacion" Type="varchar" MaxLength="20" />
+          <Property Name="numcuotaprorrateo" Type="int" />
+          <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcaroperacionlote">
           <Key>
@@ -2024,6 +2028,22 @@
           <Property Name="plazominimo" Type="int" Nullable="false" />
           <Property Name="plazomaximo" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tcarproductorangosnegociacion">
+          <Key>
+            <PropertyRef Name="cmodulo" />
+            <PropertyRef Name="cproducto" />
+            <PropertyRef Name="ctipoproducto" />
+            <PropertyRef Name="secuencia" />
+          </Key>
+          <Property Name="cmodulo" Type="int" Nullable="false" />
+          <Property Name="cproducto" Type="int" Nullable="false" />
+          <Property Name="ctipoproducto" Type="int" Nullable="false" />
+          <Property Name="secuencia" Type="int" Nullable="false" />
+          <Property Name="montominimo" Type="numeric" Precision="15" Scale="2" Nullable="false" />
+          <Property Name="montomaximo" Type="numeric" Precision="15" Scale="2" Nullable="false" />
+          <Property Name="plazominimo" Type="int" Nullable="false" />
+          <Property Name="plazomaximo" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tcarproductorequisitos">
           <Key>
             <PropertyRef Name="cmodulo" />
@@ -2270,6 +2290,8 @@
           <Property Name="mantieneplazo" Type="bit" />
           <Property Name="tasa" Type="numeric" Precision="10" Scale="6" Nullable="false" />
           <Property Name="mesnogeneracuota" Type="int" />
+          <Property Name="numcuotaprorrateo" Type="int" />
+          <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcarsolicitudabsorcion">
           <Key>
@@ -4688,7 +4710,7 @@
           <Property Name="cpais" Type="varchar" MaxLength="2" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'atlas.dbo.tgenlogo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'atlas_tthh.dbo.tgenlogo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="tgenlogo">
           <Key>
             <PropertyRef Name="logo" />
@@ -6323,7 +6345,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tgenlogo' no tiene definida ningun
           <Property Name="cusuariomod" Type="varchar" MaxLength="20" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'atlas_tthh.dbo.tnombeneficioley' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="tnombeneficioley">
           <Key>
             <PropertyRef Name="cbeneficioley" />
@@ -7013,6 +7035,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <Property Name="pcccc" Type="numeric" Precision="19" Scale="7" />
           <Property Name="pcccl" Type="numeric" Precision="19" Scale="7" />
           <Property Name="descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="ppasanteiess" Type="numeric" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tnomparametroliquidacion">
           <Key>
@@ -10748,6 +10771,22 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
             <Dependent Role="tgenferiados">
               <PropertyRef Name="mesccatalogo" />
               <PropertyRef Name="mescdetalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TGENMODULO">
+          <End Role="tgenproducto" Type="Self.tgenproducto" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tcarproductorangosnegociacion" Type="Self.tcarproductorangosnegociacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tgenproducto">
+              <PropertyRef Name="cmodulo" />
+              <PropertyRef Name="cproducto" />
+            </Principal>
+            <Dependent Role="tcarproductorangosnegociacion">
+              <PropertyRef Name="cmodulo" />
+              <PropertyRef Name="cproducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21933,6 +21972,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <EntitySet Name="tcarproductodocumentos" EntityType="Self.tcarproductodocumentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcarproductopermitidos" EntityType="Self.tcarproductopermitidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcarproductorangos" EntityType="Self.tcarproductorangos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcarproductorangosnegociacion" EntityType="Self.tcarproductorangosnegociacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcarproductorequisitos" EntityType="Self.tcarproductorequisitos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcarproductotasas" EntityType="Self.tcarproductotasas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcarproductotasastabla" EntityType="Self.tcarproductotasastabla" Schema="dbo" store:Type="Tables" />
@@ -22509,6 +22549,10 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <AssociationSet Name="FK_TGENFERI_REFERENCE_TGENCATA" Association="Self.FK_TGENFERI_REFERENCE_TGENCATA">
             <End Role="tgencatalogodetalle" EntitySet="tgencatalogodetalle" />
             <End Role="tgenferiados" EntitySet="tgenferiados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TGENMODULO" Association="Self.FK_TGENMODULO">
+            <End Role="tgenproducto" EntitySet="tgenproducto" />
+            <End Role="tcarproductorangosnegociacion" EntitySet="tcarproductorangosnegociacion" />
           </AssociationSet>
           <AssociationSet Name="FK_TGENPARA_FKTGENPAR_TGENCOMP" Association="Self.FK_TGENPARA_FKTGENPAR_TGENCOMP">
             <End Role="tgencompania" EntitySet="tgencompania" />
@@ -29959,6 +30003,11 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
             <End Role="tpreexpedienteasignacion" EntitySet="tpreexpedienteasignacion" />
           </AssociationSet>
           <EntitySet Name="tsoccertificado" EntityType="atlas_desarrolloModel.tsoccertificado" />
+          <EntitySet Name="tcarproductorangosnegociacion" EntityType="atlas_desarrolloModel.tcarproductorangosnegociacion" />
+          <AssociationSet Name="FK_TGENMODULO" Association="atlas_desarrolloModel.FK_TGENMODULO">
+            <End Role="tgenproducto" EntitySet="tgenproducto" />
+            <End Role="tcarproductorangosnegociacion" EntitySet="tcarproductorangosnegociacion" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="tacfajuste">
           <Key>
@@ -31304,6 +31353,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <NavigationProperty Name="tsegusuario1" Relationship="atlas_desarrolloModel.FKTCREOPERACIONTUSUACAN" FromRole="tcaroperacion" ToRole="tsegusuario" />
           <NavigationProperty Name="tsegusuario2" Relationship="atlas_desarrolloModel.FKTCREOPERACIONTUSUADES" FromRole="tcaroperacion" ToRole="tsegusuario" />
           <NavigationProperty Name="tcaroperacionhistoria" Relationship="atlas_desarrolloModel.TCAROPERACIONHISTTCAROPER" FromRole="tcaroperacion" ToRole="tcaroperacionhistoria" />
+          <Property Name="numcuotaprorrateo" Type="Int32" />
+          <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcaroperacionarreglopago">
           <Key>
@@ -31702,6 +31753,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <Property Name="coperacionmigrada" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="cusuarioaprobacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tcaroperacion" Relationship="atlas_desarrolloModel.TCAROPERACIONHISTTCAROPER" FromRole="tcaroperacionhistoria" ToRole="tcaroperacion" />
+          <Property Name="numcuotaprorrateo" Type="Int32" />
+          <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcaroperacionlote">
           <Key>
@@ -32483,6 +32536,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <NavigationProperty Name="tgentipoproducto" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTTIPOPRODUCTO" FromRole="tcarsolicitud" ToRole="tgentipoproducto" />
           <NavigationProperty Name="tsegusuario" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTUSUAAPR" FromRole="tcarsolicitud" ToRole="tsegusuario" />
           <NavigationProperty Name="tsegusuario1" Relationship="atlas_desarrolloModel.FKTCRESOLICITUDTUSUAING" FromRole="tcarsolicitud" ToRole="tsegusuario" />
+          <Property Name="numcuotaprorrateo" Type="Int32" />
+          <Property Name="montoarreglopago" Type="Decimal" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tcarsolicitudabsorcion">
           <Key>
@@ -35602,6 +35657,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <NavigationProperty Name="tgencatalogodetalle" Relationship="atlas_desarrolloModel.FK_TGENPRODUCTO_FK_TINVTG_TGENCATA" FromRole="tgenproducto" ToRole="tgencatalogodetalle" />
           <NavigationProperty Name="tgenmodulo" Relationship="atlas_desarrolloModel.FKTGENPRODTMODULO" FromRole="tgenproducto" ToRole="tgenmodulo" />
           <NavigationProperty Name="tgentipoproducto" Relationship="atlas_desarrolloModel.FKTGENTIPOPRODTMODULO" FromRole="tgenproducto" ToRole="tgentipoproducto" />
+          <NavigationProperty Name="tcarproductorangosnegociacion" Relationship="atlas_desarrolloModel.FK_TGENMODULO" FromRole="tgenproducto" ToRole="tcarproductorangosnegociacion" />
         </EntityType>
         <EntityType Name="tgenprovincia">
           <Key>
@@ -38082,6 +38138,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <NavigationProperty Name="tgencatalogodetalle" Relationship="atlas_desarrolloModel.TNOMPARAMETRODETALLETGENCATALOGOmesdecimoc" FromRole="tnomparametrodetalle" ToRole="tgencatalogodetalle" />
           <NavigationProperty Name="tgencatalogodetalle1" Relationship="atlas_desarrolloModel.tnomparametrodetalletgencatalogomesfondoreserva" FromRole="tnomparametrodetalle" ToRole="tgencatalogodetalle" />
           <NavigationProperty Name="tnomparametro" Relationship="atlas_desarrolloModel.FKTNOMPARAMETRODETALLETNOMPARAMETRO" FromRole="tnomparametrodetalle" ToRole="tnomparametro" />
+          <Property Name="ppasanteiess" Type="Decimal" Precision="19" Scale="7" />
         </EntityType>
         <EntityType Name="tnomparametroliquidacion">
           <Key>
@@ -53496,6 +53553,39 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <Property Name="verreg" Type="Int32" Nullable="false" />
           <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="tcarproductorangosnegociacion">
+          <Key>
+            <PropertyRef Name="cmodulo" />
+            <PropertyRef Name="cproducto" />
+            <PropertyRef Name="ctipoproducto" />
+            <PropertyRef Name="secuencia" />
+          </Key>
+          <Property Name="cmodulo" Type="Int32" Nullable="false" />
+          <Property Name="cproducto" Type="Int32" Nullable="false" />
+          <Property Name="ctipoproducto" Type="Int32" Nullable="false" />
+          <Property Name="secuencia" Type="Int32" Nullable="false" />
+          <Property Name="montominimo" Type="Decimal" Nullable="false" Precision="15" Scale="2" />
+          <Property Name="montomaximo" Type="Decimal" Nullable="false" Precision="15" Scale="2" />
+          <Property Name="plazominimo" Type="Int32" Nullable="false" />
+          <Property Name="plazomaximo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tgenproducto" Relationship="atlas_desarrolloModel.FK_TGENMODULO" FromRole="tcarproductorangosnegociacion" ToRole="tgenproducto" />
+        </EntityType>
+        <Association Name="FK_TGENMODULO">
+          <End Type="atlas_desarrolloModel.tgenproducto" Role="tgenproducto" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="atlas_desarrolloModel.tcarproductorangosnegociacion" Role="tcarproductorangosnegociacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tgenproducto">
+              <PropertyRef Name="cmodulo" />
+              <PropertyRef Name="cproducto" />
+            </Principal>
+            <Dependent Role="tcarproductorangosnegociacion">
+              <PropertyRef Name="cmodulo" />
+              <PropertyRef Name="cproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -54656,6 +54746,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <EntitySetMapping Name="tcaroperacion">
             <EntityTypeMapping TypeName="atlas_desarrolloModel.tcaroperacion">
               <MappingFragment StoreEntitySet="tcaroperacion">
+                <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+                <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
                 <ScalarProperty Name="cusuarioaprobacion" ColumnName="cusuarioaprobacion" />
                 <ScalarProperty Name="coperacionmigrada" ColumnName="coperacionmigrada" />
                 <ScalarProperty Name="coperacionarreglopago" ColumnName="coperacionarreglopago" />
@@ -55013,6 +55105,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <EntitySetMapping Name="tcaroperacionhistoria">
             <EntityTypeMapping TypeName="atlas_desarrolloModel.tcaroperacionhistoria">
               <MappingFragment StoreEntitySet="tcaroperacionhistoria">
+                <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+                <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
                 <ScalarProperty Name="cusuarioaprobacion" ColumnName="cusuarioaprobacion" />
                 <ScalarProperty Name="coperacionmigrada" ColumnName="coperacionmigrada" />
                 <ScalarProperty Name="coperacionarreglopago" ColumnName="coperacionarreglopago" />
@@ -55660,6 +55754,8 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <EntitySetMapping Name="tcarsolicitud">
             <EntityTypeMapping TypeName="atlas_desarrolloModel.tcarsolicitud">
               <MappingFragment StoreEntitySet="tcarsolicitud">
+                <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+                <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
                 <ScalarProperty Name="mesnogeneracuota" ColumnName="mesnogeneracuota" />
                 <ScalarProperty Name="tasa" ColumnName="tasa" />
                 <ScalarProperty Name="mantieneplazo" ColumnName="mantieneplazo" />
@@ -60330,6 +60426,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
           <EntitySetMapping Name="tnomparametrodetalle">
             <EntityTypeMapping TypeName="atlas_desarrolloModel.tnomparametrodetalle">
               <MappingFragment StoreEntitySet="tnomparametrodetalle">
+                <ScalarProperty Name="ppasanteiess" ColumnName="ppasanteiess" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="pcccl" ColumnName="pcccl" />
                 <ScalarProperty Name="pcccc" ColumnName="pcccc" />
@@ -63818,6 +63915,20 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
                 <ScalarProperty Name="segundonombre" ColumnName="segundonombre" />
                 <ScalarProperty Name="primernombre" ColumnName="primernombre" />
                 <ScalarProperty Name="csocio" ColumnName="csocio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcarproductorangosnegociacion">
+            <EntityTypeMapping TypeName="atlas_desarrolloModel.tcarproductorangosnegociacion">
+              <MappingFragment StoreEntitySet="tcarproductorangosnegociacion">
+                <ScalarProperty Name="plazomaximo" ColumnName="plazomaximo" />
+                <ScalarProperty Name="plazominimo" ColumnName="plazominimo" />
+                <ScalarProperty Name="montomaximo" ColumnName="montomaximo" />
+                <ScalarProperty Name="montominimo" ColumnName="montominimo" />
+                <ScalarProperty Name="secuencia" ColumnName="secuencia" />
+                <ScalarProperty Name="ctipoproducto" ColumnName="ctipoproducto" />
+                <ScalarProperty Name="cproducto" ColumnName="cproducto" />
+                <ScalarProperty Name="cmodulo" ColumnName="cmodulo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,86 @@
+<div class="f-contenedor-transaccion">
+
+  <form #formulariodatosgenerales="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <acciones-editar [formAcciones]="formulariodatosgenerales" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad">
+    </acciones-editar>
+
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-6 ui-md-2">
+          <label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario:</label>
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="registro.cfuncionario" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-6 ui-md-7">
+          <input type="text" pInputText id="nombref" name="nombref" [(ngModel)]="registro.mdatos.nfuncionario" [readOnly]="true" />
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <button [disabled]="!editable" pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionario()"
+            icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-tth-designaciones (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-tth-designaciones>
+      </div>
+
+      <div class="ui-g-3 ui-g-nopad">
+        <div class="ui-g-3 ui-md-3">
+          <label for="aniof" class="ui-outputlabel required">Año:</label>
+        </div>
+        <div class="ui-g-3 ui-md-3">
+          <input id="aniof" name="aniof" type="text" pInputText [ngModel]="registro.anio" required [readOnly]="true" style="text-align:center;"
+          />
+        </div>
+        <div class="ui-g-3 ui-md-3">
+          <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+            [disabled]="!editable"></button>
+        </div>
+      </div>
+
+      <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+
+      <div class="ui-g-3  ui-g-nopad">
+        <div class="ui-g-3 ui-md-3">
+          <label for="fdesvinculacion" class="ui-outputlabel required ">Fecha:</label>
+        </div>
+        <div class="ui-g-3 ui-md-5">
+          <p-calendar name="fjuvilacion" [(ngModel)]="registro.fjubilacion" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="!editable" [readonlyInput]="true"
+            required></p-calendar>
+        </div>
+      </div>
+
+      <div class="ui-g-3  ui-g-nopad">
+        <div class="ui-g-3 ui-md-3">
+          <label for="fdesvinculacion" class="ui-outputlabel required ">SBU cálculo:</label>
+        </div>
+        <div class="ui-g-3 ui-md-5">
+          <input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.sbucalculo" required numeroPositivo [readOnly]="true"/>
+				
+        </div>
+      </div>
+      <div class="ui-g-3  ui-g-nopad">
+        <div class="ui-g-3 ui-md-3">
+          <label for="total" class="ui-outputlabel required ">TOTAL:</label>
+        </div>
+        <div class="ui-g-3 ui-md-5">
+          <input type="text" pInputText id="total" name="total" [(ngModel)]="registro.total"  style="text-align:right;font-size:20px"  numeroPositivo/>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="ui-g-12  ui-g-nopad">
+        <div class="ui-g-12 ui-md-1">
+          <label for="motivosalida" class="ui-outputlabel required">Descripcion:</label>
+        </div>
+        <div class="ui-g-12 ui-md-10">
+          <textarea pInputText id="motivosalida" name="motivosalida" [(ngModel)]="registro.descripcion" required mayusculas maxlength="300"
+            rows="2" [disabled]="!editable"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </form>

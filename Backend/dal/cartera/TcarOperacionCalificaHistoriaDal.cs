@@ -1,6 +1,8 @@
 ﻿using modelo;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using util;
 using util.servicios.ef;
 
@@ -63,6 +65,21 @@ namespace dal.cartera {
 		    return obj;
 	    }
 
-
+        /// <summary>
+        /// Devuelbe la primera calificación, con la que se aperturó un crédito.
+        /// </summary>
+        public static tcaroperacioncalificahistoria GetPrimeCalificacion(int coperacion)
+        {
+            AtlasContexto contexto = Sessionef.GetAtlasContexto();
+            List <tcaroperacioncalificahistoria> calis = contexto.Database.SqlQuery<tcaroperacioncalificahistoria>("select top 1 * from tcaroperacioncalificahistoria where coperacion = @coperacion and ccalificacion is not null order by fcalificacion;", new SqlParameter("coperacion", coperacion)).ToList();
+            if (calis != null && calis.Count>0)
+            {
+                return calis[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

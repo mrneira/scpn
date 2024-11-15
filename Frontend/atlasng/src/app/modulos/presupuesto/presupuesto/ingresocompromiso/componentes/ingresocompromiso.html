@@ -1,0 +1,219 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  <button  pButton type="button" label="Regresar a buzón" style="position: absolute; right: 300px;"
+    class="f-btn green-btn" icon="ui-icon-arrowstop-1-w" (click)="regresarABuzon()"></button>
+
+  <button  pButton type="button" label="Guardar cambios y aprobar"  style="position: absolute; right: 115px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ccomprobante" class="ui-outputlabel ">Comprobante</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="ccomprobante" name="ccomprobante" type="text" pInputText [(ngModel)]="comprobanteComponent.registro.ccomprobante"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-9 ui-md-3">
+        <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="comprobanteComponent.registro.numerocomprobantecesantia"
+          [readOnly]="true" />
+      </div>
+    </div>
+
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-md-2">
+      <label for="tipodocumentocdetalle" class="ui-outputlabel ">Tipo de Documento</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+        <input id="ndocumento" name="ndocumento" type="text"  pInputText [(ngModel)]="mcampos.ndocumento" [readOnly]="true"
+        />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="fpnombre" class="ui-outputlabel">Plantilla</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="fpnombre" name="fpnombre" [(ngModel)]="comprobanteComponent.registro.mdatos.pnombre" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovplantillasComprobante" name="lovplantillasComprobante" (click)="mostrarlovplantillasComprobante()"
+        icon="ui-icon-directions" *ngIf="nuevo"></button>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="csucursal" class="ui-outputlabel required">Sucursal</label>
+    </div>
+    <div class="ui-g-2 ui-md-1">
+      <input id="csucursal" name="csucursal" type="text" required pInputText [(ngModel)]="mcampos.csucursal" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="nsucursal" name="nsucursal" [(ngModel)]="mcampos.nsucursal" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="cagencia" class="ui-outputlabel required">Agencia</label>
+    </div>
+    <div class="ui-g-2 ui-md-1">
+      <input id="cagencia" name="cagencia" type="text" required pInputText [(ngModel)]="mcampos.cagencia" [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="nagencia" name="nagencia" [(ngModel)]="mcampos.nagencia" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fnombre" class="ui-outputlabel required">Concepto</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="fnombre" name="fnombre" [(ngModel)]="comprobanteComponent.registro.mdatos.nconcepto" required
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="fecha" class="ui-outputlabel required">Fecha Contable</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fcontable" name="fcontable" [(ngModel)]="comprobanteComponent.registro.mdatos.fcontable" [showIcon]="true"
+        [dateFormat]="formatofecha" required [disabled]="!nuevo" [minDate]="minDateValue" [maxDate]="maxDateValue" readonlyInput="true"></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-md-2">
+      <label for="numerodocumentobancario" class="ui-outputlabel ">Documento/Referencia</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="numerodocumentobancario" name="numerodocumentobancario" maxlength="30" [(ngModel)]="comprobanteComponent.registro.numerodocumentobancario"
+      [readOnly]="true"/>
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="automaticoplantilla" class="ui-outputlabel ">Valor automático</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" name="valorautomatico" pInputText [(ngModel)]="valorautomatico" numeroPositivo maxlength="14" style="text-align:right"
+        (ngModelChange)="cambiarValorAutomatico()" [readOnly]="true"/>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fpartida" class="ui-outputlabel">Recibido/ Beneficiario</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-dropdown id="tipopersona" name="tipopersona" [options]="ltipopersona" [(ngModel)]="comprobanteComponent.registro.tipopersona"
+        required [filter]="true" (onChange)="cambiartipopersona($event.value)" [readonly]="!nuevo"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input type="text" pInputText id="cpersonarecibido" name="cpersonarecibido" [(ngModel)]="comprobanteComponent.registro.cpersonarecibido"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="nidentificacionrecibido" name="nidentificacionrecibido" [(ngModel)]="comprobanteComponent.registro.mdatos.nidentificacionrecibido"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="npersonarecibido" name="npersonarecibido" [(ngModel)]="comprobanteComponent.registro.mdatos.npersonarecibido"
+        [readOnly]="true" />
+    </div>
+
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-md-1">
+      <label for="automatico" class="ui-outputlabel">Automático</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox name="automatico" [ngModel]="comprobanteComponent.registro.automatico" binary="true" disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="cuadrado" class="ui-outputlabel">Cuadrado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox name="cuadrado" [ngModel]="comprobanteComponent.registro.cuadrado" binary="true" disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="mayorizado" class="ui-outputlabel">Mayorizado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox name="mayorizado" [ngModel]="comprobanteComponent.registro.actualizosaldo" binary="true" disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="anulado" class="ui-outputlabel">Anulado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox name="anulado" [ngModel]="comprobanteComponent.registro.anulado" binary="true" disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="eliminado" class="ui-outputlabel">Eliminado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox name="eliminado" [ngModel]="comprobanteComponent.registro.eliminado" binary="true" disabled="true"></p-checkbox>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-3">
+      <label for="comentario" class="ui-outputlabel">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-11">
+      <textarea pInputText id="comentario" name="comentario" [(ngModel)]="comprobanteComponent.registro.comentario" required mayusculas
+        maxlength="2000" rows="4" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+
+  <app-comprobante></app-comprobante>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle">
+        <app-detalle (calcularTotalesDebitoCreditoEvent)="calcularTotalesDebitoCredito()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+    <div class="ui-g-12 ui-g-nopad" style="background-color:rgb(5, 5, 43); color: white; font-size:small; overflow:hidden;">
+      <div class="ui-g-12 ui-md-2">
+        <label for="totalesComprobanteDebito" class="ui-outputlabel" style="color:white">Totales comprobante d&eacute;bito</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input pInputText id="totalesComprobanteDebito" style="color:white;text-align: right;" name="totalesComprobanteDebito" [ngModel]="totalesComprobanteDebito | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="totalesComprobanteCredito" style="color:white" class="ui-outputlabel">Totales comprobante cr&eacute;dito</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input pInputText id="totalesComprobanteCredito" style="color:white;text-align: right;" name="totalesComprobanteCredito"
+          [ngModel]="totalesComprobanteCredito | number : '1.2-2'" maxlength="20" [readOnly]="true" />
+      </div>
+    </div>
+  </div>
+</form>

@@ -137,7 +137,14 @@ namespace dal.cartera {
             contexto.Database.ExecuteSqlCommand(SQL_UPD_PROV_CONTABILIZADA);
         }
 
-
-
+        /// <summary>
+        /// Busca y entrega si una operación restructurada ya tubo una calificación A-1.
+        /// </summary>
+        public static tcaroperacioncalificacion FindCalA1OpeRest(tcaroperacion tcarOperacion)
+        {
+            AtlasContexto contexto = Sessionef.GetAtlasContexto();
+            tcaroperacioncalificacion obj = contexto.tcaroperacioncalificacion.AsNoTracking().Where(x => x.coperacion == tcarOperacion.coperacion && tcarOperacion.cestadooperacion == "E" && x.cestadooperacion == tcarOperacion.cestadooperacion && x.ccalificacion == "A-1").SingleOrDefault();
+            return obj;
+        }
     }
 }

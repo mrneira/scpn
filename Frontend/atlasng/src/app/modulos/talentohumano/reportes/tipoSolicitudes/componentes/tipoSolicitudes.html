@@ -1,0 +1,36 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+		  <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+		  <p-calendar name="finicio" [(ngModel)]="mfiltros.finicio" [showIcon]="true"  [dateFormat]="formatofecha"
+			(ngModelChange)="validarFecha()" [readonlyInput]="true" appendTo="body" [monthNavigator]="true" [locale]="es"
+			[yearNavigator]="true" yearRange="1900:5000" required [disabled]="!editable"></p-calendar>
+		</div>
+		<div class="ui-g-6 ui-md-2">
+		  <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+		  <p-calendar name="ffin" [(ngModel)]="mfiltros.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="mfiltros.fmin"
+			[monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(mfiltros.finicio) || !editable "
+			[locale]="es" [readonlyInput]="true" required></p-calendar>
+		</div>
+	  </div>	
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-6 ui-md-2">
+			<label for="tipo" class="ui-outputlabel">Tipo:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="tiposolicitud" name="tiposolicitud" [options]="ltipo" [(ngModel)]="mfiltros.ltipo" [filter]="true" ></p-dropdown>
+		</div>
+	</div>
+</form>
+<app-jasper [componente]="componentehijo" [formulario]="formFiltros" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+</div>

@@ -1,0 +1,80 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+		<button pButton type="button" name="aplicarpago" id="aplicarpago" label="Aplicar Pago" style="position: absolute; right: 105px;"
+		 class="f-btn green-btn" icon="ui-icon-save" (click)="AplicarPago()"></button>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-outputlabel ">Módulos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<br>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+		 [(selection)]="selectedRegistros">
+			<p-header>
+				<div class="ui-table-title">Generar Comprobante Pagos</div>
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-cell-totalReporte">{{getTotal() | number:'1.2-2'}}</label>
+				  </div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+			<p-column field="mdatos.modulo" header="Módulo"></p-column>
+			<p-column field="nombrebeneficiario" header="Destino"></p-column>
+			<p-column field="mdatos.institucion" header="Institución"></p-column>
+			<p-column field="mdatos.tipocuenta" header="Tipo Cuenta"></p-column>
+			<p-column field="numerocuentabeneficiario" header="Cuenta Destino"></p-column>
+			<p-column field="referenciainterna" header="Ref. Interna" [style]="{'width':'80px'}"></p-column>
+			<p-column field="concepto" header="Concepto" [style]="{'width':'250px'}"></p-column>
+			<p-column header="Valor" [style]="{'width':'100px'}" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{reg.valorpago | number:'1.2-2'}}
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>
+<div class="f-datacontent ui-g ui-fluid" *ngIf="mcampos.ccomprobante != undefined">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-g-nopad">
+			<hr />
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>Información Comprobante - Mayorización</span>
+			</div>
+			<hr />
+		</div>
+		<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante != undefined">
+			<div class="ui-g-1 ui-md-2">
+				<label for="ccomprobante" class="ui-outputlabel">Código de Comprobante Contable</label>
+			</div>
+			<div class="ui-g-11 ui-md-2">
+				<input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true"
+				/>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+			<div class="ui-g-1 ui-md-2">
+				<label for="numerocomprobantecesantia" class="ui-outputlabel">Número Comprobante Cesantia</label>
+			</div>
+			<div class="ui-g-11 ui-md-2">
+				<input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+				 [readOnly]="true" />
+			</div>
+		</div>
+	</div>
+</div>

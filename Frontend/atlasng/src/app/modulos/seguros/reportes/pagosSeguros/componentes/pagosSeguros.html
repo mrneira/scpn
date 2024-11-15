@@ -1,0 +1,43 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ftiposeguro" class="ui-outputlabel required">Aseguradora</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="ftiposeguro" [options]="laseguradora" [(ngModel)]="mcampos.caseguradora"
+          autofoco required [filter]="true" (onChange)="cambiarAseguradora($event)"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpagos" class="ui-outputlabel required">Referencia pago</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="fcpagos" [options]="lpagos" [(ngModel)]="mfiltros.cpago" autofoco required
+          [filter]="true" (onChange)="cambiarPago($event)"></p-dropdown>
+      </div>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+      <p-dataTable [value]="laseguradora" [responsive]="true">
+        <p-header>
+          <div class="ui-table-title">Generar Reporte</div>
+          <div class="f-acciones-cab-tabla">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir()" class="f-btn green-btn f-excel"
+              style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper #tblapagos [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

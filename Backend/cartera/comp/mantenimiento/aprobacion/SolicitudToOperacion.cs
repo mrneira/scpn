@@ -10,9 +10,11 @@ using util.dto.mantenimiento;
 using util.enums;
 using util.thread;
 
-namespace cartera.comp.mantenimiento.aprobacion {
+namespace cartera.comp.mantenimiento.aprobacion
+{
 
-    public class SolicitudToOperacion : ComponenteMantenimiento {
+    public class SolicitudToOperacion : ComponenteMantenimiento
+    {
 
         /// <summary>
         /// Pasa los datos de una solicitud a una operacion. 
@@ -26,7 +28,8 @@ namespace cartera.comp.mantenimiento.aprobacion {
             Solicitud solicitud = SolicitudFachada.GetSolicitud();
             tcarsolicitud tcarsolicitud = solicitud.Tcarsolicitud;
 
-            if (!tcarsolicitud.cestatussolicitud.Equals(EnumEstatus.APROVADA.Cestatus)) {
+            if (!tcarsolicitud.cestatussolicitud.Equals(EnumEstatus.APROVADA.Cestatus))
+            {
                 throw new AtlasException("CAR-0002", "SOLICITUD: {0} ESTA ES ESTATUS: {1}", csolicitud,
                         TcarEstatusSolicitudDal.Find(tcarsolicitud.cestatussolicitud).nombre);
             }
@@ -36,8 +39,8 @@ namespace cartera.comp.mantenimiento.aprobacion {
             tcaroperacion tcaroperacion = TcarSolicitudDal.ToTcarOperacion(tcarsolicitud, rqmantenimiento);
 
             // Valida monto para arreglo de pago
-            if (tcarsolicitud.cestadooperacion.Equals(EnumEstadoOperacion.REFINANCIADA.CestadoOperacion) ||
-                tcarsolicitud.cestadooperacion.Equals(EnumEstadoOperacion.RESTRUCTURADA.CestadoOperacion)) {
+            if (!tcarsolicitud.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion))
+            {
                 this.ValidaMontoArregloPago(rqmantenimiento, tcaroperacion, csolicitud);
             }
 
@@ -75,11 +78,24 @@ namespace cartera.comp.mantenimiento.aprobacion {
         {
             decimal montototal = Constantes.CERO;
             IList<tcarsolicitudabsorcion> larreglopago = TcarSolicitudAbsorcionDal.Find(csolicitud);
-            foreach (tcarsolicitudabsorcion op in larreglopago) {
+            foreach (tcarsolicitudabsorcion op in larreglopago)
+            {
                 Operacion operacion = OperacionFachada.GetOperacion(op.coperacion, true);
                 saldo.Saldo saldo = new saldo.Saldo(operacion, rqmantenimiento.Fconatable);
                 saldo.Calculacuotaencurso();
-                montototal = montototal + saldo.Totalpendientepago + saldo.GetSaldoCuotasfuturas() - saldo.Cxp;
+                //EN UN ARREGLO DE PAGO EL MONTO TOTAL SOLO SE DEBE CONSIDERAR DEL CAPITAL Y NO DE TODOS LOS RUBROS PENDIENTES DE PAGO. LOS RUBROS FALTANTES SE LOS DEBE COLOCVAR COMO CARGOS EN LA NEGOCIACIÓN DE PAGO
+                tcarsolicitud sol = TcarSolicitudDal.Find(csolicitud);
+                if (!sol.cestadooperacion.Equals(EnumEstadoOperacion.ORIGINAL.CestadoOperacion))
+                {
+
+                    //montototal = (montototal + saldo.Capitalvencido + saldo.GetSaldoCuotasfuturas() - saldo.Cxp);
+                    montototal = (decimal)tcaroperacion.monto;
+                    break;
+                }
+                else
+                {
+                    montototal = (montototal + saldo.Totalpendientepago + saldo.GetSaldoCuotasfuturas() - saldo.Cxp);
+                }
             }
             tcaroperacion.monto = montototal;
             tcaroperacion.montooriginal = montototal;

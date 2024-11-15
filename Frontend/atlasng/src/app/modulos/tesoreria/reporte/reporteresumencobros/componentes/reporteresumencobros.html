@@ -1,0 +1,60 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label class="ui-outputlabel ">Estado:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="detallesestados" name="detallesestados" [options]="lcestado" [(ngModel)]="mfiltros.cestado" 
+					[filter]="true"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="fdesde" class="ui-outputlabel required">Fecha Contable:</label>
+				</div>
+				<div class="ui-g-6 ui-md-8">
+					<p-calendar name="fdesde" [(ngModel)]="mfiltros.fcontable" [showIcon]="true" required [dateFormat]="formatofecha" [monthNavigator]="true"
+					 [yearNavigator]="true" yearRange="2000:2050" [locale]="es"></p-calendar>
+				</div>
+			</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+			<p-header>
+				<div class="ui-table-title">Resumen de Cobros</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+				<div class="f-acciones-cab-tabla">
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+					</button>
+
+					<button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+					</button>
+				</div>
+				<div class="ui-g-12" style='display:none'>
+					<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+				</div>
+			</p-header>
+			<p-column field="institucion" header="Institución" [style]="{'width':'40px'}" styleClass="f-right"></p-column>
+	  <p-column field="nombreInstitucion" header="Nombre Institución" [style]="{'width':'160px'}" styleClass="f-left"></p-column>
+	  <p-column field="estado" header="Estado BCE" [style]="{'width':'40px'}" styleClass="f-left"></p-column>
+      <p-column field="registros" header="Registros" [style]="{'width':'40px'}" styleClass="f-right"></p-column>
+      <p-column field="total" header="Total" [style]="{'width':'40px'}" styleClass="f-right"></p-column>
+      <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column footer="Totales" colspan="2" [style]="{'width':'74%','font-size':'9px'}"></p-column>
+            <p-column [footer]="totalRegistros| number : '1.2-2'" [style]="{'width':'13%','font-size':'9px'}"  styleClass="f-right"></p-column>
+            <p-column [footer]="totalOcp | number : '1.2-2'" [style]="{'width':'13%','font-size':'9px'}"  styleClass="f-right"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+			
+		</p-dataTable>
+	</div>
+</div>

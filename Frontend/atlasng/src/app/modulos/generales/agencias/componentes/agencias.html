@@ -1,0 +1,120 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcagencia" class="ui-outputlabel">Código</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fcagencia" name="fcagencia" [(ngModel)]="mfiltros.cagencia" entero autofoco maxlength="4" />
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fnombre" class="ui-outputlabel">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="60" />
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Agencias</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header> 
+				<p-column field="cagencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nsucursal" header="Sucursal"></p-column> 
+				<p-column field="nombre" header="Nombre"></p-column>
+				<p-column field="direccion" header="Dirección"></p-column>
+				<p-column field="telefono" header="Teléfono" [style]="{'width':'200px'}"></p-column>
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+
+<p-dialog header="Agencia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cagencia" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="cagencia" name="cagencia" [(ngModel)]="registro.cagencia" 
+						   autofoco required entero maxlength="4" [disabled]="!registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="sucursal" class="ui-outputlabel required">Sucursal</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-dropdown id="sucursal" name="sucursal" [options]="lsucursales" [(ngModel)]="registro.csucursal" 
+								(onChange)="cambiarSucursal($event);registrarEtiqueta(registro, lsucursales, 'csucursal', 'nsucursal')" required [filter]="true" [disabled]="!registro.esnuevo"></p-dropdown> 
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="direccion" class="ui-outputlabel required">Dirección</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<textarea type="text" pInputText id="direccion" name="direccion" [(ngModel)]="registro.direccion" 
+						   required mayusculas maxlength="300" rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="telefono" class="ui-outputlabel required">Teléfono</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-inputMask id="telefono" name="telefono" [(ngModel)]="registro.telefono" 
+						   required maxlength="20" mask="(99)-9999-999" [disabled]="!editable && !registro.esnuevo"></p-inputMask>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

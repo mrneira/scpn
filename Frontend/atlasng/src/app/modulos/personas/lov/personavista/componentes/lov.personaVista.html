@@ -1,0 +1,258 @@
+<p-dialog header="Vista general" [(visible)]="displayVista" width="800" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="lvidentificacion" class="ui-outputlabel">Identificación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="lvidentificacion" [(ngModel)]="mcampos.identificacion" [readonly]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="lvnombre" class="ui-outputlabel">Nombre:</label>
+      </div>
+      <div class="ui-g-12 ui-md-10">
+        <input pInputText name="lvnombre" [(ngModel)]="mcampos.nombre" [readonly]="true" />
+      </div>
+    </div>
+  </form>
+
+  <p-tabView>
+    <p-tabPanel header="Generales" [selected]="true">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="lvregimen" class="ui-outputlabel">Régimen:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox [ngModel]="DATOSPERSONA?.regimen" (ngModelChange)="DATOSPERSONA.regimen = $event" binary="false"
+              [disabled]="true"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvfnacimiento" class="ui-outputlabel">Fecha nacimiento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvfnacimiento" name="lvfnacimiento" [ngModel]="DATOSSOCIO?.fnacimiento | date:'dd-MM-yyyy'"
+              (ngModelChange)="DATOSSOCIO.fnacimiento = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvedad" class="ui-outputlabel">Edad:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvedad" name="lvedad" [ngModel]="DATOSSOCIO?.edad" (ngModelChange)="DATOSSOCIO.edad = $event"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvcelular" class="ui-outputlabel">Celular:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvcelular" name="lvcelular" [ngModel]="DATOSPERSONA?.celular"
+              (ngModelChange)="DATOSPERSONA.celular = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvemail" class="ui-outputlabel">Email:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvemail" name="lvemail" [ngModel]="DATOSPERSONA?.email" (ngModelChange)="DATOSPERSONA.email = $event"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="lvdireccion" class="ui-outputlabel">Dirección:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <input type="text" pInputText id="lvdireccion" name="lvdireccion" [ngModel]="DATOSPERSONA?.direccion"
+              (ngModelChange)="DATOSPERSONA.direccion = $event" disabled="disabled" />
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Socios">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvcesantia" class="ui-outputlabel">Cesantía:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox [ngModel]="DATOSSOCIO?.cesantia" (ngModelChange)="DATOSSOCIO.cesantia = $event" binary="false"
+              [disabled]="true"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvdevolucion" class="ui-outputlabel">Devolución:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox [ngModel]="DATOSSOCIO?.devolucion" (ngModelChange)="DATOSSOCIO.devolucion = $event" binary="false"
+              [disabled]="true"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvestadosocio" class="ui-outputlabel">Estado socio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvestadosocio" name="lvestadosocio" [ngModel]="DATOSSOCIO?.estadosocio"
+              (ngModelChange)="DATOSSOCIO.estadosocio = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvjerarquia" class="ui-outputlabel">Jerarquía:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvjerarquia" name="lvjerarquia" [ngModel]="DATOSSOCIO?.jerarquia"
+              (ngModelChange)="DATOSSOCIO.jerarquia = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvgrado" class="ui-outputlabel">Grado:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvgrado" name="lvgrado" [ngModel]="DATOSSOCIO?.grado" (ngModelChange)="DATOSSOCIO.grado = $event"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvfalta" class="ui-outputlabel">Fecha de alta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvfalta" name="lvfalta" [ngModel]="DATOSSOCIO?.falta | date:'dd-MM-yyyy'"
+              (ngModelChange)="DATOSSOCIO.falta = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvfbaja" class="ui-outputlabel">Fecha baja:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvfbaja" name="lvfbaja" [ngModel]="DATOSSOCIO?.fbaja | date:'dd-MM-yyyy'"
+              (ngModelChange)="DATOSSOCIO.fbaja = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvfestadoactual" class="ui-outputlabel">Fecha estado actual:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvfestadoactual" name="lvfestadoactual" [ngModel]="DATOSSOCIO?.festadoactual | date:'dd-MM-yyyy'"
+              (ngModelChange)="DATOSSOCIO.festadoactual = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvtiemposervicio" class="ui-outputlabel">Tiempo de servicio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvtiemposervicio" name="lvtiemposervicio" [ngModel]="DATOSSOCIO?.tiemposervico"
+              (ngModelChange)="DATOSSOCIO.tiemposervico = $event" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvsueldoactual" class="ui-outputlabel">Sueldo actual:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvsueldoactual" name="lvsueldoactual" [ngModel]="DATOSSOCIO?.sueldoactual"
+              (ngModelChange)="DATOSSOCIO.sueldoactual = $event" numero disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvtotalaportes" class="ui-outputlabel">Número de aportes:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvtotalaportes" name="lvtotalaportes" [ngModel]="DATOSSOCIO?.totalaportes"
+              (ngModelChange)="DATOSSOCIO.totalaportes = $event" disabled="disabled" entero />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="lvacumuladoaportes" class="ui-outputlabel">Monto de aportes:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="lvacumuladoaportes" name="lvacumuladoaportes" [ngModel]="DATOSSOCIO?.acumuladoaportes"
+              (ngModelChange)="DATOSSOCIO.acumuladoaportes = $event" numero disabled="disabled" />
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Préstamos">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <p-dataTable [value]="OPERACIONESPORPERSONA" [responsive]="true" scrollable="true" scrollHeight="350px"
+            [resizableColumns]="false">
+            <p-header>
+              <div class="ui-table-title">Operaciones</div>
+            </p-header>
+            <p-column field="coperacion" header="Operación" [style]="{'width':'65px'}"></p-column>
+            <p-column header="Producto">
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{reg.mdatos.nproducto}}
+                <br /> {{reg.mdatos.ntipoproducto}}
+              </ng-template>
+            </p-column>
+            <p-column field="mdatos.nestatus" header="Estatus"></p-column>
+            <p-column field="mdatos.ncalificacion" header="Calificación"></p-column>
+            <p-column header="Monto" styleClass="f-right" [style]="{'width':'70px'}">
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{reg.montooriginal | number:'1.2-2'}}
+              </ng-template>
+            </p-column>
+            <p-column header="Valor Cuota" styleClass="f-right" [style]="{'width':'70px'}">
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{reg.mdatos.valorcuotaencurso | number:'1.2-2'}}
+              </ng-template>
+            </p-column>
+            <p-column header="Saldo a la Fecha" styleClass="f-right" [style]="{'width':'70px'}">
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{reg.mdatos.saldo | number:'1.2-2'}}
+              </ng-template>
+            </p-column>
+          </p-dataTable>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!estaVacio(OPERACIONESGARANTE)">
+          <br />
+          <br />
+          <div class="f-datacontent ui-g ui-fluid">
+            <p-dataTable [value]="OPERACIONESGARANTE" [responsive]="true" scrollable="true" scrollHeight="350px"
+              [resizableColumns]="false">
+              <p-header>
+                <div class="ui-table-title">Garante</div>
+              </p-header>
+              <p-column field="coperacion" header="Operación" [style]="{'width':'65px'}"></p-column>
+              <p-column field="mdatos.identificacion" header="Identificación" [style]="{'width':'80px'}"></p-column>
+              <p-column field="mdatos.nombre" header="Deudor"></p-column>
+              <p-column header="Producto">
+                <ng-template pTemplate="body" let-reg="rowData">
+                  {{reg.mdatos.nproducto}}
+                  <br /> {{reg.mdatos.ntipoproducto}}
+                </ng-template>
+              </p-column>
+              <p-column field="mdatos.nestatus" header="Estatus" [style]="{'width':'80px'}"></p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</p-dialog>

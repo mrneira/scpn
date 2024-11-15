@@ -1,0 +1,180 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-column field="cempresa" header="C&oacute;digo Empresa"></p-column>
+      <p-column field="localidad" header="Localidad"></p-column>
+      <p-column field="cuentaorigen" header="Cuenta Origen"></p-column>
+      <p-column field="nombre" header="Raz&oacute;n Social"></p-column>
+      <p-column field="subcuenta" header="Subcuenta"></p-column>
+    
+      <p-column header="Integración">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [ngModel]="reg.integracion" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column>
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Información Empresa" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad" hidden="true">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Código Empresa:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="cempresa" name="cempresa" [(ngModel)]="registro.cempresa" [disabled]="!registro.esnuevo"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Localidad:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="localidad" name="localidad" [(ngModel)]="registro.localidad" autofoco maxlength="50" minlength="3"
+              mayusculas required/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Subcuenta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="subcuenta" name="subcuenta" [(ngModel)]="registro.subcuenta" required entero minlength="3"
+              maxlength="10" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Cuenta Origen:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cuentaorigen" name="cuentaorigen" [(ngModel)]="registro.cuentaorigen" required entero minlength="3"
+              maxlength="20" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Razón Social:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas minlength="3" maxlength="300"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Responsable 1:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="responsable1" name="responsable1" [(ngModel)]="registro.responsable1" mayusculas minlength="3"
+              maxlength="100" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Cargo 1:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cargo1" name="cargo1" [(ngModel)]="registro.cargo1" mayusculas minlength="3" maxlength="100"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Responsable 2:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="responsable2" name="responsable2" [(ngModel)]="registro.responsable2" mayusculas minlength="3"
+              maxlength="100" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Cargo 2:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cargo2" name="cargo2" [(ngModel)]="registro.cargo2" mayusculas minlength="3" maxlength="100"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Corresponsal:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="corresponsal" [(ngModel)]="registro.corresponsal" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Cuenta Rotativa:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cuentarotativa" name="cuentarotativa" [(ngModel)]="registro.cuentarotativa" entero minlength="3"
+              maxlength="20" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Cuenta Origen Corresponsal:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cuentaorigencorresponsal" name="cuentaorigencorresponsal" [(ngModel)]="registro.cuentaorigencorresponsal"
+              entero minlength="3" maxlength="20" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Nombre Corresponsal:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombrecorresponsal" name="nombrecorresponsal" [(ngModel)]="registro.nombrecorresponsal"
+              mayusculas minlength="3" maxlength="300" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Integración:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox name="integracion" [(ngModel)]="registro.integracion" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

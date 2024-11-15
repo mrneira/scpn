@@ -1155,6 +1155,8 @@
     <EntitySetMapping Name="tcaroperacion">
       <EntityTypeMapping TypeName="atlas_desarrolloModel.tcaroperacion">
         <MappingFragment StoreEntitySet="tcaroperacion">
+          <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+          <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
           <ScalarProperty Name="cusuarioaprobacion" ColumnName="cusuarioaprobacion" />
           <ScalarProperty Name="coperacionmigrada" ColumnName="coperacionmigrada" />
           <ScalarProperty Name="coperacionarreglopago" ColumnName="coperacionarreglopago" />
@@ -1512,6 +1514,8 @@
     <EntitySetMapping Name="tcaroperacionhistoria">
       <EntityTypeMapping TypeName="atlas_desarrolloModel.tcaroperacionhistoria">
         <MappingFragment StoreEntitySet="tcaroperacionhistoria">
+          <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+          <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
           <ScalarProperty Name="cusuarioaprobacion" ColumnName="cusuarioaprobacion" />
           <ScalarProperty Name="coperacionmigrada" ColumnName="coperacionmigrada" />
           <ScalarProperty Name="coperacionarreglopago" ColumnName="coperacionarreglopago" />
@@ -2159,6 +2163,8 @@
     <EntitySetMapping Name="tcarsolicitud">
       <EntityTypeMapping TypeName="atlas_desarrolloModel.tcarsolicitud">
         <MappingFragment StoreEntitySet="tcarsolicitud">
+          <ScalarProperty Name="montoarreglopago" ColumnName="montoarreglopago" />
+          <ScalarProperty Name="numcuotaprorrateo" ColumnName="numcuotaprorrateo" />
           <ScalarProperty Name="mesnogeneracuota" ColumnName="mesnogeneracuota" />
           <ScalarProperty Name="tasa" ColumnName="tasa" />
           <ScalarProperty Name="mantieneplazo" ColumnName="mantieneplazo" />
@@ -6829,6 +6835,7 @@
     <EntitySetMapping Name="tnomparametrodetalle">
       <EntityTypeMapping TypeName="atlas_desarrolloModel.tnomparametrodetalle">
         <MappingFragment StoreEntitySet="tnomparametrodetalle">
+          <ScalarProperty Name="ppasanteiess" ColumnName="ppasanteiess" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="pcccl" ColumnName="pcccl" />
           <ScalarProperty Name="pcccc" ColumnName="pcccc" />
@@ -10317,6 +10324,20 @@
           <ScalarProperty Name="segundonombre" ColumnName="segundonombre" />
           <ScalarProperty Name="primernombre" ColumnName="primernombre" />
           <ScalarProperty Name="csocio" ColumnName="csocio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tcarproductorangosnegociacion">
+      <EntityTypeMapping TypeName="atlas_desarrolloModel.tcarproductorangosnegociacion">
+        <MappingFragment StoreEntitySet="tcarproductorangosnegociacion">
+          <ScalarProperty Name="plazomaximo" ColumnName="plazomaximo" />
+          <ScalarProperty Name="plazominimo" ColumnName="plazominimo" />
+          <ScalarProperty Name="montomaximo" ColumnName="montomaximo" />
+          <ScalarProperty Name="montominimo" ColumnName="montominimo" />
+          <ScalarProperty Name="secuencia" ColumnName="secuencia" />
+          <ScalarProperty Name="ctipoproducto" ColumnName="ctipoproducto" />
+          <ScalarProperty Name="cproducto" ColumnName="cproducto" />
+          <ScalarProperty Name="cmodulo" ColumnName="cmodulo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

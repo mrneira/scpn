@@ -1,0 +1,138 @@
+<div class="f-contenedor-transaccion">
+	<form #formularioInfAdicional="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<acciones-editar [formAcciones]="formularioInfAdicional" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+						
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="tiempoviviendaactual" class="ui-outputlabel">Tiempo Viv.Actual(años)</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="tiempoviviendaactual" name="tiempoviviendaactual" 
+						[(ngModel)]="registro.tiempoviviendaactual" maxlength="2" entero [disabled]="!editable" autofoco />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="cargasfamiliares" class="ui-outputlabel">No Cargas familiares</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<input type="text" pInputText id="cargasfamiliares" name="cargasfamiliares" 
+						[(ngModel)]="registro.cargasfamiliares" maxlength="2" entero [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="totalactivos" class="ui-outputlabel">Activos</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="totalactivos" name="totalactivos" 
+						[(ngModel)]="registro.totalactivos" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="totalpasivos" class="ui-outputlabel">Pasivos</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="totalpasivos" name="totalpasivos" 
+						[(ngModel)]="registro.totalpasivos" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="valorvivienda" class="ui-outputlabel">Valor de la vivienda</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valorvivienda" name="valorvivienda" 
+						[(ngModel)]="registro.valorvivienda" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="patrimonio" class="ui-outputlabel">Patrimonio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="patrimonio" name="patrimonio"
+						[(ngModel)]="registro.patrimonio" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="factualizacionpatrimonio" class="ui-outputlabel">Fecha Act. patrimonio</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="factualizacionpatrimonio" name="factualizacionpatrimonio" [(ngModel)]="registro.mdatos.factualizacionpatrimonio" 
+							    [showIcon]="true" [disabled]="!editable" [dateFormat]="formatofecha"></p-calendar>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="tipoviviendacdetalle" class="ui-outputlabel">Tipo vivienda</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="tipoviviendacdetalle" name="tipoviviendacdetalle" [options]="ltipovivienda" 
+					[(ngModel)]="registro.tipoviviendacdetalle" [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="relaciondependenciacdetalle" class="ui-outputlabel">Relación de dependencia</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="relaciondependenciacdetalle" name="relaciondependenciacdetalle" [options]="lrelaciondependencia" 
+					[(ngModel)]="registro.relaciondependenciacdetalle" [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="origeningresoscdetalle" class="ui-outputlabel">Origen ingresos</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="origeningresoscdetalle" name="origeningresoscdetalle" [options]="lorgingresos" 
+					[(ngModel)]="registro.origeningresoscdetalle" [disabled]="!editable"></p-dropdown>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="totalingresos" class="ui-outputlabel">Total ingresos mensuales</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="totalingresos" name="totalingresos"
+						[(ngModel)]="registro.totalingresos" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="totalegresos" class="ui-outputlabel">Total egresos mensuales</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="totalegresos" name="totalegresos"
+						[(ngModel)]="registro.totalegresos" maxlength="15" numeroPositivo [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label for="detalleingresos" class="ui-outputlabel">Detalle de ingresos</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<textarea type="text" pInputText id="detalleingresos" name="detalleingresos" [(ngModel)]="registro.detalleingresos" 
+						   	  mayusculas maxlength="120" rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+				</div>
+			</div>
+	        
+		</div>
+	</form>
+</div>

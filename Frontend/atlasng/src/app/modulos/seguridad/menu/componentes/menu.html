@@ -1,0 +1,168 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcrol" class="ui-outputlabel required">Perfiles</label>
+			</div>
+			<div class="ui-g-12 ui-md-5">
+				<p-dropdown id="fpkcrol" name="fpkcrol" [options]="lperfiles" [(ngModel)]="mfiltros.crol" 
+							required (onChange)="consultar()" [filter]="true"></p-dropdown>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-treeTable [value]="root">
+				<p-header>Lista de opciones</p-header>
+			    <p-column header="Activo" styleClass="f-left">
+			    	<ng-template pTemplate="body" let-node="rowData">
+						<p-checkbox [(ngModel)]="node.data.reg.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+					</ng-template>
+			    </p-column>
+			    <p-column header="Nombre" styleClass="f-left">
+			    	<ng-template pTemplate="body" let-node="rowData">
+						{{node.data.nombre}} ({{node.data.reg.copcion}})
+					</ng-template>
+			    </p-column>
+			    <p-column field="reg.orden" header="Orden" styleClass="f-right"></p-column>
+			    <p-column header="Acciones" styleClass="f-right">
+			    	<ng-template pTemplate="body" let-node="rowData">
+						<div class="f-table-actions">
+							<acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+						</div>
+					</ng-template>
+			    </p-column>
+			    <p-footer>
+					
+				</p-footer>
+			</p-treeTable>
+		</div>
+
+	</div>
+</div>
+
+<app-lov-transacciones (eventoTransaccion)=fijarLovTransaccionesSelec($event)></app-lov-transacciones>
+
+<p-dialog header="Ítem de menú" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 650px; max-height: 1000px">
+		<div class="f-datacontent ui-g ui-fluid">
+		
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="tipoitem" class="ui-outputlabel required">Tipo nodo</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-selectButton id="tipoitem" name="tipoitem" [options]="tiposmenu" 
+									[(ngModel)]="registro.mdatos.eshoja" [disabled]="!registro.esnuevo"></p-selectButton>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad" *ngIf="!registro.mdatos.eshoja">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nombre" class="ui-outputlabel required">Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="60" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cmodulo" class="ui-outputlabel required">Transacción</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="cmodulo" name="cmodulo" [(ngModel)]="registro.cmodulo" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="ctransaccion" name="ctransaccion" [(ngModel)]="registro.ctransaccion" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ntransaccion" required [readOnly]="true" />
+				</div>
+				<div class="ui-g-1 ui-md-1">
+					<button pButton type="button" id="lovtransacciones" name="lovtransacciones" (click)="mostrarLovTransacciones()"
+						icon="ui-icon-directions" [disabled]="!registro.esnuevo"></button>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="orden" class="ui-outputlabel required">Orden</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input type="text" pInputText id="orden" name="orden" [(ngModel)]="registro.orden" 
+						   required entero maxlength="2" [disabled]="!editable" />
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="activo" class="ui-outputlabel">Activo?</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-checkbox id="activo" name="activo" [(ngModel)]="registro.activo" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="mostrarenmenu" class="ui-outputlabel">Mostrar en menú?</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-checkbox id="mostrarenmenu" name="mostrarenmenu" [(ngModel)]="registro.mostrarenmenu" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>Permisos</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-4 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+				<div class="ui-g-12 ui-md-5">
+					<label for="crear" class="ui-outputlabel">Crear?</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox id="crear" name="crear" [(ngModel)]="registro.crear" binary="false" [disabled]="!editable"
+								(onChange)="cambiaCrear($event)"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-4 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+				<div class="ui-g-12 ui-md-5">
+					<label for="editar" class="ui-outputlabel">Editar?</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox id="editar" name="editar" [(ngModel)]="registro.editar" binary="false" [disabled]="!editable"
+								(onChange)="cambiaEditar($event)"></p-checkbox>
+				</div>
+			</div>
+			
+			<div class="ui-g-4 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+				<div class="ui-g-12 ui-md-5">
+					<label for="eliminar" class="ui-outputlabel">Eliminar?</label>
+				</div>
+				<div class="ui-g-12 ui-md-7">
+					<p-checkbox id="eliminar" name="eliminar" [(ngModel)]="registro.eliminar" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+			
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

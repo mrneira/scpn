@@ -1,0 +1,149 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="fkcplantilla" class="ui-outputlabel required">Plantilla</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fkcplantilla" name="fkcplantilla" type="text" pInputText [(ngModel)]="mfiltros.cplantilla" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="fnombre" name="fnombre" [(ngModel)]="mcampos.pnombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovplantillasComprobante" name="lovplantillasComprobante" (click)="mostrarlovplantillasComprobante()"
+          icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-plantillas-comprobante (eventoCliente)=fijarLovPlantillasComprobanteSelec($event)></app-lov-plantillas-comprobante>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Detalle plantillas comprobantes</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="orden" header="Orden" [style]="{'width':'60px'}"></p-column>
+        <p-column header="Débito" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.debito" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="ccuenta" header="Cuenta"></p-column>
+        <p-column field="mdatos.ncuenta" header="Nombre Cuenta"></p-column>
+        <p-column field="centrocostoscdetalle" header="Centro de costos"></p-column>
+        <p-column field="cpartida" header="Partida presupuestaria"></p-column>
+        <p-column field="mdatos.ncampotablacdetalle" header="Valor a contabilizar"></p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Detalle plantillas comprobantes" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="orden" class="ui-outputlabel required">Orden</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id=orden name="orden" [(ngModel)]="registro.orden" autofoco required entero maxlength="5" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="debito" class="ui-outputlabel">Débito</label>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <p-checkbox name="debito" [(ngModel)]="registro.debito" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ccuenta" class="ui-outputlabel required">Cuenta:</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="ccuenta" name="ccuenta" type="text" pInputText [(ngModel)]="registro.ccuenta" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-6">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovcuentasContables" name="lovcuentasContables" (click)="mostrarlovcuentasContables()"
+              icon="ui-icon-directions"></button>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="centrocostoscdetalle" class="ui-outputlabel required">Centro de Costos:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-dropdown id="centrocostoscdetalle" required name="centrocostoscdetalle" [options]="lcentrocostoscdetalle" [(ngModel)]="registro.centrocostoscdetalle"
+                [filter]="true" appendTo='body'></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cpartida" class="ui-outputlabel ">Partida presupuestaria:</label>
+            </div>
+            <div class="ui-g-2 ui-md-2">
+              <input id="cpartida" name="cpartida" type="text" pInputText [(ngModel)]="registro.cpartida" [readOnly]="true" />
+            </div>
+            <div class="ui-g-9 ui-md-6">
+              <input type="text" pInputText id="npartida" name="npartida" [(ngModel)]="registro.mdatos.npartida" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+              <button pButton type="button" id="lovclasificador" name="lovclasificador" (click)="mostrarlovclasificador()" icon="ui-icon-directions"></button>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="campotablaccatalogo" class="ui-outputlabel">Aplica a:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <label for="campotablaccatalogo" class="ui-outputlabel">{{registro.mdatos.ntipo}}</label>
+          
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <label for="campotablacdetalle" class="ui-outputlabel">Valor a contabilizar </label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="campotablacdetalle" name="campotablacdetalle" [options]="lcampotablacdetalle" [(ngModel)]="registro.campotablacdetalle" (onChange)="registrarEtiqueta(registro, lcampotablacdetalle, 'campotablacdetalle', 'ncampotablacdetalle')"
+              [filter]="true" appendTo="body"></p-dropdown>
+          </div>
+          <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+<app-lov-clasificador (eventoCliente)=fijarLovClasificadorSelec($event)></app-lov-clasificador>

@@ -1,0 +1,32 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">HISTÓRICO DE CARRERA</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+				<p-column field="mdatos.nestado" header="Tipo"></p-column> 
+				<p-column field="mdatos.ngrado" header="Grado"></p-column> 
+				<p-column header="Fecha Histórico">
+			    	<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.festado | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+				<p-column field="ordengen" header="Orden general"></p-column> 
+				<p-column header="Fecha Orden">
+			    	<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fordengen | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+				<p-column field="mdatos.ntipobaja" header="Tipo de baja"></p-column> 
+                <p-column header="Activo?" [style]="{'width':'60px'}" styleClass="f-center">
+				 <ng-template
+					pTemplate="body" let-reg="rowData"> <p-checkbox
+					[ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+		 		</ng-template> 
+		    	</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

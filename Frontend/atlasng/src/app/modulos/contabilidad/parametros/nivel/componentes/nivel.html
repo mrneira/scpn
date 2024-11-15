@@ -1,0 +1,71 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+			
+			<p-column field="cnivel" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column> 
+			<p-column field="nombre" header="Nombre"></p-column> 
+			<p-column field="digitos" header="Dígitos"  [style]="{'width':'60px'}"></p-column> 
+			
+			<p-column [style]="{'width':'100px'}"> 
+				<ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-table-actions">
+					<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+				</div>
+				</ng-template>
+			</p-column> 
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer> 
+		</p-dataTable>
+	</div>
+</div>
+
+
+
+
+<p-dialog header="Niveles Contables" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+<form #formDialogo="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="pkcnivel" class="ui-outputlabel required">Código</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="pkcnivel" name="pkcnivel"	[(ngModel)]="registro.cnivel" 
+						   autofoco required entero maxlength="2" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="nombre" class="ui-outputlabel required">Nombre:</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" 
+						   required mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-4">
+					<label for="digitos" class="ui-outputlabel required">Dígitos</label>
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="digitos" name="digitos"	[(ngModel)]="registro.digitos" 
+						   required entero maxlength="1" pattern="[1-5]" [disabled]="!editable && !registro.esnuevo" (ngModelChange)="validardigitos()"/>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

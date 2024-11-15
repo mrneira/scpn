@@ -1,0 +1,113 @@
+<div class="ui-g-12 ui-md-2"></div>
+
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+
+  <form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="nivel" class="ui-outputlabel">Nivel:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="nivel" name="nivel" [options]="lniveles" [(ngModel)]="this.mcampos.nivel"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="tipoplancuenta" class="ui-outputlabel required">Tipo de Plan de Cuentas:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="tipoplancuenta" name="tipoplancuenta" required [options]="ltipoplancuentas" [(ngModel)]="this.mcampos.tipoplancuenta"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-3 ui-g-nopad">
+        <div class="ui-g-3 ui-md-6">
+          <label class="ui-outputlabel required">Año :</label>
+        </div>
+        <div class="ui-g-3 ui-md-6">
+          <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anio" autofoco required entero
+            maxlength="4" minlength="4" />
+
+        </div>
+      </div>
+
+      <div class="ui-g-6 ui-g-nopad">
+        <div class="ui-g-3 ui-md-2">
+          <label class="ui-outputlabel required">Mes :</label>
+        </div>
+        <div class="ui-g-3 ui-md-3">
+          <p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mes" [filter]="true" required
+            (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')" appendTo="body"></p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-1"></div>
+        <div class="ui-g-6 ui-md-4">
+          <label for="balancesituacioninicial" class="ui-outputlabel">Balance de situación inicial</label>
+        </div>
+        <div class="ui-g-6 ui-md-1">
+          <p-checkbox id="balancesituacioninicial" name="balancesituacioninicial" [(ngModel)]="balancesituacioninicial"
+            binary="false"></p-checkbox>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3 required">
+          <p-radioButton name="group1" value="modelo1" label="Modelo Reporte 1" required [(ngModel)]="selectedmodelo"
+            inputId="opt1"></p-radioButton>
+        </div>
+        <div class="ui-g-12 ui-md-3 required">
+          <p-radioButton name="group1" value="modelo2" label="Modelo Reporte 2" required [(ngModel)]="selectedmodelo"
+            inputId="opt2"></p-radioButton>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <p-radioButton name="group3" value="connotabalance" label="Con notas al balance" [(ngModel)]="selectednotabalance"
+            inputId="opt5"></p-radioButton>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-radioButton name="group3" value="sinnotabalance" label="Sin notas al balance" [(ngModel)]="selectednotabalance"
+            inputId="opt6"></p-radioButton>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+              <p-radioButton name="group2" value="consaldo" label="Con saldo" [(ngModel)]="selectedconsaldo" inputId="opt3"></p-radioButton>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <p-radioButton name="group2" value="sinsaldo" label="Sin saldo" [(ngModel)]="selectedconsaldo" inputId="opt4"></p-radioButton>
+              </div>
+      </div>
+     
+</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+  <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+    <p-dataTable [value]="ltipoplancuentas" [responsive]="true">
+
+      <p-header>
+        <div class="ui-table-title">Generar Reporte</div>
+        <div class="f-acciones-cab-tabla">
+
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf"
+            style="text-align:center">
+          </button>
+
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel"
+            style="text-align:center">
+          </button>
+
+        </div>
+        <div class="ui-g-12" style='display:none'>
+          <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+        </div>
+      </p-header>
+    </p-dataTable>
+  </div>
+</div>
+
+</div>

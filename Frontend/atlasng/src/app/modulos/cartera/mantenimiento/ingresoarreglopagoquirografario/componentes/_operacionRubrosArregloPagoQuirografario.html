@@ -1,0 +1,99 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <br />
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montooperacion" class="ui-outputlabel">Monto original operación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montooperacion" name="montooperacion" [(ngModel)]="montooperacion" numero disabled="disabled"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montocancelacion" class="ui-outputlabel">Monto cancelación:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montocancelacion" name="montocancelacion" [(ngModel)]="totalprecancelacion" numero disabled="disabled"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montocapital" class="ui-outputlabel">Saldo capital:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montocapital" name="montocapital" [(ngModel)]="montocapital" numero disabled="disabled"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montopago" class="ui-outputlabel">Monto pago obligatorio:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montopago" name="montopago" [(ngModel)]="montopago" numero disabled="disabled" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montogastos" class="ui-outputlabel">Saldo gastos:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montogastos" name="montogastos" [(ngModel)]="montogastos" numero disabled="disabled" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montocxp" class="ui-outputlabel">Cuentas por pagar:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montocxp" name="montocxp" [(ngModel)]="montocxp" numero disabled="disabled" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="montoarreglopago" class="ui-outputlabel">Monto negociación pago:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <input type="text" pInputText id="montoarreglopago" name="montoarreglopago" [(ngModel)]="montoarreglopago" numero disabled="disabled"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <br />
+      <br />
+      <div class="f-datacontent ui-g ui-fluid f-center-items">
+        <div class="ui-g-12 ui-md-6">
+          <p-dataTable [value]="lregistros" [responsive]="true" rowGroupMode="subheader" [resizableColumns]="false">
+            <p-header>
+              <div class="ui-table-title">Rubros de Operación</div>
+            </p-header>
+            <p-column field="nombre" header="Rubro"></p-column>
+            <p-column header="Monto" styleClass="f-right" [style]="{'width':'100px'}">
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{ reg.monto | number:'1.2-2'}}
+              </ng-template>
+            </p-column>
+            <p-column header="Pago" [style]="{'width':'80px'}" styleClass="f-center">
+              <ng-template pTemplate="body" let-reg="rowData">
+                <p-checkbox [(ngModel)]="reg.pagoobligatorio" *ngIf="reg.pagoobligatorio != undefined" binary="true" [disabled]="true"></p-checkbox>
+              </ng-template>
+            </p-column>
+            <ng-template pTemplate="rowgroupfooter">
+              <td colspan="1" style="text-align:left">TOTAL</td>
+              <td style="text-align:right">{{totalprecancelacion | number:'1.2-2' }}</td>
+              <td></td>
+            </ng-template>
+          </p-dataTable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

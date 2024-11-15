@@ -1,0 +1,50 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+	<button pButton type="button" name="grabar" id="grabar" label="Eliminar Pagos Lote" style="position: absolute; right: 105px;" class="f-btn green-btn"
+	 icon="ui-icon-save" (click)="eliminarLote()"> </button>
+
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel required">Referencia de Pago:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="referenciaspagos" name="referenciaspagos" [options]="lreferenciapagos" required [(ngModel)]="mfiltros.numeroreferencia"
+			 [filter]="true" (onChange)="cambiarReferenciaPago($event)"></p-dropdown>
+		</div>
+
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel required">Observación:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="observacion" name="observacion" [(ngModel)]="mcampos.observacion" required minlength="10" maxlength="300"/>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+			<p-header>
+				<div class="ui-table-title">Pagos Generados</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column field="ctestransaccion" header="Id" ></p-column>
+			<p-column field="mdatos.modulo" header="Módulo"></p-column>
+			<p-column field="identificacionbeneficiario" rowspan="3" header="Identificación Beneficiario" scrollable="true" ></p-column>
+			<p-column field="nombrebeneficiario" header="Nombre Beneficiario" ></p-column>
+			<p-column field="mdatos.institucion" header="Institución"></p-column>
+			<p-column field="mdatos.tipocuenta" header="Tipo Cuenta" ></p-column>
+			<p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario" ></p-column>
+			<p-column field="valorpago" header="Valor Pago" ></p-column>
+			<p-column field="subcuenta" header="Concepto" ></p-column>
+			<p-column field="detalle" header="Detalle" ></p-column>
+			<p-column field="referenciainterna" header="Referencia Interna" ></p-column>
+			<p-column field="secuenciainterna" header="Secuencia Interna"></p-column>
+		</p-dataTable>
+	</div>
+</div>

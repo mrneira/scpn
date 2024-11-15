@@ -1,0 +1,132 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Sesiones por usuario</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cusuario" header="Usuario" [style]="{'width':'100px'}" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="cterminal" header="Terminal"></p-column>
+        <p-column field="numerointentos" header="Núm intentos fallidos" [style]="{'width':'60px'}"></p-column>
+
+        <p-column header="Fecha inicio" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.finicio }}
+          </ng-template>
+        </p-column>
+        <p-column header="Fecha última acción" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.fultimaaccion }}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.minutosinactividad" header="Minutos inactividad" styleClass="f-right"></p-column>
+
+        <p-column header="Estado" [style]="{'width':'140px'}" styleClass="f-center" >
+		 	<ng-template pTemplate="body" let-reg="rowData">
+	        	<span *ngIf="reg.cestado == 'I'">INGRESO CORRECTO</span>
+	        	<span *ngIf="reg.cestado == 'F'">INGRESO FALLIDO</span>
+	    	</ng-template>
+		</p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="Sesion de usuario" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoHorario="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="pkcusuario" class="ui-outputlabel">Usuario</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="pkcusuario" name="pkcusuario" [(ngModel)]="registro.cusuario" [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cterminal" class="ui-outputlabel">Terminal</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="cterminal" name="cterminal" [(ngModel)]="registro.cterminal" [readOnly]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="numerointentos" class="ui-outputlabel">Num. intentos fallidos</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="numerointentos" name="numerointentos" [(ngModel)]="registro.numerointentos" [readOnly]="true"
+            />
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="finicio" class="ui-outputlabel">Fecha inicio</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            {{ registro.finicio }}
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="fultimaaccion" class="ui-outputlabel">Fecha última acción</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            {{ registro.fultimaaccion }}
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="useragent" class="ui-outputlabel">Minutos inactividad</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="minutosinactividad" name="minutosinactividad" [(ngModel)]="registro.mdatos.minutosinactividad"
+              [readOnly]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="useragent" class="ui-outputlabel">Browser</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <textarea type="text" pInputText id="useragent" name="useragent" [(ngModel)]="registro.useragent" [readOnly]="true"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoHorario" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

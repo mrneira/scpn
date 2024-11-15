@@ -1,0 +1,64 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Carga de archivo de respuesta BCE - Pagos SPI</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+      </div>
+
+      <div class="ui-g-12">
+        <p-fileUpload id="fucarchivo" name="fucarchivo" customUpload="true" accept=".zip,.ZIP" [disabled]="false" (onSelect)="onSelectArchivo($event)"
+          required (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Seleccione" [showCancelButton]="false"
+          [showUploadButton]="false" [disabled]="!editable"></p-fileUpload>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid" *ngIf="mostrarresumen === true">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Resultado Carga - Respuesta SPI</div>
+      </p-header>
+      <p-column field="fecha" header="Fecha"></p-column>
+      <p-column field="idcabecera" header="N° Carga BCE"></p-column>
+      <p-column field="numcuenta" header="N° Cuenta"></p-column>
+      <p-column field="cantidadregistros" header="N° Registros"></p-column>
+      <p-column field="valortotal" header="Total"></p-column>
+    </p-dataTable>
+  </div>
+</div>
+<br>
+<div class="f-datacontent ui-g ui-fluid" >
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <hr />
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Información Comprobante - Contabilización</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lcontabilizacion" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Comprobante/s</div>
+        </p-header>
+        <p-column field="numerocomprobante" header="Secuencia Comprobante"></p-column>
+        <p-column field="descripcioncomprobante" header="Descripción Comprobante"></p-column>
+        <p-column field="valorpago" header="Valor"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+</div>
+<p-dataTable [value]="lregistrosaux" [responsive]="true" scrollable="true" scrollHeight="250px">
+	<p-header>
+		<div class="ui-table-title">Inconsistencias</div>
+		<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+	</p-header>
+	<p-column field="cfuncionario" header="Código" [style]="{'width':'50px'}"></p-column>
+	<p-column field="cusuario" header="Usuario" [style]="{'width':'70px'}"></p-column>
+	<p-column field="Nombre" header="Nombre"></p-column>
+	<p-column field="fecha" header="Fecha" [style]="{'width':'70px'}"></p-column>
+	<p-column field="Marcaciones" header="Marcaciones" [style]="{'width':'80px'}"></p-column>
+	<p-column [style]="{'width':'100px'}">
+		<ng-template pTemplate="body" let-reg="rowData">
+			<div class="f-table-actions">
+				<button type="button" pButton icon="ui-icon-delete-forever" (click)="seleccionaRegistro(reg)" icon="ui-icon-search" style="margin-left:5px">
+				</button>
+			</div>
+		</ng-template>
+	</p-column>
+</p-dataTable>
+<br />
+<div *ngIf="mostrarcaja">
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+		<div class="ui-g-12 ui-md-10 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+			<p-dataTable [value]="lregistros" [responsive]="true">
+				<p-header>
+					<div class="ui-table-title">Detalle de Inconsistencia</div>
+				</p-header>
+				<p-column field="fmarcacion" header="Fecha" ></p-column>
+
+				<p-column header="Tipo">
+					<ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+						<p-dropdown id="marcacion" name="marcacion" [filter]="true" [options]="ltipo" [(ngModel)]="reg.marcacion" appendTo="body"
+						  [filter]="true" [disabled]="true"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column>
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Detalle de Marcación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" appendTo="body"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="cusuario" class="ui-outputlabel required">Usuario:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="cperiodo" name="cusuario" [(ngModel)]="registro.cusuario" autofoco required numeric maxlength="10"
+						 [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label class="ui-outputlabel">Tipo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-dropdown id="marcacion" name="marcacion" [options]="ltipo" [(ngModel)]="registro.marcacion" required [filter]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="fdesde" class="ui-outputlabel required ">F. Marcación:</label>
+					</div>
+					<div class="ui-g-6 ui-md-5">
+					<p-inputMask required id="fmarcacion" name="fmarcacion" [(ngModel)]="registro.fmarcacion" 
+					mask="9999-99-99 99:99:99" datetime [disabled]="!editable" (ngModelChange)="completarRegistro($event)"></p-inputMask>
+				</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+
+</p-dialog>

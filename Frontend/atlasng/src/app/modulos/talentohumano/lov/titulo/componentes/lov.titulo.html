@@ -1,0 +1,83 @@
+<p-dialog header="Lista de titulos" [(visible)]="displayLov"
+	width="600" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="ctitulo" class="ui-outputlabel">Código:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+			<input pInputText name="ctitulo" [(ngModel)]="mfiltros.ctitulo" entero maxlength="5" />
+		</div>
+  </div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="nombre" class="ui-outputlabel">Nombre:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+			<input pInputText name="nombre" [(ngModel)]="mfiltros.nombre"  maxlength="200" />
+		</div>
+	</div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+		  <label class="ui-outputlabel">Área:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+		  <p-dropdown id="areacdetalle" name="areacdetalle" [options]="larea" [(ngModel)]="mfiltros.areacdetalle" 
+			appendTo="body" [filter]="true"></p-dropdown>
+		</div>
+	  </div>
+	  <div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+		  <label class="ui-outputlabel">Campo Especifico:</label>
+		</div>
+		<div class="ui-g-12 ui-md-8">
+		  <p-dropdown id="especificocdetalle" name="especificocdetalle" [options]="lespecifico" [(ngModel)]="mfiltros.especificocdetalle"
+			appendTo="body" [filter]="true"></p-dropdown>
+		</div>
+	  </div>
+	  <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-2">
+			<label class="ui-outputlabel">Campo Detallado:</label>
+		  </div>
+		  <div class="ui-g-12 ui-md-8">
+			<p-dropdown id="detalladocdetalle" name="detalladocdetalle" [options]="ldetallado" [(ngModel)]="mfiltros.detalladocdetalle"
+			appendTo="body" [filter]="true"></p-dropdown>
+		  </div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+			  <label class="ui-outputlabel">Carrera:</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+			  <p-dropdown id="carreracdetalle" name="carreracdetalle" [options]="lcarrera" [(ngModel)]="mfiltros.carreracdetalle"
+				appendTo="body"  [filter]="true"></p-dropdown>
+			</div>
+		  </div>
+
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)"
+					 scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Titulos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+	<p-column field="ctitulo" header="Código" [style]="{'width':'60px'}"></p-column>
+	<p-column field="mdatos.narea" header="Área" ></p-column>
+	<p-column field="mdatos.nespecifico" header="Campo Especifico" ></p-column>
+	<p-column field="mdatos.ndetallado" header="Campo Detallado" ></p-column>
+	<p-column field="mdatos.ncarrera" header="Carrera" ></p-column>
+	<p-column field="nombre" header="Nombre" ></p-column>
+	
+
+	
+		</p-dataTable>
+	</div>
+</div>
+
+</p-dialog>
+

@@ -1,0 +1,11 @@
+<div class="ui-g-12 ui-g-nopad f-acciones-editar">
+  <div *ngIf="etapa && mostraretapas">
+    <p-splitButton label="&emsp;Buzón&emsp;" icon="ui-icon-list" (onClick)="componente.retornoBuzon()" [model]="componente.itemsEtapa"
+      class="f-btn blue-btn"></p-splitButton>
+  </div>
+  <div *ngIf="!mostraretapas">
+    <button pButton type="button" label="&emsp;&emsp;Buzón&emsp;&emsp;" icon="ui-icon-list" (click)="componente.retornoBuzon()"
+      class="f-btn blue-btn">
+    </button>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fpk" class="ui-outputlabel required">Operación</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-9 ui-md-6">
+        <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+    </div>
+  </form>
+
+  <p-tabView>
+    <p-tabPanel header="Datos operación" [selected]="true">
+      <br />
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montooperacion" class="ui-outputlabel">Monto original operación:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montooperacion" name="montooperacion" [(ngModel)]="montooperacion" numero disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montocancelacion" class="ui-outputlabel">Monto cancelación:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montocancelacion" name="montocancelacion" [(ngModel)]="totalprecancelacion" numero disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montocapital" class="ui-outputlabel">Saldo capital:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montocapital" name="montocapital" [(ngModel)]="montocapital" numero disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montocondonado" class="ui-outputlabel"> (-) Monto condonado:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="montocondonado" name="montocondonado" [(ngModel)]="montocondonado" numero disabled="disabled"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <span>&nbsp;</span>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="monto" class="ui-outputlabel">Monto total:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="monto" name="monto" [(ngModel)]="monto" numero disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12"></div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="f-datacontent ui-g ui-fluid f-center-items">
+            <div class="ui-g-12 ui-md-8">
+              <p-dataTable [value]="lregistros" [responsive]="true" rowGroupMode="subheader">
+                <p-header>
+                  <div class="ui-table-title">Rubros</div>
+                </p-header>
+                <p-column field="nombre" header="Rubro"></p-column>
+                <p-column header="Monto" styleClass="f-right" [style]="{'width':'100px'}">
+                  <ng-template pTemplate="body" let-reg="rowData">
+                    {{ reg.monto | number:'1.2-2'}}
+                  </ng-template>
+                </p-column>
+                <p-column header="Condonar" [style]="{'width':'100px'}" styleClass="f-center">
+                  <ng-template pTemplate="body" let-reg="rowData">
+                    <p-checkbox [(ngModel)]="reg.mdatos.condonar" binary="true" (onChange)="fijarCondonacion(reg,$event)"></p-checkbox>
+                  </ng-template>
+                </p-column>
+                <ng-template pTemplate="rowgroupfooter">
+                  <td colspan="1" style="text-align:left">TOTAL</td>
+                  <td style="text-align:right">{{totalcondonar | number:'1.2-2' }}</td>
+                  <td></td>
+                </ng-template>
+              </p-dataTable>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>

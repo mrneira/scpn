@@ -1,0 +1,135 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g-12">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+
+
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    </form>
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-treeTable [value]="root">
+                <p-header>Lista de opciones</p-header>
+
+                <p-column field="reg.cimpuesto" header="Código" styleClass="f-left"></p-column>
+                <p-column header="Activo" styleClass="f-left">
+                    <ng-template pTemplate="body" let-node="rowData">
+                        <p-checkbox [(ngModel)]="node.data.reg.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+                    </ng-template>
+                </p-column>
+                <p-column header="Nombre" styleClass="f-left">
+                    <ng-template pTemplate="body" let-node="rowData">
+                        {{node.data.nombre}}
+                    </ng-template>
+                </p-column>
+                <p-column field="reg.porcentaje" header="Porcentaje" styleClass="f-right"></p-column>
+                <p-column header="Acciones" styleClass="f-right">
+                    <ng-template pTemplate="body" let-node="rowData">
+                        <div class="f-table-actions">
+                            <acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+                        </div>
+                    </ng-template>
+                </p-column>
+            </p-treeTable>
+        </div>
+
+    </div>
+</div>
+
+<app-lov-cuentas-contables (eventoCliente)="fijarLovCuentasContablesSelec($event)"></app-lov-cuentas-contables>
+
+<p-dialog header="Impuesto" [(visible)]="mostrarDialogoGenerico" [modal]="true" width="700" showEffect="fade" [responsive]="true" [positionTop]="120">
+    <form #formDialogoProv="ngForm">
+        <div class="f-dialogo" style="max-width: 650px">
+            <div class="f-datacontent ui-g ui-fluid">
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="tipoitem" class="ui-outputlabel required">Tipo nodo</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-9">
+                        <p-selectButton name="tipoitem" [options]="tiposmenu" [(ngModel)]="registro.eshoja" [disabled]="!editable || !registro.esnuevo"></p-selectButton>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="nombre" class="ui-outputlabel required">Nombre</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-8">
+                        <input type="text" pInputText name="nombre" [(ngModel)]="registro.nombre" required mayusculas
+                            maxlength="60" [disabled]="!editable" />
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12 ui-md-3">
+                        <label for="activo" class="ui-outputlabel">Activo?</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-8">
+                        <p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false" [disabled]="!editable">
+                        </p-checkbox>
+                    </div>
+                </div>
+
+
+                <div class="ui-g-12"></div>
+                <div class="ui-g-12"></div>
+
+
+                <div class="ui-g-12 ui-g-nopad" *ngIf="registro.eshoja">
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-3">
+                            <label for="codimpuesto" class="ui-outputlabel">Código de Impuesto</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input type="text" pInputText name="codimpuesto" [(ngModel)]="registro.codimpuesto" mayusculas
+                                maxlength="1" [disabled]="!editable" />
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-3">
+                            <label for="codporcentaje" class="ui-outputlabel">Código de Porcentaje</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input type="text" pInputText name="codporcentaje" [(ngModel)]="registro.codporcentaje" mayusculas
+                                maxlength="1" [disabled]="!editable" />
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-3">
+                            <label for="porcentaje" class="ui-outputlabel required">Porcentaje</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <input type="text" pInputText name="porcentaje" [(ngModel)]="registro.porcentaje" required
+                                numero maxlength="6" max="100" [disabled]="!editable" />
+                        </div>
+                    </div>
+
+
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-3">
+                            <label for="ccuenta" class="ui-outputlabel required">Cuenta</label>
+                        </div>
+                        <div class="ui-g-2">
+                            <input name="ccuenta" type="text" pInputText [(ngModel)]="registro.codigocontable" [readOnly]="true" class="f-right" />
+                        </div>
+                        <div class="ui-g-6">
+                            <input type="text" pInputText name="ncuenta" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+                        </div>
+                        <div class="ui-g-1">
+                            <button pButton type="button" name="lovcuentasContables" (click)="mostrarlovcuentasContables()" icon="ui-icon-directions" class="f-float-right"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <footer>
+                <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+            </footer>
+        </div>
+    </form>
+</p-dialog>

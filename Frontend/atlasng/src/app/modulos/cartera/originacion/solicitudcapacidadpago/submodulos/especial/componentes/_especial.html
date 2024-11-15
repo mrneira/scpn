@@ -1,0 +1,19 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-6">
+      <p-dataTable [value]="lregistros" [responsive]="true" [resizableColumns]="false" columnResizeMode="expand"
+        rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">Validaciones</div>
+        </p-header>
+        <p-column field="descripcion" header="Descripción"></p-column>
+        <p-column header="Estado" styleClass="f-center" [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+
+  </div>
+</div>

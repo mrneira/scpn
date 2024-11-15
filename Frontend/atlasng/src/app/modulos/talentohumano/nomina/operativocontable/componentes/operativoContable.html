@@ -1,0 +1,48 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdesde" class="ui-outputlabel required">Fecha contable</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-calendar name="fdesde" [(ngModel)]="mfiltros.fcontable" [showIcon]="true" [dateFormat]="formatofecha"
+            required></p-calendar>
+        </div>
+      </div>      
+    </div>
+    <HR>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Cuadre Operativo Contable</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+      </p-header>      
+      <p-column field="ccuenta" header="Cuenta contable" [style]="{'width':'100px'}"></p-column>
+      <p-column field="ncuenta" header="Nombre cuenta contable"></p-column>
+      <p-column header="Saldo módulo" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldoactivos | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Saldo contable" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldocontable | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Diferencia" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <span *ngIf="reg.diferencia !== 0" style="color: red;">{{ reg.diferencia | number:'1.2-2'}}</span>
+          <span *ngIf="reg.diferencia === 0">{{ reg.diferencia | number:'1.2-2'}}</span>
+        </ng-template>
+      </p-column>      
+    </p-dataTable>
+  </div>
+</div>

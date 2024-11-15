@@ -1,0 +1,57 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+
+
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-2 ui-md-2">
+        <label for="fpnombre" class="ui-outputlabel">Cliente</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input type="text" pInputText id="cpersona" name="cpersona" [(ngModel)]="mfiltros.cpersona" [readOnly]="true" />
+      </div>
+      <div class="ui-g-3 ui-md-3">
+        <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="mcampos.identificacionProv" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-4 ui-md-4">
+        <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombreProv" [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovclientes" name="lovclientes" (click)="mostrarLovClientes()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-clientes (eventoCliente)=fijarLovClientes($event)></app-lov-clientes>
+    </div>
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+      <p-dataTable [value]="lestadosCxC" [responsive]="true">
+
+        <p-header>
+          <div class="ui-table-title">Generar Reporte</div>
+          <div class="f-acciones-cab-tabla">
+
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+            </button>
+
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="imprimir('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+
+      </p-dataTable>
+    </div>
+  </div>
+
+</div>

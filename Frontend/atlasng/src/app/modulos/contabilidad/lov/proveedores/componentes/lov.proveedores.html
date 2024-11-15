@@ -1,0 +1,55 @@
+<p-dialog header="Lista de proveedores" [(visible)]="displayLov" width="1100" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-6 ui-md-6">
+				<label for="cpersona" class="ui-outputlabel">Código de Proveedor:</label>
+			</div>
+			<div class="ui-g-6 ui-md-6">
+				<input pInputText name="cpersona" [(ngModel)]="mcampos.cpersona" autofoco mayusculas maxlength="15" />
+			</div>
+		</div>
+
+		<div class="ui-g-6 ui-g-nopad">
+			<div class="ui-g-6 ui-md-6">
+				<label for="identificacion" class="ui-outputlabel">Identificaci&oacute;n:</label>
+			</div>
+			<div class="ui-g-6 ui-md-6">
+				<input pInputText name="identificacion" [(ngModel)]="mcampos.identificacion" autofoco mayusculas maxlength="20" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-3 ui-md-3">
+				<label for="nombre" class="ui-outputlabel">Nombre:</label>
+			</div>
+			<div class="ui-g-9 ui-md-9">
+				<input pInputText name="nombre" [(ngModel)]="mcampos.nombre" mayusculas maxlength="80" />
+			</div>
+		</div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)"
+			 scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Proveedores</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cpersona" header="C&oacute;digo" [style]="{'width':'50px'}"></p-column>
+				<p-column field="identificacion" header="Identificacion" [style]="{'width':'100px'}" [filter]="true" filterPlaceholder="Contiene"
+				 filterMatchMode="contains"></p-column>
+				<p-column field="nombre" header="Nombre" [style]="{'width':'280px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"></p-column>
+				<p-column field="nombrecomercial" header="Nombre Comercial" [style]="{'width':'280px'}" [filter]="true" filterPlaceholder="Contiene"
+				 filterMatchMode="contains"></p-column>
+				<p-column field="email" header="email" [style]="{'width':'280px'}" [filter]="true" filterPlaceholder="Contiene" filterMatchMode="contains"></p-column>
+				<p-column field="pagoporbce" header="Pago por BCE">
+					<ng-template  let-reg="rowData" pTemplate="body">
+						<span *ngIf="reg.pagoporbce == 1">SI</span>
+						<span *ngIf="reg.pagoporbce == 0">NO</span>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

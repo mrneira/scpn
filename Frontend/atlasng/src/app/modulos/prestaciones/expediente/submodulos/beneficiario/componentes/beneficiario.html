@@ -1,0 +1,213 @@
+<app-jasper [componente]="componentehijo" style="position: absolute; right: 460px" [pdf]="false" [excel]="false" [impr]="false" [formulario]="formFiltros"></app-jasper>
+<div class="ui-g-12">
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" [resizableColumns]="false">
+				<p-header>
+                    <div class="ui-table-title">BENEFICIARIOS</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+				<p-column field="identificacion" [style]="{'width':'25px'}" header="Cédula"></p-column> 
+				<p-column field="mdatos.nparentezco" [style]="{'width':'25px'}" header="Parentesco"></p-column> 
+				<p-column header="Nombre" [style]="{'width':'60px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+						  {{reg.primerapellido}} &nbsp;
+						  {{reg.segundoapellido}}  &nbsp;
+						  {{reg.primernombre}} &nbsp;
+						  {{reg.segundonombre}}
+						  
+						</ng-template>
+			    </p-column>
+				<p-column field="mdatos.nbanco" [style]="{'width':'70px'}" header="Institución"></p-column>
+				<p-column field="numerocuenta" [style]="{'width':'30px'}" header="No cuenta"></p-column>
+				<p-column header="Total a Recibir" [style]="{'width':'30px'}" styleClass="f-right">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        {{reg.valorliquidacion | number:'1.2-2'}}
+                    </ng-template>
+				</p-column>
+				<p-column header="Aprobar?" [style]="{'width':'15px'}" styleClass="f-center">
+					<ng-template
+					   pTemplate="body" let-reg="rowData"> <p-checkbox
+					   [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template> 
+				</p-column>
+				<p-column *ngIf="mcampos.bandeja" [style]="{'width':'15px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+				    	<div class="f-table-actions">
+							<button type="button" pButton (click)="descargaReporte(reg)" class="f-btn blue-btn" icon="ui-icon-print"></button>
+						</div>
+					</ng-template> 
+				</p-column> 			
+				<p-column [style]="{'width':'30px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="mcampos.beneficiariosocio">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>			
+<p-dialog header="Beneficiarios" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+		    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cedula" class="ui-outputlabel">Cédula</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="cedula" name="cedula" [(ngModel)]="registro.identificacion" 
+						 mayusculas maxlength="10" [disabled]="registro.esnuevo && !registro.esnuevo" />
+				</div>
+			</div>
+	 	    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="primernombre" class="ui-outputlabel">Primer Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="primernombre" name="primernombre" [(ngModel)]="registro.primernombre" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+            <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="segundonombre" class="ui-outputlabel">Segundo Nombre</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="segundonombre" name="segundonombre" [(ngModel)]="registro.segundonombre" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="primerapellido" class="ui-outputlabel">Apellido Paterno</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="primerapellido" name="primerapellido" [(ngModel)]="registro.primerapellido" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="segundoapellido" class="ui-outputlabel">Apellido Materno</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="segundoapellido" name="segundoapellido" [(ngModel)]="registro.segundoapellido" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="fecharecepcion" class="ui-outputlabel">Fecha Nacimiento</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-calendar id="fechanacimiento" name="fechanacimiento" [(ngModel)]="registro.fechanacimiento" 
+							[showIcon]="true" [disabled]="!editable" [dateFormat]="formatofecha"
+							[monthNavigator]="true" [yearNavigator]="true"
+							yearRange="1900:2200"
+							[locale]="es"></p-calendar>
+						</div>
+			</div>
+			<div *ngIf="mcampos.beneficiariosocio" class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="parentezco" class="ui-outputlabel">Parentezco</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="parentezco" name="parentezco" [options]="lparentezco" [(ngModel)]="registro.cdetalleparentesco"></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuemrocuenta" class="ui-outputlabel">Total a Recibir</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText id="valorliquidacion" name="valorliquidacion" 
+					value="{{registro.valorliquidacion | number:'1.2-2' }}" [readOnly]="true"/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetallebanco" class="ui-outputlabel">Institución</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetallebanco" [filter]="true" appendTo="body" [required]="requerido" name="cdetallebanco" [options]="lbancos" [(ngModel)]="registro.tipoinstitucioncdetalle"></p-dropdown>
+				</div>
+			</div>
+          	<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetalletipocuenta" class="ui-outputlabel">Tipo cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetalletipocuenta" [filter]="true" appendTo="body" [required]="requerido" name="cdetalletipocuenta" [options]="ltipocuenta" [(ngModel)]="registro.tipocuentacdetalle"></p-dropdown>
+				</div>
+			</div>
+            <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuemrocuenta" class="ui-outputlabel">Número Cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText [required]="requerido" id="nuemrocuenta" name="nuemrocuenta" [(ngModel)]="registro.numerocuenta" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="aprobar" class="ui-outputlabel">Aprobar Pago?</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-checkbox name="aprobar" [(ngModel)]="registro.estado" binary="true"></p-checkbox>
+				</div>
+			</div>
+			<div *ngIf="registro.cdetalleparentesco != 0" class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="curador" class="ui-outputlabel">Curador?</label>
+				</div>
+				<div class="ui-g-12 ui-md-8">
+					<p-checkbox id="curador" name="curador" [(ngModel)]="registro.curador" binary="false" [disabled]="!editable"></p-checkbox>
+				</div>
+			</div>
+		<p-fieldset *ngIf="registro.curador" class="ui-g-12 ui-g-nopad" legend="Datos Curador">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetallebancocur" class="ui-outputlabel">Institución</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetallebancocur" [filter]="true" appendTo="body" [required]="requerido" name="cdetallebancocur" [options]="lbancos" [(ngModel)]="registro.curtipoinstitucioncdetalle"></p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="cdetalletipocuentacur" class="ui-outputlabel">Tipo cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+					<p-dropdown id="cdetalletipocuentacur" [filter]="true" appendTo="body" [required]="requerido" name="cdetalletipocuentacur" [options]="ltipocuenta" [(ngModel)]="registro.curtipocuentacdetalle"></p-dropdown>
+				</div>
+			</div>
+            <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="nuemrocuentacur" class="ui-outputlabel">Número Cuenta</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" pInputText [required]="requerido" id="nuemrocuentacur" name="nuemrocuentacur" [(ngModel)]="registro.curnumerocuenta" 
+						 mayusculas maxlength="60" [disabled]="!editable && !registro.esnuevo" />
+				</div>
+			</div>
+		</p-fieldset>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

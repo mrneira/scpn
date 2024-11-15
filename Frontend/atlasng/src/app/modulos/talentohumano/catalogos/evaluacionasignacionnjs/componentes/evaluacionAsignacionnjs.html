@@ -1,0 +1,158 @@
+<app-lov-funcionarios #lovFuncionario (eventoCliente)=fijarLovFuncionariosSelect($event)></app-lov-funcionarios>
+<app-lov-funcionarios #lovJefeFuncionario (eventoCliente)=fijarLovJefeFuncionariosSelect($event)></app-lov-funcionarios>
+ 
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    <button *ngIf="!estaVacio(mcampos.cperiodo)" pButton type="button" label="Enviar correo" style="position: absolute; right: 210px;"
+      class="f-btn teal-btn" icon="ui-icon-mail" (click)="enviarmail()"></button>
+
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-md-1">
+      <label for="cperiodo" class="ui-outputlabel required">Período:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="cperiodo" name="cperiodo" type="text" pInputText [ngModel]="mcampos.cperiodo" required [readOnly]="true"
+        style="text-align:center;" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="fnombre" name="periodo" [(ngModel)]="mcampos.nperiodo" required [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovPeriodo" name="lovPeriodo" (click)="mostrarLovPeriodo()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-periodo (eventoCliente)=fijarLovPeriodoSelec($event)></app-lov-periodo>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="casignacion">
+        <p-header>
+          <div class="ui-table-title">Asignación Evaluaci&oacute;n Nivel Jer&aacute;rquico Superior</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+
+        <p-column field="cevaluacion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"></p-column>
+        <p-column field="mdatos.njefefuncionario" header="Evaluador"></p-column>
+        <p-column field="estado" header="Estado" [style]="{'width':'60px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.estado" binary="false" disabled="false"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column field="comentario" header="Comentario" [style]="{'width':'80px'}" styleClass="f-center">
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+          <div>
+            ** La notificación de correo electrónico solo se realizará a las evaluaciones que tengan asignado un evaluador **.
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Asignación Evaluación Nivel Jerárquico" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>DATOS GENERALES EVALUACIÓN</span>
+          </div>
+          <hr />
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cevaluacion" class="ui-outputlabel required">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cevaluacion" name="cevaluacion" [(ngModel)]="registro.cevaluacion" required numeric maxlength="10"
+              [disabled]="true" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cfuncionario" class="ui-outputlabel required">Funcionario:</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="cfuncionario" name="cfuncionario" type="text" pInputText [(ngModel)]="registro.cfuncionario" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-9 ui-md-7">
+            <input type="text" pInputText id="nombrefuncionario" name="nombrefuncionario" [(ngModel)]="registro.mdatos.nfuncionario"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="jefecfuncionario" class="ui-outputlabel required">Evaluador:</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="jefecfuncionario" name="jefecfuncionario" type="text" pInputText [(ngModel)]="registro.jefecfuncionario" required
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-9 ui-md-7">
+            <input type="text" pInputText id="nombrejefefuncionario" name="nombrejefefuncionario" [(ngModel)]="registro.mdatos.njefefuncionario"
+              [readOnly]="true" />
+          </div>
+          <div class="ui-g-1 ui-md-1">
+            <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovJefeFuncionarios()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+   
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="comentario" class="ui-outputlabel ">Comentario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="registro.comentario" mayusculas maxlength="200" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="estado" class="ui-outputlabel ">Estado?:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-checkbox id="estado" name="estado" [(ngModel)]="registro.estado" binary="false"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12  ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="finalizada" class="ui-outputlabel ">Finalizada?:</label>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <p-checkbox id="finalizada" name="finalizada" [(ngModel)]="registro.finalizada" binary="false"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

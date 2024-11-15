@@ -1,0 +1,36 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+</div>
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-5 ui-md-5"></div>
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+		</div>
+		<div class="ui-g-2 ui-md-1">
+			<input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required
+				[readOnly]="true" />
+		</div>
+		<div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona"
+				[readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()"
+				[disabled]="bandeja" icon="ui-icon-directions">
+			</button>
+		</div>
+		<app-lov-personas (eventoCliente)=fijarLovSociosSelec($event)></app-lov-personas>
+	</div>
+</form>
+<div class="ui-g-12 ui-md-12 ui-g-nopad" *ngIf="activateGenerarReporte" style="margin-top: 40px;">
+	<div style="background-color: #328cc1; width: 20%; margin: 0 auto; padding: 15px; border-radius: 5px; margin-top: 20px; color: #ffffff; text-align: center;">
+		<div style="font-size: 15px;">Generar Certificado</div>
+		<div style="margin-top: 10px;">
+			<button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('PDF')" class="f-btn green-btn f-pdf" style="text-align:center"></button>
+		</div>
+		<div class="ui-g-12" style='display:none'>
+			<app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+		</div>
+	</div>
+</div>

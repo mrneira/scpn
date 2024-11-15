@@ -1,0 +1,46 @@
+<div class="f-contenedor-transaccion">	
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+	</div>
+
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-6 ui-md-2">
+				<label for="modulo" class="ui-outputlabel">Módulo : </label>
+			</div>
+			<div class="ui-g-6 ui-md-5">
+				<p-dropdown id="modulo" name="modulo" [options]="lmodulo" [(ngModel)]="registro.cmodulo" (ngModelChange)="pasarModulo()"></p-dropdown>
+			</div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="fnarchivo" class="ui-outputlabel">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" 
+						 [readOnly]="true" [disabled] = !editable />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".xlsx, .xls" [disabled]="registro.cmodulo == null || registro.cmodulo == undefined" (uploadHandler)="uploadHandler($event)" (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" 
+				chooseLabel="Escoger"
+				uploadLabel="Subir"
+				cancelLabel="Cancelar"></p-fileUpload>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carbi></app-resultado-carbi>
+	</div>
+</div>
+
+

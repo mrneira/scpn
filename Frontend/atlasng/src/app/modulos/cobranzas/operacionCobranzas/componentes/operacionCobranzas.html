@@ -1,0 +1,192 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cobranzasbuzon [componente]="componentehijo"></acciones-cobranzasbuzon>
+  <button *ngIf="!false" pButton type="button" name="grabar" id="grabar" label='Grabar' style="position: absolute; right: 110px"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"> </button>
+  <div class="oculto" style='display:none;'>
+    <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+  </div>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required
+            [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-2">
+          <div class="ui-g-12">
+            <button pButton type="button" id="lovpersonavista" name="lovpersonavista" (click)="mostrarLovPersonaVista()"
+              icon="ui-icon-person" *ngIf="!estaVacio(mcampos.cpersona)"></button>
+          </div>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+        <app-lov-persona-vista #vistadeudor></app-lov-persona-vista>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcoperacion" class="ui-outputlabel required">Cobranza</label>
+        </div>
+        <div class="ui-g-2">
+          <input id="fccobranza" name="fccobranza" type="text" pInputText [(ngModel)]="registro.ccobranza" [readOnly]="true" />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input id="coperacion" name="coperacion" type="text" pInputText [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1">
+
+        </div>
+        <app-lov-operacion-cobranza (eventoOperCobranza)=fijarLovOperacionSelec($event)></app-lov-operacion-cobranza>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Información" [selected]="true">
+    <form #formularioOperacion="ngForm">
+      <div class="f-datacontent ui-g ui-fluid">
+        <acciones-editar [formAcciones]="formularioOperacion" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+        <button pButton type="button" name="imprimir" id="imprimir" label="Imprimir" style="position: absolute; left: 220px;"
+          class="f-btn green-btn" icon="ui-icon-print" (click)="descargarReporte()" [disabled]="!print"> </button>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <p-fieldset legend="Datos Cliente" [toggleable]="false">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="pcelular" class="ui-outputlabel required">Celular</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <p-inputMask id="pcelular" name="pcelular" [(ngModel)]="mcampos.celular" mask="(09)-99999999"
+                    [disabled]="true"></p-inputMask>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="pemail" class="ui-outputlabel">Email Personal</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <input type="text" pInputText id="pemail" name="pemail" [(ngModel)]="mcampos.email" [disabled]="true" />
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-g-12"></div>
+            <div class="ui-g-12"></div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <app-direccion></app-direccion>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12"></div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <p-fieldset legend="Datos Operación" [toggleable]="false">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="valor" class="ui-outputlabel required">Valor Vencido</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <input id="valor" name="valor" type="text" pInputText [ngModel]="registro.saldovencido" required
+                    numero [disabled]="true" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="diasvencidos" class="ui-outputlabel">Días Vencidos</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <input type="text" pInputText id="diasvencidos" name="diasvencidos" [(ngModel)]="registro.diasvencido"
+                    entero disabled="disabled" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="cuotasvencidos" class="ui-outputlabel">Cuotas Vencidas</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <input type="text" pInputText id="cuotasvencidos" name="cuotasvencidos" [(ngModel)]="registro.numcuotavencido"
+                    entero disabled="disabled" />
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12"></div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-6 ui-md-4">
+              <label for="fcaccion" class="ui-outputlabel required">Tipo de Acción:</label>
+            </div>
+            <div class="ui-g-6 ui-md-6">
+              <p-dropdown id="accion" name="accion" [options]="laccion" autofoco required [disabled]="!editable"
+                (onChange)="habilitarCorreo($event)" (onChange)="habilitarNotificacion($event)"></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="accionMora" class="ui-outputlabel">Motivo de Mora</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <p-dropdown id="accionMora" name="accionMora" [options]="laccionMora" autofoco required [disabled]="!editable" (onChange)="selectMotivoMora($event)"></p-dropdown>
+            </div>
+          </div><!--MNR 20230718-->
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="fdesde" class="ui-outputlabel">Fecha Compromiso Pago</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <p-calendar id="fcdesde" name="fdesde" [(ngModel)]="registro.fcompromisopago" [showIcon]="true" [locale]="es"
+                [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" d></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="acitvation">
+            <div class="ui-g-12 ui-md-4">
+              <label for="celular" class="ui-outputlabel required">Celular</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <p-inputMask id="celular" name="celular" [(ngModel)]="registro.telefono" mask="(09)-99999999" required
+                [disabled]="!editable"></p-inputMask>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.mdatos.enviocorreo">
+            <div class="ui-g-12 ui-md-4">
+              <label for="email" class="ui-outputlabel required">Email</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="email" pInputText id="email" name="email" [(ngModel)]="registro.correo" maxlength="120"
+                [disabled]="!editable" [required]="registro.mdatos.enviocorreo" />
+            </div>
+          </div>
+        </div>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="observacion" class="ui-outputlabel required">Observación</label>
+          </div>
+          <div class="ui-g-12 ui-md-10 ui-g-nopad">
+            <textarea pInputText type="text" id="observacion" name="observacion" [(ngModel)]="registro.observacion"
+              required mayusculas maxlength="255" rows="3" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-tabPanel>
+</p-tabView>

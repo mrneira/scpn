@@ -1,0 +1,62 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioSolicitud="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioSolicitud" [componentes]="[componentehijo,operaciongar.componentehijo,campos.componentehijo]"
+        class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="renovacion" class="ui-outputlabel required">Renovación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-checkbox id="renovacion" name="renovacion" [(ngModel)]="operaciongar.registro.renovacion" binary="false" [disabled]="!editable || !operaciongar.registro.esnuevo"
+           (onChange)="operaciongar.cambiaRenovacion($event);"></p-checkbox>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="coperacionanterior" class="ui-outputlabel required">Garantía Original</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="coperacionanterior" name="coperacionanterior" required [(ngModel)]="operaciongar.registro.coperacionanterior"
+            [disabled]="true" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button pButton type="button" id="lovoperacionanterior" name="lovoperacionanterior" (click)="operaciongar.mostrarLovOperacion()"
+            icon="ui-icon-directions" *ngIf="editable && operaciongar.registro.esnuevo && operaciongar.registro.renovacion"></button>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ctipogar" class="ui-outputlabel required">Tipo de garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="ctipogar" name="ctipogar" [options]="operaciongar.ltipogarantia" [(ngModel)]="operaciongar.registro.ctipogarantia"
+            required  (onChange)="cambiaTipoGarantia()" [disabled]="!editable || operaciongar.registro.esnuevo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ctipobien" class="ui-outputlabel required">Tipo bien</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="ctipobien" name="ctipobien" [options]="operaciongar.ltipobien" [(ngModel)]="operaciongar.registro.ctipobien"
+            required (onChange)="cambiaTipoBien()" [disabled]="!editable || operaciongar.registro.esnuevo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="cclasif" class="ui-outputlabel required">Clasificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="cclasif" name="cclasif" [options]="operaciongar.lclasificacion" [(ngModel)]="operaciongar.registro.cclasificacion"
+            required [disabled]="!editable || operaciongar.registro.esnuevo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

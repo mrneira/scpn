@@ -1,0 +1,49 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numerolinea }}
+                    </ng-template>
+                </p-column>
+
+                <p-column field="nombreemisor" header="Emisor" [style]="{'width':'280px'}"></p-column>
+
+                <p-column header="Anterior Precio" styleClass="f-right" [style]="{'width':'70px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.ultpreciocierre | number:'1.2-7' }}</span><!--RRO 202200503-->
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Nuevo Precio" styleClass="f-right" [style]="{'width':'70px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.preciocierre | number:'1.2-7' }}</span><!--RRO 202200503-->
+                    </ng-template>
+                </p-column>
+
+                <p-column header="F. Último Cierre" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.fultimocierre }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Fecha Valoración" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.fvaloracion }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="mensaje" header="Mensaje" [style]="{'width':'200px'}"></p-column>
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

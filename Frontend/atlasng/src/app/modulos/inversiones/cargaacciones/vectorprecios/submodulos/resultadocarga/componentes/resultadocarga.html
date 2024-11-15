@@ -1,0 +1,72 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numerolinea }}
+                    </ng-template>
+                </p-column>
+
+                <p-column field="codigotitulo" header="Código Título" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+
+                <p-column field="calificacionriesgocdetalle" header="Riesgo" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+
+                <p-column header="Tasa Interés Cupón" styleClass="f-right" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.tasainterescuponvigente }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Tasa Referencia" styleClass="f-right" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.tasareferencia }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Margen" styleClass="f-right" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.margen }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Tasa Descuento" styleClass="f-right" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.tasadescuento }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Rendimiento Equivalente" styleClass="f-right" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.rendimientoequivalente }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="% Precio" styleClass="f-right" [style]="{'width':'120px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.porcentajeprecio }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Fecha Valoración" styleClass="f-right" [style]="{'width':'75px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <span>{{ reg.fvaloracion }}</span>
+                    </ng-template>
+                </p-column>
+
+                <p-column field="mensaje" header="Mensaje" [style]="{'width':'200px'}"></p-column>
+
+              
+
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

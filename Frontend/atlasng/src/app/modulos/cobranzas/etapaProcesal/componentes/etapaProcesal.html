@@ -1,0 +1,86 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cobranzasbuzon [componente]="componentehijo"></acciones-cobranzasbuzon>
+  <button *ngIf="!false" pButton type="button" name="grabar" id="grabar" label='Grabar' style="position: absolute; right: 110px"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"> </button>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.cpersona" required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcoperacion" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2">
+          <input id="fccobranza" name="fccobranza" type="text" pInputText [(ngModel)]="registro.ccobranza" [readOnly]="true" />
+        </div>
+        <div class="ui-g-10 ui-md-6">
+          <input id="coperacion" name="coperacion" type="text" pInputText [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1">
+        </div>
+        <app-lov-operacion-cobranza (eventoOperCobranza)=fijarLovOperacionSelec($event)></app-lov-operacion-cobranza>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Información" [selected]="true">
+    <form #formularioOperacion="ngForm">
+      <div class="f-datacontent ui-g ui-fluid">
+        <acciones-editar [formAcciones]="formularioOperacion" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <p-fieldset legend="Datos Operación" [toggleable]="false">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-6 ui-md-4">
+                  <label for="fcdetalleetapa" class="ui-outputlabel required">Etapa Procesal:</label>
+                </div>
+                <div class="ui-g-6 ui-md-6">
+                  <p-dropdown id="cdetalleetapa" name="cdetalleetapa" [options]="letapa" [(ngModel)]="registro.cdetalleetapa" autofoco required
+                    [disabled]="!editable"></p-dropdown>
+                </div>
+              </div>
+              <div class="ui-g-12"></div>
+              <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                  <label for="fingreso" class="ui-outputlabel required">Fecha Ingreso</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <p-calendar id="fCingreso" name="fingreso" [(ngModel)]="mcampos.fingreso" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" required d></p-calendar>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-g-nopad"></div>
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-2">
+                  <label for="observacion" class="ui-outputlabel required">Observación</label>
+                </div>
+                <div class="ui-g-12 ui-md-10 ui-g-nopad">
+                  <textarea pInputText type="text" id="observacion" name="observacion" [(ngModel)]="registro.observacion" required mayusculas
+                    maxlength="255" rows="3" [disabled]="!editable"></textarea>
+                </div>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+    </form>
+  </p-tabPanel>
+</p-tabView>

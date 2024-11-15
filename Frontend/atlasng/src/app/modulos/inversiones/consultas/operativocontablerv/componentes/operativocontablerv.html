@@ -1,0 +1,110 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdesde" class="ui-outputlabel required">Fecha contable</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-calendar name="fdesde" [(ngModel)]="mcampos.fcontable" [showIcon]="true" [dateFormat]="formatofecha"
+            required></p-calendar>
+        </div>
+      </div>   
+    </div>
+  </form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="500px" rowGroupMode="subheader"
+      [resizableColumns]="false">
+      <p-header>
+        <div class="ui-table-title">Cuadre Operativo Contable Renta Variable</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        <div class="f-acciones-cab-tabla">
+          <button type="button" pButton icon="ui-icon-delete-forever" (click)="descargar('xls')" class="f-btn green-btn f-excel"
+            style="text-align:center">
+          </button>
+        </div>
+		    <div class="ui-g-12" style='display:none'>
+          <app-jasper [componente]="componentehijo" [formulario]="formFiltros" [cajapdf]="false" [mostrarcaja]="true" [pdf]="false"
+	 [excel]="false"></app-jasper>
+        </div>
+      </p-header>
+      <p-column field="nemisor" header="Emisor" [style]="{'width':'150px'}"></p-column>
+      <p-column field="ninstrumento" header="Instrumento" [style]="{'width':'150px'}"></p-column>
+      <p-column field="ccuenta" header="Cuenta contable" [style]="{'width':'100px'}"></p-column>
+      <p-column field="ncuenta" header="Nombre cuenta contable"></p-column>
+      <p-column header="Saldo contable" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldo1 | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Saldo Inversiones" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{ reg.saldo | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column header="Diferencia" styleClass="f-right" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <span *ngIf="reg.saldodiferencia !== 0" style="color: red;">{{ reg.saldodiferencia | number:'1.2-2'}}</span>
+          <span *ngIf="reg.saldodiferencia === 0">{{ reg.saldodiferencia | number:'1.2-2'}}</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Detalle" [style]="{'width':'60px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="consultaDetalleOperativo(reg)" icon="ui-icon-search"
+              style="margin-left:5px">
+            </button>
+          </div>
+        </ng-template>
+      </p-column>
+      <ng-template pTemplate="rowgroupfooter">
+        <td style="text-align:right" colspan="5">{{ mcampos.totalcontable | number:'1.2-2'}}</td>
+        <td style="text-align:right">{{ mcampos.totaloperativo | number:'1.2-2'}}</td>
+        <td style="text-align:right" colspan="2"></td>
+      </ng-template>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Detalle Operativo" [(visible)]="mostrarDialogoOperativo" [modal]="true" [responsive]="true"
+  [positionTop]="100" *ngIf="mblnOperativoContable">
+  <div class="f-dialogo" style="max-width: 870px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="loperativo" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">{{ mcampos.cuenta }} </div>
+          </p-header>
+
+          <p-column field="cinversion" header="# Inv." [style]="{'width':'90px'}"></p-column>
+          <p-column field="nemisor" header="Emisor" [style]="{'width':'150px'}"></p-column>
+          <p-column field="ninstrumento" header="Instrumento"></p-column>
+          <p-column header="saldo" styleClass="f-right" [style]="{'width':'100px'}">
+            <ng-template pTemplate="body" let-reg="rowData">
+              {{ reg.saldo | number:'1.2-2'}}
+            </ng-template>
+          </p-column>
+          <ng-template pTemplate="rowgroupfooter">
+            <td colspan="3" style="text-align:right"> </td>
+            <td style="text-align:right">{{ totalsaldo | number:'1.2-2' }}</td>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoOperativo()" label="Cerrar" class="orange-btn"
+          style="margin-left:5px"> </button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>

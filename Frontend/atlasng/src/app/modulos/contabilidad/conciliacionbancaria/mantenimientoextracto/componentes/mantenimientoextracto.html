@@ -1,0 +1,166 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad" >
+			<div class="ui-g-12 ui-md-1">
+				<label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+			</div>
+	
+			<div class="ui-g-2 ui-md-1">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true" />
+			</div>
+	
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+			</div>
+		
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()" icon="ui-icon-directions">
+				</button>
+			</div>
+	
+			<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+	
+		</div>
+	
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+					<label for="fechainicial" class="ui-outputlabel required">Fecha Inicial:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+					<p-calendar id="fechainicial" 
+					name="fechainicial" 
+					[(ngModel)]="mcampos.fechainicial" 
+				
+					[showIcon]="true" 
+					[locale]="es" 
+					[disabled]="false"
+					[appendTo]="body" 
+					[readonlyInput]="true" 
+					[monthNavigator]="true" 
+					[yearNavigator]="true" 
+					yearRange="1900:5000"
+
+					required [dateFormat]="formatofecha" >
+				</p-calendar>
+			</div>
+	
+			<div class="ui-g-12 ui-md-1">
+					<label for="fechafinal" class="ui-outputlabel required">Fecha Final:</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+					<p-calendar id="fechafinal" name="fechafinal" [(ngModel)]="mcampos.fechafinal" [showIcon]="true" [locale]="es" [disabled]="false"
+					[appendTo]="body" 
+					[readonlyInput]="true" 
+					[monthNavigator]="true" 
+					[yearNavigator]="true" 
+					yearRange="1900:5000"
+					required [dateFormat]="formatofecha" ></p-calendar>
+			</div>
+		</div>
+	
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Mantenimiento Extracto Bancario</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+
+				<p-column field="cextractobancario" header="Código Extracto" ></p-column> 
+
+				<p-column field="ccuentabanco" header="Cuenta Bancaria" ></p-column> 
+
+				<p-column header="Fecha" styleClass="f-right" >
+						<ng-template pTemplate="body" let-reg="rowData">
+							<span>{{ reg.fmovimiento}}</span>
+						</ng-template>
+					</p-column>
+
+				<p-column field="montocredito" header="Crédito" styleClass="f-right"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar" >
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.montocredito | number:'1.2-2' }}
+					</ng-template>
+				</p-column>
+
+				<p-column field="montodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"  >
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.montodebito | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="documento" header="# Doc. Bancario"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"  ></p-column> 
+
+				<p-column field="concepto" header="Concepto." ></p-column> 
+				
+				<p-column [style]="{'width':'40px'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+						  <div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						  </div>
+						</ng-template>
+					  </p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Extracto bancario" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Valor Crédito:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="montocredito" name="montocredito" [(ngModel)]="registro.montocredito" autofoco
+              maxlength="20" [disabled]="registro.esnuevo" required numero/>
+          </div>
+        </div>
+
+		<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+				  <label class="ui-outputlabel required">Valor Débito:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+				  <input type="text" pInputText id="montodebito" name="montodebito" [(ngModel)]="registro.montodebito" autofoco
+					maxlength="20" [disabled]="registro.esnuevo" required numero/>
+				</div>
+			  </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Número Documento Bancario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+			<input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.documento" 
+			required entero minlength="1" maxlength="20" [disabled]="registro.esnuevo" required/>
+          </div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+				  <label class="ui-outputlabel required">Concepto:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+				  <input type="text" pInputText id="concepto" name="concepto" [(ngModel)]="registro.concepto" required mayusculas minlength="1"
+					maxlength="100" [disabled]="registro.esnuevo" required/>
+				</div>
+			  </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo" ></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+

@@ -1,0 +1,204 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+	   <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	   <div class="ui-g-12 ui-g-nopad" >
+		  <div class="ui-g-12 ui-md-1">
+			 <label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+		  </div>
+		  <div class="ui-g-2 ui-md-1">
+			 <input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-9 ui-md-4">
+			 <input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+		  </div>
+		  <div class="ui-g-1 ui-md-3">
+			 <button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()" icon="ui-icon-directions">
+			 </button>
+		  </div>
+		  <app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-1">
+			 <label for="fechainicial" class="ui-outputlabel required">Fecha Inicial:</label>
+		  </div>
+		  <div class="ui-g-12 ui-md-2">
+			 <p-calendar id="fechainicial" 
+			 name="fechainicial" 
+			 [(ngModel)]="mcampos.fechainicial" 
+			 [showIcon]="true" 
+			 [locale]="es" 
+			 [disabled]="false"
+			 [appendTo]="body" 
+			 [monthNavigator]="true" 
+			 [yearNavigator]="true" 
+			 yearRange="1900:5000"
+			 required [dateFormat]="formatofecha" >
+			 </p-calendar>
+		  </div>
+		  <div class="ui-g-12 ui-md-1">
+			 <label for="fechafinal" class="ui-outputlabel required">Fecha Final:</label>
+		  </div>
+		  <div class="ui-g-12 ui-md-2">
+			 <p-calendar id="fechafinal" name="fechafinal" [(ngModel)]="mcampos.fechafinal" [showIcon]="true" [locale]="es" [disabled]="false"
+			 [appendTo]="body" 
+			 [monthNavigator]="true" 
+			 [yearNavigator]="true" 
+			 yearRange="1900:5000"
+			 required [dateFormat]="formatofecha" ></p-calendar>
+		  </div>
+	   </div>
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-6 ui-md-4">
+			 <button pButton type="button" name="cargar" id="cargar" label="Buscar" class="f-btn orange-btn" icon="ui-icon-search"
+			 (click)="consultarLibro()" [disabled]="!formFiltros.valid"></button>
+			<!--  <button pButton type="button" name="recargar" id="recargar" label="Limpiar" style="margin-bottom:10px" class="f-btn green-btn"
+				pTooltip="Limpiar" tooltipPosition="top" icon="ui-icon-update" (click)="recargarLibro()"> </button>  -->
+			 <button pButton type="button" name="cargar" id="cargar" label="Cargar archivo" style="margin-bottom:10px" class="f-btn orange-btn"
+				pTooltip="Cargar archivo" tooltipPosition="top" icon="ui-icon-add" (click)="verDialogoSolicitud()"> </button>
+		  </div>
+	   </div>
+	</form>
+	<div class="f-datacontent ui-g ui-fluid">
+	   <div class="ui-g-12 ui-g-nopad">
+		  <!-- 		  <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			 -->		  
+		  <p-dataTable [value]="lSolicitudAnticipo" [responsive]="true" scrollable="true" scrollHeight="250px" (onFilter)="calcularTotalesMayor($event.filteredValue)">
+		  <p-header>
+			 <div class="ui-table-title">Mantenimiento Libro Banco</div>
+			 <!--  <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>  -->
+		  </p-header>
+		  <p-column field="clibrobanco" header="Código Libro Banco" ></p-column>
+		  <p-column field="cuentabanco" header="Cuenta Bancaria" ></p-column>
+		  <p-column field="fcontable" header="Fecha" styleClass="f-right" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar">
+		  <ng-template pTemplate="body" let-reg="rowData">
+			 <span>{{ reg.fcontable}}</span>
+		  </ng-template>
+		  </p-column>
+		  <p-column field="montodebito" header="Débito" styleClass="f-right" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"  >
+		  <ng-template pTemplate="body" let-reg="rowData">
+			 <span>{{ reg.montodebito | number:'1.2-2' }}</span>
+		  </ng-template>
+		  </p-column>
+		  <p-column field="montocredito" header="Crédito" styleClass="f-right"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar" >
+		  <ng-template pTemplate="body" let-reg="rowData">
+			 {{ reg.montocredito | number:'1.2-2' }}
+		  </ng-template>
+		  </p-column>
+		  <p-column field="ccomprobante" header="Comprobante" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column> 		  
+		  <p-column field="documento" header="No. Referencia"  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"  ></p-column> 
+		  <p-column field="documentohist" header="No. Referencia hist."  [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"  ></p-column> 
+		
+		  <p-column field="formapago" header="Forma Pago" [sortable]="true" [filter]="true" filterPlaceholder="Filtrar"></p-column> 		  
+
+		
+		  <p-column [style]="{'width':'40px'}">
+			 <ng-template pTemplate="body" let-reg="rowData">
+				<div class="f-table-actions" [style]="{'height':'30px'}">
+				   <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+				</div>
+			 </ng-template>
+		  </p-column>
+
+
+
+		  <p-footerColumnGroup style="color:blue;" *ngIf="totalRegistros > 0">
+			 <p-row>
+				<p-column footer="REGISTROS" [style]="{'color':'blue','font-size':'12px', 'font-weight': 'bold', 'text-align':'right'}"></p-column>
+				<p-column [footer]="totalRegistros" [style]="{'color':'blue','text-align':'right','font-size':'12px', 'font-weight': 'bold'}"></p-column>
+				<p-column footer="TOTALES" [style]="{'color':'blue','font-size':'12px', 'font-weight': 'bold','text-align':'right'}"></p-column>
+				<p-column [footer]="totalDebito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px', 'font-weight': 'bold'}"></p-column>
+				<p-column [footer]="totalCredito | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px', 'font-weight': 'bold'}"></p-column>
+				<p-column ></p-column>
+				<p-column ></p-column>
+				<p-column ></p-column>
+				<p-column ></p-column>
+				<p-column [style]="{'width':'40px'}"></p-column>
+			 </p-row>
+		  </p-footerColumnGroup>
+		  </p-dataTable>
+	   </div>
+	</div>
+ </div>
+ <p-dialog header="Libro Banco - Editar No. Referencia" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [closable]="false" [positionTop]="120" (onHide)="cerrarDialogo()">
+ <form #formDialogo="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+	   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel required">Valor Crédito:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="montocredito" name="montocredito" [(ngModel)]="registro.montocredito" autofoco
+				maxlength="20" [disabled]="true" required numero/>
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel required">Valor Débito:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="montodebito" name="montodebito" [(ngModel)]="registro.montodebito" autofoco
+				maxlength="20" [disabled]="true" required numero/>
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel">Comprobante:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="registro.ccomprobante" 
+				required entero minlength="1" maxlength="20" [disabled]="true" required/>
+			 </div>
+		  </div>
+		  <div class="ui-g-12 ui-g-nopad">
+			 <div class="ui-g-12 ui-md-3">
+				<label class="ui-outputlabel">No. Referencia:</label>
+			 </div>
+			 <div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="documento" name="documento" [(ngModel)]="registro.documento" 
+				entero minlength="1" maxlength="20"/>
+			 </div>
+		  </div>
+	   </div>
+	   <!--  <footer>
+		  <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo" ></acciones-dialogo>
+		  </footer> -->
+	   <footer>
+		  <hr>
+		  <div class="ui-g-6 ui-g-nopad">
+			 <button type="button"  pButton icon="ui-icon-save" (click)="guardarDialogoLibro()" label="Guardar" class="f-btn green-btn"
+				style="margin-left:5px">
+			 </button>
+			 <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoLibro()" label="Cerrar" class="orange-btn"
+				style="margin-left:5px">
+			 </button>
+		  </div>
+	   </footer>
+	</div>
+ </form>
+ </p-dialog>
+ <p-dialog  header="ACTUALIZACIÓN DE REFERENCIA" [(visible)]="mostrarDialogoSolicitud" [modal]="true" showEffect="fade" [responsive]="true"
+ [closable]="true" [positionTop]="120" (onHide)="cerrarDialogoSolicitud()" class="ui-outputlabel f-bold">
+ <div class="f-dialogo" style="max-width: 900px">
+	<form #formDialogo="ngForm">
+	   <div class="ui-g-12 ui-g-nopad">
+		  <div class="ui-g-12 ui-md-4">
+			 <label for="archivofirma" class="ui-outputlabel required">Archivo:</label>
+		  </div>
+		  <div class="ui-g-12">
+			 <p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".txt" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+			 (onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+		  </div>
+	   </div>
+	   <!--   <div class="f-datacontent ui-g ui-fluid">
+		  <div class="ui-g-12 ui-g-nopad">
+			  <app-resultado-carga></app-resultado-carga>
+		  </div>
+		  </div> RRO 20230130-->
+	</form>
+ </div>
+ </p-dialog>
+ 

@@ -1,0 +1,301 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="generararchivo" id="generararchivo" label="Generar Archivo" style="position: absolute; right: 105px;"
+      class="f-btn green-btn" icon="ui-icon-save" (click)="GenerarArchivo()"></button>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel required">Institución Origen de cobro:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown (onChange)="seleccionarEmpresa($event)" id="detallempresa" name="detallempresa" [options]="lempresa" [(ngModel)]="mcampos.cempresa"
+            [filter]="true" required></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-outputlabel ">Módulos:</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-accordion [multiple]="true">
+  <p-accordionTab header="Información Institución Origen OCP">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-8">
+            <label class="ui-outputlabel">INSTITUCIÓN PÚBLICA ORDENANTE (IP)</label>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Cta.Cte. en BCE:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.cuentaorigen}}
+          </div>
+
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Nombre Institución:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.nombre}}
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Localidad:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            {{mcampos.localidad}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<br>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-6">
+      <button pButton type="button" name="aprobar" id="aprobar" label="Aprobar" class="f-btn teal-btn" icon="ui-icon-save" (click)="Aprobar()"></button>
+      <div>
+        <br>
+      </div>
+      <p-dataTable [(value)]="lregistros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        columnResizeMode="expand" [(selection)]="selectedRegistros">
+        <p-header>
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-10">
+                <label class="ui-table-title">Cobros Pendientes</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label class="ui-cell-total">{{getTotal() | number:'1.2-2'}}</label>
+              </div>
+            </div>
+          </div>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column field="mdatos.modulo" header="Módulo"></p-column>
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column header="Valor Cobro" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="referenciainterna" header="Referencia Interna"></p-column>
+        <p-column header="">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-comment" name="btnHistorial" (click)="Historico(reg)" pTooltip="Historial Pago"
+                tooltipPosition="top"></button>
+              <button type="button" pButton icon="ui-icon-search" name="btnDetalle" (click)="Detalle(reg)" pTooltip="Detalle Pago" tooltipPosition="top"></button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <p-dataTable [(value)]="laprobados" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-10">
+                <label class="ui-table-title">Cobros Aprobados</label>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label class="ui-cell-total">{{getTotalApr() | number:'1.2-2'}}</label>
+              </div>
+            </div>
+          </div>
+        </p-header>
+        <p-column field="mdatos.modulo" header="Módulo"></p-column>
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+        <p-column field="referenciainterna" header="Referencia Interna"></p-column>
+        <p-column header="Valor Cobro" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-minus" name="btneliminarpago" (click)="eliminarpago(reg)" pTooltip="Eliminar"
+                tooltipPosition="top"></button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lhistoricocobros" [responsive]="true" scrollable="true" [resizableColumns]="false" scrollHeight="250px"
+      columnResizeMode="expand">
+      <p-header>
+        <div class="ui-table-title">Historial de Cobro</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="ctestransaccion" header="Id"></p-column>
+      <p-column field="identificacionbeneficiario" header="Identificación Beneficiario" scrollable="true"></p-column>
+      <p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+      <p-column field="institucion" header="Institución"></p-column>
+      <p-column field="tipocuenta" header="Tipo Cuenta"></p-column>
+      <p-column field="numerocuentabeneficiario" header="Número Cuenta Beneficiario"></p-column>
+      <p-column header="Valor Cobro" [style]="{'width':'80px'}" styleClass="f-right">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.valorpago | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column field="descripcionestado" header="Estado"></p-column>
+
+    </p-dataTable>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="mostrarDialogoGenericoDetalle" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoCobro="ngForm">
+    <div class="f-dialogo" style="max-width: 600px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="ldetallecobros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">Detalle de Cobro</div>
+          </p-header>
+          <p-column>
+            <ng-template pTemplate="body" let-reg="rowData">
+
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-4">
+                  <b>Id:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.ctestransaccion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Módulo:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.modulo}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Transacción:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.transaccion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Detalle:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.detalle}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Identificación Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.identificacionbeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Nombre Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.nombrebeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Número Cuenta Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.numerocuentabeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Institución:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.institucion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Tipo Cuenta:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.tipocuenta}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Valor Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.valorpago | number:'1.2-2'}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Referencia Interna:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.referenciainterna}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Secuencia Interna:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.secuenciainterna}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Usuario Genera Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.cusuarioing}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Fecha Genera Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.fingreso | date:'yyyy-MM-dd'}} &nbsp;
+                </div>
+              </div>
+
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </form>
+</p-dialog>

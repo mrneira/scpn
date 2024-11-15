@@ -1,0 +1,58 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <div class="f-acciones-cabecera ui-g ui-fluid">
+      <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+  
+    
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12  ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel ">Expediente:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="expediente" name="expediente" type="expediente" pInputText [ngModel]="mfiltros.cexpediente"  />
+      </div>
+    </div>
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"  dataKey="cexpediente">
+        <p-header>
+          <div class="ui-table-title">Expediente</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column field="cexpediente" header="C&oacute;digo" [style]="{'width':'90px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Socio"></p-column>
+        
+        <p-column field="finicio" header="Fecha" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.ntipo" header="Tipo" [style]="{'width':'150px'}"></p-column>
+
+        <p-column field="mdatos.netapa" header="Etapa" [style]="{'width':'100px'}"></p-column>
+        <p-column field="totalliquidacion" header="Monto"  [style]="{'text-align':'right','width':'90px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.totalliquidacion | number:'1.2-2'}}
+          </ng-template>
+      </p-column>
+
+
+        <p-column [style]="{'width':'50px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+             
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

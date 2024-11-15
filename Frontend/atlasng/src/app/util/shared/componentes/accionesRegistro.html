@@ -1,0 +1,15 @@
+
+<span *ngIf="!componente.editable">
+	<button type="button" pButton (click)="componente.selectRegistro(reg)" icon="ui-icon-search"></button>
+</span>
+<span *ngIf="componente.editable && mostrarEditar">
+    <button 
+    pTooltip="Editar el registro" tooltipPosition="top"
+    type="button" pButton (click)="componente.selectRegistro(reg)" icon="ui-icon-edit"></button>
+</span>
+<span *ngIf="componente.del && mostrarEliminar">
+    <button type="button" 
+    pTooltip="Eliminar el registro" tooltipPosition="top"
+    pButton icon="ui-icon-delete-forever" (click)="eliminarRegistro(reg)" class="red-btn" style="margin-left:5px">
+    </button>
+</span>

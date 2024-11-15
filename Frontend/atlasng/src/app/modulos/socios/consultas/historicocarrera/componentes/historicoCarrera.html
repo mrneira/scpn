@@ -1,0 +1,47 @@
+<div class="f-contenedor-transaccion">
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+            <label for="fpkcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mfiltros.cpersona" required [readOnly]="true" />
+        </div>
+	    <div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+	    	</button>
+    	</div>
+    	<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+	</div>
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Histórico de carrera</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+				</p-header>
+				<p-column header="Fecha ingreso">
+			    	<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fingreso | fechaentero}}
+					</ng-template>
+				</p-column> 
+				<p-column header="Fecha Modificación">
+		     		<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.fmodificacion | fechaentero}}
+					</ng-template>
+				</p-column> 
+				<p-column field="fechaalta" header="Fecha de alta"></p-column> 
+				<p-column field="mdatos.ngrado" header="Tipo de grado"></p-column> 
+								
+			</p-dataTable>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,102 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cegreso3" class="ui-outputlabel ">Egreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cegreso" name="cegreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cegreso" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovegresos" name="lovegresos" (click)="mostrarlovegresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-egresos (eventoCliente)=fijarLovEgresosSelec($event)></app-lov-egresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="nfuncionario" class="ui-outputlabel">Solicitado por</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+        <input id="nfuncionario" name="nfuncionario" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionario" [readOnly]="true"
+        />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="nproceso" class="ui-outputlabel">Area requiriente</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+        <input id="nproceso" name="nproceso" type="text" pInputText [(ngModel)]="registro.mdatos.nproceso" [readOnly]="true" />    
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="cargocdetalle" class="ui-outputlabel ">Cargo</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-g-12 ui-md-4">
+            <input id="ncargo" name="ncargo" type="text" pInputText [(ngModel)]="registro.mdatos.ncargo" [readOnly]="true"/>     
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="fecha" class="ui-outputlabel">Fecha</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fecha" name="fecha" [(ngModel)]="cabeceraComponent.mcampos.fecha" [showIcon]="true" [dateFormat]="formatofecha"
+      [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050" [disabled]="true"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="numeromemo" class="ui-outputlabel">N&uacute;mero Memo</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numeromemo" name="numeromemo" maxlength="30" [(ngModel)]="cabeceraComponent.registro.numeromemo"
+        readOnly="true" />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="numerooficio" class="ui-outputlabel">N&uacute;mero Oficio</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numerooficio" name="numerooficio" maxlength="30" [(ngModel)]="cabeceraComponent.registro.numerooficio"
+        readOnly="true" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="tipoegresocdetalle" class="ui-outputlabel">Tipo de Egreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="tipoegresocdetalle" name="tipoegresocdetalle" [options]="ltipoegresocdetalle" [(ngModel)]="cabeceraComponent.registro.tipoegresocdetalle"
+        [filter]="true"  readonly="true"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="estadocdetalle" class="ui-outputlabel">Estado</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lestadocdetalle" [(ngModel)]="cabeceraComponent.registro.estadocdetalle"
+        [filter]="true"  readonly="true"></p-dropdown>
+    </div>
+  </div>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</form>

@@ -1,0 +1,197 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" resizableColumns="true" columnResizeMode="expand" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Direcciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.ntipodireccion" header="Tipo Dirección"></p-column>
+        <p-column field="direccion" header="Dirección"></p-column>
+        <p-column field="referencia" header="Referencia"></p-column>
+        <p-column field="telefonofijo" header="Teléfono fijo"></p-column>
+        <p-column field="celular" header="Teléfono Celular"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <!--<button pButton type="button" id="lovMap" name="lovMap" [disabled]="!editable" (click)="mostrarLovMapa(reg)" icon="ui-icon-map"></button> //CCA cambios peticion Inversiones 2020-12-04-->
+      		  <app-lov-maps [draggable]="editable" (eventoCliente)=fijarLovMapa($event)></app-lov-maps>
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Dirección" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="secuencia" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.secuencia" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipodireccioncdetalle" class="ui-outputlabel required">Tipo dirección</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipodireccioncdetalle" name="tipodireccioncdetalle" [options]="ltipodireccion" [(ngModel)]="registro.tipodireccioncdetalle"
+              required [disabled]="!editable" [filter]="true" (onChange)="registrarEtiqueta(registro, ltipodireccion, 'tipodireccioncdetalle', 'ntipodireccion')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="direccion" class="ui-outputlabel required">Dirección</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="direccion" name="direccion" [(ngModel)]="registro.direccion" required mayusculas maxlength="2000"
+              rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="referencia" class="ui-outputlabel required">Referencia</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea type="text" pInputText id="referencia" name="referencia" [(ngModel)]="registro.referencia" required mayusculas
+              maxlength="200" rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="principal" class="ui-outputlabel">Dirección principal?</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-checkbox id="principal" name="principal" [(ngModel)]="registro.principal" binary="false" [disabled]="!editable"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="telefonofijo" class="ui-outputlabel">Teléfono fijo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-inputMask id="telefonofijo" name="telefonofijo" [(ngModel)]="registro.telefonofijo" mask="(09)-9999-999" [disabled]="!editable"></p-inputMask>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label for="extencion" class="ui-outputlabel">Extensión</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="extencion" name="extencion" maxlength="6" entero [(ngModel)]="registro.extencion" [disabled]="!editable"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="celular" class="ui-outputlabel">Celular</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="celular" name="celular" 
+						[(ngModel)]="registro.celular" maxlength="20" entero [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cpaisd" class="ui-outputlabel required">País</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="cpais" name="cpaisd" type="text" pInputText [(ngModel)]="registro.cpais" [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="npaisd" name="npaisd" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovpaisesd" name="lovpaisesd" (click)="mostrarLovPaises()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cprovinciad" class="ui-outputlabel required">Provincia</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="cprovincia" entero name="cprovinciad" type="text" pInputText [(ngModel)]="registro.cpprovincia" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nprovinciad" name="nprovinciad" [(ngModel)]="registro.mdatos.nprovincia" [disabled]="true"
+            />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovprovinciasd" name="lovprovinciasd" (click)="mostrarLovProvincias()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-provincias (eventoCliente)=fijarLovProvinciasSelec($event)></app-lov-provincias>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="ccantond" class="ui-outputlabel required">Cantón</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="ccantond" name="ccantond" type="text" pInputText [(ngModel)]="registro.ccanton" required [readOnly]="true" entero />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="ncantond" name="ncantond" [(ngModel)]="registro.mdatos.ncanton" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovcantonesd" name="lovcantonesd" (click)="mostrarLovCantones()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-cantones (eventoCliente)=fijarLovCantonesSelec($event)></app-lov-cantones>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cciudadd" class="ui-outputlabel required">Ciudad</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="cciudadd" name="cciudadd" type="text" pInputText [(ngModel)]="registro.cciudad" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nciudadd" name="nciudadd" [(ngModel)]="registro.mdatos.nciudad" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovciudadesd" name="lovciudadesd" (click)="mostrarLovCiudades()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-ciudades (eventoCliente)=fijarLovCiudadesSelec($event)></app-lov-ciudades>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cparroquia" class="ui-outputlabel required">Parroquia</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input id="cparroquia" name="cparroquiad" type="text" pInputText [(ngModel)]="registro.cparroquia" required [readOnly]="true"
+            />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nparroquiad" name="nparroquiad" [(ngModel)]="registro.mdatos.nparroquia" [disabled]="true"
+            />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <button pButton type="button" id="lovparroquiasd" name="lovparroquiasd" (click)="mostrarLovParroquias()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-parroquias (eventoCliente)=fijarLovParroquiasSelec($event)></app-lov-parroquias>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -51,6 +51,9 @@ namespace cartera.comp.consulta.operacion {
             moperacion.Add("fcancelacion", tcaroperacion.fcancelacion);
             moperacion.Add("coperacionmigrada", tcaroperacion.coperacionmigrada);
             moperacion.Add("coperacionarreglopago", tcaroperacion.coperacionarreglopago);
+            moperacion.Add("cestadooperacion", tcaroperacion.cestadooperacion);
+            moperacion.Add("numcuotaprorrateo", tcaroperacion.numcuotaprorrateo);
+            moperacion.Add("montoarreglopago", tcaroperacion.montoarreglopago);
             moperacion.Add("n_cestadooperacion", TcarEstadoOperacionDal.Find(tcaroperacion.cestadooperacion).nombre);
 
             tcaroperacioncalificacion calif = TcarOperacionCalificacionDal.Find(tcaroperacion);

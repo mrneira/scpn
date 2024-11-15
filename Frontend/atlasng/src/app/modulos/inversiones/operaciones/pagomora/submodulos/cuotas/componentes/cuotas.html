@@ -1,0 +1,120 @@
+<div class="f-contenedor-transacion" style="font-size:0.9em; overflow:hidden; font-weight:normal;">
+
+	<div class="f-datacontent ui-g ui-fluid">
+
+		<div class="ui-g-12 ui-g-nopad" style="color: blue; font-size:0.9em; font-size:0.9em; overflow:hidden;">
+
+			<p-dataTable [value]="lregistros" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Cuotas de Inversiones de Renta Fija</div>
+
+				</p-header>
+
+				<p-column field="cinvtablaamortizacion" header="Id. Cuota" [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="tabamo_fechainicio" header="F.Inicio" [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="tabamo_plazo360" header="Plazo" [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="tabamo_fechavencimiento" header="F.Vencim." [style]="{'width':'60px'}"></p-column>
+
+				<p-column header="Capital Dividendo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.tabamo_capital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+
+				<p-column header="Interés Dividendo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.tabamo_interes | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Mora" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.tabamo_mora | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Subtotal" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.tabamo_subtotal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="V. Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.tabamo_valorcancelado | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Emisor" styleClass="f-left" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-datacontent ui-g ui-fluid">
+							<span>{{ reg.emisor }}</span>
+						</div>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Instrumento" styleClass="f-left" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-datacontent ui-g ui-fluid">
+							<span>{{ reg.instrumento }}</span>
+						</div>
+					</ng-template>
+				</p-column>
+
+				<p-column header="V.Nominal Inv." styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.valornominal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="V.Interés Inv." styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.interesbasadoenvalornominal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="fvencimiento" header="F.Vencimiento Inv." [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="cinversion" header="Id. Inv." [style]="{'width':'60px'}"></p-column>
+
+				<p-column field="tabamo_estado" header="Estado Div." [style]="{'width':'60px'}"></p-column>
+
+				<div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pAmbiente == 'D'">
+
+					<p-column header="Mensaje" styleClass="f-left" [style]="{'width':'0'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:red">{{ reg.mensaje }}</span>
+							</div>
+
+						</ng-template>
+					</p-column>
+
+				</div>
+				<div class="ui-g-12 ui-g-nopad" *ngIf="this.inversionesServicios.pAmbiente != 'D'">
+
+					<p-column header="Mensaje" styleClass="f-left" [style]="{'width':'60'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+
+							<div class="f-datacontent ui-g ui-fluid">
+								<span style="color:red">{{ reg.mensaje }}</span>
+							</div>
+
+						</ng-template>
+					</p-column>
+				</div>
+
+				<p-column [style]="{'width':'40px'}">
+					<ng-template pTemplate="body" let-row="rowData" let-index="rowIndex">
+						<button pButton type="button" (click)="edit(row,index)" icon="ui-icon-add"></button>
+					</ng-template>
+				</p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>

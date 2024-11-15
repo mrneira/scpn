@@ -1,0 +1,42 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+        <label for="aniof" class="ui-outputlabel required">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mcampos.anio" required [readOnly]="true" style="text-align:center;"
+        />
+      </div>
+
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+    </div>
+  </form>
+  <p-tabView>
+    <p-tabPanel header="Datos generales" [selected]="true">
+      <app-generales-cab></app-generales-cab>
+    </p-tabPanel>
+    <p-tabPanel header="Acumulaciones" [disabled]="estaVacio(mcampos.anio)">
+      <app-acumulaciones-det></app-acumulaciones-det>
+    </p-tabPanel>
+    <p-tabPanel header="Horas Extras" [disabled]="estaVacio(mcampos.anio)">
+      <app-horasextras-det></app-horasextras-det>
+    </p-tabPanel>
+    <p-tabPanel header="Impuesto Renta" [disabled]="estaVacio(mcampos.anio)">
+      <app-impuestorenta-det></app-impuestorenta-det>
+    </p-tabPanel>
+    <p-tabPanel header="Pago Décimo" [disabled]="estaVacio(mcampos.anio)">
+      <app-pagodecimo-det></app-pagodecimo-det>
+    </p-tabPanel>
+    <p-tabPanel header="Gastos Deducibles" [disabled]="estaVacio(mcampos.anio)">
+        <app-gastodeducible></app-gastodeducible>
+      </p-tabPanel>
+
+  </p-tabView>

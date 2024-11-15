@@ -1,0 +1,100 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [cargar]="true" [grabar]="false"></acciones-cabecera>
+		<button pButton type="button" name="generararchivo" id="generararchivo" label="Aprobar Transferencia" style="position: absolute; right: 105px;"
+		 class="f-btn green-btn" icon="ui-icon-save" (click)="AprobarPago()"></button>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-outputlabel required">Institución Origen de pago:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown (onChange)="seleccionarEmpresa($event)" id="detallempresa" name="detallempresa" [options]="lempresa" [(ngModel)]="mcampos.cempresa"
+					 [filter]="true" required></p-dropdown>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-2">
+					<label class="ui-outputlabel ">Módulos:</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-dropdown id="detallesmodulos" name="detallesmodulos" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" [filter]="true"></p-dropdown>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<p-accordion [multiple]="true">
+	<p-accordionTab header="Información Institución Origen">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-8">
+						<label class="ui-outputlabel">INSTITUCIÓN PÚBLICA ORDENANTE (IP)</label>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Cta.Cte. en BCE:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.cuentaorigen}}
+					</div>
+
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Nombre Institución:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.nombre}}
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Localidad:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.localidad}}
+					</div>
+
+					<div class="ui-g-12 ui-md-2">
+						<label class="ui-outputlabel">Subcuenta:</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						{{mcampos.subcuenta}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</p-accordionTab>
+</p-accordion>
+
+<br>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand"
+		[(selection)]="selectedRegistros">
+			<p-header>
+				<div class="ui-table-title">Pago Inversiones Pendientes</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+			<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+			<p-column field="nombrebeneficiario" header="Destino"></p-column>
+			<p-column field="mdatos.institucion" header="Institución"></p-column>
+			<p-column field="mdatos.tipocuenta" header="Tipo Cuenta"></p-column>
+			<p-column field="numerocuentabeneficiario" header="Cuenta Destino"></p-column>
+			<p-column field="referenciainterna" header="Ref. Interna" [style]="{'width':'80px'}"></p-column>
+			<p-column field="concepto" header="Concepto" [style]="{'width':'250px'}"></p-column>
+			<p-column header="Valor" [style]="{'width':'100px'}" styleClass="f-right">
+				<ng-template pTemplate="body" let-reg="rowData">
+					{{reg.valorpago | number:'1.2-2'}}
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>

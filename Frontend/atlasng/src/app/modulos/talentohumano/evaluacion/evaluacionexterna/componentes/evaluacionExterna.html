@@ -1,0 +1,85 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-md-1">
+      <label for="periodo" class="ui-outputlabel required">Periodo:</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <input id="cperiodo" name="cperiodo" type="text" pInputText [ngModel]="mfiltros.cperiodo" required [readOnly]="true"
+        style="text-align:center;" />
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <input type="text" pInputText id="periodo" name="periodo" [(ngModel)]="mcampos.nperiodo" required [readOnly]="true" />
+    </div>
+    <div class="ui-g-1 ui-md-1">
+      <button pButton type="button" id="lovPeriodo" name="lovPeriodo" (click)="mostrarLovPeriodo()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-periodo (eventoCliente)=fijarLovPeriodoSelec($event)></app-lov-periodo>
+  </form>
+
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Evaluaci&oacute;n Externa</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="cexterna" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.nperiodo" header="Periodo"></p-column>
+        <p-column field="nombre" header="Nombre"></p-column>
+        <p-column field="promedio" header="Promedio"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Evaluaci&oacute;n Externa" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" appendTo="body"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="200"
+              [disabled]="!editable" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="promedio" class="ui-outputlabel required">Promedio:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="promedio" name="promedio" [(ngModel)]="registro.promedio" required numero maxlength="10"
+              [disabled]="!editable" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+</p-dialog>

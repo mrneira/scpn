@@ -1,0 +1,25 @@
+<div class="ui-g-12 ui-md-2"></div>
+
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm">
+		<div class="f-filtros ui-g ui-fluid" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+
+			
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-4 ui-md-2">
+					<label for="fhasta" class="ui-outputlabel required">Fecha de corte</label>
+				</div>
+				<div class="ui-g-8 ui-md-4">
+					<p-calendar name="fhasta" [(ngModel)]="mcampos.fhasta" [showIcon]="true" [dateFormat]="formatofecha" required (ngModelChange)="this.encerarMensajes()" (click)="this.encerarMensajes()"></p-calendar>
+				</div>
+			</div>
+
+		</div>
+	</form>
+
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [excel]="false" [pdf]="false" [cajapdf]="false"></app-jasper>
+</div>

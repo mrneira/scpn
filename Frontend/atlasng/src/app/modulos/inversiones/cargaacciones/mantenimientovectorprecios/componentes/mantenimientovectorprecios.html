@@ -1,0 +1,194 @@
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+
+        <label for="fpkcinversion" class="ui-outputlabel">
+
+          <span>Inversiones de Renta Fija</span>
+
+        </label>
+
+      </div>
+
+      <div class="ui-g-2 ui-md-1">
+        <input id="fpkcinversion" name="fpkcinversion" type="text" pInputText [(ngModel)]="mcampos.cinversion" required readonly
+        />
+      </div>
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="fncodigotitulo" name="fncodigotitulo" [(ngModel)]="mcampos.codigotitulo" [disabled]="true"
+        />
+      </div>
+
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovinversiones" name="lovinversiones" (click)="mostrarLovInversiones()" [disabled]="false"
+          icon="ui-icon-directions">
+        </button>
+      </div>
+
+
+    </div>
+
+
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">Vector de Precios</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column header="F.Valoración" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.nfvaloracion | date:'yyyy-MM-dd' }}
+          </ng-template>
+        </p-column>
+
+        <p-column field="tasainterescuponvigente" header="Tasa Vig." [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="tasareferencia" header="Tasa Ref." [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="margen" header="Margen" [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="tasadescuento" header="Tasa Desc." [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="rendimientoequivalente" header="Rend. Equiv." [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="porcentajeprecio" header="% Precio" [style]="{'text-align':'right','width':'90px'}"></p-column>
+        <p-column field="calificacionriesgocdetalle" header="Calif." [style]="{'text-align':'center','width':'90px'}"></p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Vector de Precios" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 500px; width:400px;">
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="nfcolocacion" class="ui-outputlabel required">Fecha de Valoración</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <p-calendar id="nfcolocacion" name="nfcolocacion" [(ngModel)]="registro.mdatos.nfvaloracion" [showIcon]="true" [locale]="es"
+            [disabled]="false" required [dateFormat]="formatofecha"></p-calendar>
+        </div>
+
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel">Calificación de Riesgo</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="rubrocdetalle" name="rubrocdetalle" [options]="lCalificacion" [(ngModel)]="registro.calificacionriesgocdetalle" (onChange)="registrarEtiqueta(registro, lCalificacion, 'calificacionriesgocdetalle', 'calificacionriesgocdetalle')"
+              [filter]="true"></p-dropdown>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="porcentajeprecio" class="ui-outputlabel required">Porcentaje Precio</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=porcentajeprecio name="porcentajeprecio" [(ngModel)]="registro.porcentajeprecio"
+            numeroDecimal22 required maxlength="26" [disabled]="false" />
+        </div>
+
+      </div>
+
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="tasacuponvigente" class="ui-outputlabel">Tasa Interés Cupón Vigente</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=tasacuponvigente name="tasacuponvigente" [(ngModel)]="registro.tasainterescuponvigente"
+          numeroDecimal22 maxlength="17" [disabled]="false" />
+        </div>
+
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="tasareferencia" class="ui-outputlabel">Tasa de Referencia</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=tasareferencia name="tasareferencia" [(ngModel)]="registro.tasareferencia"
+            numeroDecimal22 maxlength="26" [disabled]="false" />
+        </div>
+
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="margen" class="ui-outputlabel">Margen</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=margen name="margen" [(ngModel)]="registro.margen"
+            numeroDecimal22 maxlength="26" [disabled]="false" />
+        </div>
+
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="tasadescuento" class="ui-outputlabel">Tasa de Descuento</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=tasadescuento name="tasadescuento" [(ngModel)]="registro.tasadescuento"
+            numeroDecimal22 maxlength="26" [disabled]="false" />
+        </div>
+
+      </div>
+
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="rendimientoequivalente" class="ui-outputlabel">Rendimiento Equivalente</label>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <input type="text" pInputText id=rendimientoequivalente name="rendimientoequivalente" [(ngModel)]="registro.rendimientoequivalente"
+            numeroDecimal22 maxlength="26" [disabled]="false" />
+        </div>
+
+      </div>
+
+
+
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+</p-dialog>
+
+<app-lov-inversiones (eventoCliente)=fijarLovInversionesSelec($event)></app-lov-inversiones>

@@ -1,0 +1,57 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-2">
+        <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+          required [readOnly]="true" />
+      </div>
+      <div class="ui-g-10 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <div class="ui-g-12">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        </div>
+      </div>
+      <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Devoluciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column header="Fecha" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fdevolucion | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column field="ntransaccion" header="Transacción" [style]="{'width':'150px'}"></p-column>
+        <p-column field="ninstitucion" header="Institución"></p-column>
+        <p-column field="ntipocuenta" header="Tipo cuenta" [style]="{'width':'120px'}"></p-column>
+        <p-column field="numerocuentabeneficiario" header="Número cuenta" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Fecha Pago" [style]="{'width':'70px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.frespuesta | date:'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column field="nestado" header="Estado Pago" [style]="{'width':'150px'}"></p-column>
+        <p-column header="Monto Pago" styleClass="f-right" [style]="{'width':'90px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.montopago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

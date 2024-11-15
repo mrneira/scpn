@@ -1,0 +1,42 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-6 ui-md-2">
+      <label for="fperiodo" class="ui-outputlabel required">Periodo:</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <input type="text" pInputText id="fperiodo" name="fperiodo" [(ngModel)]="mfiltros.fperiodo" autofoco required entero maxlength="4"
+        minlength="4" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-6 ui-md-2">
+      <label for="finicio" class="ui-outputlabel required">Mes:</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-dropdown id="finicio" name="finicio" [options]="lmeses" [(ngModel)]="this.mfiltros.finicio"></p-dropdown>
+    </div>
+  </div>
+  <div class="f-contenedor-transaccion">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <p-dataTable [value]="lregistrosdatos" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+          <p-header>
+            <div class="ui-table-title">Operaciones de Cartera</div>
+            <div class="f-acciones-cab-tabla">
+              <button type="button" pButton icon="ui-icon-file-download" (click)="imprimir()" class="f-btn green-btn f-excel" style="text-align:center">					</button>
+            </div>
+            <div class="ui-g-12" style='display:none'>
+              <app-jasper [componente]="componentehijo"  [formulario]="formFiltros"></app-jasper>
+            </div>
+          </p-header>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</form>
+
+

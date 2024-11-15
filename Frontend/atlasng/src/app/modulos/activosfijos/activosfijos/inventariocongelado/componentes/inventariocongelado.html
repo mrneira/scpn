@@ -1,0 +1,85 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Inventario Congelado</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cinventarioc" header="C&oacute;digo" [style]="{'width':'70px'}"></p-column>
+				<p-column field="fingreso" header="F.Ingreso" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fingreso | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column field="cusuarioing" header="Usuario" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Congelar Activos" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.congelaactivos" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Congelar Suministros" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.congelasuministros" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column field="fmodificacion" header="F.Modificaci&oacute;n" [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{reg.fmodificacion | date: 'yyyy-MM-dd'}}</span>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEliminar]="false"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>				
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Inventario Congelado" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px; width:500px;">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-2">
+						<label for="cinventarioc" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<input type="text" pInputText id="codigo" name="codigo" [(ngModel)]="registro.cinventarioc" autofoco required maxlength="30"
+						 [disabled]="!editable || !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12  ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="estado" class="ui-outputlabel">Congelar Activos</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="congelaactivos" [(ngModel)]="registro.congelaactivos" binary="false" (ngModelChange)="validarAjustesBodegaPendientes()"></p-checkbox>
+					</div>
+				
+					<div class="ui-g-12 ui-md-4">
+						<label for="estado" class="ui-outputlabel">Congelar Suministros</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<p-checkbox name="congelasuministros" [(ngModel)]="registro.congelasuministros" binary="false" (ngModelChange)="validarAjustesBodegaPendientes()"></p-checkbox>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

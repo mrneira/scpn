@@ -1,0 +1,101 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarlovpersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpk" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mfiltros.coperacion" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarlovoperacion()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-operacion-cartera (eventoOperCartera)=fijarLovOperacionSelec($event)></app-lov-operacion-cartera>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Condiciones" [selected]="true">
+    <form #formularioDescuentos="ngForm">
+      <div class="f-datacontent ui-g ui-fluid">
+        <acciones-editar [formAcciones]="formularioDescuentos" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <div class="ui-g-12 ui-md-6">
+              <label for="autorizacion" class="ui-outputlabel">Autorización débito</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-checkbox id="autorizacion" name="autorizacion" [(ngModel)]="registro.autorizacion" binary="true" (onChange)="marcarCuenta($event)"
+                [disabled]="!editable"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="ncuenta" class="ui-outputlabel">Datos débito</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="registro.mdatos.ncuenta" disabled="true" />
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <div class="ui-g-12 ui-md-6">
+              <label for="descuentoconyuge" class="ui-outputlabel">Descuento cónyuge</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-checkbox id="descuentoconyuge" name="descuentoconyuge" [(ngModel)]="registro.descuentoconyuge" binary="false" (onChange)="marcarConyuge($event)"
+                [disabled]="!editable"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="porcentajeconyuge" class="ui-outputlabel">Porcentaje cónyuge</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="porcentajeconyuge" name="porcentajeconyuge" maxlength="3" entero [(ngModel)]="registro.porcentajeconyuge"
+                [disabled]="!editable || !checkableConyuge" />
+            </div>
+          </div>
+        </div>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="comentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12 ui-md-10 ui-g-nopad">
+            <textarea pInputText type="text" id="comentario" name="comentario" [(ngModel)]="registro.comentario" required mayusculas
+              maxlength="250" rows="3" [disabled]="!editable"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-tabPanel>
+</p-tabView>

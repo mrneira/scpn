@@ -1,0 +1,36 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+            <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-1">
+            <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.cpersona" required [readOnly]="true" />
+        </div>
+	    <div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+	    	</button>
+    	</div>
+    	<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+	</div>
+</form>
+
+<p-tabView>
+    <p-tabPanel header="Información general" [selected]="true">
+        <app-persona-natural></app-persona-natural>
+        <app-persona-detalle></app-persona-detalle>
+        <app-informacion-general [natural]="personaNaturalComponent" [detalle]="personaDetalleComponent"></app-informacion-general>
+    </p-tabPanel>
+    <p-tabPanel header="Dirección" lazy=true>
+    	<app-persona-direccion></app-persona-direccion>
+    </p-tabPanel>
+
+</p-tabView>
+

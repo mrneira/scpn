@@ -1,0 +1,50 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="ingresar" id="ingresar" label="Grabar Póliza" style="position: absolute; right: 95px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()" [disabled]="!polizaComponent.habilitagrabar"></button>
+</div>
+
+<div class="f-contenedor-transaccion">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+          />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarlovpersona()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fcoperacioncartera" class="ui-outputlabel required">Operación</label>
+        </div>
+        <div class="ui-g-2 ui-md-2">
+          <input id="fcoperacioncartera" name="fcoperacioncartera" type="text" pInputText [(ngModel)]="mfiltros.coperacioncartera"
+            required [readOnly]="true" />
+        </div>
+        <div class="ui-g-9 ui-md-6">
+          <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+        </div>
+        <div class="ui-g-1 ui-md-1">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovSeguros()" icon="ui-icon-directions"></button>
+        </div>
+        <app-lov-seguros (eventoOperCartera)=fijarLovSegurosSelec($event)></app-lov-seguros>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-tabView>
+  <p-tabPanel header="Información general" [selected]="true">
+    <app-datos-poliza></app-datos-poliza>
+  </p-tabPanel>
+</p-tabView>

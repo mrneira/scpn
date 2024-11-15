@@ -1,0 +1,41 @@
+<p-dialog header="Inversiones" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true" [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+
+      <div class="ui-g-12 ui-md-2">
+        <label for="observacionesB" class="ui-outputlabel required">Comentario</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input type="text" pInputText id="observacionesB" name="observacionesB" 
+        [(ngModel)]="this.inversionesServicios.pComentarios" 
+        [disabled]="pEditable == 0"
+        mayusculas
+        maxlength="1000"
+        required
+        />
+      </div>
+
+    </div>
+
+
+  </form>
+
+  <div class="ui-helper-clearfix">
+
+    <button type="button" pButton icon="ui-icon-directions" (click)="enviar()" 
+    label={{this.pLabelEnviar}} class="f-btn f-float-left orange-btn"
+      [disabled]="false">
+    </button>
+
+    <button type="button" pButton icon="ui-icon-cancel" (click)="cancelaComentario()" label="Cancelar" class="f-btn f-float-left orange-btn"
+      [disabled]="false">
+
+    </button>
+
+
+  </div>
+
+
+</p-dialog>

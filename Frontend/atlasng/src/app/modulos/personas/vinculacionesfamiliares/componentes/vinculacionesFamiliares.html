@@ -1,0 +1,152 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm"
+		class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcpersona" class="ui-outputlabel required">Persona</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input id="fcpersona" name="fcpersona" type="text" pInputText
+					[ngModel]="mcampos.identificacionp" required [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input type="text" pInputText id="npersona" name="npersona"
+					[(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<button pButton type="button" id="lovpersona" name="lovpersona"
+					(click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-personas #lovpersona
+				(eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+		</div>
+	</form>
+
+</div>
+<app-lov-personas #lovpersonavinculada
+	(eventoCliente)=fijarLovPersonaVinculadaSelec($event)></app-lov-personas>
+<div class="f-contenedor-transaccion">
+	<form #formularioUsuario="ngForm">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i> <span>Información Cónyuge</span>
+				</div>
+				<hr />
+			</div>
+			 <div class="ui-g-12 ui-g-nopad">
+     		 	  <div class="ui-g-12 ui-md-1">
+        			  <label for="nombre" class="ui-outputlabel">Identificación</label>
+    			  </div>
+       			  <div class="ui-g-12 ui-md-3">
+    		 	      <input type="text" pInputText id="identificaciongeneral" name="identificaciongeneral" [(ngModel)]="mcampos.identificacion"
+        			   maxlength="10" entero [disabled]="!editable || editable" />
+     			 </div>
+    		 </div>
+			 <div class="ui-g-12 ui-g-nopad">
+     		 	  <div class="ui-g-12 ui-md-1">
+        			  <label for="nombregeneral" class="ui-outputlabel">Nombre</label>
+    			  </div>
+       			  <div class="ui-g-12 ui-md-3">
+    		 	      <input type="text" pInputText id="nombregeneral" name="nombregeneral" [(ngModel)]="mcampos.nombre"
+        			   maxlength="100" letras [disabled]="!editable || editable" />
+     			 </div>
+    		 </div>
+    		  <div class="ui-g-12 ui-g-nopad">
+     		 	  <div class="ui-g-12 ui-md-1">
+        			  <label for="tipovinculaciongeneral" class="ui-outputlabel">Tipo Vinculación</label>
+    			  </div>
+       			  <div class="ui-g-12 ui-md-3">
+    		 	      <input type="text" pInputText id="tipovinculaciongeneral" name="tipovinculaciongeneral" [(ngModel)]="mcampos.tipovinculaciongeneral"
+        			   maxlength="50" letras [disabled]="!editable || editable" />
+     			 </div>
+    		 </div>
+    		   <div *ngIf="banbtndesvincular" class="ui-g-12 ui-g-nopad">
+     		 	<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="desvincuar()" label="Desvincular" class="f-btn f-float-left green-btn"></button>
+				</div>
+    		 </div>
+    		 <div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i> <span>Vinculación familiar</span>
+				</div>
+				<hr />
+			</div>
+			<acciones-editar [formAcciones]="formularioUsuario"
+				[componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="tipoitem" class="ui-outputlabel">Tipo
+						Vinculacón</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<p-selectButton id="tipoitem" name="tipoitem"
+						[options]="tipovinculacion" [(ngModel)]="mcampos.tipovinculacion"
+						[disabled]="!editable" (onChange)="limpiar()"></p-selectButton>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.tipovinculacion">
+				<div class="ui-g-12 ui-md-1">
+					<label for="cpersonavinculada" class="ui-outputlabel required">Persona
+						vinculada</label>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<input id="cpersonavinculada" name="cpersonavinculada" type="text"
+						pInputText [ngModel]="mcampos.identificacionc" required
+						[readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-3">
+					<input type="text" pInputText id="npersonavinculada"
+						name="npersonavinculada"
+						[(ngModel)]="mcampos.npersonavinculada" [readOnly]="true" />
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<button pButton type="button" id="lovpersonavinculada"
+						name="lovpersonavinculada" [disabled]="!editable"
+						(click)="mostrarLovPersonaVinculada()" icon="ui-icon-directions">
+					</button>
+				</div>
+
+			</div>
+			<div class="ui-g-12 ui-g-nopad" *ngIf="!mcampos.tipovinculacion">
+				 <div class="ui-g-12 ui-g-nopad">
+     			 	  <div class="ui-g-12 ui-md-1">
+        				  <label for="identificacion" class="ui-outputlabel required">Identificación</label>
+    				  </div>
+       				  <div class="ui-g-12 ui-md-3">
+    			 	      <input type="text" pInputText id="identificacion" name="identificacion" required [(ngModel)]="registro.identificacion"
+        				   maxlength="10" entero [disabled]="!editable" />
+     				 </div>
+    		 	 </div>
+    		 	 <div class="ui-g-12 ui-g-nopad">
+     			 	  <div class="ui-g-12 ui-md-1">
+        				  <label for="nombre" class="ui-outputlabel required">Nombre</label>
+    				  </div>
+       				  <div class="ui-g-12 ui-md-3">
+    			 	      <input type="text" pInputText id="nombre" name="nombre" required [(ngModel)]="registro.nombre"
+        				   maxlength="100" letras [disabled]="!editable" />
+     				 </div>
+    		 	 </div>
+   				 <div class="ui-g-12 ui-g-nopad">
+      				  <div class="ui-g-12 ui-md-1">
+       					   <label for="genero" class="ui-outputlabel required">Género</label>
+     				  </div>
+       				 <div class="ui-g-12 ui-md-3">
+        				  <p-dropdown id="genero" name="genero" [options]="lgenero" [(ngModel)]="registro.genero" required
+        				    [disabled]="!editable" [filter]="true"></p-dropdown>
+    			    </div>
+   				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+
+

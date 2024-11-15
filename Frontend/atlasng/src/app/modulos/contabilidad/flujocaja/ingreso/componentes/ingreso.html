@@ -1,0 +1,61 @@
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-3">
+			<label for="tipoplancuenta" class="ui-outputlabel required">Tipo de Plan de Cuentas:</label>
+		</div>
+		<div class="ui-g-12 ui-md-4">
+			<p-dropdown id="tipoplancuenta" name="tipoplancuenta" required [options]="ltipoplancuentas" [(ngModel)]="this.mcampos.tipoplancuenta"></p-dropdown>
+		</div>
+	</div>	
+	<div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="fdesde" class="ui-outputlabel required">Fecha Desde:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-calendar name="fdesde" required [(ngModel)]="mfiltros.finicio" [showIcon]="true"
+          [dateFormat]="formatofecha"></p-calendar>
+			</div>        
+  
+    </div>   
+    
+    <div class="ui-g-12 ui-g-nopad">     
+			<div class="ui-g-12 ui-md-3">
+				<label for="fhasta" class="ui-outputlabel required">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" required [dateFormat]="formatofecha"></p-calendar>
+			</div>  
+		</div> 
+		
+	
+		<div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="estadoflujocaja" class="ui-outputlabel required">Tipo del Flujo de Caja:</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-dropdown id="estadoflujocaja" name="estadoflujocaja" required [options]="lestadoflujo" 
+        appendTo="body" [(ngModel)]="mcampos.tipoflujocdetalle"></p-dropdown>
+      </div>
+    </div>
+	</form>
+	
+	<div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-md-8 ui-lg-4 ui-g-nopad ui-datatable ui-datatable-header">
+      <p-dataTable [value]="ltipoplancuentas" [responsive]="true">
+
+        <p-header>
+          <div class="ui-table-title">Generar Reporte</div>
+          <div class="f-acciones-cab-tabla">
+        
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+            </button>
+
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+      </p-dataTable>
+    </div>
+  </div>
+

@@ -1,0 +1,126 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="identificacion" class="ui-outputlabel">RUC</label>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<input pInputText id="identificacion" name="identificacion" [(ngModel)]="mfiltros.identificacion" entero autofoco maxlength="13"
+			/>
+		</div>
+	</div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+			<p-header>
+				<div class="ui-table-title">Agentes de bolsa</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+			</p-header>
+
+			<p-column field="mdatos.nentidad" header="Entidad"></p-column>
+			<p-column field="identificacion" header="RUC/CI"></p-column>
+
+	
+
+			<p-column field="nombrescontacto" header="Apellidos y Nombres del Contacto"></p-column>
+			<p-column field="direccion" header="Direccion"></p-column>
+			<p-column field="telefono01" header="Telefono"></p-column>
+
+			<p-column [style]="{'width':'100px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<p-dialog header="Módulo" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="entidad" class="ui-outputlabel required">Casa de Valores</label>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+						<p-dropdown id="entidad" name="entidad" [options]="lEntidad" [(ngModel)]="registro.casavalorescdetalle" (onChange)="registrarEtiqueta(registro, lEntidad, 'casavalorescdetalle', 'nentidad')"
+						 autofoco>
+						</p-dropdown>
+					</div>
+				</div>
+
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="identificacion" class="ui-outputlabel required">Identificacion</label>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+						<input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.identificacion" required entero
+						 maxlength="13" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="nombrecontacto" class="ui-outputlabel required">Apellidos y Nombres del Contacto:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="nombrecontacto" name="nombrecontacto" [(ngModel)]="registro.nombrescontacto" required mayusculas
+						 maxlength="80" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="nombre" class="ui-outputlabel required">Dirección:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="direccion" name="direccion" [(ngModel)]="registro.direccion" required mayusculas maxlength="60"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="nombre" class="ui-outputlabel required">Teléfono:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="telefono01" name="telefono01" [(ngModel)]="registro.telefono01" required mayusculas maxlength="40"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="correo01" class="ui-outputlabel">Correo Electrónico:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<input type="text" pInputText id="correo01" name="correo01" [(ngModel)]="registro.direccionelectronica01"  maxlength="100"
+						 [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

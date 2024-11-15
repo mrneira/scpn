@@ -1,0 +1,208 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+  <div class="ui-g-12">
+    <div class="title_separator">
+      <i class="fa ui-icon-adjust"></i>
+      <span>Campos de Consulta</span>
+    </div>
+    <hr />
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-6 ui-md-4">
+      <label for="tipoplancuenta" class="ui-outputlabel required">Tipo de Plan de Cuentas:</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="tipoplancuenta" name="tipoplancuenta" required [options]="ltipoplancuentas"
+        [(ngModel)]="this.mcampos.tipoplancuenta"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label for="estadoflujocaja" class="ui-outputlabel required">Tipo del Flujo de Caja:</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="estadoflujocaja" name="estadoflujocaja" required [options]="lestadoflujo" appendTo="body"
+        [(ngModel)]="this.mcampos.tipoflujocdetalle"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="title_separator">
+      <i class="fa ui-icon-adjust"></i>
+      <span>Creción de flujo</span>
+    </div>
+    <hr />
+  </div>
+  
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-4">
+      <label *ngIf="this.mcampos.tipoflujocdetalle != ('PRO')" class="ui-outputlabel required">Fecha de Ingreso:</label>
+      <label *ngIf="this.mcampos.tipoflujocdetalle == 'PRO'" class="ui-outputlabel required">Mes de Ingreso:</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar *ngIf="this.mcampos.tipoflujocdetalle != ('PRO')" id="fingreso" name="fingreso" [(ngModel)]="this.mcampos.fingreso" [showIcon]="true"
+        [dateFormat]="formatofecha"></p-calendar>
+        <p-dropdown *ngIf="this.mcampos.tipoflujocdetalle == 'PRO'"  id="listMeses" name="listMeses"  [options]="listMeses" appendTo="body"
+        [(ngModel)]="this.fechaPrueba"></p-dropdown>
+      
+    </div>
+  </div>
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px"
+      columnResizeMode="expand">
+      <p-header>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <label class="ui-table-title">Ingreso Flujo Caja</label>
+            </div>
+          </div>
+        </div>
+      </p-header>
+      <p-column field="descripcion" header="Nombre" [style]="{'width':'100px'}"></p-column>
+      <p-column header="Monto" styleClass="f-right" [style]="{'width':'50px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          {{reg.valor | number:'1.2-2'}}
+        </ng-template>
+      </p-column>
+      <p-column field="tipooperacioncdetalle" header="Tipo Operacion" [style]="{'width':'150px'}"></p-column>
+      <p-column header="Activo" [style]="{'width':'50px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+
+      <p-column *ngIf="this.producto == 'PRO'" header="Cuenta" [style]="{'width':'50px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [ngModel]="reg.cuentareal" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+
+      <!-- <p-column *ngIf="this.mcampos.tipoflujocdetalle == 'PRO'" header="Numero Cuenta" [style]="{'width':'120px'}" >
+              <ng-template pTemplate="body" let-reg="rowData">
+                {{reg.cuentarealnumero }}
+              </ng-template>
+            </p-column> -->
+
+
+      <p-column header="Acción" [style]="{'width':'50px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+            class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+      <!-- <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column footer="Totales" colspan="2" [style]="{'width':'55%','font-size':'9px'}"></p-column>
+            <p-column [footer]="total| number : '1.2-2'" [style]="{'width':'20%','font-size':'9px'}"></p-column>
+            <p-column [footer]="" [style]="{'width':'10%','font-size':'9px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup> -->
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <!-- <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="pkcnivel" class="ui-outputlabel required">Código</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="pkcnivel" name="pkcnivel"	[(ngModel)]="registro.cnivel" 
+                   autofoco required entero maxlength="2" [disabled]="!editable && !registro.esnuevo" />
+            </div>
+          </div> -->
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="toperacionflujo" class="ui-outputlabel required">Tipo de Operacion del Flujo:</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="toperacionflujo" name="toperacionflujo"  [options]="ltipooperacion" appendTo="body"
+                [(ngModel)]="registro.tipooperacioncdetalle"></p-dropdown>
+            </div>
+          </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="descripcion" class="ui-outputlabel required">Nombre:</label>
+          </div>
+          <!--<div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion"
+              required mayusculas maxlength="60" />
+          </div>-->
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown *ngIf="registro.tipooperacioncdetalle == 'ING'"  id="TOPERACIONFLUJOaaa" name="TOPERACIONFLUJOaaa"  [options]="final" appendTo="body"
+              [(ngModel)]="registro.descripcion"></p-dropdown>
+              
+                <p-dropdown *ngIf="registro.tipooperacioncdetalle == 'EGR'" id="TOPERACIONFLUJOaaa" name="TOPERACIONFLUJOaaa"  [options]="inicio" appendTo="body"
+              [(ngModel)]="registro.descripcion"></p-dropdown>
+              
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="valor" class="ui-outputlabel required">Monto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="valor" name="valor" [(ngModel)]="registro.valor" required numero
+              maxlength="20" />
+          </div>
+        </div>
+
+        
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="activo" class="ui-outputlabel">Activo:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox name="activo" [(ngModel)]="registro.activo" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="activo" class="ui-outputlabel" *ngIf="this.producto == 'PRO'">Tiene Cuenta?:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <p-checkbox name="cuentareal" [(ngModel)]="registro.cuentareal" binary="false"
+              *ngIf="this.producto == 'PRO'"></p-checkbox>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cuentarealnumero" class="ui-outputlabel" *ngIf="this.producto == 'PRO' ">Cuenta Numero:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="cuentarealnumero" name="cuentarealnumero"
+              [(ngModel)]="registro.cuentarealnumero" *ngIf="this.producto == 'PRO'" numero maxlength="20"
+              [disabled]="!registro.cuentareal" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

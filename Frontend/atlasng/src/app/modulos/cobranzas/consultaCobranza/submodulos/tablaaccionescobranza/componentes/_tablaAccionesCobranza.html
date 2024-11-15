@@ -1,0 +1,32 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" rowGroupMode="subheader" resizableColumns="true"
+        columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Acciones de Cobranza</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Código" [style]="{'width':'50px'}"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.naccion" header="Acción" [style]="{'width':'150px'}"></p-column>
+        <p-column field="numcuotavencido" header="Cuotas Vencidas" [style]="{'width':'100px'}"></p-column>
+        <p-column field="saldovencido" header="Saldo Vencido" [style]="{'width':'100px'}"></p-column>
+        <p-column field="diasvencido" header="Días Vencidos" [style]="{'width':'100px'}"></p-column>
+        <p-column field="telefono" header="Teléfono" [style]="{'width':'80px'}"></p-column>
+        <p-column field="correo" header="Correo" [style]="{'width':'200px'}"></p-column>
+        <p-column header="F. Registro" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <p-column header="F.Comp. Pago" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fcompromisopago | date: 'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column field="observacion" header="Observación" [style]="{'width':'300px'}"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

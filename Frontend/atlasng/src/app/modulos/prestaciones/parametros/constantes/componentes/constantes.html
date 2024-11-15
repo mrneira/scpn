@@ -1,0 +1,199 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-6 ui-md-2">
+        <label for="fcjerarquia" class="ui-outputlabel required">Jerarquía:</label>
+      </div>
+      <div class="ui-g-6 ui-md-3">
+        <p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquia" [(ngModel)]="registro.cdetallejerarquia" autofoco required
+          (onChange)="mostrar($event)"></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">Constantes</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="anio" header="Año" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.njerarquia" header="Jerarquía"></p-column>
+        <p-column field="cons1" header="Constante 1" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons1 | number:'1.6-6'}}
+          </ng-template>
+        </p-column> 
+        <p-column field="cons3" header="Constante 2" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons2 | number:'1.6-6'}}
+          </ng-template>
+        </p-column>
+        <p-column field="cons3" header="Constante 3" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons3 | number:'1.6-6'}}
+          </ng-template>
+        </p-column>
+        <p-column field="cons4" header="Constante 4" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons4 | number:'1.6-6'}}
+          </ng-template>
+        </p-column>
+        <p-column field="cons5" header="Constante 5" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons5 | number:'1.6-6'}}
+          </ng-template>
+        </p-column> 
+        <p-column field="cons6" header="Constante 6" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons6 | number:'1.6-6'}}
+          </ng-template>
+        </p-column>
+        <p-column field="cons7" header="Constante 7" styleClass="f-right">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons7 | number:'1.6-6'}}
+          </ng-template>
+        </p-column> 
+        <p-column field="cons8" header="Constante 8" styleClass="f-right" *ngIf="mcampos.jerarquia">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons8 | number:'1.6-6'}}
+          </ng-template>
+        </p-column> 
+        <p-column field="cons9" header="Constante 9" styleClass="f-right"  *ngIf="mcampos.jerarquia">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.cons9 | number:'1.6-6'}}
+          </ng-template>
+        </p-column> 
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Constantes" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-6 ui-md-2">
+            <label for="fjerarquia" class="ui-outputlabel required">Jerarquia:</label>
+          </div>
+          <div class="ui-g-6 ui-md-6">
+            <p-dropdown id="jerarquia" name="jerarquia" [options]="ljerarquia" [(ngModel)]="registro.cdetallejerarquia" (onChange)="registrarEtiqueta(registro, ljerarquia, 'cdetallejerarquia', 'njerarquia')"
+              required [disabled]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcanio" class="ui-outputlabel required">Año:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" maxlength="4" entero pInputText id="anio" name="Año" [(ngModel)]="registro.anio" required min="1999" max="3000" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor1" class="ui-outputlabel required">Constante 1:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor1" name="valor1" [(ngModel)]="registro.cons1" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor2" class="ui-outputlabel required">Constante 2:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor2" name="valor2" [(ngModel)]="registro.cons2" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor3" class="ui-outputlabel required">Constante 3:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor3" name="valor3" [(ngModel)]="registro.cons3" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor4" class="ui-outputlabel required">Constante 4:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor4" name="valor4" [(ngModel)]="registro.cons4" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor5" class="ui-outputlabel required">Constante 5:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor5" name="valor5" [(ngModel)]="registro.cons5" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor6" class="ui-outputlabel required">Constante 6:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor6" name="valor6" [(ngModel)]="registro.cons6" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor7" class="ui-outputlabel required">Constante 7:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor7" name="valor7" [(ngModel)]="registro.cons7" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div *ngIf="registro.cdetallejerarquia == 'OFI'" class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor8" class="ui-outputlabel required">Constante 8:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor8" name="valor8" [(ngModel)]="registro.cons8" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div *ngIf="registro.cdetallejerarquia == 'OFI'" class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fvalor9" class="ui-outputlabel required">Constante 9:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input  pInputText id="valor9" name="valor9" [(ngModel)]="registro.cons9" required numeroDecimal7 [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

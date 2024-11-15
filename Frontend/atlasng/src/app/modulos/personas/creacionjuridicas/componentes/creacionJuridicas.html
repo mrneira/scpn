@@ -1,0 +1,47 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+            <label for="fpkcpersona" class="ui-outputlabel required">Persona</label>
+        </div>
+        <div class="ui-g-2 ui-md-1">
+            <input id="fpkcpersona" name="fpkcpersona" type="text" pInputText [(ngModel)]="mcampos.cpersona" required [readOnly]="true" />
+        </div>
+	    <div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+	    	</button>
+    	</div>
+    	<app-lov-personas (eventoCliente)=fijarLovPersonasSelec($event)></app-lov-personas>
+	</div>
+</form>
+
+<p-tabView>
+    <p-tabPanel header="Información general" [selected]="true">
+        <app-persona-juridica></app-persona-juridica>
+        <app-persona-detalle-jur></app-persona-detalle-jur>
+        <app-informacion-general-jur [juridica]="personaJuridicaComponent" [detalle]="personaDetalleComponent"></app-informacion-general-jur>
+    </p-tabPanel>
+    <p-tabPanel header="Dirección" lazy=true>
+    	<app-persona-direccion></app-persona-direccion>
+    </p-tabPanel>
+    <p-tabPanel header="Sucursal" lazy=true>
+    	<app-persona-sucursal></app-persona-sucursal>
+    </p-tabPanel>
+    <p-tabPanel header="Firmante" lazy=true>
+    	<app-persona-firmante></app-persona-firmante>
+    </p-tabPanel>
+    <p-tabPanel header="Información financiera" lazy=true>
+    	<app-informacion-financiera></app-informacion-financiera>
+    </p-tabPanel>
+    <p-tabPanel header="Referencia comercial" lazy=true>
+    	<app-persona-ref-comercial></app-persona-ref-comercial>
+    </p-tabPanel>
+</p-tabView>
+

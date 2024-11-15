@@ -1,0 +1,145 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px"
+        [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Desembolso por Transferencia (SPI)</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false">
+          </acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.ntipocuenta" header="Tipo Cuenta" [style]="{'width':'100px'}"></p-column>
+        <p-column field="numerocuentabancaria" header="Número Cuenta" [style]="{'width':'100px'}"></p-column>
+        <p-column header="Monto" [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData" style="text-align:right">
+            {{ reg.valor | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'80px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo"
+              class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Crédito con Transferencia Interbancaria" [(visible)]="mostrarDialogoGenerico" [modal]="true"
+  [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 600px">
+      <div class="f-datacontent ui-g ui-fluid">
+        
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Monto:</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="valortransferencia" name="valortransferencia" [(ngModel)]="registro.valor"
+              required numero maxlength="12" [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cuentasueldo" class="ui-outputlabel">Cuenta sueldo?</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-checkbox id="cuentasueldo" name="cuentasueldo" [(ngModel)]="registro.cuentacliente" binary="false"
+              (onChange)="marcarCuenta($event)"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <p-fieldset legend="Datos de transferencia - Cuenta Terceros" [hidden]="checkedsueldo">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="tipoidentificacion" class="ui-outputlabel required">Tipo identificación</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-dropdown id="tipoidentificacion" name="tipoidentificacion" [options]="ltipoidentificacion"
+                  [(ngModel)]="registro.tipoidentificacioncdetalle" [required]="!checkedsueldo" autofoco></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Identificación beneficiario:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="identificacionbeneficiario" name="identificacionbeneficiario"
+                  [(ngModel)]="registro.identificacionbeneficiario" [required]="!checkedsueldo" documento entero
+                  maxlength="13" minlength="10" [tipodocumento]="registro.tipoidentificacioncdetalle" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-outputlabel required">Nombre beneficiario:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="nombrebeneficiario" name="nombrebeneficiario"
+                  [(ngModel)]="registro.nombrebeneficiario" maxlength="300" minlength="10" mayusculas
+                  [required]="!checkedsueldo" />
+              </div>
+            </div>
+          </p-fieldset>
+          <p-fieldset legend="Comentario" [hidden]="!consolidado">
+         
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3">
+              <label class="ui-outputlabel required">Institución:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="comentario" name="comentario"
+                [(ngModel)]="registro.comentario" maxlength="190" minlength="2" mayusculas
+                [required]="consolidado" />
+            </div>
+          </div>
+        </p-fieldset>
+          <p-fieldset legend="Datos de transferencia">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="cbanco" class="ui-outputlabel required">Institución financiera:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="cbanco" name="cbanco" [options]="lbancos" [(ngModel)]="registro.tipoinstitucioncdetalle"
+                  required [filter]="true" [disabled]="checkedsueldo" appendTo="body"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="ctipocuenta" class="ui-outputlabel required">Tipo de cuenta:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="ctipocuenta" name="ctipocuenta" [options]="ltipocuenta"
+                  [(ngModel)]="registro.tipocuentacdetalle" required [filter]="true" [disabled]="checkedsueldo"
+                  (onChange)="registrarEtiqueta(registro, ltipocuenta, 'tipocuentacdetalle', 'ntipocuenta')"
+                  appendTo="body"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-3">
+                <label for="numerocuentabancaria" class="ui-outputlabel required">Número de cuenta:</label>
+              </div>
+              <div class="ui-g-12 ui-md-3">
+                <input type="text" pInputText id="numerocuentabancaria" name="numerocuentabancaria"
+                  [(ngModel)]="registro.numerocuentabancaria" required entero maxlength="20"
+                  [disabled]="checkedsueldo" />
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,194 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+</div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+    <div class="ui-g-12 ui-md-10 ui-g-nopad">
+      <div class="ui-g-12 ui-md-3">
+        <label for="selectModoGeneracion" class="ui-outputlabel required">Modo de Generación</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="selectModoGeneracion" name="selectModoGeneracion" [options]="lTipoGeneracion" [(ngModel)]="mcampos.tipoGenetacion" [filter]="false" (onChange)="eventoSelectModoGenearcion()"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad" *ngIf="mcampos.tipoGenetacion && existeListaSocios">
+      <div class="ui-g-12 ui-md-12"></div>
+      <div class="ui-g-12 ui-md-2"><label for="fpersona" class="ui-outputlabel required">Socio</label></div>
+      <div class="ui-g-2"><input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"/></div>
+      <div class="ui-g-10 ui-md-7"><input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" /></div>
+      <div class="ui-g-1" *ngIf="(mcampos.tipoGenetacion == 'INDIVIDUAL' || (mcampos.tipoGenetacion == 'GRUPO' && !estadoBtnTabla))"><button pButton type="button" id="lovsocio" name="lovsocio" (click)="mostrarLovSocio()" icon="ui-icon-directions" class="f-float-right" title="Buscar socio"></button></div>
+      <app-lov-socioscertificados (eventoCliente)=fijarLovEncontrado($event)></app-lov-socioscertificados>
+    </div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad" *ngIf="searchdatos && searchdatos == 'SOCIOAPORTANTE' && mcampos.tipoGenetacion != 'GRUPO'">
+      <div class="ui-g-12 ui-md-4"><label for="fpersona" class="ui-outputlabel">Incluir Operaciones Canceladas</label></div>
+      <div class="ui-g-12 ui-md-4">
+        <p-checkbox id="incluirOpCanceladas" name="incluirOpCanceladas" [(ngModel)]="mcampos.incluiropcancelada" binary="false" (onChange)="eventoIncluirOpCanceladas($event)"></p-checkbox>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad" *ngIf="searchdatos && searchdatos == 'SOCIOAPORTANTE' && mcampos.tipoGenetacion != 'GRUPO'">
+      <div class="ui-g-12 ui-md-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fpersona" class="ui-outputlabel required">Periodo</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-dropdown id="peridocertificacion" name="peridocertificacion" [options]="ltypePeriodo" [(ngModel)]="mcampos.tipoPeriodo" [filter]="false" ></p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-12"></div>
+        <div *ngIf="mcampos.tipoPeriodo && mcampos.tipoPeriodo == 'MANUAL'">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fdesde" class="ui-outputlabel required">Desde</label>
+          </div>
+          <div class="ui-g-6 ui-md-3">
+            <p-calendar id="fdesdeCertificacion" name="fdesdeCertificacion" [(ngModel)]="mcampos.finicio" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+          </div>
+          <div class="ui-g-6 ui-md-2">
+            <label for="fhasta" class="ui-outputlabel required">Hasta</label>
+          </div>
+          <div class="ui-g-6 ui-md-3">
+            <p-calendar id="fhastaCertificacion" name="fhastaCertificacion" [(ngModel)]="mcampos.ffin" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad" *ngIf="!existeListaSocios">
+      <h2 style="text-align: center;">NUEVA PERSONA</h2>
+      <hr style="border-color: #ffffff; margin-bottom: 30px;"/>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="identificacion" class="ui-outputlabel required">Identificación</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="identificacion" name="identificacion" [(ngModel)]="registro.identificacion" maxlength="20" required entero />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="apellidopaterno" class="ui-outputlabel required">Apellido paterno</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="apellidopaterno" name="apellidopaterno" [(ngModel)]="registro.apellidopaterno" maxlength="20" required mayusculas autofoco/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="apellidomaterno" class="ui-outputlabel required">Apellido materno</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="apellidomaterno" name="apellidomaterno" [(ngModel)]="registro.apellidomaterno" maxlength="20" required mayusculas />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="primernombre" class="ui-outputlabel required">Primer nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="primernombre" name="primernombre" [(ngModel)]="registro.primernombre" maxlength="20" required mayusculas />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="segundonombre" class="ui-outputlabel required">Segundo nombre</label>
+        </div>
+        <div class="ui-g-12 ui-md-7">
+          <input type="text" pInputText id="segundonombre" name="segundonombre" [(ngModel)]="registro.segundonombre" maxlength="20" required mayusculas />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-g-nopad" style="margin-top: 10px;" *ngIf="!activateGenerarReporte">
+        <div class="ui-g-12 ui-md-12">
+          <button type="button" pButton icon="ui-icon-save" (click)="crearNuevoSocio()" label="Guardar" class="f-btn f-float-right blue-btn"></button>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad" *ngIf="mcampos.tipoGenetacion == 'GRUPO' && existeListaSocios">
+      <p-dataTable [value]="lregistroscertificados" [responsive]="true" scrollable="true" scrollHeight="350px" resizableColumns="true" columnResizeMode="expand">
+        <p-header>
+          <div class="ui-table-title">SOCIOS O PERSONAS NATURALES PARA LA GENERACIÓN DE CERTIFICADOS</div>
+          <button type="button" pButton (click)="habilitarGenerarReporteMasivo()" [label]= "(estadoBtnTabla) ? 'Seguir agregando ': 'Terminar de Agregar'" class="f-btn f-float-right blue-btn" style="background-color: #4CAF50; margin-left: 20px;"></button>
+        </p-header>
+        <p-column field="identificacion" header="Identificación" [style]="{'width':'100px'}"></p-column>
+        <p-column field="fullname" header="Nombres completos" [style]="{'width':'250px'}"></p-column>
+        <p-column field="tipocertificacion" header="Tipo certificado" [style]="{'width':'150px'}"></p-column>
+        <p-column field="incluircanceladas" header="Incluir creditos cancelados" [style]="{'width':'150px'}"></p-column>
+        <p-column field="periodo" header="Periodo" [style]="{'width':'150px'}"></p-column>
+        <p-column [style]="{'width':'43px'}" *ngIf="!estadoBtnTabla">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-delete-forever" (click)="eliminarRegistro(reg)" icon="ui-icon-delete-forever" style="background-color: red;" [disabled] = "estadoBtnTabla"></button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </form>
+</div>
+<div class="ui-g-12" *ngIf="activateGenerarReporte">
+  <div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12"></div>
+    <div style="width: 100%; text-align: center;">
+      <button pButton type="button" name="descagarreporte" id="descagarreporte" label="Descargar" (click)="descargarReporte()" style="width: 10%; height: 3em;"> </button>
+      <div class="oculto" style='display:none;'>
+        <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="CONFIGURACIÓN DE CERTIFICADO" [(visible)]="mostrarDialogoConfigAportanteRepMasivo" [modal]="true" [responsive]="true" [positionTop]="150">
+  <div class="f-dialogo" style="max-width: 750px">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2"><label for="fpersonaModal" class="ui-outputlabel required">Socio</label></div>
+        <div class="ui-g-2"><input id="fidentificacionmodal" name="fidentificacionmodal" type="text" pInputText [ngModel]="mcampos.identificacionmodal" required [readOnly]="true"/></div>
+        <div class="ui-g-10 ui-md-7"><input type="text" pInputText id="fnpersonamodal" name="fnpersonamodal" [(ngModel)]="mcampos.nombremodal" [readOnly]="true" /></div>
+      </div>
+      <div class="ui-g-12 ui-md-12"></div>
+      <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4"><label for="incluirOpCanceladasmodal" class="ui-outputlabel">Incluir Operaciones Canceladas</label></div>
+        <div class="ui-g-12 ui-md-4">
+          <p-checkbox id="incluirOpCanceladasmodal" name="incluirOpCanceladasmodal" [(ngModel)]="mcampos.incluiropcanceladamodal" binary="false" (onChange)="eventoIncluirOpCanceladasModal($event)"></p-checkbox>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12"></div>
+      <div class="ui-g-12 ui-md-12"></div>
+      <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12 ui-md-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="peridocertificacionmodal" class="ui-outputlabel required">Periodo</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="peridocertificacionmodal" name="peridocertificacionmodal" [options]="ltypePeriodoModal" [(ngModel)]="mcampos.tipoPeriodomodal" [filter]="false" ></p-dropdown>
+          </div>
+          <div class="ui-g-12 ui-md-12"></div>
+          <div *ngIf="mcampos.tipoPeriodomodal && mcampos.tipoPeriodomodal == 'MANUALMODAL'">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fdesdeCertificacionmodal" class="ui-outputlabel required">Desde</label>
+            </div>
+            <div class="ui-g-6 ui-md-3">
+              <p-calendar id="fdesdeCertificacionmodal" name="fdesdeCertificacionmodal" [(ngModel)]="mcampos.finiciomodal" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="fhastaCertificacionmodal" class="ui-outputlabel required">Hasta</label>
+            </div>
+            <div class="ui-g-6 ui-md-3">
+              <p-calendar id="fhastaCertificacionmodal" name="fhastaCertificacionmodal" [(ngModel)]="mcampos.ffinmodal" [showIcon]="true" [locale]="es" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [maxDate]="fechaactual" d></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <HR>
+      <div class="ui-g-12 ui-g-nopad">
+        <button type="button" pButton icon="ui-icon-more" (click)="agregarConfigAportanteRepMasivo()" label="Agregar" style="margin-left:5px; margin-right:5px; background-color: #0B3C5D;"></button>
+        <button type="button" pButton icon="ui-icon-cancel" (click)="cerrarDialogoAportanteRepMasivo()" label="Cerrar" class="orange-btn"></button>
+      </div>
+    </footer>
+  </div>
+</p-dialog>

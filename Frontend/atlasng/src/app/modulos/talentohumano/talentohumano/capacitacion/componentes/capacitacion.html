@@ -1,0 +1,25 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="nidioma" class="ui-outputlabel required">Capacitación:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="cinstruccion" name="cinstruccion" type="text" pInputText [(ngModel)]="mcampos.cinstruccion" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="ncapacitacion" name="ncapacitacion" [(ngModel)]="mcampos.ncapacitacion" [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <button autofoco pButton type="button" id="lovCapacitacion" name="lovCapacitacion" (click)="mostrarLovCapacitacion()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-capacitacion (eventoCliente)=fijarLovCapacitacionSelec($event)></app-lov-capacitacion>
+    </div>
+  </form>
+  <app-capacitacion-cab></app-capacitacion-cab>
+  <app-capacitacion-det></app-capacitacion-det>

@@ -1,0 +1,96 @@
+<app-datos-garantia-avaluo></app-datos-garantia-avaluo>
+
+<div class="f-contenedor-transaccion">
+  <form #formularioOperacion="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcgarantia" class="ui-outputlabel">Garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fcgarantia" name="fcgarantia" [(ngModel)]="registro.coperacion" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fctipogarantia" class="ui-outputlabel">Tipo garantía</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fctipogarantia" name="fctipogarantia" [(ngModel)]="registro.mdatos.ntipogarantia" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcestatusgar" class="ui-outputlabel">Estado</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="fcestatusgar" name="fcestatusgar" [(ngModel)]="registro.mdatos.nestatus" [disabled]="true"
+          />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fctipobien" class="ui-outputlabel">Tipo bien</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fctipobien" name="fctipobien" [(ngModel)]="registro.mdatos.ntipobien" [disabled]="true" />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fubicacion" class="ui-outputlabel">Ubicación</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <textarea pInputText id="fubicacion" name="fubicacion" [(ngModel)]="mcampos.nubicacion + '\n' + registro.direccion" required
+            mayusculas rows="2" [disabled]="true"></textarea>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fvaloravaluo" class="ui-outputlabel">Valor avalúo</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fvaloravaluo" name="fvaloravaluo" [(ngModel)]="avaluoComponent.registro.valoravaluo" [disabled]="true"
+            numero/>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fvalorcomercial" class="ui-outputlabel">Valor comercial</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="fvalorcomercial" name="fvalorcomercial" [(ngModel)]="avaluoComponent.registro.valorcomercial"
+            [disabled]="true" numero />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fentrega" class="ui-outputlabel">Fecha entrega avalúo</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-calendar id="fentrega" name="fentrega" [(ngModel)]="avaluoComponent.registro.mdatos.fentregaavaluo" [showIcon]="true"
+            [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fvencimiento" class="ui-outputlabel">Fecha vencimiento avalúo</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="avaluoComponent.registro.mdatos.fvencimientoavaluo" [showIcon]="true"
+            [disabled]="true" [dateFormat]="formatofecha"></p-calendar>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+          <label for="fdetalle" class="ui-outputlabel">Detalle avalúo</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <textarea pInputText id="fdetalle" name="fdetalle" [(ngModel)]="avaluoComponent.registro.detalleavaluo" required mayusculas
+            rows="2" [disabled]="true"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

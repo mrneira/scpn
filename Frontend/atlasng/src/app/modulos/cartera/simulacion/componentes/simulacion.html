@@ -1,0 +1,44 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" etiquetaGrabar="Iniciar solicitud" [grabar]="false"></acciones-cabecera>
+  <button pButton type="button" name="imprimir" id="imprimir" label="Imprimir" style="position: absolute; right: 95px;" class="f-btn green-btn"
+    icon="ui-icon-print" (click)="descargarReporte()" [disabled]="!print"> </button>
+  <button pButton type="button" name="simular" id="simular" label="Simular" style="position: absolute; right: 195px;" class="f-btn green-btn"
+    icon="fa-check" (click)="grabarSimulacion()" [disabled]="!datosGeneralesComponent.formularioSolicitud.valid"> </button>
+</div>
+
+<app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+<app-lov-persona-vista></app-lov-persona-vista>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion" required [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions"></button>
+        <button pButton type="button" id="lovpersonavista" name="lovpersonavista" (click)="mostrarLovPersonaVista()" icon="ui-icon-person"
+          *ngIf="!estaVacio(registro.cpersona)"></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Datos generales" [selected]="true">
+    <div class="oculto" style='display:none;'>
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+    <app-solicitud (eventoSimulacion)="recargarSimulacion()"></app-solicitud>
+    <app-datos-generales [solicitud]="solicitudComponent"></app-datos-generales>
+    <div class="separador-linea"></div>
+    <app-tabla-amortizacion></app-tabla-amortizacion>
+  </p-tabPanel>
+</p-tabView>

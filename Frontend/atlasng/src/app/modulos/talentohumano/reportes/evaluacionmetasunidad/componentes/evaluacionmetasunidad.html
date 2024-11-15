@@ -1,0 +1,24 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+				<label for="cmeta" class="ui-outputlabel required">Meta</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="cmeta" name="cmeta" type="text" pInputText [(ngModel)]="registro.cmeta" required [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovEvaluacionMeta" name="lovEvaluacionMeta" (click)="mostrarLovEvaluacionMeta()" icon="ui-icon-directions"></button>
+			</div>
+		</div>
+	
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+
+</div>
+<app-lov-evaluacionmeta (eventoCliente)=fijarLovEvaluacionMetaSelect($event)></app-lov-evaluacionmeta>

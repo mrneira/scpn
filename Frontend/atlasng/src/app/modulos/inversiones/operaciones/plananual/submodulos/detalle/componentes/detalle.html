@@ -1,0 +1,92 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" >
+        <p-header>
+          <div class="ui-table-title">PRODUCTOS DEL PLAN ANUAL</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+
+        <p-column field="mdatos.nproducto" header="Producto" [style]="{'width':'100px'}">
+          
+        </p-column>
+        <p-column field="mdatos.ntipoproducto" header="Tipo Producto" [style]="{'width':'150px'}">
+         
+        </p-column>
+        <p-column header="$ Anual" [style]="{'width':'65px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.participacion" required numeroPositivo maxlength="14" style="text-align:right"
+              (ngModelChange)="actualizarTotalIndv(index)" />
+          </ng-template>
+        </p-column>
+        <p-column header="$ Incremento" [style]="{'width':'65px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.incremento" required numeroDecimal4 maxlength="14" style="text-align:right"
+              (ngModelChange)="actualizarTotalIndv(index)" />
+          </ng-template>
+        </p-column>
+        <p-column header="Monto?" [style]="{'width':'45px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.validacion" binary="false"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column header="$ Anual Proyectado" [style]="{'text-align':'right','width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.pproyectada | number : '1.7-7' }}
+          </ng-template>
+        </p-column>
+        <p-column header="% Anual" [style]="{'text-align':'right','width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.pproyectadareal | number : '1.7-7' }}
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'text-align':'center','width':'100px'}" header="Opciones">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+            <div class="ui-helper-clearfix" style="width: 100%" >
+              <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo producto" class="f-btn f-float-left orange-btn"></button>
+            </div>
+          </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Productos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogo="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+			
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="orden" class="ui-outputlabel required">Producto:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+              <p-dropdown id="cproducto" name="cproducto" [filter]="true" [options]="lproducto" [(ngModel)]="registro.cproducto" appendTo="body"
+              required [filter]="true" (onChange)="registrarEtiqueta(registro, lproducto, 'cproducto', 'nproducto');consultartipo(registro)" required></p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="documento" class="ui-outputlabel required">Tipo de producto:</label>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+              <p-dropdown id="ctipoproducto" name="ctipoproducto" [filter]="true" [options]="ltipoproducto" [(ngModel)]="registro.ctipoproducto"
+              appendTo="body" required [filter]="true" required (onChange)="registrarEtiqueta(registro, ltipoproducto, 'ctipoproducto', 'ntipoproducto')"></p-dropdown>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

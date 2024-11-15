@@ -1,0 +1,77 @@
+<div class="ui-g-12">
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+                    <div class="ui-table-title">OBSERVACIONES</div>
+                <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta> 
+                </p-header>
+				<p-column field="corden" [style]="{'width':'25px'}" header="Orden"></p-column> 
+				<p-column field="descripcion" [style]="{'width':'380px'}" header="Descripción"></p-column> 
+				<p-column header="Fecha Orden" [style]="{'width':'65px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.forden | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+				<p-column [style]="{'width':'50px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="mcampos.beneficiariosocio">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>			
+<p-dialog header="Observaciones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="70">
+<form #formDialogoProv="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="descripcion" class="ui-outputlabel required">Descripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+			     	<textarea style="width: 100%" id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+					[disabled]="!editable && !registro.esnuevo" maxlength="1000" rows="5"></textarea>
+				</div>
+			</div>
+		    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="corden" class="ui-outputlabel required">Orden</label>
+				</div>
+				<div class="ui-g-12 ui-md-4">
+					<input type="text" required pInputText id="corden" name="corden" [(ngModel)]="registro.corden" 
+						 mayusculas maxlength="30" [disabled]="registro.esnuevo && !registro.esnuevo" />
+				</div>
+			</div>
+			<p-column header="Fecha orden" [style]="{'width':'40px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData"> 
+						{{ reg.forden | date:'dd-MM-yyyy'}}
+					</ng-template>
+				</p-column> 
+	 	    <div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="descripcion" class="ui-outputlabel required">Descripción</label>
+				</div>
+				<div class="ui-g-12 ui-md-6">
+				    <textarea style="width: 100%" id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas
+					[disabled]="!editable && !registro.esnuevo" maxlength="1000" rows="5"></textarea>
+				</div>
+			</div>
+    	</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>
+

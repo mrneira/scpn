@@ -1,0 +1,50 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Perfiles</div>
+					<acciones-consulta [componente]="componentehijo" [consulta]="false"></acciones-consulta> 
+				</p-header> 
+				<p-column field="crol" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column> 
+				<p-column field="mdatos.nrol" header="Perfil"></p-column> 
+				
+				<p-column [style]="{'width':'100px'}"> 
+					<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+						<acciones-reg [componente]="componentehijo" [mostrarEditar]="false" [reg]="reg"></acciones-reg>
+					</div>
+					</ng-template> 
+				</p-column> 
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Agregar Perfil" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer> 
+			</p-dataTable>
+        </div>
+	</div>
+</div>
+
+
+
+
+<p-dialog header="Perfil" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="240">
+<form #formDialogoRol="ngForm">
+	<div class="f-dialogo" style="max-width: 700px">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-3">
+					<label for="perfil" class="ui-outputlabel required">Perfil</label>
+				</div>
+				<div class="ui-g-12 ui-md-9">
+					<p-dropdown id="perfil" name="perfil" required [options]="lperfiles" appendTo='body' [(ngModel)]="registro.crol" [filter]="true" [disabled]="!editable || !registro.esnuevo"></p-dropdown>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<acciones-dialogo [formAcciones]="formDialogoRol" [componente]="componentehijo"></acciones-dialogo>
+		</footer>
+	</div>
+</form>
+</p-dialog>

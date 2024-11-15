@@ -1,0 +1,85 @@
+<div class="f-contenedor-transaccion">
+    <div class="f-acciones-cabecera ui-g ui-fluid">
+        <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+    </div>
+
+    <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="fcpersona" class="ui-outputlabel required">Persona:</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.identificacion"
+                    [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" required
+                    [disabled]="true" />
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()"
+                    icon="ui-icon-directions">
+                </button>
+            </div>
+            <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+        </div>
+    </form>
+
+    <form #formularioActivacion="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="title_separator">
+              <i class="fa ui-icon-adjust"></i>
+              <span>Informaci&oacute;n</span>
+            </div>
+            <hr />
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuario" class="ui-outputlabel">Credencial:</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <input type="text" pInputText name="credencial" [(ngModel)]="registro.mdatos.credencial" [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuario" class="ui-outputlabel">Celular:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText name="celular" [(ngModel)]="registro.celular" [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuario" class="ui-outputlabel">Correo Electrónico:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText name="correo" [(ngModel)]="registro.email" [disabled]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cusuario" class="ui-outputlabel">Fecha de Cita:</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-calendar id="fecha" name="fecha" [(ngModel)]="fechaCita" (onSelect)="consultarCitas()" [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050" required></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <br />
+            <div class="ui-g-12 ui-md-2">
+              <label for="condiciones" class="ui-outputlabel required">Asignar Cita:</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <p-checkbox id="condiciones" name="condiciones" [(ngModel)]="registro.asignar" binary="false"></p-checkbox>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+                <label *ngIf="lcitas.length > 0"><span class="required"></span> <b>{{lcitas.length}} citas</b> <em>disponibles para el día {{ fechaIntegerCita | fechaenteroformato }}.</em> </label>
+                <label *ngIf="lcitas.length == 0"><span class="required"></span> <b>No existe citas</b> <em>disponibles para el día {{ fechaIntegerCita | fechaenteroformato }}.</em> </label>
+              </div>
+          </div>
+        </div>
+    </form>
+
+</div>

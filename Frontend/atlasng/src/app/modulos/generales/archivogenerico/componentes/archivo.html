@@ -1,0 +1,128 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fcmodulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<input pInputText id="fcmodulo" name="fcmodulo" [(ngModel)]="mfiltros.cmodulo" [readOnly]="true" />
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<p-dropdown id="fcmodulo" name="fcmodulo" [options]="lmodulos" [(ngModel)]="mfiltros.cmodulo" required [filter]="true"></p-dropdown>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fnombre" class="ui-outputlabel">Nombre</label>
+			</div>
+			<div class="ui-g-12 ui-md-3">
+				<input pInputText id="fnombre" name="fnombre" [(ngModel)]="mfiltros.nombre" mayusculas autofoco maxlength="40" />
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Archivos</div>
+				<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+			</p-header>
+			<p-column field="carchivo" header="Código" [style]="{'width':'40px'}"></p-column>
+			<p-column field="nombre" header="Nombre" [style]="{'width':'190px'}"></p-column>
+			<p-column field="descripcion" header="Descripción"></p-column>
+			<p-column field="tamanio" header="Tamaño" [style]="{'width':'70px'}"></p-column>
+			<p-column field="extension" header="Extensión" [style]="{'width':'80px'}"></p-column>
+			
+			<p-column  header="Acciones" [style]="{'width':'120px'}">
+				<ng-template pTemplate="body" let-reg="rowData">
+					<div class="f-table-actions">
+							<button type="button" pButton icon="ui-icon-delete-forever" (click)="consultardatos(reg)" icon="ui-icon-search" style="margin-left:5px">
+								</button>
+						<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+					</div>
+				</ng-template>
+			</p-column>
+			<p-footer>
+				<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+					<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+				</div>
+			</p-footer>
+		</p-dataTable>
+	</div>
+</div>
+
+
+<p-dialog header="Tipo de Archivos" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="120">
+	<form #formDialogoProv="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="modulo" class="ui-outputlabel required">Módulo</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="modulo" name="modulo" [(ngModel)]="registro.cmodulo" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="secuencia" class="ui-outputlabel required">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.carchivo" [disabled]="true" />
+					</div>
+				</div>
+				<div class="ui-g-6 ui-g-nopad">
+					<div class="ui-g-12 ui-md-4">
+						<label for="archivofirma" class="ui-outputlabel required">Archivo</label>
+					</div>
+					
+					<div class="ui-g-12">
+						<p-fileUpload id="uploadarchivofirma" name="archivo[]" (onSelect)="onSelectArchivoFirma($event)" class="upload-hidden"
+								 [uploadLabel]="" [maxFileSize]="100000000" [disabled]="!editable">
+						</p-fileUpload>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="nombrearchivo" class="ui-outputlabel required">Nombre</label>
+					</div>
+					<div class="ui-g-12 ui-md-7">
+						<input type="text" pInputText id="nombrearchivo" name="nombrearchivo" [(ngModel)]="registro.nombre" required  autofoco
+						 maxlength="120" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipodecontenido" class="ui-outputlabel required">Tipo:</label>
+					</div>
+					<div class="ui-g-12 ui-md-7">
+						<input type="text" pInputText id="tipodecontenido" name="tipodecontenido" [(ngModel)]="registro.tipo" required autofoco
+						 maxlength="80" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="descripcion" class="ui-outputlabel required">Descripción:</label>
+					</div>
+					<div class="ui-g-12 ui-md-7">
+						<input type="text" pInputText id="descripcion" name="descripcion" [(ngModel)]="registro.descripcion" required mayusculas autofoco
+						 maxlength="200" [disabled]="!editable && !registro.esnuevo" />
+					</div>
+				</div>
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

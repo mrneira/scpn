@@ -1,0 +1,37 @@
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fccanal" class="ui-outputlabel required">Canal</label>
+		</div>
+		<div class="ui-g-12 ui-md-3">
+			<p-dropdown id="fccanal" name="fccanal" [options]="lcanales" [(ngModel)]="mfiltros.ccanal" autofocus required></p-dropdown>
+		</div>
+	</div>
+	
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fcconsulta" class="ui-outputlabel">Código consulta</label>
+		</div>
+		<div class="ui-g-11 ui-md-3">
+			<input pInputText id="fcconsulta" name="fcconsulta" [(ngModel)]="mfiltros.cconsulta"  mayusculas maxlength="30" />
+		</div>
+		<div class="ui-g-1 ui-md-1">
+			<acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+		</div>
+	</div>
+</form>
+
+<p-tabView>
+    <p-tabPanel header="Componentes por código" [selected]="true">
+        <app-cod-consulta></app-cod-consulta>
+    </p-tabPanel>
+    <p-tabPanel header="Permisos a transacciones por código" lazy=true>
+    	<app-tran-consulta></app-tran-consulta>
+    </p-tabPanel>
+</p-tabView>
+

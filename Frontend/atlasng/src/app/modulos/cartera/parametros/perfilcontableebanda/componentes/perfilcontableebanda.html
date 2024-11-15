@@ -1,0 +1,157 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fncproducto" name="fncproducto" [options]="lproducto" [(ngModel)]="mfiltros.cproducto" (onChange)="cambiarTipoProducto($event)"
+        autofoco [filter]="true" required></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fnctipoproducto" name="fnctipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto" (onChange)="consultar()"
+        [filter]="true" required></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcestatus" class="ui-outputlabel">Estatus</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <p-dropdown id="fncestatus" name="fncestatus" [options]="lestatus" [(ngModel)]="mfiltros.cestatus" (onChange)="consultar()"
+        [filter]="true"></p-dropdown>
+    </div>
+  </div>
+
+</form>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+      <p-header>
+        <div class="ui-table-title">Perfiles Contables por Banda</div>
+        <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+      </p-header>
+      <p-column field="mdatos.nestatus" header="Estatus"></p-column>
+      <p-column field="mdatos.nestadooperacion" header="Estado Operación"></p-column>
+      <p-column field="mdatos.nsegmento" header="Segmento"></p-column>
+      <p-column field="cbanda" header="Código Banda" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-reg="rowData" pTemplate="body">
+          {{reg.cbanda | number:'1.0-0'}}
+        </ng-template>
+      </p-column>
+      <p-column field="diasdesde" header="Día Desde" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-reg="rowData" pTemplate="body">
+          {{reg.diasdesde | number:'1.0-0'}}
+        </ng-template>
+      </p-column>
+      <p-column field="diashasta" header="Día Hasta" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-reg="rowData" pTemplate="body">
+          {{reg.diashasta | number:'1.0-0'}}
+        </ng-template>
+      </p-column>
+      <p-column field="codigocontable" header="Código Contable" [style]="{'text-align':'right','width':'100px'}">
+        <ng-template let-reg="rowData" pTemplate="body">
+          {{reg.codigocontable | number:'1.0-0'}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'100px'}">
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="Perfil contable por Banda" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+  width="600">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Estatus:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="detallestatus" name="detallestatus" [options]="lestatus" [(ngModel)]="registro.cestatus" [disabled]="!editable || !registro.esnuevo"
+              appendTo="body" [filter]="true" (onChange)="registrarEtiqueta(registro, lestatus, 'cestatus', 'nestatus')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Estado Operación:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="detallestadooperacion" name="detallestadooperacion" [options]="lestadooperacion" [(ngModel)]="registro.cestadooperacion"
+              [filter]="true" [disabled]="!editable || !registro.esnuevo" appendTo="body" (onChange)="registrarEtiqueta(registro, lestadooperacion, 'cestadooperacion', 'nestadooperacion')"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-outputlabel required">Segmento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <p-dropdown id="detallesegmento" name="detallesegmento" [options]="lsegmento" [(ngModel)]="registro.csegmento" [filter]="true"
+              [disabled]="!editable || !registro.esnuevo" appendTo="body" (onChange)="registrarEtiqueta(registro, lsegmento, 'csegmento', 'nsegmento')"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="cbanda" class="ui-outputlabel required">Código Banda:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="cbanda" name="cbanda" [(ngModel)]="registro.cbanda" required maxlength="6" [disabled]="!editable"
+              entero/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="diasdesde" class="ui-outputlabel required">Día Desde:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="diasdesde" name="diasdesde" [(ngModel)]="registro.diasdesde" required maxlength="5" [disabled]="!editable"
+              entero/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="diashasta" class="ui-outputlabel required">Día Hasta:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="diashasta" name="diashasta" [(ngModel)]="registro.diashasta" required maxlength="5" [disabled]="!editable"
+              entero/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="codigocontable" class="ui-outputlabel required">Código Contable:</label>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <input type="text" pInputText id="codigocontable" name="codigocontable" [(ngModel)]="registro.codigocontable" required maxlength="8"
+              [disabled]="!editable" entero (blur)="validarDuplicado()" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,112 @@
+<div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}" (click)="onLayoutClick()">
+    <div #layoutContainer class="layout-container"
+            [ngClass]="{'menu-layout-static': !isOverlay(),
+            'menu-layout-overlay': isOverlay(),
+            'layout-menu-overlay-active': overlayMenuActive,
+            'menu-layout-horizontal': isHorizontal(),
+            'menu-layout-slim': isSlim(),
+            'layout-menu-static-inactive': staticMenuDesktopInactive,
+            'layout-menu-static-active': staticMenuMobileActive}">
+        <div [hidden]="!logincomponent.appService.login || logincomponent.appService.validarotp || logincomponent.appService.cambiopassword">
+            <app-topbar></app-topbar>
+
+            <div class="layout-menu" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
+                <div #layoutMenuScroller class="nano">
+                    <div class="nano-content menu-scroll-content">
+                        <div class="profile app-info" [ngClass]="{'profile-expanded':active}">
+                        	<div class="ui-g-12 ui-g-nopad">
+								<div class="ui-g-3 f-left">
+									<label class="f-bold" style="padding: 2px 10px 2px 2px;display: block; font-weight:bold;">PERFIL:</label>
+								</div>
+								<div class="ui-g-9 f-left">
+									<label class="ui-outputlabel" style="padding: 2px 10px 2px 2px;display: block;">{{appService.nrol}}</label>
+								</div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad"> <label> &nbsp; </label></div>
+                        	<div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-5 f-left">
+                                        <label class="f-bold" style="padding: 2px 10px 2px 2px;display: block; font-weight:bold;">TRANSACCIÓN:</label>
+                                    </div>
+                                    <div class="ui-g-1 f-left">
+                                        <input type="text" pInputText id="modulotransaccion" name="modulotransaccion" 
+                                        (keyup.enter)="ValidarTransaccion($event)" [(ngModel)]="modulotransaccion" maxlength="12"/>
+                                    </div>
+                                </div>                            
+				        </div>
+                        <app-menu [reset]="resetMenu"></app-menu>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div [hidden]="logincomponent.appService.login">
+        	<div>
+        		<app-alert></app-alert>
+        	</div>
+            <app-login></app-login>
+        </div>
+
+        <div [hidden]="!logincomponent.appService.validarotp || logincomponent.appService.validarclavetemp" style="margin: 0 auto; width: 400px;">
+        	<div style="height:50px;">
+        		<app-alert></app-alert>
+        	</div>
+        	<div><h4 class="f-titulo shadow-box ui-shadow-1">INGRESE LA CLAVE DE SEGURIDAD ENVIADA A SU MAIL</h4></div>
+        	<div class="card card-w-title" style="min-height:350px margin-top: 50px; position: relative;">
+	        	<app-otp></app-otp>
+            </div>
+        </div>
+
+         <div [hidden]="!logincomponent.appService.validarclavetemp" style="margin: 0 auto; width: 400px;">
+        	<div style="height:50px;">
+        		<app-alert></app-alert>
+        	</div>
+        	<div><h4 class="f-titulo shadow-box ui-shadow-1">RECUPERACIÓN DE CONTRASEÑA</h4></div>
+        	<div class="card card-w-title" style="min-height:350px margin-top: 50px; position: relative;">
+	        	<app-olvido-contrasenia></app-olvido-contrasenia>
+            </div>
+        </div>
+
+
+
+        <div [hidden]="!logincomponent.appService.cambiopassword || logincomponent.appService.validarotp" style="margin: 0 auto; width: 600px;">
+        	<div style="height:50px;">
+        		<app-alert></app-alert>
+        	</div>
+        	<div><h4 class="f-titulo shadow-box ui-shadow-1">CAMBIO DE CONTRASEÑA DEL USUARIO</h4></div>
+        	<div class="card card-w-title" style="min-height:500px margin-top: 50px; position: relative;">
+	        	<app-cambio-contrasenia-login></app-cambio-contrasenia-login>
+            </div>
+        </div>
+
+        <div [hidden]="!logincomponent.appService.login || logincomponent.appService.validarotp  || logincomponent.appService.cambiopassword" class="layout-main">
+        	<p-confirmDialog width="425"></p-confirmDialog>
+        	<div style="height:45px;">
+        		<app-alert></app-alert>
+        	</div>
+        	<div><h4 class="f-titulo shadow-box ui-shadow-1">{{logincomponent.appService.titulopagina}}</h4></div>
+        	<div class="card card-w-title" style="min-height:500px; position: relative;">
+	        	<router-outlet></router-outlet>
+            </div>
+            <!--<app-footer></app-footer>-->
+        </div>
+        <p-dialog [(visible)]="dtoServicios.mostrarDialogoLoading" [responsive]="false" [modal]="true" [positionTop]="250"
+            [closable]="false" [minWidth]="120">
+            <div class="f-datacontent ui-g ui-fluid">
+              <div class="ui-g-12 ui-g-nopad">
+                <div class="img-loading"></div>
+             </div>
+           </div>
+       </p-dialog>
+       <p-dialog [(visible)]="dtoServicios.mostrarDialogoLoadingTemp" [responsive]="false" [modal]="true" [positionTop]="250"
+            [closable]="false" [minWidth]="120">
+            <div class="f-datacontent ui-g ui-fluid">
+              <div class="ui-g-12 ui-g-nopad">
+                <span>{{dtoServicios.mensajeDialogTemp}} </span>
+              </div>
+           </div>
+       </p-dialog>
+
+    </div>
+
+</div>

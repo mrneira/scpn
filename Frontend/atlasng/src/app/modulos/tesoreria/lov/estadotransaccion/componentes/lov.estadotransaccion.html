@@ -1,0 +1,234 @@
+<p-dialog header="Estado Pago/Cobro Tesorería" [(visible)]="displayLov" width="800" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+
+  <form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="!this.estaVacio(mfiltros.identificacionbeneficiario)">
+      <div class="ui-g-12 ui-md-2">
+        <label for="identificacionbeneficiario" class="ui-outputlabel">Identificación</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="identificacionbeneficiario" [(ngModel)]="mfiltros.identificacionbeneficiario"
+          [disabled]="!habilitarfiltros" autofoco maxlength="20" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="!this.estaVacio(mfiltros.nombrebeneficiario)">
+      <div class="ui-g-12 ui-md-2">
+        <label for="nombrebeneficiario" class="ui-outputlabel">Nombre</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input pInputText name="nombrebeneficiario" [(ngModel)]="mfiltros.nombrebeneficiario" [disabled]="!habilitarfiltros"
+          maxlength="300" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="referenciainterna" class="ui-outputlabel required">Referencia Interna:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="referenciainterna" [(ngModel)]="mfiltros.referenciainterna" maxlength="50" [disabled]="!habilitarfiltros"
+          required />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="!this.estaVacio(mfiltros.secuenciainterna)">
+      <div class="ui-g-12 ui-md-2">
+        <label for="secuenciainterna" class="ui-outputlabel">Secuencia Interna:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText name="secuenciainterna" [(ngModel)]="mfiltros.secuenciainterna" [disabled]="!habilitarfiltros"
+          maxlength="50" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+        scrollHeight="250px" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Detalle</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false">
+          </acciones-consulta>
+        </p-header>
+        <p-column field="fingreso" header="Fecha Ingreso" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | date:'yyyy/MM/dd hh:MM:ss'}}
+          </ng-template>
+        </p-column>
+        <p-column field="identificacionbeneficiario" header="Identificación Beneficiario"></p-column>
+        <p-column field="nombrebeneficiario" header="Nombre Beneficiario"></p-column>
+        <p-column header="Valor Pago" [style]="{'width':'80px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.valorpago | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="descripcionEstado" header="Estado"></p-column>
+        <p-column field="estadoBce" header="Estado BCE"></p-column>
+        <p-column field="fmodificacion" header="Fecha Modificación" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fmodificacion | date:'yyyy/MM/dd hh:MM:ss'}}
+          </ng-template>
+        </p-column>
+        <p-column header="" [style]="{'width':'40px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <button type="button" pButton icon="ui-icon-comment" name="btnDetalle" (click)="Detalle(reg)" pTooltip="Detalle de Pago"
+                tooltipPosition="top"></button>
+            </div>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog [(visible)]="mostrarDialogoGenericoDetalle" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="120">
+  <form #formDialogoPago="ngForm">
+    <div class="f-dialogo" style="max-width: 600px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <p-dataTable [value]="ldetallepagos" [responsive]="true" scrollable="true" scrollHeight="350px"
+          [resizableColumns]="false">
+          <p-header>
+            <div class="ui-table-title">Detalle</div>
+          </p-header>
+          <p-column>
+            <ng-template pTemplate="body" let-reg="rowData">
+
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-4">
+                  <b>Id:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.ctestransaccion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Módulo:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.modulo}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Transacción:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.transaccion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Detalle:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.detalle}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Identificación Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.identificacionbeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Nombre Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.nombrebeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Número Cuenta Beneficiario:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.numerocuentabeneficiario}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Institución:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.institucion}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Tipo Cuenta:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.tipocuenta}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Valor Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.valorpago | number:'1.2-2'}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Referencia Interna:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.referenciainterna}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Secuencia Interna:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.secuenciainterna}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Usuario Genera Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.cusuarioing}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Fecha Genera Pago:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.fingreso | date:'yyyy-MM-dd'}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Comprobante Contable:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.ccomprobante}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Número Comprobante Cesantía:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.numerocomprobantecesantia}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Referencia BCE:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.referenciabce}} &nbsp;
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <b>Comprobante Obligación:</b>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  {{reg.ccomprobanteobligacion}} &nbsp;
+                </div>
+              </div>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,58 @@
+<p-dialog header="Lista de evaluaciones" [(visible)]="displayLov" width="650" showEffect="fade" [responsive]="true" [positionTop]="120">
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccargo" class="ui-outputlabel">Código:</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<input pInputText name="cevaluacion" [(ngModel)]="mfiltros.cevaluacion" entero maxlength="5" />
+			</div>
+		</div>
+
+	</form>
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true"
+			 scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Evaluaciones de desempeño</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="cevaluacion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nombre" header="Funcionario" >		
+					  </p-column>
+					  <p-column  header="Calificación" [style]="{'width':'70px'}"  styleClass="f-center">
+							<ng-template pTemplate="body" let-reg="rowData">
+								{{ reg.calificacion |  number:'1.2-2' }}
+							</ng-template>
+						</p-column>
+
+					  <p-column header="Aprobada" [style]="{'width':'60px'}"  styleClass="f-center">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<p-checkbox [ngModel]="reg.aprobada" binary="false" [disabled]="true"></p-checkbox>
+						</ng-template>
+					</p-column>
+				
+					
+					<p-column field="mdatos.nperiodo" header="Periodo" ></p-column>
+					<p-column  header="Desde" [style]="{'width':'70px'}"  styleClass="f-center">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mdatos.fdesde | date: 'yyyy-MM-dd' }}
+						</ng-template>
+					</p-column>
+					<p-column  header="Hasta" [style]="{'width':'70px'}"  styleClass="f-center">
+						<ng-template pTemplate="body" let-reg="rowData">
+							{{ reg.mdatos.fhasta | date: 'yyyy-MM-dd' }}
+						</ng-template>
+					</p-column>
+					<p-column header="Finalizada" [style]="{'width':'60px'}"  styleClass="f-center">
+							<ng-template pTemplate="body" let-reg="rowData">
+								<p-checkbox [ngModel]="reg.finalizada" binary="false" [disabled]="true"></p-checkbox>
+							</ng-template>
+						</p-column>
+			
+			</p-dataTable>
+		</div>
+	</div>
+</p-dialog>

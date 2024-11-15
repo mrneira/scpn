@@ -1,0 +1,47 @@
+<div class="f-contenedor-transaccion">
+
+
+    <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+                <p-header>
+                    <div class="ui-table-title">Resultado de la carga</div>
+                    <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+                </p-header>
+
+                <p-column header="No. Línea" [style]="{'width':'40px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.numerolinea }}
+                    </ng-template>
+                </p-column>
+
+                <p-column header="Id. Inv." [style]="{'width':'30px'}" styleClass="f-center">
+                    <ng-template pTemplate="body" let-reg="rowData" class="text-center">
+                        {{ reg.cinversion }}
+                    </ng-template>
+                </p-column>
+
+				<p-column header="F.Inicio" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfinicio | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+				<p-column header="F.Vencimiento" [style]="{'width':'150px'}" styleClass="f-center">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{ reg.nfvencimiento | date:'yyyy-MM-dd' }}
+					</ng-template>
+				</p-column>
+
+                <p-column field="plazo" header="Plazo" [style]="{'width':'35px'}" ></p-column>
+
+                <p-column field="proyecciontasa" header="Tasa" [style]="{'width':'35px'}" ></p-column>
+
+                <p-column field="estadocdetalle" header="Estado" [style]="{'width':'35px'}" ></p-column>
+
+                <p-column field="mensaje" header="Mensaje" [style]="{'width':'20px'}"></p-column>
+
+            </p-dataTable>
+        </div>
+    </div>
+</div>

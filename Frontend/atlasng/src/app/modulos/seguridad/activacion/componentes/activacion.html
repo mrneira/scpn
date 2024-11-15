@@ -1,0 +1,117 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Usuario</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" required [disabled]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovUsuarios()" icon="ui-icon-directions">
+        </button>
+      </div>
+      <app-lov-usuarios (eventoCliente)=fijarLovUsuariosSelec($event)></app-lov-usuarios>
+    </div>
+  </form>
+
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="title_separator">
+          <i class="fa ui-icon-adjust"></i>
+          <span>Informaci&oacute;n del Usuario</span>
+        </div>
+        <hr />
+      </div>
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cusuario" class="ui-outputlabel required">Username:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="cusuario" name="cusuario" [(ngModel)]="registro.cusuario" autofoco required mayusculas
+            maxlength="20" [disabled]="true" />
+        </div>
+      </div>
+        <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="cusuario" class="ui-outputlabel required">Estatus:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="cestatuscusuario" name="cestatuscusuario" [(ngModel)]="mcampos.ncatalogo" autofoco required mayusculas
+            maxlength="20" [disabled]="true" />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="sobrenombre" class="ui-outputlabel required">Alias:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="sobrenombre" name="sobrenombre" [(ngModel)]="registro.sobrenombre" maxlength="30" [disabled]="true"
+            autofoco required />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="canal" class="ui-outputlabel required">Canal</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="canal" name="canal" [(ngModel)]="registro.mdatos.ncanal" maxlength="60" [disabled]="true"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="area" class="ui-outputlabel required">Área</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="area" name="area" [(ngModel)]="registro.mdatos.narea" maxlength="60" [disabled]="true"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="sucursal" class="ui-outputlabel required">Sucursal</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="sucursal" name="sucursal" [(ngModel)]="registro.mdatos.nsucursal" maxlength="60" [disabled]="true"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="agencia" class="ui-outputlabel required">Agencia</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <input type="text" pInputText id="agencia" name="agencia" [(ngModel)]="registro.mdatos.nagencia" maxlength="60" [disabled]="true"
+          />
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3">
+          <label for="observacion" class="ui-outputlabel required">Observaci&oacute;n de activaci&oacute;n</label>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <textarea type="text" pInputText id="observacion" name="observacion" [(ngModel)]="registro.observacion" maxlength="100" autofoco
+            mayusculas required rows="5" [disabled]="!editable"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

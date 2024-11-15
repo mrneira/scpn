@@ -402,6 +402,9 @@
     <Compile Include="tcarproductorangos.cs">
       <DependentUpon>ModeloEF.tt</DependentUpon>
     </Compile>
+    <Compile Include="tcarproductorangosnegociacion.cs">
+      <DependentUpon>ModeloEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="tcarproductorequisitos.cs">
       <DependentUpon>ModeloEF.tt</DependentUpon>
     </Compile>

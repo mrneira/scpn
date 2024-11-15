@@ -1,0 +1,28 @@
+<div class="ui-g-12 ui-md-2">
+</div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-6">
+
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+	<form #formulario="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="f-filtros ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-6 ui-md-2">
+					<label for="fIngreso" class="ui-outputlabel required">Fecha Desde:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-calendar name="fIngreso" [(ngModel)]="mcampos.fIngreso" [showIcon]="true" [dateFormat]="formatofecha" required></p-calendar>
+				</div>
+				<div class="ui-g-6 ui-md-2">
+					<label for="fFinIngreso" class="ui-outputlabel required">Fecha Hasta:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-calendar name="fFinIngreso" [(ngModel)]="mcampos.fFinIngreso" [showIcon]="true" [dateFormat]="formatofecha" required></p-calendar>
+				</div>
+			</div>
+		</div>
+
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formulario" [mostrarcaja]="true" [pdf]="false" [excel]="false"></app-jasper>
+</div>

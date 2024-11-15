@@ -1202,6 +1202,8 @@
     <Property Name="coperacionarreglopago" Type="varchar" MaxLength="30" />
     <Property Name="coperacionmigrada" Type="varchar" MaxLength="30" />
     <Property Name="cusuarioaprobacion" Type="varchar" MaxLength="20" />
+    <Property Name="numcuotaprorrateo" Type="int" />
+    <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcaroperacionarreglopago">
     <Key>
@@ -1575,6 +1577,8 @@
     <Property Name="coperacionarreglopago" Type="varchar" MaxLength="30" />
     <Property Name="coperacionmigrada" Type="varchar" MaxLength="30" />
     <Property Name="cusuarioaprobacion" Type="varchar" MaxLength="20" />
+    <Property Name="numcuotaprorrateo" Type="int" />
+    <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcaroperacionlote">
     <Key>
@@ -2019,6 +2023,22 @@
     <Property Name="plazominimo" Type="int" Nullable="false" />
     <Property Name="plazomaximo" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="tcarproductorangosnegociacion">
+    <Key>
+      <PropertyRef Name="cmodulo" />
+      <PropertyRef Name="cproducto" />
+      <PropertyRef Name="ctipoproducto" />
+      <PropertyRef Name="secuencia" />
+    </Key>
+    <Property Name="cmodulo" Type="int" Nullable="false" />
+    <Property Name="cproducto" Type="int" Nullable="false" />
+    <Property Name="ctipoproducto" Type="int" Nullable="false" />
+    <Property Name="secuencia" Type="int" Nullable="false" />
+    <Property Name="montominimo" Type="numeric" Precision="15" Scale="2" Nullable="false" />
+    <Property Name="montomaximo" Type="numeric" Precision="15" Scale="2" Nullable="false" />
+    <Property Name="plazominimo" Type="int" Nullable="false" />
+    <Property Name="plazomaximo" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="tcarproductorequisitos">
     <Key>
       <PropertyRef Name="cmodulo" />
@@ -2265,6 +2285,8 @@
     <Property Name="mantieneplazo" Type="bit" />
     <Property Name="tasa" Type="numeric" Precision="10" Scale="6" Nullable="false" />
     <Property Name="mesnogeneracuota" Type="int" />
+    <Property Name="numcuotaprorrateo" Type="int" />
+    <Property Name="montoarreglopago" Type="numeric" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tcarsolicitudabsorcion">
     <Key>
@@ -4683,7 +4705,7 @@
     <Property Name="cpais" Type="varchar" MaxLength="2" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'atlas.dbo.tgenlogo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'atlas_tthh.dbo.tgenlogo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="tgenlogo">
     <Key>
       <PropertyRef Name="logo" />
@@ -6318,7 +6340,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tgenlogo' no tiene definida ningun
     <Property Name="cusuariomod" Type="varchar" MaxLength="20" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'atlas_tthh.dbo.tnombeneficioley' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="tnombeneficioley">
     <Key>
       <PropertyRef Name="cbeneficioley" />
@@ -7008,6 +7030,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <Property Name="pcccc" Type="numeric" Precision="19" Scale="7" />
     <Property Name="pcccl" Type="numeric" Precision="19" Scale="7" />
     <Property Name="descripcion" Type="varchar" MaxLength="300" />
+    <Property Name="ppasanteiess" Type="numeric" Precision="19" Scale="7" />
   </EntityType>
   <EntityType Name="tnomparametroliquidacion">
     <Key>
@@ -7671,6 +7694,11 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <Property Name="cusuariomod" Type="varchar" MaxLength="20" />
     <Property Name="fmodificacion" Type="datetime" />
     <Property Name="incluyeiva" Type="bit" />
+    <Property Name="cdepartamento" Type="bigint" />
+    <Property Name="gastoccatalogo" Type="int" />
+    <Property Name="gastocdetalle" Type="varchar" MaxLength="6" />
+    <Property Name="docrespaldo" Type="varchar" MaxLength="1000" />
+    <Property Name="certpoa" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="tpptcertificaciondetalle">
     <Key>
@@ -8226,6 +8254,11 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <Property Name="cagencia" Type="int" Nullable="false" />
     <Property Name="csucursal" Type="int" Nullable="false" />
     <Property Name="ccompania" Type="int" Nullable="false" />
+    <Property Name="ccatalogoestadoregistro" Type="int" />
+    <Property Name="cdetalleestadoregistro" Type="varchar" MaxLength="6" />
+    <Property Name="fechamodificacionregistro" Type="datetime" />
+    <Property Name="cusuariomodificacionregistro" Type="varchar" MaxLength="20" />
+    <Property Name="comentarioregistro" Type="varchar" MaxLength="3000" />
   </EntityType>
   <EntityType Name="tpreexpedientedetalle">
     <Key>
@@ -8824,6 +8857,19 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <Property Name="esvalor" Type="bit" />
     <Property Name="valor" Type="numeric" Precision="19" Scale="7" />
     <Property Name="activo" Type="bit" />
+  </EntityType>
+  <EntityType Name="tsoccertificado">
+    <Key>
+      <PropertyRef Name="csocio" />
+      <PropertyRef Name="identificacion" />
+    </Key>
+    <Property Name="csocio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="primernombre" Type="varchar" MaxLength="100" />
+    <Property Name="segundonombre" Type="varchar" MaxLength="100" />
+    <Property Name="apellidopaterno" Type="varchar" MaxLength="100" />
+    <Property Name="apellidomaterno" Type="varchar" MaxLength="100" />
+    <Property Name="verreg" Type="int" Nullable="false" />
+    <Property Name="identificacion" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="tsoccesantia">
     <Key>
@@ -10720,6 +10766,22 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
       <Dependent Role="tgenferiados">
         <PropertyRef Name="mesccatalogo" />
         <PropertyRef Name="mescdetalle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TGENMODULO">
+    <End Role="tgenproducto" Type="Self.tgenproducto" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tcarproductorangosnegociacion" Type="Self.tcarproductorangosnegociacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tgenproducto">
+        <PropertyRef Name="cmodulo" />
+        <PropertyRef Name="cproducto" />
+      </Principal>
+      <Dependent Role="tcarproductorangosnegociacion">
+        <PropertyRef Name="cmodulo" />
+        <PropertyRef Name="cproducto" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -21905,6 +21967,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <EntitySet Name="tcarproductodocumentos" EntityType="Self.tcarproductodocumentos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tcarproductopermitidos" EntityType="Self.tcarproductopermitidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tcarproductorangos" EntityType="Self.tcarproductorangos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tcarproductorangosnegociacion" EntityType="Self.tcarproductorangosnegociacion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tcarproductorequisitos" EntityType="Self.tcarproductorequisitos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tcarproductotasas" EntityType="Self.tcarproductotasas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tcarproductotasastabla" EntityType="Self.tcarproductotasastabla" Schema="dbo" store:Type="Tables" />
@@ -22266,6 +22329,7 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <EntitySet Name="tsgstiposegurodetalle" EntityType="Self.tsgstiposegurodetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tsgstiposeguroproducto" EntityType="Self.tsgstiposeguroproducto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tsgstiposegurorubros" EntityType="Self.tsgstiposegurorubros" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tsoccertificado" EntityType="Self.tsoccertificado" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tsoccesantia" EntityType="Self.tsoccesantia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tsoccesantiahistorico" EntityType="Self.tsoccesantiahistorico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tsocestadosocio" EntityType="Self.tsocestadosocio" Schema="dbo" store:Type="Tables" />
@@ -22480,6 +22544,10 @@ advertencia 6002: La tabla o vista 'atlas.dbo.tnombeneficioley' no tiene definid
     <AssociationSet Name="FK_TGENFERI_REFERENCE_TGENCATA" Association="Self.FK_TGENFERI_REFERENCE_TGENCATA">
       <End Role="tgencatalogodetalle" EntitySet="tgencatalogodetalle" />
       <End Role="tgenferiados" EntitySet="tgenferiados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TGENMODULO" Association="Self.FK_TGENMODULO">
+      <End Role="tgenproducto" EntitySet="tgenproducto" />
+      <End Role="tcarproductorangosnegociacion" EntitySet="tcarproductorangosnegociacion" />
     </AssociationSet>
     <AssociationSet Name="FK_TGENPARA_FKTGENPAR_TGENCOMP" Association="Self.FK_TGENPARA_FKTGENPAR_TGENCOMP">
       <End Role="tgencompania" EntitySet="tgencompania" />

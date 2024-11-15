@@ -1,0 +1,364 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+
+	<button pButton type="button" label="Pagar" style="position: absolute; right: 115px;"
+	class="f-btn teal-btn" icon="ui-icon-save" (click)="grabar()"></button>
+
+</div>
+
+<div class="f-contenedor-transaccion">
+
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="ccomprobante" class="ui-outputlabel">Comprobante</label>
+			</div>
+			<div class="ui-g-2 ui-md-1">
+				<input id="ccomprobante" name="ccomprobante" type="text" pInputText [(ngModel)]="mcampos.ccomprobante" readonly />
+			</div>
+
+			<div class="ui-g-12 ui-md-2">
+				<label for="numerocomprobantecesantia" class="ui-outputlabel"># Comprobante Cesantía</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="numerocomprobantecesantia" name="numerocomprobantecesantia" type="text" pInputText [(ngModel)]="mcampos.numerocomprobantecesantia"
+				 readonly />
+			</div>
+		</div>
+
+	</form>
+
+
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+
+
+			<p-dataTable [value]="lregistros" [immutable]="false" [responsive]="true" scrollable="true" scrollHeight="250px">
+
+				<p-header>
+					<div class="ui-table-title">Pagos Registrados</div>
+
+				</p-header>
+
+				<p-column field="cinvtablaamortizacion" header="Id. Cuota" [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+				<p-column field="finicio" header="F.Inicio" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+				<p-column field="mdatos.nPlazo360" header="Plazo" [style]="{'width':'30px'}" styleClass="f-center"></p-column>
+				<p-column field="fvencimiento" header="F.Vencim." [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+				<p-column header="Capital Dividendo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioncapital | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Dividendo" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.proyeccioninteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Mora" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.valormora | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Subtotal" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nsubtotal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="V. Cancelado" styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.valorcancelado | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="mdatos.nEmisor" header="Emisor" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.nInstrumento" header="Instrumento" [style]="{'width':'60px'}"></p-column>
+
+				<p-column header="V.Nominal Inv." styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nValornominal | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column header="Interés Inv." styleClass="f-right" [style]="{'width':'90px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<span>{{ reg.mdatos.nInteres | number:'1.2-2' }}</span>
+					</ng-template>
+				</p-column>
+
+				<p-column field="mdatos.nFvencimiento" header="F. Venc. Inv." [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+
+				<p-column field="cinversion" header="Id. Inv." [style]="{'width':'60px'}" styleClass="f-center"></p-column>
+
+				<p-column [style]="{'width':'40px'}">
+					<ng-template pTemplate="body" let-row="rowData" let-index="rowIndex">
+						<button pButton type="button" (click)="edit(row,index)" icon="ui-icon-add"></button>
+					</ng-template>
+				</p-column>
+
+			</p-dataTable>
+		</div>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="title_separator">
+				<i class="fa ui-icon-adjust"></i>
+				<span>DETALLE DEL PAGO</span>
+			</div>
+			<hr />
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="idinversion" class="ui-outputlabel">Id. Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="idinversion" name="idinversion" type="text" pInputText [(ngModel)]="this.mCinversion" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="vnominal" class="ui-outputlabel">Valor Nominal Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="vnominal" name="vnominal" type="text" pInputText 
+				[(ngModel)]="this.mValorNominal" numero readonly class="f-bold"
+				disabled = "true"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="cinvtablaamortizacion" class="ui-outputlabel">Id. Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cinvtablaamortizacion" name="cinvtablaamortizacion" type="text" pInputText [(ngModel)]="this.mCinvtablaamortizacion"
+				 readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="capitaldividendo" class="ui-outputlabel">Capital Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="capitaldividendo" name="capitaldividendo" type="text" pInputText [(ngModel)]="this.mcapitalproyectado" numero readonly class="f-bold"
+				disabled = "true" 
+				style="font-size:13px" />
+			</div>
+
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="memisorNombre" class="ui-outputlabel">Emisor</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="memisorNombre" name="memisorNombre" type="text" pInputText [(ngModel)]="this.mEmisorNombre" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="interesinversion" class="ui-outputlabel">Interés Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="interesinversion" name="interesinversion" type="text" pInputText [(ngModel)]="this.mInteresInversion" numero readonly
+				disabled = "true" class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="finiciodividendo" class="ui-outputlabel">Fecha Inicio del Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="finiciodividendo" name="finiciodividendo" type="text" pInputText [(ngModel)]="this.mFinicioNum" readonly class="f-bold"
+				 style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="interesesdividendo" class="ui-outputlabel">Interés Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="interesesdividendo" name="interesesdividendo" type="text" pInputText [(ngModel)]="this.minteresproyectado" numero readonly
+				disabled = "true" class="f-bold" style="font-size:13px" />
+			</div>
+
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="title_separator">
+					<i class="fa ui-icon-adjust"></i>
+					<span>INFORMACIÓN CONTABLE COSTO AMORTIZADO</span>
+				</div>
+				<hr />
+			</div>
+			<div class="ui-g-12 ui-md-1">
+				<label for="capitaldividendo" class="ui-outputlabel">Capital </label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="ncapitalamortizado" name="ncapitalamortizado" type="text" pInputText [(ngModel)]="this.mCapital" numero readonly class="f-bold"
+				disabled = "true" 
+				style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="interesesdividendo" class="ui-outputlabel">Interés implicito</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="ninteresimplicito" name="ninteresimplicito" type="text" pInputText [(ngModel)]="this.mInteres" numero readonly
+				disabled = "true" class="f-bold" style="font-size:13px" />
+			</div>
+
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="minstrumentoNombre" class="ui-outputlabel">Instrumento</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="minstrumentoNombre" name="minstrumentoNombre" type="text" pInputText [(ngModel)]="this.mInstrumentoNombre" readonly
+				 class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="totalinversion" class="ui-outputlabel">Total Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="totalinversion" name="totalinversion" type="text" pInputText [(ngModel)]="this.mInteresInversion + this.mValorNominal" numero readonly
+				disabled = "true" class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="plazo" class="ui-outputlabel">Plazo Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="plazo" name="plazo" type="text" pInputText [(ngModel)]="this.mPlazo" readonly class="f-bold" style="font-size:13px"
+				/>
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="mora" class="ui-outputlabel">Valor Mora Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="mora" name="mora" type="text" pInputText [(ngModel)]="this.mMora" numero readonly class="f-bold" style="font-size:13px"
+				disabled = "true" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="fvencimientoinversion" class="ui-outputlabel">Fecha Vencimiento Inversión</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fvencimientoinversion" name="fvencimientoinversion" type="text" pInputText [(ngModel)]="this.mFVencimientoNum"
+				 readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-3">
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="mfvencimientoDividendo" class="ui-outputlabel">Fecha Vencimiento Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="mfvencimientoDividendo" name="mfvencimientoDividendo" type="text" pInputText [(ngModel)]="this.mFVencimientoDividendo"
+				 readonly class="f-bold" style="font-size:13px" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="subtotal" class="ui-outputlabel">Total Dividendo</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="subtotal" name="subtotal" type="text" pInputText [(ngModel)]="this.mSubtotal" numero readonly class="f-bold" style="font-size:13px"
+				disabled = "true" />
+			</div>
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="valorcancelado" class="ui-outputlabel">Valor Cancelado</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="valorcancelado" name="valorcancelado" type="text" pInputText [(ngModel)]="this.mValorCancelado"
+				 readonly numero class="f-bold" style="font-size:13px" [disabled]="true" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="diferencia" class="ui-outputlabel">Diferencia</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="diferencia" name="diferencia" type="text" pInputText [(ngModel)]="this.mDiferencia"
+				 numero readonly class="f-bold" style="font-size:13px" [disabled]="true" />
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<label for="valormora" class="ui-outputlabel">Valor Mora</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="valormora" name="valormora" type="text" pInputText [(ngModel)]="this.mMora"
+				 numero readonly class="f-bold" style="font-size:13px" [disabled]="true" />
+			</div>
+
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="comentariosing" class="ui-outputlabel">Comentarios del registro</label>
+			</div>
+
+			<div class="ui-g-2 ui-md-8">
+				<input 
+				id="comentariosing" 
+				name="comentariosing" 
+				type="text" 
+				pInputText [(ngModel)]="this.mComentarioIngreso" 
+				class="f-bold"
+				style="font-size:13px"
+				[disabled]="true"
+				 />
+			</div>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="comentariosapr" class="ui-outputlabel">Comentarios para la aprobación</label>
+			</div>
+
+			<div class="ui-g-2 ui-md-8">
+				<input 
+				id="comentariosapr" 
+				name="comentariosapr" 
+				type="text" 
+				pInputText [(ngModel)]="this.mComentario" 
+				class="f-bold"
+				style="font-size:13px"
+				[disabled]="estaVacio(this.mCinvtablaamortizacion)"
+				mayusculas />
+			</div>
+
+		</div>
+
+
+		<button type="button" pButton icon="ui-icon-cancel" (click)="cancelarPago()" label="Cancelar" class="f-btn f-float-left orange-btn"
+		[disabled]="estaVacio(this.mCinvtablaamortizacion)"></button>
+
+		<button *ngIf= "!estaVacio(this.mCinvtablaamortizacion)" type="button" 
+		pButton icon="ui-icon-directions" 
+		(click)="enviar()" 
+		label="Devolver" class="f-btn f-float-left orange-btn"
+		[disabled]="false"></button>
+
+	</form>
+
+</div>
+<app-lov-comentarios (eventoCliente)=fijarLovComentario($event)></app-lov-comentarios>

@@ -1,0 +1,31 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  	<acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+</div>
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+<div class="ui-g-5 ui-md-5">
+	
+</div>
+   	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+		</div>
+		<div class="ui-g-2 ui-md-1">
+			<input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="mcampos.identificacion" required [readOnly]="true" />
+		</div>
+		<div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" 
+			[disabled]="bandeja" icon="ui-icon-directions">
+			</button>
+		</div>
+		<app-lov-personas (eventoCliente)=fijarLovSociosSelec($event)></app-lov-personas>
+	</div>
+</form>
+
+<p-fieldset [collapsed] = "!collapsed"  legend="APORTES PERSONALES" [toggleable]="collapsed">
+	<app-aportes></app-aportes>
+</p-fieldset>
+
+

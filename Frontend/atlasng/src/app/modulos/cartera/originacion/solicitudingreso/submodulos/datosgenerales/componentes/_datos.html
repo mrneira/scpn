@@ -1,0 +1,184 @@
+<div class="f-contenedor-transaccion">
+  <form #formularioUsuario="ngForm">
+    <div class="f-datacontent ui-g ui-fluid">
+      <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.nproducto" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fctipoproducto" class="ui-outputlabel required">Tipo producto</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.mdatos.ntipoproducto"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="frecuenciainteres" class="ui-outputlabel required">Frecuencia interés</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="frecuenciainteres" name="frecuenciainteres" [(ngModel)]="registro.mdatos.nfrecuencia"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="tablaamortizacion" class="ui-outputlabel required">Tabla de amortización</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="tablaamortizacion" name="tablaamortizacion" [(ngModel)]="registro.mdatos.ntipotabla"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="basecalculo" class="ui-outputlabel required">Base de cálculo</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input pInputText id="basecalculo" name="basecalculo" [(ngModel)]="registro.mdatos.nbasecalculo" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="periocidadcapital" class="ui-outputlabel required">Periodicidad capital</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="periocidadcapital" name="periocidadcapital" entero [(ngModel)]="registro.periodicidadcapital"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="csucursal" class="ui-outputlabel required">Sucursal</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="csucursal" name="csucursal" [(ngModel)]="registro.mdatos.nsucursal"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cagencia" class="ui-outputlabel required">Agencia</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="cagencia" name="cagencia" [(ngModel)]="registro.mdatos.nagencia" disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cestatussolicitud" class="ui-outputlabel required">Estatus</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="cestatussolicitud" name="cestatussolicitud" [(ngModel)]="registro.mdatos.nestatussolicitud"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cestadooperacion" class="ui-outputlabel required">Estado</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="cestadooperacion" name="cestadooperacion" [(ngModel)]="registro.mdatos.nestadooperacion"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cusuarioingreso" class="ui-outputlabel required">Oficial</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="cusuarioingreso" name="cusuarioingreso" [(ngModel)]="registro.cusuarioingreso"
+              disabled="disabled" />
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12"></div>
+      <div class="ui-g-12"></div>
+
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="monto" class="ui-outputlabel required">Monto</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="monto" name="monto" maxlength="10" numero [(ngModel)]="registro.montooriginal"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.cestadooperacion != 'N'">
+          <div class="ui-g-12 ui-md-4">
+            <label for="montoNegociacion" class="ui-outputlabel required">Monto de negociación</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="montoNegociacion" name="montoNegociacion" maxlength="10" numero [(ngModel)]="registro.montoarreglopago"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="numerocuotas" class="ui-outputlabel required">Número cuotas</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numerocuotas" name="numerocuotas" maxlength="3" entero [(ngModel)]="registro.numerocuotas"
+              required disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.cestadooperacion != 'N'">
+          <div class="ui-g-12 ui-md-4">
+            <label for="numCuotaProrrateoNegociacion" class="ui-outputlabel required">Cuotas prorrateo</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="numCuotaProrrateoNegociacion" name="numCuotaProrrateoNegociacion" maxlength="3" entero [(ngModel)]="registro.numcuotaprorrateo"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="tasanominal" class="ui-outputlabel">Tasa nominal</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="tasanominal" name="tasanominal" maxlength="5" numero [(ngModel)]="registro.tasa"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad">
+          <div class="ui-g-12 ui-md-4">
+            <label for="fingreso" class="ui-outputlabel">Fecha ingreso</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-calendar id="fingreso" name="fingreso" [(ngModel)]="registro.mdatos.fingreso" [showIcon]="true" disabled="disabled"
+              [dateFormat]="formatofecha"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.mdatos.gracia">
+          <div class="ui-g-12 ui-md-4">
+            <label for="cuotagracia" class="ui-outputlabel">Cuotas de gracia</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="text" pInputText id="cuotagracia" name="cuotagracia" maxlength="2" entero [(ngModel)]="registro.cuotasgracia"
+              [disabled]="!editable" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-g-nopad" *ngIf="registro.mdatos.gracia">
+          <div class="ui-g-12 ui-md-4">
+            <label for="finiciopago" class="ui-outputlabel">Fecha inicio de pagos</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-calendar id="finiciopago" name="finiciopago" [(ngModel)]="registro.mdatos.finiciopagos" [showIcon]="true"
+              [disabled]="!editable" [dateFormat]="formatofecha"></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,157 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event)>
+</app-lov-funcionarios>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cfuncionarioFilter" class="ui-outputlabel">Empleado:</label>
+      </div>
+      <div class="ui-g-2 ui-md-1">
+        <input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-9 ui-md-4">
+        <input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="registro.mdatos.nfuncionario"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-3">
+        <button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="mescdetalle" class="ui-outputlabel ">Tipo movimiento:</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown id="tipocdetalle" name="tipocdetalle" [options]="ltipo" [(ngModel)]="mfiltros.tipocdetalle" required [filter]="true"
+          appendTo="body" (onChange)="consultar()"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="aniof" class="ui-outputlabel ">Año:</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <input id="aniof" name="aniof" type="text" pInputText [ngModel]="mfiltros.anio" required [readOnly]="true" style="text-align:center;"
+        />
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" id="lovParametro" name="lovParametro" (click)="mostrarLovParametro()" icon="ui-icon-directions"
+          [disabled]="!editable"></button>
+      </div>
+    </div>
+
+
+
+    <app-lov-parametroanual (eventoCliente)=fijarLovParametroSelec($event)></app-lov-parametroanual>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+        <p-header>
+          <div class="ui-table-title">SALDO VACACIONES</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+       
+          <div class="f-acciones-cab-tabla">
+
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('pdf')" class="f-btn green-btn f-pdf" style="text-align:center">
+            </button>
+            <button type="button" pButton icon="ui-icon-delete-forever" (click)="descargarReporte('xls')" class="f-btn green-btn f-excel" style="text-align:center">
+            </button>
+          </div>
+          <div class="ui-g-12" style='display:none'>
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+          </div>
+        </p-header>
+        <p-column field="csaldovacaciones" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="anio" header="Año" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'60px'}"></p-column>
+        
+        <p-column field="mdatos.ntipo" header="Tipo" [filter]="true" filterPlaceholder="Filtrar" [style]="{'width':'150px'}"></p-column>
+
+        <p-column field="mdatos.nfuncionario" [style]="{'width':'120px'}" header="Empleado" [filter]="true" filterPlaceholder="Filtrar"></p-column>
+
+        <p-column field="comentario" header="Comentario"></p-column>
+        <p-column header="Saldo" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.dias | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="Sueldo" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.sueldoactual | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-column header="Monto" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+
+        <p-footer>
+
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Ajuste manual - Saldo Vacaciones" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cdescuentop" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="cdescuentop" name="cdescuentop" [(ngModel)]="registro.cdescuentop" autofoco required numeric
+              maxlength="10" [disabled]="true" />
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nombre" class="ui-outputlabel required">comentario:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <textarea pInputText id="nombre" name="nombre" [(ngModel)]="registro.comentario" required mayusculas maxlength="200" rows="2"
+              [disabled]="!editable"></textarea>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="valor" class="ui-outputlabel required">Valor:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="valor" name="valor" type="text" pInputText [(ngModel)]="registro.dias" required numeroPositivo maxlength="10"
+              [readOnly]="false" />
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

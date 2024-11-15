@@ -1,0 +1,250 @@
+<app-lov-personas #personas (eventoCliente)="fijarLovSociosSelec($event)"></app-lov-personas>
+<app-lov-aportes (eventoCliente)="fijarLovAportesSelec($event)"></app-lov-aportes>
+
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+    <button pButton type="button" label="Generar" style="position: absolute; right: 120px;" class="f-btn teal-btn" icon="ui-icon-save"
+      (click)="aceptarGrabar()"></button>
+  </div>
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12" style='display:none'>
+      <app-jasper #tblapagos [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="this.tran=='50'">
+      <div class="ui-g-12 ui-md-2">
+        <label for="rqcomentario" class="ui-outputlabel required">Número de documento bancario</label>
+      </div>
+
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="numerodocumentobancario" name="numerodocumentobancario" [(ngModel)]="rqMantenimiento.numerodocumentobancario"
+        />
+      </div>
+    </div>
+
+  </form>
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Aportes</div>
+
+        </p-header>
+        <p-column header="F.Aporte" [style]="{'width':'140px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fechaaporte | fechaenteroformatoYYMM}}
+          </ng-template>
+        </p-column>
+        <p-column header="Sueldo" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.sueldo | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Aportes Personal" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.aportepersonal | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Aportes Patronal" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.aportepatronal | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Aporte Adicional" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.ajuste | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Ajuste Patronal" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.ajustepatronal | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Activo" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [(ngModel)]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;font-weight: bold">
+          <p-row>
+            <p-column footer="" colspan="2" [style]="{'width':'13%','font-size':'9px'}"></p-column>
+            <p-column footer="Total" colspan="2" [style]="{'width':'14%','font-size':'9px' }"></p-column>
+            <p-column [footer]="totalAportePersonal| number : '1.2-2'" [style]="{'width':'14%','font-size':'9px', 'text-align':'right'}"></p-column>
+            <p-column [footer]="totalAportePatronal| number : '1.2-2'" [style]="{'width':'14%','font-size':'9px', 'text-align':'right'}"></p-column>
+            <p-column footer="" colspan="4" [style]="{'width':'45%','font-size':'9px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+<p-dialog header="Aporte" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="120">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoitem" class="ui-outputlabel required">Tipo aporte</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <p-selectButton id="tipoitem" name="tipoitem" [options]="tiposmenu" [(ngModel)]="registro.mdatos.eshoja" 
+             (onChange)="cambiar($event)"></p-selectButton>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.mdatos.eshoja">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fcpersona" class="ui-outputlabel required">Socio:</label>
+            </div>
+            <div class="ui-g-2 ui-md-1">
+              <input id="fcpersona" name="fcpersona" type="text" pInputText [(ngModel)]="registro.cpersona" required [readOnly]="true"
+              />
+            </div>
+            <div class="ui-g-9 ui-md-4">
+              <input type="text" pInputText id="fnpersona" name="fnpersona" [(ngModel)]="registro.mdatos.npersona" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-3">
+              <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovPersonas()" icon="ui-icon-directions">
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="fcpersona" class="ui-outputlabel required">Aporte:</label>
+            </div>
+
+
+            <div class="ui-g-1 ui-md-3">
+              <button pButton type="button" id="lovpersonas" name="lovpersonas" (click)="mostrarLovAportes()" icon="ui-icon-directions">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-6">
+            <label class="ui-outputlabel required">Año :</label>
+          </div>
+          <div class="ui-g-3 ui-md-6">
+            <input type="text" pInputText id="anio" name="anio" [(ngModel)]="mcampos.anio" autofoco required entero maxlength="4" minlength="4"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-3 ui-g-nopad">
+          <div class="ui-g-3 ui-md-6">
+            <label class="ui-outputlabel required">Mes :</label>
+          </div>
+          <div class="ui-g-3 ui-md-6">
+            <p-dropdown id="mes" name="mes" [options]="lmeses" [(ngModel)]="mcampos.mes" [filter]="true" required (onChange)="registrarEtiqueta(registro, lmeses, 'mescdetalle', 'mes')"
+              appendTo="body" [disabled]="!registro.esnuevo"></p-dropdown>
+          </div>
+        </div>
+
+      
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="aportepersonal" class="ui-outputlabel required">Aporte Personal</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="aportepersonal" name="aportepersonal" [(ngModel)]="registro.aportepersonal" (ngModelChange)="Calcular()"
+              required numeroDecimal7 maxlength="19" [disabled]="registro.esnuevo && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="sueldo" class="ui-outputlabel required">Sueldo</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="sueldo" name="sueldo" [(ngModel)]="registro.sueldo" required numero maxlength="19" [disabled]="!editable && !registro.esnuevo"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="aportepatronal" class="ui-outputlabel required">Aporte Patronal</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="aportepatronal" name="aportepatronal" [(ngModel)]="registro.aportepatronal" required numeroDecimal7
+              maxlength="19" [disabled]="registro.esnuevo && !registro.esnuevo" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="ajuste" class="ui-outputlabel">Aporte Adicional</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="ajuste" name="ajuste" [(ngModel)]="registro.ajuste" numeroDecimal7 (ngModelChange)="AportePatronalAjuste()"
+              maxlength="19" [disabled]="!editable && !registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="aportepatronal" class="ui-outputlabel ">Ajuste Patronal</label>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <input type="text" pInputText id="ajustepatronal" name="ajustepatronal" [(ngModel)]="registro.ajustepatronal" required maxlength="19"
+              [disabled]="registro.esnuevo && !registro.esnuevo" />
+          </div>
+        </div>
+
+       
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+
+
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoComentario" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario" required mayusculas
+              maxlength="2000" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="grabar()" label="Confirmar" class="green-btn" [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn" style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

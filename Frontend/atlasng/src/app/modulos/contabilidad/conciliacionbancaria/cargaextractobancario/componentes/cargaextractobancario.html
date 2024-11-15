@@ -1,0 +1,72 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fpkccuenta" class="ui-outputlabel required">Cuenta contable</label>
+			</div>
+
+			<div class="ui-g-12 ui-md-1">
+				<input id="fpkccuenta" name="fpkccuenta" type="text" pInputText [(ngModel)]="mcampos.ccuenta" required [readOnly]="true"
+				/>
+			</div>
+
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fncuenta" name="fncuenta" [(ngModel)]="mcampos.ncuenta" [readOnly]="true" />
+			</div>
+
+			<div class="ui-g-1 ui-md-3">
+				<button pButton type="button" id="lovcuentascontables" name="lovcuentascontables" (click)="mostrarLovCuentasContables()"
+				 icon="ui-icon-directions">
+				</button>
+			</div>
+
+			<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+
+		</div>
+
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="ncuentabancaria" class="ui-outputlabel required">Cuenta bancaria</label>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<input type="text" pInputText id="ncuentabancaria" name="ncuentabancaria" [(ngModel)]="rqMantenimiento.ncuentabancaria" autoWidth="false"
+				 maxlength="20" required width="1px" item-width="1px" size="1px" [style]="{'width': '25%'}" />
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fnarchivo" class="ui-outputlabel required">Nombre de archivo</label>
+			</div>
+			<div class="ui-g-12 ui-md-4">
+				<input type="text" pInputText id="fnarchivo" name="fnarchivo" [(ngModel)]="rqMantenimiento.narchivo" required [readOnly]="true"
+				/>
+			</div>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-3">
+			</div>
+			<div class="ui-g-12 ui-md-4">
+
+				<p-fileUpload id="fnarchivosubir" name="fnarchivosubir" customUpload="true" accept=".xlsx,.xls" [disabled]="false" (uploadHandler)="uploadHandler($event)"
+				(onClear)="cancelarSubir()" (onRemove)="cancelarSubir()" chooseLabel="Escoger" uploadLabel="Subir" cancelLabel="Cancelar"></p-fileUpload>
+
+			</div>
+		</div>
+
+	</form>
+</div>
+
+
+<div class="f-datacontent ui-g ui-fluid">
+	<div class="ui-g-12 ui-g-nopad">
+		<app-resultado-carga></app-resultado-carga>
+	</div>
+</div>

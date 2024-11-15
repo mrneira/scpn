@@ -19,6 +19,23 @@ namespace dal.cartera {
     public class TcarOperacionDal {
 
         /// <summary>
+        /// Codigo de estadooperacion de cartera NOVADA.
+        /// </summary>
+        private static string NOVADA = "V";
+        /// <summary>
+        /// Codigo de estadooperacion de cartera ORIGINAL.
+        /// </summary>
+        private static string ORIGINAL = "N";
+        /// <summary>
+        /// Codigo de estadooperacion de cartera REFINANCIADA.
+        /// </summary>
+        private static string REFINANCIADA = "F";
+        /// <summary>
+        /// Codigo de estadooperacion de cartera RESTRUCTURADA.
+        /// </summary>
+        private static string RESTRUCTURADA = "E";
+
+        /// <summary>
         /// Codigo de estatus de cartera vigente.
         /// </summary>
         private static string VIGENTE = "VIG";
@@ -388,6 +405,30 @@ namespace dal.cartera {
             AtlasContexto contexto = Sessionef.GetAtlasContexto();
             IList<tcaroperacion> ldata = contexto.tcaroperacion.AsNoTracking().Where(x => x.cestatus == APROBADA).ToList();
             return ldata;
+        }
+
+
+
+
+        /// <summary>
+        /// Consulta en la base de datos las operaciones restructuradas de un socio.
+        /// </summary>
+        /// <returns>IList<TcarOperacionDto></returns>
+        public static IList<tcaroperacion> FindOperacionesRestructuradasVigentesByPersona(long cpersona)
+        {
+            AtlasContexto contexto = Sessionef.GetAtlasContexto();
+            IList<tcaroperacion> ldata = contexto.tcaroperacion.AsNoTracking().Where(x => x.cpersona == cpersona && (x.cestatus == TcarOperacionDal.VIGENTE || x.cestatus == TcarOperacionDal.VENCIDA || x.cestatus == TcarOperacionDal.APROBADA) && x.cestadooperacion == TcarOperacionDal.RESTRUCTURADA).ToList();
+            return ldata;
+        }
+
+        /// <summary>
+        /// Consulta en la base de datos una operación Y envia datos de la operción en caso de existir, o envia un null en caso de no existir.
+        /// </summary>
+        /// <returns>IList<TcarOperacionDto></returns>
+        public static tcaroperacion FindSinBloqueoAndSinfinalizarProceso(string coperacion)
+        {
+            AtlasContexto contexto = Sessionef.GetAtlasContexto();
+            return contexto.tcaroperacion.Where(x => x.coperacion == coperacion).SingleOrDefault();
         }
     }
 }

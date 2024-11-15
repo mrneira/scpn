@@ -1,0 +1,214 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Cargas Familiares</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="primernombre" header="Primer Nombre"></p-column>
+				<p-column field="primerapellido" header="Primer Apellido"></p-column>
+				<p-column field="telefonocelular" header="Celular"></p-column>
+				<p-column field="telefonofijo" header="Convencional"></p-column>
+				<p-column field="mdatos.nparentezco" header="Parentesco"></p-column>
+
+				<p-column header="Discapacidad">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.discapacidad" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="Trabaja">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.trabaja" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+
+<p-dialog header="Cargas Familiares" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="60">
+	<form #formDialogoDir="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="secuenciaFam" class="ui-outputlabel">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="secuenciaFam" name="secuenciaFam" [(ngModel)]="registro.secuencia" [disabled]="true" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="primernombreFam" class="ui-outputlabel required">Primer Nombre:
+						</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="primernombreFam" name="primernombreFam" [(ngModel)]="registro.primernombre" maxlength="80"
+						 required letras [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="segundonombreFam" class="ui-outputlabel">Segundo Nombre:
+						</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="segundonombreFam" name="segundonombreFam" [(ngModel)]="registro.segundonombre" maxlength="80"
+						 letras [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="primerapellidoFam" class="ui-outputlabel required">Primer Apellido:
+						</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="primerapellidoFam" name="primerapellidoFam" [(ngModel)]="registro.primerapellido" maxlength="80"
+						 required letras [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="segundoapellidoFam" class="ui-outputlabel">Segundo Apellido:
+						</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="segundoapellidoFam" name="segundoapellidoFam" [(ngModel)]="registro.segundoapellido" maxlength="80"
+						 letras [disabled]="!editable" />
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="fnacimiento" class="ui-outputlabel required">Fecha de Nacimiento:</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-calendar id="fnacimiento" name="fnacimiento" [(ngModel)]="registro.fnacimiento" [showIcon]="true" [locale]="es" [disabled]="!editable"
+						 [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="fdefuncion" class="ui-outputlabel">Fecha de Defunción:</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<p-calendar id="fdefuncion" name="fdefuncion" [(ngModel)]="registro.fdefuncion" [showIcon]="true" [locale]="es" [disabled]="!editable"
+						 [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000"></p-calendar>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="telefonocelular" class="ui-outputlabel">Teléfono Celular:</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-inputMask id="telefonocelular" name="telefonocelular" [(ngModel)]="registro.telefonocelular" mask="999-999-9999" [disabled]="!editable"></p-inputMask>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="telefonofijo" class="ui-outputlabel">Teléfono Fijo</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-inputMask id="telefonofijo" name="telefonofijo" [(ngModel)]="registro.telefonofijo" mask="(99)-999-9999" [disabled]="!editable"></p-inputMask>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="parentezcocdetalle" class="ui-outputlabel required">Parentesco</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-dropdown id="parentezcocdetalle" name="parentezcocdetalle" [options]="lparentezco" [(ngModel)]="registro.parentezcocdetalle"
+						 [disabled]="!editable" (onChange)="registrarEtiqueta(registro, lparentezco, 'parentezcocdetalle', 'nparentezco')" required
+						 [filter]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="migrante" class="ui-outputlabel">Es migrante?</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-checkbox id="migrante" name="migrante" [(ngModel)]="registro.migrante" binary="true" [disabled]="!editable"></p-checkbox>
+					</div>
+				</div>
+
+				
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="trabaja" class="ui-outputlabel ">Trabaja?</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-checkbox id="trabaja" name="discapacidad" [(ngModel)]="registro.trabaja" binary="true" [disabled]="!editable"
+						></p-checkbox>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-3">
+							<label for="discapacidad" class="ui-outputlabel ">Posee discapacidad?</label>
+						</div>
+						<div class="ui-g-12 ui-md-9">
+							<p-checkbox id="discapacidad" name="discapacidad" [(ngModel)]="registro.discapacidad" binary="true" [disabled]="!editable"
+							 (ngModelChange)="discapacidad($event)"></p-checkbox>
+						</div>
+					</div>
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-3 ui-md-3">
+						<label for="carnetconadisFam" class="ui-outputlabel">Carnet del Conadis</label>
+					</div>
+					<div class="ui-g-9 ui-md-9">
+						<input type="text" pInputText id="carnetconadisFam" entero name="carnetconadisFam" [(ngModel)]="registro.carnetconadis" maxlength="10"
+						 [disabled]="!registro.discapacidad" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipodiscapacidadcdetalle" class="ui-outputlabel">Tipo de discapacidad</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-dropdown id="tipodiscapacidadcdetalle" name="tipodiscapacidadcdetalle" [options]="ltipodiscapacidad" [(ngModel)]="registro.tipodiscapacidadcdetalle"
+						appendTo="body" [disabled]="!registro.discapacidad">
+						</p-dropdown>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-12 ui-md-3">
+							<label for="porcentajediscapacidad" class="ui-outputlabel">Porcentaje de discapacidad</label>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<input type="text" pInputText id="porcentajediscapacidad" name="porcentajediscapacidad" [(ngModel)]="registro.porcentajediscapacidad"
+							 [disabled]="true" />
+						</div>
+						<div class="ui-g-12 ui-md-9">
+							<input type="range" name="porcentajediscapacidad" [(ngModel)]="registro.porcentajediscapacidad" min="0" max="100" >
+						</div>
+
+					</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

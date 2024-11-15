@@ -1,0 +1,214 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+    <button pButton type="button" name="desembolso" id="desembolso" label="Desembolsar"
+      style="position: absolute; right: 95px;" class="f-btn green-btn" icon="ui-icon-save" (click)="grabar()"
+      [disabled]="!mostrarGrabar"></button>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+      </div>
+      <div class="ui-g-2">
+        <input id="fidentificacion" name="fidentificacion" type="text" pInputText [ngModel]="mcampos.identificacion"
+          required [readOnly]="true" />
+      </div>
+      <div class="ui-g-10 ui-md-6">
+        <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <div class="ui-g-12">
+          <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()"
+            icon="ui-icon-directions"></button>
+        </div>
+      </div>
+      <app-lov-personas (eventoCliente)="fijarLovPersonaSelec($event)"></app-lov-personas>
+    </div>
+
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcoperacion" class="ui-outputlabel required">Operación</label>
+      </div>
+      <div class="ui-g-2">
+        <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.coperacion"
+          (keyup.enter)="consultar()" />
+      </div>
+      <div class="ui-g-10 ui-md-6">
+        <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <div class="ui-g-12">
+          <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()"
+            icon="ui-icon-directions">
+          </button>
+        </div>
+      </div>
+      <app-lov-operacion-cartera (eventoOperCartera)="fijarLovOperacionSelec($event)"></app-lov-operacion-cartera>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px"
+        [(selection)]="selectedRegistros" dataKey="secuencia" [resizableColumns]="false">
+        <p-header>
+          <div class="ui-table-title">Operaciones</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="false" [siguiente]="false"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column field="coperacion" header="Operación" [style]="{'width':'80px'}"></p-column>
+        <p-column field="identificacionbeneficiario" header="Documento" [style]="{'width':'120px'}"></p-column>
+        <p-column field="comentario" header="Entidad" [style]="{'width':'120px'}"></p-column>
+        <p-column field="nombrebeneficiario" header="Beneficiario"></p-column>
+       
+        <p-column field="mdatos.ninstitucion" header="Institución" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.ntipocuenta" header="Tipo Cuenta" [style]="{'width':'100px'}"></p-column>
+        <p-column field="numerocuentabancaria" header="Cuenta" [style]="{'width':'100px'}"></p-column>
+
+        <p-column header="Monto" styleClass="f-right" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Detalle Desembolso" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade"
+  [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Datos Operación</span>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcdeudor" class="ui-outputlabel required">Deudor</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <input pInputText id="fcdeudor" name="fcdeudor" [(ngModel)]="registro.mdatos.npersona"
+              disabled="disabled" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="fcproducto" class="ui-outputlabel required">Producto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input pInputText id="fcproducto" name="fcproducto" [(ngModel)]="registro.mdatos.nproducto"
+                disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="fctipoproducto" class="ui-outputlabel required">Tipo Producto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input pInputText id="fctipoproducto" name="fctipoproducto" [(ngModel)]="registro.mdatos.ntipoproducto"
+                disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="montooriginal" class="ui-outputlabel required">Monto</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="montooriginal" name="montooriginal" numero
+                [(ngModel)]="registro.mdatos.montooriginal" disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="numerocuotas" class="ui-outputlabel required">Número cuotas</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="numerocuotas" name="numerocuotas" entero
+                [(ngModel)]="registro.mdatos.numerocuotas" required disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="descuento" class="ui-outputlabel required">Descuento seguro</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="descuento" name="descuento" numero
+                [(ngModel)]="registro.mdatos.descuento" required disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12"></div>
+        <div class="ui-g-12"></div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="title_separator">
+            <i class="fa ui-icon-adjust"></i>
+            <span>Datos Desembolso</span>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-6 ui-g-nopad">
+              <div class="ui-g-12 ui-md-4">
+                <label for="montodesembolsar" class="ui-outputlabel required">Monto a desembolsar</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="montodesembolsar" name="montodesembolsar" numero
+                  [(ngModel)]="registro.mdatos.montodesembolsar" required disabled="disabled" />
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="cbanco" class="ui-outputlabel required">Institución financiera:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="cbanco" name="cbanco" [(ngModel)]="registro.mdatos.nbanco"
+                disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="ctipocuenta" class="ui-outputlabel required">Tipo de cuenta:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="ctipocuenta" name="ctipocuenta"
+                [(ngModel)]="registro.mdatos.ntipocuenta" required disabled="disabled" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-4">
+              <label for="numerocuentabancaria" class="ui-outputlabel required">Número de cuenta:</label>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <input type="text" pInputText id="numerocuentabancaria" name="numerocuentabancaria" entero
+                [(ngModel)]="registro.numerocuentabancaria" disabled="disabled" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <HR>
+        <div class="ui-g-12 ui-g-nopad">
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cerrar" class="orange-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

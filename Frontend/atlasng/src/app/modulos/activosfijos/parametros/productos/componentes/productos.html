@@ -1,0 +1,248 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-treeTable [value]="root">
+      <p-header>Categor&iacute;as Activos Fijos y Bienes de Control</p-header>
+      <p-column header="Activo" styleClass="f-left">
+        <ng-template pTemplate="body" let-node="rowData">
+          <p-checkbox [(ngModel)]="node.data.activo" binary="true" [disabled]="true" [hidden]="node.data.nombre=='ROOT'"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column field="reg.codigo" header="C&oacute;digo" styleClass="f-left"></p-column>
+      <p-column field="reg.nombre" header="Nombre" [style]="{'width':'400px'}" styleClass="f-left"></p-column>
+      <p-column header="Movimiento" [style]="{'width':'100px'}" styleClass="f-center">
+        <ng-template pTemplate="body" let-node="rowData">
+          <p-checkbox [ngModel]="node.data.reg.movimiento" binary="true" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column header="Acciones" styleClass="f-right">
+        <ng-template pTemplate="body" let-node="rowData">
+          <div class="f-table-actions">
+            <acciones-arbol [componente]="componentehijo" [nodo]="node"></acciones-arbol>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+
+      </p-footer>
+    </p-treeTable>
+  </div>
+</div>
+
+<app-lov-transacciones (eventoTransaccion)=fijarLovProductosSelec($event)></app-lov-transacciones>
+
+
+<p-dialog header="Información de Producto" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+  [positionTop]="10" (onHide)="cerrarDialogo()">
+  <form #formDialogoProv="ngForm">
+    <div class="f-dialogo" style="max-width: 650px; max-height: 1000px">
+      <div class="f-datacontent ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-3">
+            <label for="tipoitem" class="ui-outputlabel required">Tipo nodo</label>
+          </div>
+          <div class="ui-g-12 ui-md-9">
+            <p-selectButton id="tipoitem" name="tipoitem" [options]="tiposmenu" [(ngModel)]="registro.mdatos.eshoja" [disabled]="!registro.esnuevo"></p-selectButton>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="!registro.mdatos.eshoja">
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">C&oacute;digo</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="codigo" name="codigo" [(ngModel)]="registro.codigo" required mayusculas maxlength="30"
+              [disabled]="!editable" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <label for="nombre" class="ui-outputlabel required">Nombre</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="60"
+              [disabled]="!editable" />
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <label for="grcodificable" class="ui-outputlabel ">Grupo codificable</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-checkbox name="grcodificable" [(ngModel)]="registro.grcodificable" binary="false"></p-checkbox>
+          </div>
+
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad" *ngIf="registro.mdatos.eshoja">
+          <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cproducto" class="ui-outputlabel required">Activo Fijo/Bien de Control</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="producto" name="producto" [(ngModel)]="registro.cproducto" required entero maxlength="20"
+                [disabled]="!registro.nuevo" readonly="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cunidad" class="ui-outputlabel required ">C&oacute;digo Int</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="codigo" name="codigo" [(ngModel)]="registro.codigo" required mayusculas maxlength="30"
+              [disabled]="!editable" />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="nombre" class="ui-outputlabel required">Nombre</label>
+            </div>
+            <div class="ui-g-12 ui-md-10">
+              <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.nombre" required mayusculas maxlength="250"
+                [disabled]="!editable" />
+            </div>
+          </div>    
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="marcacdetalle" class="ui-outputlabel ">Marca</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="marcacdetalle" name="marcacdetalle" [options]="lmarcacdetalle" [(ngModel)]="registro.marcacdetalle" [filter]= "true" ></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="modelo" class="ui-outputlabel">Modelo</label>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <input type="text" pInputText id="modelo" name="modelo" [(ngModel)]="registro.modelo" mayusculas maxlength="100" [disabled]="!editable"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="centrocostoscdetalle" class="ui-outputlabel required" >Centro de Costo</label>
+            </div>
+            <div class="ui-g-12 ui-md-5">
+              <p-dropdown id="centrocostoscdetalle" name="centrocostoscdetalle" [options]="lCcostocdetalle" [(ngModel)]="registro.centrocostoscdetalle" required></p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-g-nopad" hidden="true">
+            <div class="ui-g-12 ui-md-2">
+              <label for="padre" class="ui-outputlabel">Padre</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <input type="text" pInputText id="padre" name="padre" [(ngModel)]="registro.padre" mayusculas maxlength="20" [disabled]="!registro.esnuevo"
+                [readOnly]="true" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="movimientos" class="ui-outputlabel required">Movimiento</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="movimientos" [(ngModel)]="registro.movimiento" binary="false" aria-required="true"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="codificable" class="ui-outputlabel">Codificable</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="codificable" [(ngModel)]="registro.codificable" binary="false"></p-checkbox>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="depreciable" class="ui-outputlabel">Depreciable</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="depreciable" [(ngModel)]="registro.depreciable" binary="false"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="gravaiva" class="ui-outputlabel required">Grava IVA</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-checkbox name="gravaiva" [(ngModel)]="registro.gravaiva" binary="false" aria-required="true"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="cunidad" class="ui-outputlabel ">Unidad</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <p-dropdown id="cunidad" name="cunidad" [options]="lunidad" [(ngModel)]="registro.cunidad"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-1"></div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="stockminimo" class="ui-outputlabel">Stock M&iacute;nimo</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <input type="text" pInputText id="stockminimo" name="stockminimo" [(ngModel)]="registro.stockminimo" entero maxlength="20"
+                [disabled]="!editable" />
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <label for="stock" class="ui-outputlabel ">Stock</label>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <input type="text" pInputText id="stock" name="stock" [(ngModel)]="registro.stock" numeroDecimal7 maxlength="6" disabled="true"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="vunitario" class="ui-outputlabel">V. Unitario</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vunitario" name="vunitario" [(ngModel)]="registro.vunitario" entero maxlength="20" disabled="true"
+              />
+            </div>
+            <div class="ui-g-12 ui-md-2"></div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="fultcompra" class="ui-outputlabel ">Fecha Ult. Compra</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <p-calendar id="fultcompra" name="fultcompra" [(ngModel)]="registro.fultcompra" [showIcon]="true" [dateFormat]="formatofecha"
+                readonly="true"></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+              <label for="vidautil" class="ui-outputlabel">Vida &Uacute;til(Meses)</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="vidautil" name="vidautil" [(ngModel)]="registro.vidautil" entero maxlength="3" [disabled]="!editable"
+              />
+            </div>
+            <div class="ui-g-12 ui-md-2"></div>
+            <div class="ui-g-12 ui-md-2">
+              <label for="porcendepreciacion" class="ui-outputlabel ">% Depreciaci&oacute;n</label>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <input type="text" pInputText id="porcendepreciacion" name="porcendepreciacion" [(ngModel)]="registro.porcendepreciacion" numero  [disabled]="!editable"
+              />
+            </div>          
+          </div>      
+
+         
+
+         
+
+        
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoProv" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+
+</p-dialog>
+<app-lov-cuentas-contables #lov1 (eventoCliente)=fijarLovCuentasSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov2 (eventoCliente)=fijarLovCuentasDepreciacionSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov3 (eventoCliente)=fijarLovCuentasGastoSelec($event)></app-lov-cuentas-contables>
+<app-lov-cuentas-contables #lov4 (eventoCliente)=fijarLovCuentasDepreciacionAcumSelec($event)></app-lov-cuentas-contables>

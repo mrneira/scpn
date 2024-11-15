@@ -1,0 +1,120 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<div class="f-datacontent ui-g ui-fluid">
+  <div class="ui-g-12 ui-g-nopad">
+    <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" resizableColumns="true" scrollHeight="250px" columnResizeMode="expand">
+      <p-column field="tipodocumentocdetalle" header="Tipo Documento" ></p-column>
+      <p-column field="csecuenciasri" header="C&oacute;digo" ></p-column>
+      <p-column field="establecimiento" header="Establecimiento" ></p-column>
+      <p-column field="puntodeemision" header="Punto de emisi&oacute;n" ></p-column>
+      <p-column field="secuenciaactual" header="Secuencia actual" ></p-column>
+      <p-column field="direccionestablecimiento" header="Dirección Establecimiento" ></p-column>
+      <p-column header="Activa" >
+        <ng-template pTemplate="body" let-reg="rowData">
+          <p-checkbox [ngModel]="reg.estado" binary="false" [disabled]="true"></p-checkbox>
+        </ng-template>
+      </p-column>
+      <p-column >
+        <ng-template pTemplate="body" let-reg="rowData">
+          <div class="f-table-actions">
+            <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+          <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+
+
+
+
+<p-dialog header="Secuencias SRI" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [closable]="false"
+  [positionTop]="120" (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Tipo documento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown id="tipodocumentocdetalle" name="tipodocumentocdetalle" [options]="ltipodocumentocdetalle" 
+              [(ngModel)]="registro.tipodocumentocdetalle" required [filter]="true" [disabled]="!registro.esnuevo" (onBlur)="validarDuplicado()" >
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad" hidden="true">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Código:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="csecuenciasri" name="csecuenciasri" [(ngModel)]="registro.csecuenciasri" autofoco maxlength="3"
+              [disabled]="!registro.esnuevo" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Establecimiento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="establecimiento" name="establecimiento" [(ngModel)]="registro.establecimiento" required
+              entero minlength="3" maxlength="3" [disabled]="!registro.esnuevo" (blur)="validarDuplicado()" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Punto de emisi&oacute;n:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="puntodeemision" name="puntodeemision" [(ngModel)]="registro.puntodeemision" required entero
+              minlength="3" maxlength="3" [disabled]="!registro.esnuevo" (blur)="validarDuplicado()" />
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Secuencia actual:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input type="text" pInputText id="secuenciaactual" name="secuenciaactual" [(ngModel)]="registro.secuenciaactual" required
+              entero minlength="1" maxlength="9" [disabled]="!editable && !registro.esnuevo"  (ngModelChange)="validarSecuencia()"/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Dirección Establecimiento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="direccionestablecimiento" name="direccionestablecimiento" [(ngModel)]="registro.direccionestablecimiento" required
+              texto minlength="1" maxlength="250" [disabled]="!editable && !registro.esnuevo"/>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+            <label class="ui-outputlabel">Activa:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-checkbox name="estado" [(ngModel)]="registro.estado" binary="false"></p-checkbox>
+          </div>
+        </div>
+
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

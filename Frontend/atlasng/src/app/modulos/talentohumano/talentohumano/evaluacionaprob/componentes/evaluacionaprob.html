@@ -1,0 +1,66 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+      <acciones-cabecera [grabar]="false" [componente]="componentehijo"></acciones-cabecera>
+      <button  pButton type="button" label="Enviar Notificación" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+      icon="ui-icon-mail" (click)="aprobar()"></button>
+  </div>
+
+
+  <app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+ 
+           
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="cevaluacion">
+        <p-header>
+          <div class="ui-table-title">Evaluación de desempeño</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        
+        <p-column field="cevaluacion" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+        <p-column field="mdatos.ndepartamento" header="Departamento"></p-column>
+        <p-column field="mdatos.nfuncionario" header="Funcionario"></p-column>
+        <p-column field="mdatos.nperiodo" header="Periodo"></p-column>
+      
+        <p-column field="fevaluacion" header="F.Evaluación" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fevaluacion | date: 'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </p-column>
+
+        <p-column field="calificacion" header="Calificación" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span> {{ reg.calificacion | number : '1.2-2' }}</span>
+          </ng-template>
+        </p-column>
+        <p-column header="Prueba?" [style]="{'width':'80px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.periodoprueba" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+
+        <p-column [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+                <button type="button" pButton (click)="mostrarLovGestorDocumental(reg)" icon="ui-icon-file-upload"></button>
+                <span *ngIf="!estaVacio(reg.cgesarchivo)">
+                  <button type="button" pButton (click)="descargarArchivo(reg.cgesarchivo, true)" icon="ui-icon-file-download">
+                  </button>
+
+                </span>
+                <button type="button" pButton icon="ui-icon-print" name="btnpdf" (click)="Descargar(reg)" pTooltip="Descarga PDF" tooltipPosition="top"></button>
+              <div class="f-acciones-cab-tabla" style='display:none'>
+                <app-jasper [componente]="componentehijo" [formulario]="formulario"></app-jasper>
+              </div>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

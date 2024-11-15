@@ -1,0 +1,100 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-contenedor-transaccion">
+
+    <form #formularioUsuario="ngForm">
+      <div class="f-dialogo" style="max-width: 900px">
+        <div class="f-datacontent ui-g ui-fluid">
+          <acciones-editar [formAcciones]="formularioUsuario" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+          <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="remplazo" class="ui-outputlabel required">Remplazo:</label>
+              </div>
+              <div class="ui-g-2 ui-md-1">
+                <input id="remplazo" name="remplazo" type="text" pInputText [(ngModel)]="mcampos.cfuncionario" required [readOnly]="true"
+                />
+              </div>
+              <div class="ui-g-9 ui-md-4">
+                <input type="text" pInputText id="nombref" name="nombref" [(ngModel)]="mcampos.nfuncionario" [readOnly]="true" />
+              </div>
+              <div class="ui-g-1 ui-md-3">
+                <button pButton type="button" id="lovRemplazo" name="lovRemplazo" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"
+                  [disabled]="!editable"></button>
+              </div>
+              <app-lov-funcionarios (eventoCliente)=fijarLovFuncionarioSelec($event)></app-lov-funcionarios>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="finicio" class="ui-outputlabel required ">Fecha inicio:</label>
+              </div>
+              <div class="ui-g-6 ui-md-2">
+                <p-calendar name="finicio" [(ngModel)]="registro.finicio" [showIcon]="true"  [dateFormat]="formatofecha"
+                  (ngModelChange)="validarFecha()" [readonlyInput]="true" appendTo="body" [monthNavigator]="true" [locale]="es"
+                  [yearNavigator]="true" yearRange="1900:5000" required [disabled]="!editable"></p-calendar>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="ffin" class="ui-outputlabel required ">Fecha fin:</label>
+              </div>
+              <div class="ui-g-6 ui-md-2">
+                <p-calendar name="ffin" [(ngModel)]="registro.ffin" [showIcon]="true" appendTo="body" [dateFormat]="formatofecha" [minDate]="mcampos.fmin"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" [disabled]="estaVacio(registro.finicio) || !editable "
+                  [locale]="es" [readonlyInput]="true" required (ngModelChange)="numDias()"></p-calendar>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+              <div class="ui-g-12 ui-md-6">
+                <label for="cambio" class="ui-outputlabel">Aplica cambio?</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-checkbox id="cambio" name="cambio" [(ngModel)]="registro.cambio" binary="false" [disabled]="!editable"></p-checkbox>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-g-nopad">
+              <div class="ui-g-12 ui-md-4">
+                <label for="dias" class="ui-outputlabel">Total dias</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <input type="text" pInputText id="dias" name="dias" [readOnly]="true" [(ngModel)]="registro.dias" maxlength="4" entero [disabled]="!editable"
+                />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="motivo" class="ui-outputlabel required">Observación:</label>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <textarea pInputText id="motivo" name="comentario" [(ngModel)]="registro.comentario" required mayusculas maxlength="200" rows="2"
+                  [disabled]="!editable"></textarea>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad ">
+              <div class="ui-g-3 ui-md-2">
+                <label for="fcpersona" class="ui-outputlabel ">Documento Respaldo:</label>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <input id="cgesarchivo" name="cgesarchivo" type="text" pInputText [ngModel]="registro.cgesarchivo"  [readOnly]="true"
+                  style="text-align:center;" />
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input type="text" pInputText id="ndocumento" name="ndocumento" [(ngModel)]="registro.mdatos.ndocumento" [readOnly]="true"
+                  style="text-align:center;" />
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button type="button" pButton (click)="mostrarLovGestorDocumental(registro)" icon="ui-icon-file-upload"></button>
+              </div>
+              <app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>

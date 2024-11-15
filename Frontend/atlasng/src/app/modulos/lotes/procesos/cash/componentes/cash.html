@@ -1,0 +1,45 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" etiquetaGrabar="Ejecutar batch"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Módulo</label>
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fnmodulo" name="fnmodulo" [(ngModel)]="mcampos.nmodulo" [readOnly]="true" />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="fpkcmodulo" class="ui-outputlabel required">Transacción</label>
+			</div>
+			<div class="ui-g-9 ui-md-4">
+				<input type="text" pInputText id="fntransaccion" name="fntransaccion" [(ngModel)]="mcampos.ntransaccion" [readOnly]="true" />
+			</div>
+		</div>
+	</form>
+
+	<div class="ui-g-12"></div>
+
+
+	<div class="ui-g-12 ui-g-nopad">
+		<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+			<p-header>
+				<div class="ui-table-title">Recaudación Cash</div>
+				<acciones-consulta [componente]="componentehijo" [consulta]="false" [anterior]="false" [siguiente]="false"></acciones-consulta>
+			</p-header>
+			<p-column field="mdatos.ordenmod" header="Orden Módulo" [style]="{'width':'70px'}"></p-column>
+			<p-column field="mdatos.nmodulo" header="Modulo" [style]="{'width':'100px'}"></p-column>
+			<p-column field="orden" header="Orden Tarea" [style]="{'width':'70px'}"></p-column>
+			<p-column field="mdatos.ntarea" header="Tarea"></p-column>
+			<p-column header="Activo?" [style]="{'width':'60px'}"> 
+				<ng-template pTemplate="body" let-reg="rowData"> 
+					<p-checkbox [ngModel]="reg.activo == '1' ? true : false" binary="true" [disabled]="true"></p-checkbox>
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>

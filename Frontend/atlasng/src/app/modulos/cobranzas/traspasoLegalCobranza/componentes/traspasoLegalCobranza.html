@@ -1,0 +1,46 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcpersona" class="ui-outputlabel required">Persona</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fcpersona" name="fcpersona" type="text" pInputText [ngModel]="mcampos.cpersona" required [readOnly]="true" />
+    </div>
+    <div class="ui-g-10 ui-md-6">
+      <input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.nombre" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1">
+      <button pButton type="button" id="lovpersona" name="lovpersona" (click)="mostrarLovPersona()" icon="ui-icon-directions" class="f-float-right"></button>
+    </div>
+    <app-lov-personas (eventoCliente)=fijarLovPersonaSelec($event)></app-lov-personas>
+  </div>
+
+  <div class="ui-g-12 ui-md-8 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fcoperacion" class="ui-outputlabel required">Cobranza</label>
+    </div>
+    <div class="ui-g-2">
+      <input id="fcoperacion" name="fcoperacion" type="text" pInputText [(ngModel)]="mcampos.ccobranza" required />
+    </div>
+    <div class="ui-g-10 ui-md-6">
+      <input type="text" pInputText id="ntipoprod" name="ntipoprod" [(ngModel)]="mcampos.ntipoprod" [readOnly]="true" />
+    </div>
+    <div class="ui-g-1">
+      <button pButton type="button" id="lovoperacion" name="lovoperacion" (click)="mostrarLovOperacion()" icon="ui-icon-directions"
+        class="f-float-right">
+      </button>
+    </div>
+    <app-lov-operacion-cobranza (eventoOperCobranza)=fijarLovOperacionSelec($event)></app-lov-operacion-cobranza>
+  </div>
+
+</form>
+
+<p-tabView>
+  <p-tabPanel header="Datos Cobranza">
+    <app-cobranza-traspasoLegal></app-cobranza-traspasoLegal>
+  </p-tabPanel>
+</p-tabView>

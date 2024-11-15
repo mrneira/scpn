@@ -1,0 +1,77 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="false"></acciones-cabecera>
+    <p-splitButton label="&emsp;Limpiar&emsp;" icon="ui-icon-list" (onClick)="recargar()" [model]="itemsNomina" class="f-btn blue-btn"></p-splitButton>
+  
+
+  </div>
+
+ 
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [(selection)]="selectedRegistros"
+        dataKey="idreg">
+        <p-header>
+          <label class="ui-cell-total">{{getTotal() | number:'1.2-2'}}</label>
+
+          <div class="ui-table-title">Generación de Pago</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column [style]="{'width':'28px'}" selectionMode="multiple"></p-column>
+
+        <p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'40px'}"></p-column>
+        <p-column field="mdatos.nemisor" header="Emisor" [style]="{'width':'180px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="mdatos.ninstrumento" header="Instrumento" [style]="{'width':'180px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        <p-column field="mdatos.nsector" header="Sector" [style]="{'width':'180px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+       
+        <p-column field="comentarioing" header="Descripción" [style]="{'width':'200px'}"[filter]="true" filterPlaceholder="Filtrar" ></p-column>
+        
+        <p-column header="Monto" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valor | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-footer>
+          <div style="text-align: left"> [{{selectedRegistros ? selectedRegistros.length : '0'}}] registros seccionados</div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Confirmación" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="separador-linea"></div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <h2 class="ui-outputlabel">{{mcampos.msg}}</h2>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12">
+            <label for="rqcomentario" class="ui-outputlabel required">Comentario</label>
+          </div>
+          <div class="ui-g-12">
+            <textarea style="width: 100%" id="rqcomentario" name="rqcomentario" [(ngModel)]="rqMantenimiento.comentario"
+              required mayusculas maxlength="2000" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div align="right">
+          <button type="button" pButton icon="ui-icon-check" (click)="aprobarpago()" label="Confirmar" class="green-btn"
+            [disabled]="!formDialogo.valid">
+          </button>
+          <button type="button" pButton icon="ui-icon-cancel" (click)="cancelar()" label="Cancelar" class="blue-grey-btn"
+            style="margin-left:5px">
+          </button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

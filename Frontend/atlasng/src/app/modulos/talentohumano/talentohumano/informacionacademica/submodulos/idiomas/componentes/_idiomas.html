@@ -1,0 +1,171 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-header>
+          <div class="ui-table-title">Idiomas</div>
+          <acciones-consulta [componente]="componentehijo" [consulta]="true" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="secuencia" header="Código" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="titulo" header="Título" [style]="{'width':'120px'}"></p-column>
+        <p-column field="mdatos.ninstitucion" header="Establecimiento"></p-column>
+        <p-column field="mdatos.npais" header="Pais" [style]="{'width':'80px'}" styleClass="f-center"></p-column>
+        <p-column field="mdatos.nidioma" header="Idioma" [style]="{'width':'120px'}" styleClass="f-center"></p-column>
+         <p-column field="habla" header="Habla (%)" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="lee" header="Lee (%)" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column field="escribe" header="Escribe (%)" [style]="{'width':'50px'}" styleClass="f-center"></p-column>
+        <p-column header="Fecha" [style]="{'width':'90px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fcertificado | date:'yyyy-MM-dd'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Acciones" [style]="{'width':'100px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Idiomas" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true" [positionTop]="60">
+  <form #formDialogoDir="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="secuencia" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="secuencia" name="secuencia" [(ngModel)]="registro.secuencia" [disabled]="true" />
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="titulo" class="ui-outputlabel required">Título:</label>
+          </div>
+          <div class="ui-g-12 ui-md-10">
+            <textarea type="text" pInputText id="titulo" name="titulo" [(ngModel)]="registro.titulo" required mayusculas maxlength="200"
+              rows="4" [disabled]="!editable && !registro.esnuevo"></textarea>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nidioma" class="ui-outputlabel required">Establecimiento:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="cinstitucion" name="cinstitucion" type="text" pInputText [(ngModel)]="registro.cinstitucion" [readOnly]="true"
+            required />
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.ninstitucion" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button autofoco pButton type="button" id="lovidiomas" name="lovidiomas" (click)="mostrarLovEstablecimiento()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-establecimiento (eventoCliente)=fijarLovEstablecimientoSelec($event)></app-lov-establecimiento>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="cpais" class="ui-outputlabel required">País:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="cpais" name="cpais" type="text" pInputText [(ngModel)]="registro.cpais" [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="npais" name="npais" [(ngModel)]="registro.mdatos.npais" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovpaises" name="lovpaises" (click)="mostrarLovPaises()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-paises (eventoCliente)=fijarLovPaisesSelec($event)></app-lov-paises>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="nidioma" class="ui-outputlabel required">Idioma:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="cidioma" name="cidioma" type="text" pInputText [(ngModel)]="registro.cidioma" [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input type="text" pInputText id="nidioma" name="nidioma" [(ngModel)]="registro.mdatos.nidioma" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovidiomas" name="lovidiomas" (click)="mostrarLovIdiomas()" icon="ui-icon-directions">
+            </button>
+          </div>
+          <app-lov-idiomas (eventoCliente)=fijarLovIdiomasSelec($event)></app-lov-idiomas>
+        </div>
+
+        
+
+
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="habla" class="ui-outputlabel required">Habla (%):</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="habla" name="habla" [(ngModel)]="registro.habla" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="range" name="habla" [(ngModel)]="registro.habla" min="0" max="100">
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="lee" class="ui-outputlabel required">Lee (%):</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="lee" name="lee" [(ngModel)]="registro.lee" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="range" name="lee" [(ngModel)]="registro.lee" min="0" max="100">
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="escribe" class="ui-outputlabel required">Esribe (%):</label>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <input type="text" pInputText id="escribe" name="escribe" [(ngModel)]="registro.escribe" [disabled]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <input type="range" name="escribe" [(ngModel)]="registro.escribe" min="0" max="100">
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-2">
+            <label for="fcertificado" class="ui-outputlabel required">Fecha:</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <p-calendar id="fcertificado" name="fcertificado" [(ngModel)]="registro.fcertificado" [showIcon]="true" [dateFormat]="formatofecha"
+            appendTo="body" [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:5000" required="true"></p-calendar>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>

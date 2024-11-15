@@ -1,0 +1,29 @@
+<div class="f-contenedor-transaccion">
+		<div class="f-datacontent ui-g ui-fluid">
+			<div class="ui-g-12">
+				<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+					<p-column field="ccuenta" header="Cuenta" [style]="{'width':'70px'}"></p-column>
+					<p-column field="mdatos.ncuenta" header="Nombre Cuenta" [style]="{'width':'250px'}"></p-column>
+					<p-column field="numerodocumentobancario" header="Referencia" [style]="{'width':'60px'}"></p-column>
+					<p-column field="centrocostoscdetalle" header="Centro de costos" [style]="{'width':'120px'}"></p-column>
+					<p-column field="ccompromiso" header="No. Compromiso" [style]="{'width':'60px'}"></p-column>
+					<p-column field="cpartida" header="Partida" [style]="{'width':'60px'}"></p-column>
+					<p-column header="D&eacute;bito" [style]="{'width':'80px','text-align':'right'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div *ngIf="reg.debito">
+								{{ reg.monto | number:'1.2-2' }}
+							</div>
+						</ng-template>
+					</p-column>
+					<p-column header="Cr&eacute;dito" [style]="{'width':'80px','text-align':'right'}">
+						<ng-template pTemplate="body" let-reg="rowData">
+							<div *ngIf="!reg.debito">
+								{{ reg.monto | number:'1.2-2' }}
+							</div>
+						</ng-template>
+					</p-column>
+				</p-dataTable>
+			</div>
+	
+		</div>
+	</div>

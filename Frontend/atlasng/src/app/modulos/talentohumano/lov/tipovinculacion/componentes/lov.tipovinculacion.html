@@ -1,0 +1,50 @@
+<p-dialog header="Lista de documentos de vinculación" [(visible)]="displayLov" width="600" showEffect="fade" [responsive]="true" [positionTop]="120" >
+	
+	<form #formFiltros="ngForm" class="f-filtros-lov ui-g ui-fluid shadow-box ui-shadow-1">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+                <label for="ctipovinculacion" class="ui-outputlabel">Código</label>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <input pInputText name="ctipovinculacion" [(ngModel)]="mfiltros.ctipovinculacion" autofoco entero maxlength="4" />
+            </div>
+		</div>
+		
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+                <label for="nombre" class="ui-outputlabel">Documento de Vinculación:</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <input pInputText name="nombre" [(ngModel)]="mfiltros.nombre" mayusculas maxlength="80"  />
+            </div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-2">
+				<label for="activo" class="ui-outputlabel">Activo?</label>
+			</div>
+			<div class="ui-g-12 ui-md-8">
+				<p-checkbox id="activo" name="activo" [(ngModel)]="mfiltros.activo" binary="true"></p-checkbox>
+			</div>
+		</div>
+	</form>
+	
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" scrollable="true" scrollHeight="250px">
+		          <p-header>
+		          		<div class="ui-table-title">Tipos de Vinculación</div>
+		          		<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		          </p-header>
+		          <p-column field="ctipovinculacion" header="C&oacute;digo" [style]="{'width':'90px'}"></p-column>
+		          <p-column field="nombre" header="Nombre"></p-column>
+				  <p-column field="descripcion" header="Descripci&oacute;n"></p-column>
+				  <p-column header="Activo" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<p-checkbox [ngModel]="reg.activo" binary="false" [disabled]="true"></p-checkbox>
+					</ng-template>
+				</p-column>				  
+				</p-dataTable>
+		</div>
+	</div>
+</p-dialog>
+

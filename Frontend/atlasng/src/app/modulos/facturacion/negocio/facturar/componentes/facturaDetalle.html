@@ -1,0 +1,202 @@
+<div class="f-datacontent ui-g ui-fluid f-center-items">
+    <div class="ui-g-12 ui-lg-10 ui-g-nopad">
+
+        <div class="ui-g-12">
+            <div class="title_separator_bg">
+                <i class="material-icons ui-icon-shopping-cart"></i>
+                <span>Productos</span>
+            </div>
+            <hr />
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+            <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+                <p-column field="mdatos.nproducto" header="Nombre"></p-column>
+                <p-column field="mdatos.ncategoria" header="Categoría" [style]="{'width':'130px'}"></p-column>
+                <p-column header="Es Servicio?" [style]="{'width':'70px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <p-checkbox [ngModel]="reg.mdatos.esservicio" binary="false" [disabled]="true"></p-checkbox>
+                    </ng-template>
+                </p-column>
+                <p-column field="preciounitario" header="Valor Unit." [style]="{'width':'80px'}"></p-column>
+                <p-column header="Cantidad" [style]="{'width':'80px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <input type="text" pInputText [(ngModel)]="reg.cantidad" entero seleccionar required
+                            (keyup)="totalItem(reg)" />
+                    </ng-template>
+                </p-column>
+
+                <p-column field="ice" header="ICE" [style]="{'width':'80px'}"></p-column>
+                <p-column field="descuento" header="Descuento" [style]="{'width':'80px'}"></p-column>
+                <p-column field="total" header="Total" [style]="{'width':'80px'}"></p-column>
+
+                <p-column [style]="{'width':'70px'}">
+                    <ng-template pTemplate="body" let-reg="rowData">
+                        <div class="f-table-actions">
+                            <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false">
+                            </acciones-reg>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+                        <button type="button" pButton icon="ui-icon-add" (click)="mostrarLovProductos()" label="Agregar"
+                            class="f-btn f-float-left orange-btn"></button>
+                    </div>
+                </p-footer>
+            </p-dataTable>
+        </div>
+
+        <div class="ui-g-12"></div>
+
+
+        <div class="ui-g-12">
+            <div class="ui-g-8 ui-g-nopad">
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="title_separator">
+                        <i class="material-icons ui-icon-monetization-on"></i>
+                        <span>Forma de Pago</span>
+                    </div>
+                    <hr />
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <p-dataTable [value]="formapago.lregistros" [responsive]="true" scrollable="true" scrollHeight="350px">
+                        <p-column field="mdatos.nformapago" [style]="{'width':'300px'}" header="Nombre"></p-column>
+                        <p-column field="numdocumento" [style]="{'width':'80px'}" header="No. Documento"></p-column>
+                        <p-column field="monto" header="Monto" [style]="{'width':'80px'}"></p-column>
+
+                        <p-column [style]="{'width':'40px'}">
+                            <ng-template pTemplate="body" let-reg="rowData">
+                                <div class="f-table-actions">
+                                    <acciones-reg [componente]="formapago.componentehijo" [reg]="reg" [mostrarEditar]="false">
+                                    </acciones-reg>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-footer>
+                            <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+                                <button type="button" pButton icon="ui-icon-add" (click)="formapago.mostrarLovFormaPago()" label="Agregar"
+                                    class="f-btn f-float-left orange-btn"></button>
+                            </div>
+                        </p-footer>
+                    </p-dataTable>
+                </div>
+            </div>
+
+            <div class="ui-g-1"></div>
+
+            <div class="ui-g-3 ui-g-nopad">
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">Subtotal</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{subtotal | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">Descuento</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{descuento | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-12">
+                        <label class="ui-outputtext">=====================================</label>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">Subtotal sin impuestos</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{subtotal + subtotalexento - descuento | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">Subtotal exento</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{subtotalexento | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad" *ngFor="let item of obtenerImpuestos()">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">{{item.nombre}}</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{item.total | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g-7">
+                        <label class="ui-outputlabel">TOTAL</label>
+                    </div>
+                    <div class="ui-g-5">
+                        <label class="ui-outputtext f-right">{{total | number:'1.2-2'}}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<app-lov-productos (eventoLov)="fijarLovProductos($event)"></app-lov-productos>
+<app-fact-fpago></app-fact-fpago>
+
+<p-dialog header="Forma de Pago" [(visible)]="formapago.mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120" [contentStyle]="{'overflow':'visible'}" [style]="{width: '600px'}">
+    <form #formDialogoFpago="ngForm">
+        <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                    <label for="nombre" class="ui-outputlabel required">Forma de Pago</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <input type="text" pInputText name="nombre" [(ngModel)]="formapago.registro.mdatos.nformapago" required mayusculas maxlength="60" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                    <label for="ndoc" class="ui-outputlabel">No Tarjeta/Nota Crédito/Etc</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <input type="text" pInputText name="ndoc" [(ngModel)]="formapago.registro.numdocumento" mayusculas maxlength="20" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                    <label for="monto" class="ui-outputlabel required">Monto</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <input type="text" pInputText name="monto" [(ngModel)]="formapago.registro.monto" required numero maxlength="20" [disabled]="!editable" />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-12 ui-md-4">
+                    <label for="valormedida" class="ui-outputlabel required">Tiempo</label>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <input type="text" pInputText name="valormedida" [(ngModel)]="formapago.registro.valormedida" entero required maxlength="5" [disabled]="!editable" />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <p-dropdown name="tipomedida" [options]="formapago.lunidadmedida" [(ngModel)]="formapago.registro.cmedida" required [disabled]="!editable" [filter]="true"></p-dropdown>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <acciones-dialogo [formAcciones]="formDialogoFpago" [componente]="formapago.componentehijo"></acciones-dialogo>
+        </footer>
+    </form>
+</p-dialog>

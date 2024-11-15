@@ -1,0 +1,136 @@
+<form #formularioSolicitud="ngForm">
+  <div class="f-datacontent ui-g ui-fluid">
+    <acciones-editar [formAcciones]="formularioSolicitud" [componentes]="[componentehijo]" class="ui-g-12 ui-g-nopad"></acciones-editar>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fnovedad" class="ui-outputlabel">Registra novedad</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <p-checkbox name="fnovedad" [(ngModel)]="registro.registranovedad" binary="false" [disabled]="!editable"></p-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fvalorasegurado" class="ui-outputlabel required">Valor asegurado</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input pInputText id="fvalorasegurado" name="fvalorasegurado" [(ngModel)]="registro.valorasegurado"
+            [disabled]="!editable" numero required />
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fnumeropoliza" class="ui-outputlabel required">Número póliza</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input pInputText id="fnumeropoliza" name="fnumeropoliza" [(ngModel)]="registro.numeropoliza" [disabled]="!editable"
+          mayusculas required />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fnumerofactura" class="ui-outputlabel required">Número factura</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="fnumerofactura" name="fcsufnumerofacturacursal" [(ngModel)]="registro.numerofactura"
+          [disabled]="!editable" entero required />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="finicio" class="ui-outputlabel required">Fecha inicio</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-calendar id="finicio" name="finicio" [(ngModel)]="mcampos.finicio" required [showIcon]="true" [disabled]="!editable"
+          [dateFormat]="formatofecha" [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="femisionfactura required" class="ui-outputlabel required">Fecha emisión factura</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-calendar id="femisionfactura" name="femisionfactura" [(ngModel)]="mcampos.femision" [showIcon]="true"
+          [disabled]="!editable" [dateFormat]="formatofecha" required [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fvencimiento" class="ui-outputlabel required">Fecha vencimiento</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-calendar id="fvencimiento" name="fvencimiento" [(ngModel)]="mcampos.fvencimiento" required [showIcon]="true"
+          [disabled]="!editable" [dateFormat]="formatofecha" [locale]="es"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fmontofactura" class="ui-outputlabel required">Monto factura</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <input type="text" pInputText id="fmontofactura" name="fmontofactura" [(ngModel)]="registro.valorfactura"
+          [disabled]="!editable" numero required (ngModelChange)="actualizarMonto()" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcomentario" class="ui-outputlabel required">Comentario</label>
+      </div>
+      <div class="ui-g-12 ui-md-9">
+        <textarea pInputText id="fcomentario" name="fcomentario" [(ngModel)]="registro.comentario" required mayusculas
+          maxlength="500" rows="3" [disabled]="!editable"></textarea>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Datos renovación</span>
+      </div>
+      <hr />
+
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="ftiposeguro" class="ui-outputlabel required">Tipo Seguro</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="ftiposeguro" name="ftiposeguro" [(ngModel)]="registro.mdatos.ntiposeguro"
+            [disabled]="true" required />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fcuotainicio" class="ui-outputlabel required">Cuota inicio</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="fcuotainicio" name="fcuotainicio" [(ngModel)]="registro.cuotainicio"
+            [disabled]="!editable" entero required />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fmontoprima" class="ui-outputlabel required">Monto prima</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="fmontoprima" name="fmontoprima" [(ngModel)]="registro.valorprima"
+            [disabled]="true" numero required />
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-md-4">
+          <label for="fnumerocuotas" class="ui-outputlabel required">Número cuotas</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <input type="text" pInputText id="fnumerocuotas" name="fnumerocuotas" [(ngModel)]="registro.numerocuotas"
+            [disabled]="!editable" entero required />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

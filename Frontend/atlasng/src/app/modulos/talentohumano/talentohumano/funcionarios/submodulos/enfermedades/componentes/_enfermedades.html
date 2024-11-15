@@ -1,0 +1,82 @@
+<div class="f-contenedor-transaccion">
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+				<p-header>
+					<div class="ui-table-title">Enfermedades</div>
+					<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+				</p-header>
+				<p-column field="secuencia" header="C&oacute;digo" [style]="{'width':'60px'}"></p-column>
+				<p-column field="mdatos.ntipoenfermedad" header="Tipo de enfermedad"></p-column>
+				<p-column field="enfermedad" header="Enfermedad"></p-column>
+				<p-column field="observacion" header="Observaci&oacute;n"></p-column>
+
+				<p-column [style]="{'width':'100px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						<div class="f-table-actions">
+							<acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+						</div>
+					</ng-template>
+				</p-column>
+				<p-footer>
+					<div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+						<button type="button" pButton icon="ui-icon-add" (click)="crearNuevo()" label="Nuevo" class="f-btn f-float-left orange-btn"></button>
+					</div>
+				</p-footer>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="Enfermedades" [(visible)]="mostrarDialogoGenerico" [modal]="true" showEffect="fade" [responsive]="true"
+ [positionTop]="60">
+	<form #formDialogoDir="ngForm">
+		<div class="f-dialogo" style="max-width: 700px">
+			<div class="f-datacontent ui-g ui-fluid">
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="secuenciaEnfermedades" class="ui-outputlabel">Código</label>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<input type="text" pInputText id="secuenciaEnfermedades" name="secuenciaEnfermedades" [(ngModel)]="registro.secuencia" [disabled]="true"
+						/>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-md-3">
+						<label for="tipoenfermedadcdetalle" class="ui-outputlabel required">Tipo de enfermedad</label>
+					</div>
+					<div class="ui-g-12 ui-md-9">
+						<p-dropdown id="tipoenfermedadcdetalle" name="tipoenfermedadcdetalle" [options]="ltipoenfermedad" (onChange)="cambiarEtiquetaDropdown($event, ltipoenfermedad, 'ntipoenfermedad')"
+						appendTo="body" [(ngModel)]="registro.tipoenfermedadcdetalle" required [disabled]="!editable" [filter]="true"></p-dropdown>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-6 ui-md-3">
+						<label for="enfermedad" class="ui-outputlabel required">Enfermedad</label>
+					</div>
+					<div class="ui-g-6 ui-md-9">
+						<input type="text" pInputText id="enfermedad" required name="enfermedad" [(ngModel)]="registro.enfermedad" maxlength="200"
+						 letras [disabled]="!editable" />
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-6 ui-md-3">
+						<label for="observacionEnfermedades" class="ui-outputlabel">Observación</label>
+					</div>
+					<div class="ui-g-6 ui-md-9">
+						<input type="text" pInputText id="observacionEnfermedades" name="observacionEnfermedades" [(ngModel)]="registro.observacion"
+						 maxlength="200" letras [disabled]="!editable" />
+					</div>
+				</div>
+
+			</div>
+			<footer>
+				<acciones-dialogo [formAcciones]="formDialogoDir" [componente]="componentehijo"></acciones-dialogo>
+			</footer>
+		</div>
+	</form>
+</p-dialog>

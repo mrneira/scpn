@@ -1,0 +1,49 @@
+<app-lov-funcionarios (eventoCliente)=fijarLovFuncionariosSelect($event) (eventoSinCoincidencias)=busquedaEnPersonas($event)></app-lov-funcionarios>
+
+<p-confirmDialog #cd icon="fa fa-question-circle" width="425" key="cd">
+	<p-footer>
+		<button type="button" pButton icon="fa-check" label="Si" (click)="cd.accept()"></button>
+		<button type="button" pButton icon="fa-close" label="No" (click)="cd.reject()"></button>
+	</p-footer>
+</p-confirmDialog>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+	<acciones-cabecera [componente]="componentehijo"></acciones-cabecera>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+	<div class="ui-g-12 ui-g-nopad">
+		<div class="ui-g-12 ui-md-2">
+			<label for="cfuncionarioFilter" class="ui-outputlabel required">Funcionario</label>
+		</div>
+		<div class="ui-g-2 ui-md-1">
+			<input id="cfuncionarioFilter" name="cfuncionarioFilter" type="text" pInputText [(ngModel)]="mfiltros.cfuncionario" required
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-9 ui-md-4">
+			<input type="text" pInputText id="nombreFuncionarioFiltro" name="nombreFuncionarioFiltro" [(ngModel)]="mcampos.nfuncionario"
+			 [readOnly]="true" />
+		</div>
+		<div class="ui-g-1 ui-md-3">
+			<button pButton type="button" id="lovfuncionarios" name="lovfuncionarios" (click)="mostrarLovFuncionarios()" icon="ui-icon-directions"></button>
+		</div>
+	</div>
+</form>
+
+<p-tabView>
+	<p-tabPanel header="Información personal" [selected]="true">
+		<app-tth-infpersonal></app-tth-infpersonal>
+	</p-tabPanel>
+
+	<p-tabPanel header="Contactos" lazy=true [disabled]="informacionPersonal.registro.cfuncionario === undefined">
+		<app-tth-contactos></app-tth-contactos>
+	</p-tabPanel>
+
+	<p-tabPanel header="Cargas Familiares" lazy=true [disabled]="informacionPersonal.registro.cfuncionario === undefined">
+		<app-tth-familiares></app-tth-familiares>
+	</p-tabPanel>
+
+	<p-tabPanel header="Enfermedades" lazy=true [disabled]="informacionPersonal.registro.cfuncionario === undefined">
+		<app-tth-enfermedades></app-tth-enfermedades>
+	</p-tabPanel>
+</p-tabView>

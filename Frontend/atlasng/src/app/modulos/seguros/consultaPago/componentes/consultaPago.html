@@ -1,0 +1,84 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false"></acciones-cabecera>
+  </div>
+
+  <form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="ftiposeguro" class="ui-outputlabel required">Aseguradora</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="ftiposeguro" [options]="laseguradora" [(ngModel)]="mcampos.caseguradora"
+          autofoco required [filter]="true" (onChange)="cambiarAseguradora($event)"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="fcpagos" class="ui-outputlabel required">Referencia pago</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-dropdown id="ftiposeguro" name="fcpagos" [options]="lpagos" [(ngModel)]="pago" autofoco required [filter]="true"
+          (onChange)="cambiarPago($event)"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.numerocomprobantecesantia != undefined">
+      <div class="ui-g-1 ui-md-2">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel required">Comprobante Cesantia</label>
+      </div>
+      <div class="ui-g-11 ui-md-6">
+        <input type="text" pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+          [readOnly]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante != undefined">
+      <div class="ui-g-1 ui-md-2">
+        <label for="ccomprobante" class="ui-outputlabel required">Comprobante Contable</label>
+      </div>
+      <div class="ui-g-11 ui-md-6">
+        <input type="text" pInputText id="ccomprobante" name="ccomprobante" [(ngModel)]="mcampos.ccomprobante"
+          [readOnly]="true" />
+      </div>
+    </div>
+  </form>
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="350px" [resizableColumns]="false"
+        columnResizeMode="expand" rowGroupMode="subheader">
+        <p-header>
+          <div class="ui-table-title">Pólizas</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="mdatos.identificacion" header="Identificación" [style]="{'width':'80px'}"></p-column>
+        <p-column field="mdatos.npersona" header="Nombre"></p-column>
+        <p-column field="numeropoliza" header="Póliza" [style]="{'width':'80px'}"></p-column>
+        <p-column header="Tipo" [style]="{'width':'75px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span *ngIf="reg.renovacion">RENOVACIÓN</span>
+            <span *ngIf="!reg.renovacion">NUEVO</span>
+          </ng-template>
+        </p-column>
+        <p-column field="numerofactura" header="Factura" [style]="{'width':'80px'}"></p-column>
+        <p-column field="coperacioncartera" header="Préstamo" styleClass="f-center" [style]="{'width':'70px'}"></p-column>
+        <p-column field="coperaciongarantia" header="Garantía" styleClass="f-center" [style]="{'width':'70px'}"></p-column>
+        <p-column field="mdatos.ntiposeguro" header="Tipo Seguro" [style]="{'width':'120px'}"></p-column>
+        <p-column header="Valor Prima" [style]="{'width':'90px'}" styleClass="f-right">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.valorprima | number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column header="Fecha Ingreso" [style]="{'width':'75px'}" styleClass="f-center">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{reg.fingreso | fechaenteroformato}}
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter">
+          <td colspan="8" style="text-align:left">TOTAL</td>
+          <td style="text-align:right">{{ mcampos.total | number:'1.2-2'}}</td>
+          <td></td>
+        </ng-template>
+      </p-dataTable>
+    </div>
+  </div>
+</div>

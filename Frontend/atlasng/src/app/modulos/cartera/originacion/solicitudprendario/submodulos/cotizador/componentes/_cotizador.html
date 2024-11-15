@@ -1,0 +1,111 @@
+<div class="f-contenedor-transaccion">
+
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Detalles de cálculo</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valorvehiculo" class="ui-outputlabel required">Valor vehículo</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valorvehiculo" name="valorvehiculo" numero required [(ngModel)]="registroSeguro.valorvehiculo"
+          [disabled]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valorvehiculoseguro" class="ui-outputlabel required">Valor incluido el seguro</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valorvehiculoseguro" name="valorvehiculoseguro" numero required [(ngModel)]="registroSeguro.valorvehiculoseguro"
+          [disabled]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valorseguro" class="ui-outputlabel required">Valor seguro</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valorseguro" name="valorseguro" numero required [(ngModel)]="registroSeguro.valorseguro"
+          [disabled]="true" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="montoanticipo" class="ui-outputlabel required">Valor entrada (10%)</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="montoanticipo" name="montoanticipo" numero required [(ngModel)]="registroSeguro.montoanticipo"
+          [disabled]="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="ajusteanticipo" class="ui-outputlabel required">Ajuste de entrada</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="ajusteanticipo" name="ajusteanticipo" numero required [(ngModel)]="registroSeguro.ajusteanticipo"
+          (ngModelChange)="actualizarValor()" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valorconsiderar" class="ui-outputlabel required">Valor a considerar</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valorconsiderar" name="valorconsiderar" numero required [(ngModel)]="registroSeguro.valorconsiderar"
+          [disabled]="true" />
+      </div>
+    </div>
+
+    <div class="ui-g-12"></div>
+    <div class="ui-g-12"></div>
+
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12" [hidden]="true">
+        <label class="ui-outputlabel">&nbsp;</label>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valorprestamo" class="ui-outputlabel required" class="f-bold">VALOR DEL PRÉSTAMO</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valorprestamo" name="valorprestamo" numero required [(ngModel)]="registroSeguro.valorprestamo"
+          [disabled]="true" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="title_separator">
+        <i class="fa ui-icon-adjust"></i>
+        <span>Detalles de anticipo</span>
+      </div>
+      <hr />
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="fanticipo" class="ui-outputlabel required">Fecha vigencia</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p-calendar id="fanticipo" name="fanticipo" [(ngModel)]="registro.mdatos.fanticipo" [showIcon]="true" [dateFormat]="formatofecha"
+          required></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-g-nopad">
+      <div class="ui-g-12 ui-md-4">
+        <label for="valordeposito" class="ui-outputlabel required" class="f-bold">VALOR A DEPOSITAR</label>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <input type="text" pInputText id="valordeposito" name="valordeposito" numero required [(ngModel)]="registroSeguro.valordeposito"
+          [disabled]="true" />
+      </div>
+    </div>
+  </div>
+</div>

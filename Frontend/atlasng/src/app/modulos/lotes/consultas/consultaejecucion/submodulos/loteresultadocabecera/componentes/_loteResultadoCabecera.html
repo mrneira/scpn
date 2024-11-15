@@ -1,0 +1,42 @@
+<div class="f-contenedor-transaccion">
+
+	<div class="ui-g ui-fluid">
+		<div class="ui-g-12">
+			<acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+		</div>
+	</div>
+	<div class="f-datacontent ui-g ui-fluid">
+		<div class="ui-g-12 ui-g-nopad">
+			<p-dataTable [value]="lregistros" [responsive]="true" selectionMode="single" (onRowSelect)="seleccionaRegistro($event)" [(selection)]="selected" scrollable="true" scrollHeight="500px">
+				<p-header>
+					<div class="ui-table-title">Log general</div>
+				</p-header>
+				<p-column header="Usuario" field="cusuario" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Número ejecución" field="numeroejecucion" [style]="{'width':'70px'}"></p-column>
+				<p-column header="Módulo" field="mdatos.nmodulo" [style]="{'width':'75px'}"></p-column>
+				<p-column header="Ctarea" field="ctarea" [style]="{'width':'100px'}"></p-column>
+				<p-column header="Fecha contable" [style]="{'width':'80px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{integerToDate(reg.fproceso) | date: 'yyyy-MM-dd'}}
+					</ng-template>
+				</p-column>	
+				<p-column header="Fecha de inicio" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.finicio | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Fecha fin" [style]="{'width':'120px'}">
+					<ng-template pTemplate="body" let-reg="rowData">
+						{{reg.ffinalizacion | date: 'yyyy-MM-dd hh:mm:ss'}}
+					</ng-template>
+				</p-column>
+				<p-column header="Parámetros" field="filtros" [style]="{'width':'120px'}"></p-column>
+				<p-column header="Estado" field="mdatos.estatus" [style]="{'width':'60px'}"></p-column>
+				<p-column header="Total" field="total" [style]="{'width':'60px'}"></p-column>
+				<p-column header="Ejecutados" field="ejecutados" [style]="{'width':'75px'}"></p-column>
+				<p-column header="Error" field="error" [style]="{'width':'60px'}"></p-column>
+				<p-column header="Éxito" field="exito" [style]="{'width':'60px'}"></p-column>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
