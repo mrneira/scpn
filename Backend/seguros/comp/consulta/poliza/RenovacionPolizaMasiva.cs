@@ -1,6 +1,10 @@
 ﻿using core.componente;
 using core.servicios.consulta;
+using dal.cartera;
+using dal.persona;
+using dal.seguros;
 using LinqToExcel;
+using modelo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -35,8 +39,6 @@ namespace seguros.comp.consulta.poliza
                     var excelFile = new ExcelQueryFactory(pathTemporal);
                     var cargatabla = from a in excelFile.Worksheet("data") select a;
                     string auxc = "'" + rqconsulta.Ccompania + "^" + rqconsulta.Csucursal + "^" + rqconsulta.Cagencia + "^" + rqconsulta.Cusuario + "^" + rqconsulta.Crol + "^" + rqconsulta.Cidioma + "^" + rqconsulta.Ccanal + "^ ^" + rqconsulta.Cmodulo + "^" + rqconsulta.Ctransaccion + "'";
-                    Consulta consulta = new Consulta();
-                    Response response = null;
                     JArray sociosProcesadosInsert = new JArray();
                     JArray sociosProcesadosDetail = new JArray();
                     bool statusData = true;
@@ -44,8 +46,6 @@ namespace seguros.comp.consulta.poliza
                     {
                         if (registro.Count == 11)
                         {
-
-                            string sql = "";
                             if (
                                 (registro["IDENTIFICACION"] != null && registro["IDENTIFICACION"].ToString().Length == 10 && int.TryParse(registro["IDENTIFICACION"].ToString(), out _)) && //VALIDA IDENTIDAD
                                 (registro["VAL_ASEGURADO"] != null && (int.TryParse(registro["VAL_ASEGURADO"].ToString(), out _) || double.TryParse(registro["VAL_ASEGURADO"].ToString(), out _))) && //VALIDA VALOR ASEGURADO
@@ -61,112 +61,65 @@ namespace seguros.comp.consulta.poliza
                             )
                             {
                                 //CONSULTAR SOCIO
-                                sql = sql + "{'mdatos': {}, 'grabarlog': '0',";
-                                sql = sql + "'LOVPERSONADETALLE': {";
-                                sql = sql + "'pagina': 0, 'cantidad': 1,";
-                                sql = sql + "'filtro': [";
-                                sql = sql + "{'campo': 'csocio','valor': 1},";
-                                sql = sql + "{'campo': 'identificacion','valor': '" + registro["IDENTIFICACION"] + "'},";
-                                sql = sql + "{'campo': 'ccompania','valor': " + rqconsulta.Ccompania + "},";
-                                sql = sql + "{'campo': 'verreg','valor': 0}";
-                                sql = sql + "],";
-                                sql = sql + "'filtroEspecial': [],";
-                                sql = sql + "'subquery': [";
-                                sql = sql + "{'bean': 'tpernatural','campo': 'profesioncdetalle','alias': 'nprofesion','filtro': 'i.cpersona = t.cpersona and i.verreg = t.verreg and i.ccompania = t.ccompania'},";
-                                sql = sql + "{'bean': 'tpernatural','campo': 'estadocivilcdetalle','alias': 'estadocivil','filtro': 'i.cpersona = t.cpersona and i.verreg = t.verreg and i.ccompania = t.ccompania'},";
-                                sql = sql + "{'bean': 'tsegusuariodetalle','campo': 'cusuario','alias': 'cusuario','filtro': 'i.cpersona = t.cpersona and i.verreg = t.verreg and i.ccompania = t.ccompania'},";
-                                sql = sql + "{'bean': 'tsoccesantia','campo': 'ccdetalletipoestado','alias': 'tipoestado','filtro': 'i.cpersona = t.cpersona and i.verreg = t.verreg and i.ccompania = t.ccompania'},";
-                                sql = sql + "{'bean': '','campo': '','alias': 'ngrado','filtro': '','sentencia': 'select nombre from tsoctipogrado where cgrado = ((select cgradoactual from tsoccesantiahistorico h where h.secuencia = (select secuenciahistorico from tsoccesantia s where s.verreg = t.verreg and s.ccompania = t.ccompania and s.cpersona = t.cpersona) and h.verreg = t.verreg and h.ccompania = t.ccompania and h.cpersona = t.cpersona))'},";
-                                sql = sql + "{'bean': '','campo': '','alias': 'cjerarquia','filtro': '','sentencia': 'select g.cdetallejerarquia from tsoccesantia c, tsoccesantiahistorico h, tsoctipogrado g where c.cpersona = h.cpersona and c.secuenciahistorico = h.secuencia and c.verreg = h.verreg and h.cgradoactual = g.cgrado and c.verreg = 0 and c.cpersona = t.cpersona'},";
-                                sql = sql + "{'bean': '','campo': '','alias': 'cestadosocio','filtro': '','sentencia': 'select h.cestadosocio from tsoccesantia c, tsoccesantiahistorico h where c.cpersona = h.cpersona and c.secuenciahistorico = h.secuencia and c.verreg = h.verreg and c.verreg = 0 and c.cpersona = t.cpersona'}";
-                                sql = sql + "],";
-                                sql = sql + "'bean': 'tperpersonadetalle',";
-                                sql = sql + "'lista': 'Y',";
-                                sql = sql + "'orderby': 't.nombre'";
-                                sql = sql + "},";
-                                sql = sql + "'c': " + auxc;
-                                sql = sql + "}";
-                                response = consulta.Ejecutar(sql);
-                                sql = "";
-                                if (response.GetCod().Equals("OK") && response.ContainsKey("LOVPERSONADETALLE"))
+                                tperpersonadetalle persona = TperPersonaDetalleDal.FindByIdentification(registro["IDENTIFICACION"]);
+                                if (persona != null)
                                 {
-                                    JArray ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["LOVPERSONADETALLE"];
-                                    if (ResponseLov != null && ResponseLov.Count == 1)
+                                    //CONSULTAR SEGUROS
+                                    List<tsgsseguro> seguros = TsgsSeguroDal.FindPolizasCan(persona.cpersona);
+                                    if(seguros != null && seguros.Count > 0)
                                     {
-                                        JObject person = (JObject)ResponseLov[0];
-                                        if (person["cpersona"] != null)
+                                        int contarseguros = 0;
+                                        tsgsseguro seguroValidado = null;
+                                        foreach (tsgsseguro seg in seguros)
                                         {
-                                            //CONSULTAR SEGUROS
-                                            sql = sql + "{";
-                                            sql = sql + "'mdatos': {},";
-                                            sql = sql + "'grabarlog': '0',";
-                                            sql = sql + "'LOVSEGUROS': {";
-                                            sql = sql + "'pagina': 0,";
-                                            sql = sql + "'cantidad': 15,";
-                                            sql = sql + "'filtro': [{'campo': 'cpersona','valor': " + person["cpersona"] + "}],";
-                                            sql = sql + "'filtroEspecial': [";
-                                            sql = sql + "{'campo': 'secuenciapoliza','condicion': 'is not null'},";
-                                            sql = sql + "{'campo': 'coperacioncartera','condicion': \"in (select coperacion from tcaroperacion where cestatus != 'CAN')\"}";
-                                            sql = sql + "],";
-                                            sql = sql + "'subquery': [";
-                                            sql = sql + "{'bean': 'tsgstiposegurodetalle','campo': 'nombre','alias': 'ntiposeguro','filtro': 'i.ctiposeguro = t.ctiposeguro and i.verreg = 0'},";
-                                            sql = sql + "{'bean': 'tsgstiposegurodetalle','campo': 'csaldo','alias': 'csaldo','filtro': 'i.ctiposeguro = t.ctiposeguro and i.verreg = 0'},";
-                                            sql = sql + "{'bean': 'tsgstiposegurodetalle','campo': 'csaldocxc','alias': 'csaldocxc','filtro': 'i.ctiposeguro = t.ctiposeguro and i.verreg = 0'},";
-                                            sql = sql + "{'bean': '','campo': '','alias': 'nproducto','filtro': '','sentencia': 'select p.nombre from tgenproducto p, tcaroperacion o where p.cmodulo = o.cmodulo and t.coperacioncartera = o.coperacion and p.cproducto = o.cproducto and o.cmodulo = 7'},";
-                                            sql = sql + "{'bean': '','campo': '','alias': 'ntipoproducto','filtro': '','sentencia': 'select tp.nombre from tgentipoproducto tp, tcaroperacion o where tp.cmodulo = o.cmodulo and t.coperacioncartera = o.coperacion and tp.cproducto = o.cproducto and tp.ctipoproducto = o.ctipoproducto and o.cmodulo = 7'}";
-                                            sql = sql + "],";
-                                            sql = sql + "'bean': 'tsgsseguro',";
-                                            sql = sql + "'lista': 'Y',";
-                                            sql = sql + "'orderby': 't.coperacioncartera'";
-                                            sql = sql + "},";
-                                            sql = sql + "'c': " + auxc;
-                                            sql = sql + "}";
-                                            response = consulta.Ejecutar(sql);
-                                            sql = "";
-                                            if (response.GetCod().Equals("OK") && response.ContainsKey("LOVSEGUROS"))
+                                            if (seg.secuenciapoliza != null)
                                             {
-                                                ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["LOVSEGUROS"];
-                                                if (ResponseLov != null && ResponseLov.Count > 0)
+                                                tcaroperacion op = TcarOperacionDal.FindSinBloqueoAndSinfinalizarProceso(seg.coperacioncartera);
+                                                if (op != null && op.cestatus != "CAN" && op.cestatus != "NEG")
                                                 {
-                                                    if (ResponseLov.Count == 1)
+                                                    seguroValidado = seg;
+                                                    contarseguros = contarseguros + 1;
+                                                }
+                                            }
+                                        }
+                                        if (contarseguros == 1)
+                                        {
+                                            Consulta consulta = new Consulta();
+                                            string sql = "";
+                                            sql = sql + "{'mdatos': { 'CODIGOCONSULTA': 'CONSULTATABLAPAGOSCARTERA'},";
+                                            sql = sql + "'coperacion': " + seguroValidado.coperacioncartera + ",";
+                                            sql = sql + "'c': " + auxc + "}";
+                                            Response response = consulta.Ejecutar(sql);
+                                            if (response.GetCod().Equals("OK") && response.ContainsKey("TABLA") && response.ContainsKey("TOTALES"))
+                                            {
+                                                JArray ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["TABLA"];
+                                                JArray tabla = ResponseLov.ToObject<JArray>();
+                                                if (tabla != null && tabla.Count > 1)
+                                                {
+                                                    ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["TOTALES"];
+                                                    if (ResponseLov != null && ResponseLov.Count == 1)
                                                     {
-                                                        JObject seguro = (JObject)ResponseLov[0];
-                                                        if (seguro["coperacioncartera"] != null && seguro["coperaciongarantia"] != null)
+                                                        JObject total = (JObject)ResponseLov[0];
+                                                        sql = "{'CODIGOCONSULTA': 'ALERTASEGUROS' ,'mdatos': { 'coperacioncartera': " + seguroValidado.coperacioncartera + ", 'coperaciongarantia': " + seguroValidado.coperaciongarantia + "}, 'c': " + auxc + "}";
+                                                        response = consulta.Ejecutar(sql);
+                                                        sql = "";
+                                                        if (response.GetCod().Equals("OK"))
                                                         {
-                                                            sql = sql + "{'mdatos': { 'CODIGOCONSULTA': 'CONSULTATABLAPAGOSCARTERA'},";
-                                                            sql = sql + "'coperacion': " + seguro["coperacioncartera"] + ",";
-                                                            sql = sql + "'c': " + auxc + "}";
-                                                            response = consulta.Ejecutar(sql);
-                                                            if (response.GetCod().Equals("OK") && response.ContainsKey("TABLA") && response.ContainsKey("TOTALES"))
+                                                            string primeraCuota = null;
+                                                            foreach (JObject t in tabla)
                                                             {
-                                                                ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["TABLA"];
-                                                                JArray tabla = ResponseLov.ToObject<JArray>();
-                                                                if (tabla != null && tabla.Count > 1)
+                                                                DateTime DatePolizaVen = DateTime.Parse((string)t["fvencimiento"]);
+                                                                DateTime fechaVencimiento = DateTime.Parse((string)registro["MES_CUOTA"]);
+                                                                if (DatePolizaVen.Year == fechaVencimiento.Year && DatePolizaVen.Month == fechaVencimiento.Month && DatePolizaVen.Day == fechaVencimiento.Day)
                                                                 {
-                                                                    ResponseLov = (JArray)JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(response))["TOTALES"];
-                                                                    if (ResponseLov != null && ResponseLov.Count == 1)
-                                                                    {
-                                                                        JObject total = (JObject)ResponseLov[0];
-                                                                        sql = "{'CODIGOCONSULTA': 'ALERTASEGUROS' ,'mdatos': { 'coperacioncartera': " + seguro["coperacioncartera"] + ", 'coperaciongarantia': " + seguro["coperaciongarantia"] + "}, 'c': " + auxc + "}";
-                                                                        response = consulta.Ejecutar(sql);
-                                                                        sql = "";
-                                                                        if (response.GetCod().Equals("OK"))
-                                                                        {
-                                                                            string primeraCuota = null;
-                                                                            foreach (JObject t in tabla)
-                                                                            {
-                                                                                DateTime DatePolizaVen = DateTime.Parse((string)t["fvencimiento"]);
-                                                                                DateTime fechaVencimiento = DateTime.Parse((string)registro["MES_CUOTA"]);
-                                                                                if (DatePolizaVen.Year == fechaVencimiento.Year && DatePolizaVen.Month == fechaVencimiento.Month && DatePolizaVen.Day == fechaVencimiento.Day)
-                                                                                {
-                                                                                    primeraCuota = (string)t["num"];
-                                                                                    break;
-                                                                                }
-                                                                            }
-                                                                            if (primeraCuota == null)
-                                                                            {
-                                                                                statusData = false;
-                                                                                sociosProcesadosDetail.Add(new JObject {
+                                                                    primeraCuota = (string)t["num"];
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (primeraCuota == null)
+                                                            {
+                                                                statusData = false;
+                                                                sociosProcesadosDetail.Add(new JObject {
                                                                                     { "nro", (sociosProcesadosDetail.Count + 1) },
                                                                                     { "identificacion", registro["IDENTIFICACION"].ToString() },
                                                                                     { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
@@ -175,92 +128,95 @@ namespace seguros.comp.consulta.poliza
                                                                                     { "monto_factura", registro["MONTO_FACTURA"].ToString() },
                                                                                     { "estado", "NO FUE POSIBLE ENCONTRAR EL NÚMERO DE CUOTA DEL SEGURO DE POLIZA DEL SOCIO"}
                                                                                 });
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                DateTime DateObjectFI = DateTime.Parse((string)registro["FECHA_INICIO"]);
-                                                                                DateTime DateObjectFV = DateTime.Parse((string)registro["FECHA_VENCIMIENTO"]);
-                                                                                DateTime DateObjectFE = DateTime.Parse((string)registro["FECHA_EMISION_FACTURA"]);
-                                                                                string fechaIni = "", fechaVen = "", fechaEmi = "";
-                                                                                if (DateObjectFI.Month > 9)
-                                                                                {
-                                                                                    if (DateObjectFI.Day > 9)
-                                                                                    {
-                                                                                        fechaIni = DateObjectFI.Year + "" + DateObjectFI.Month + "" + DateObjectFI.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaIni = DateObjectFI.Year + "" + DateObjectFI.Month + "0" + DateObjectFI.Day;
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (DateObjectFI.Day > 9)
-                                                                                    {
-                                                                                        fechaIni = DateObjectFI.Year + "0" + DateObjectFI.Month + "" + DateObjectFI.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaIni = DateObjectFI.Year + "0" + DateObjectFI.Month + "0" + DateObjectFI.Day;
-                                                                                    }
-                                                                                }
-                                                                                if (DateObjectFV.Month > 9)
-                                                                                {
-                                                                                    if (DateObjectFV.Day > 9)
-                                                                                    {
-                                                                                        fechaVen = DateObjectFV.Year + "" + DateObjectFV.Month + "" + DateObjectFV.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaVen = DateObjectFV.Year + "" + DateObjectFV.Month + "0" + DateObjectFV.Day;
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (DateObjectFV.Day > 9)
-                                                                                    {
-                                                                                        fechaVen = DateObjectFV.Year + "0" + DateObjectFV.Month + "" + DateObjectFV.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaVen = DateObjectFV.Year + "0" + DateObjectFV.Month + "0" + DateObjectFV.Day;
-                                                                                    }
-                                                                                }
-                                                                                if (DateObjectFE.Month > 9)
-                                                                                {
-                                                                                    if (DateObjectFE.Day > 9)
-                                                                                    {
-                                                                                        fechaEmi = DateObjectFE.Year + "" + DateObjectFE.Month + "" + DateObjectFE.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaEmi = DateObjectFE.Year + "" + DateObjectFE.Month + "0" + DateObjectFE.Day;
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (DateObjectFE.Day > 9)
-                                                                                    {
-                                                                                        fechaEmi = DateObjectFE.Year + "0" + DateObjectFE.Month + "" + DateObjectFE.Day;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        fechaEmi = DateObjectFE.Year + "0" + DateObjectFE.Month + "0" + DateObjectFE.Day;
-                                                                                    }
-                                                                                }
-                                                                                JObject newObj = new JObject {
+                                                            }
+                                                            else
+                                                            {
+                                                                tsgstiposegurodetalle segdet = TsgsTipoSeguroDetalleDal.Find((int)seguroValidado.ctiposeguro);
+                                                                if (segdet != null)
+                                                                {
+                                                                    DateTime DateObjectFI = DateTime.Parse((string)registro["FECHA_INICIO"]);
+                                                                    DateTime DateObjectFV = DateTime.Parse((string)registro["FECHA_VENCIMIENTO"]);
+                                                                    DateTime DateObjectFE = DateTime.Parse((string)registro["FECHA_EMISION_FACTURA"]);
+                                                                    string fechaIni = "", fechaVen = "", fechaEmi = "";
+                                                                    if (DateObjectFI.Month > 9)
+                                                                    {
+                                                                        if (DateObjectFI.Day > 9)
+                                                                        {
+                                                                            fechaIni = DateObjectFI.Year + "" + DateObjectFI.Month + "" + DateObjectFI.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaIni = DateObjectFI.Year + "" + DateObjectFI.Month + "0" + DateObjectFI.Day;
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (DateObjectFI.Day > 9)
+                                                                        {
+                                                                            fechaIni = DateObjectFI.Year + "0" + DateObjectFI.Month + "" + DateObjectFI.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaIni = DateObjectFI.Year + "0" + DateObjectFI.Month + "0" + DateObjectFI.Day;
+                                                                        }
+                                                                    }
+                                                                    if (DateObjectFV.Month > 9)
+                                                                    {
+                                                                        if (DateObjectFV.Day > 9)
+                                                                        {
+                                                                            fechaVen = DateObjectFV.Year + "" + DateObjectFV.Month + "" + DateObjectFV.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaVen = DateObjectFV.Year + "" + DateObjectFV.Month + "0" + DateObjectFV.Day;
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (DateObjectFV.Day > 9)
+                                                                        {
+                                                                            fechaVen = DateObjectFV.Year + "0" + DateObjectFV.Month + "" + DateObjectFV.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaVen = DateObjectFV.Year + "0" + DateObjectFV.Month + "0" + DateObjectFV.Day;
+                                                                        }
+                                                                    }
+                                                                    if (DateObjectFE.Month > 9)
+                                                                    {
+                                                                        if (DateObjectFE.Day > 9)
+                                                                        {
+                                                                            fechaEmi = DateObjectFE.Year + "" + DateObjectFE.Month + "" + DateObjectFE.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaEmi = DateObjectFE.Year + "" + DateObjectFE.Month + "0" + DateObjectFE.Day;
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (DateObjectFE.Day > 9)
+                                                                        {
+                                                                            fechaEmi = DateObjectFE.Year + "0" + DateObjectFE.Month + "" + DateObjectFE.Day;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaEmi = DateObjectFE.Year + "0" + DateObjectFE.Month + "0" + DateObjectFE.Day;
+                                                                        }
+                                                                    }
+                                                                    JObject newObj = new JObject {
                                                                                     { "mdatos", new JObject {
-                                                                                            { "ntiposeguro", (string)seguro["mdatos"]["ntiposeguro"] },
-                                                                                            { "csaldocxc", (string)seguro["mdatos"]["csaldocxc"] }
+                                                                                            { "ntiposeguro", segdet.nombre },
+                                                                                            { "csaldocxc", segdet.csaldocxc }
                                                                                         }
                                                                                     },
                                                                                     { "actualizar", false },
                                                                                     { "idreg", Math.Floor((rnd.NextDouble() * 100000) + 1) },
                                                                                     { "esnuevo", true },
                                                                                     { "renovacion", true },
-                                                                                    { "coperacioncartera", (string)seguro["coperacioncartera"] },
-                                                                                    { "coperaciongarantia", (string)seguro["coperaciongarantia"] },
-                                                                                    { "ctiposeguro", (int)seguro["ctiposeguro"] },
+                                                                                    { "coperacioncartera", seguroValidado.coperacioncartera },
+                                                                                    { "coperaciongarantia", seguroValidado.coperaciongarantia },
+                                                                                    { "ctiposeguro", seguroValidado.ctiposeguro },
                                                                                     { "valorasegurado", decimal.Parse(registro["VAL_ASEGURADO"].ToString()) },
                                                                                     { "numeropoliza", registro["NRO_POLIZA"].ToString() },
                                                                                     { "numerofactura", registro["NRO_FACTURA"].ToString() },
@@ -273,8 +229,8 @@ namespace seguros.comp.consulta.poliza
                                                                                     { "fvencimiento", Int64.Parse(fechaVen) },
                                                                                     { "femision", Int64.Parse(fechaEmi)}
                                                                                 };
-                                                                                sociosProcesadosInsert.Add(newObj);
-                                                                                sociosProcesadosDetail.Add(new JObject {
+                                                                    sociosProcesadosInsert.Add(newObj);
+                                                                    sociosProcesadosDetail.Add(new JObject {
                                                                                     { "nro", (sociosProcesadosDetail.Count + 1) },
                                                                                     { "identificacion", registro["IDENTIFICACION"].ToString() },
                                                                                     { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
@@ -283,34 +239,6 @@ namespace seguros.comp.consulta.poliza
                                                                                     { "monto_factura", registro["MONTO_FACTURA"].ToString() },
                                                                                     { "estado", "CORRECTO"}
                                                                                 });
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            statusData = false;
-                                                                            sociosProcesadosDetail.Add(new JObject {
-                                                                                { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                                                { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                                                { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                                                { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                                                { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                                                { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                                                { "estado", "EL SOCIO NO POSEE SEGUROS EN ALERTA"}
-                                                                            });
-                                                                        }
-                                                                    }
-                                                                    else{
-                                                                        statusData = false;
-                                                                        sociosProcesadosDetail.Add(new JObject {
-                                                                            { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                                            { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                                            { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                                            { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                                            { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                                            { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                                            { "estado", "EL SEGURO DEL SOCIO NO POSEE TOTALES O POSEE MÁS DE UN TOTAL"}
-                                                                        });
-                                                                    }
                                                                 }
                                                                 else
                                                                 {
@@ -322,14 +250,57 @@ namespace seguros.comp.consulta.poliza
                                                                         { "nro_poliza", registro["NRO_POLIZA"].ToString() },
                                                                         { "nro_factura", registro["NRO_FACTURA"].ToString() },
                                                                         { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                                        { "estado", "EL SEGURO DEL SOCIO POSEE UNA TABLA DE AMORTIZACIÓN SIN REGISTROS"}
+                                                                        { "estado", "NO EXISTE EL TIPO DE SEGURO"}
                                                                     });
                                                                 }
                                                             }
-                                                            else
-                                                            {
-                                                                statusData = false;
-                                                                sociosProcesadosDetail.Add(new JObject {
+                                                        }
+                                                        else
+                                                        {
+                                                            statusData = false;
+                                                            sociosProcesadosDetail.Add(new JObject {
+                                                                                { "nro", (sociosProcesadosDetail.Count + 1) },
+                                                                                { "identificacion", registro["IDENTIFICACION"].ToString() },
+                                                                                { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
+                                                                                { "nro_poliza", registro["NRO_POLIZA"].ToString() },
+                                                                                { "nro_factura", registro["NRO_FACTURA"].ToString() },
+                                                                                { "monto_factura", registro["MONTO_FACTURA"].ToString() },
+                                                                                { "estado", "EL SEGURO DEL SOCIO NO SE ENCUENTRA EN ALERTA"}
+                                                                            });
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        statusData = false;
+                                                        sociosProcesadosDetail.Add(new JObject {
+                                                                            { "nro", (sociosProcesadosDetail.Count + 1) },
+                                                                            { "identificacion", registro["IDENTIFICACION"].ToString() },
+                                                                            { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
+                                                                            { "nro_poliza", registro["NRO_POLIZA"].ToString() },
+                                                                            { "nro_factura", registro["NRO_FACTURA"].ToString() },
+                                                                            { "monto_factura", registro["MONTO_FACTURA"].ToString() },
+                                                                            { "estado", "EL SEGURO DEL SOCIO NO POSEE TOTALES O POSEE MÁS DE UN TOTAL"}
+                                                                        });
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    statusData = false;
+                                                    sociosProcesadosDetail.Add(new JObject {
+                                                                        { "nro", (sociosProcesadosDetail.Count + 1) },
+                                                                        { "identificacion", registro["IDENTIFICACION"].ToString() },
+                                                                        { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
+                                                                        { "nro_poliza", registro["NRO_POLIZA"].ToString() },
+                                                                        { "nro_factura", registro["NRO_FACTURA"].ToString() },
+                                                                        { "monto_factura", registro["MONTO_FACTURA"].ToString() },
+                                                                        { "estado", "EL SEGURO DEL SOCIO POSEE UNA TABLA DE AMORTIZACIÓN SIN REGISTROS"}
+                                                                    });
+                                                }
+                                            }
+                                            else
+                                            {
+                                                statusData = false;
+                                                sociosProcesadosDetail.Add(new JObject {
                                                                     { "nro", (sociosProcesadosDetail.Count + 1) },
                                                                     { "identificacion", registro["IDENTIFICACION"].ToString() },
                                                                     { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
@@ -338,90 +309,47 @@ namespace seguros.comp.consulta.poliza
                                                                     { "monto_factura", registro["MONTO_FACTURA"].ToString() },
                                                                     { "estado", "EL SEGURO DEL SOCIO NO POSEE UNA TABLA DE AMORTIZACIÓN NI TOTALES"}
                                                                 });
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            statusData = false;
-                                                            sociosProcesadosDetail.Add(new JObject {
-                                                                { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                                { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                                { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                                { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                                { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                                { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                                { "estado", "EL SEGURO DEL SOCIO NO POSEE UNA OPERACIÓN DE CARTERA"}
-                                                            });
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        statusData = false;
-                                                        sociosProcesadosDetail.Add(new JObject {
+                                            }
+                                        }
+                                        else if (contarseguros == 0)
+                                        {
+                                            statusData = false;
+                                            sociosProcesadosDetail.Add(new JObject {
                                                             { "nro", (sociosProcesadosDetail.Count + 1) },
                                                             { "identificacion", registro["IDENTIFICACION"].ToString() },
                                                             { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
                                                             { "nro_poliza", registro["NRO_POLIZA"].ToString() },
                                                             { "nro_factura", registro["NRO_FACTURA"].ToString() },
                                                             { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                            { "estado", "EL SOCIO POSEE MÁS DE UN SEGURO"}
+                                                            { "estado", "EL SOCIO NO POSEE SEGUROS"}
                                                         });
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    statusData = false;
-                                                    sociosProcesadosDetail.Add(new JObject {
-                                                        { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                        { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                        { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                        { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                        { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                        { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                        { "estado", "EL SOCIO NO POSEE SEGUROS"}
-                                                    });
-                                                }
-                                            }
-                                            else
-                                            {
-                                                statusData = false;
-                                                sociosProcesadosDetail.Add(new JObject {
-                                                    { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                    { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                    { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                    { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                    { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                    { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                    { "estado", "EL SOCIO NO POSEE SEGUROS"}
-                                                });
-                                            }
                                         }
                                         else
                                         {
                                             statusData = false;
                                             sociosProcesadosDetail.Add(new JObject {
-                                                { "nro", (sociosProcesadosDetail.Count + 1) },
-                                                { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                                { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                                { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                                { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                                { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                                { "estado", "EL SOCIO NO POSEE UN cpersona"}
-                                            });
+                                                            { "nro", (sociosProcesadosDetail.Count + 1) },
+                                                            { "identificacion", registro["IDENTIFICACION"].ToString() },
+                                                            { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
+                                                            { "nro_poliza", registro["NRO_POLIZA"].ToString() },
+                                                            { "nro_factura", registro["NRO_FACTURA"].ToString() },
+                                                            { "monto_factura", registro["MONTO_FACTURA"].ToString() },
+                                                            { "estado", "EL SOCIO POSEE MÁS DE UN SEGUROS"}
+                                                        });
                                         }
                                     }
                                     else
                                     {
                                         statusData = false;
                                         sociosProcesadosDetail.Add(new JObject {
-                                            { "nro", (sociosProcesadosDetail.Count + 1) },
-                                            { "identificacion", registro["IDENTIFICACION"].ToString() },
-                                            { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
-                                            { "nro_poliza", registro["NRO_POLIZA"].ToString() },
-                                            { "nro_factura", registro["NRO_FACTURA"].ToString() },
-                                            { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                            { "estado", "EL SOCIO SE ENCUENTRA DUPLICADO"}
-                                        });
+                                                            { "nro", (sociosProcesadosDetail.Count + 1) },
+                                                            { "identificacion", registro["IDENTIFICACION"].ToString() },
+                                                            { "valor_asegurado", registro["VAL_ASEGURADO"].ToString() },
+                                                            { "nro_poliza", registro["NRO_POLIZA"].ToString() },
+                                                            { "nro_factura", registro["NRO_FACTURA"].ToString() },
+                                                            { "monto_factura", registro["MONTO_FACTURA"].ToString() },
+                                                            { "estado", "EL SOCIO NO POSEE SEGUROS"}
+                                                        });
                                     }
                                 }
                                 else
@@ -434,7 +362,7 @@ namespace seguros.comp.consulta.poliza
                                         { "nro_poliza", registro["NRO_POLIZA"].ToString() },
                                         { "nro_factura", registro["NRO_FACTURA"].ToString() },
                                         { "monto_factura", registro["MONTO_FACTURA"].ToString() },
-                                        { "estado", "NO FUE POSIBLE LOCALIZAR EL SOCIO"}
+                                        { "estado", "EL SOCIO NO EXISTE EN EL SISTEMA ATLAS"}
                                     });
                                 }
                             }

@@ -29,7 +29,7 @@ namespace dal.prestaciones {
         public static tpreexpediente Find(long cpersona, int ccompania) {
             tpreexpediente obj = null;
             AtlasContexto contexto = Sessionef.GetAtlasContexto();
-            obj = contexto.tpreexpediente.AsNoTracking().Where(x => x.cpersona == cpersona && x.ccompania == ccompania && x.cdetalleestado != "NEG").SingleOrDefault();
+            obj = contexto.tpreexpediente.AsNoTracking().Where(x => x.cpersona == cpersona && x.ccompania == ccompania && x.cdetalleestado != "NEG" && x.cdetalletipoexp != "ANT").SingleOrDefault();
             return obj;
         }
         /// <summary>
